@@ -1,5 +1,13 @@
 # Changelog
 
+## Sprint 6 — Batch 1
+
+- Replaced the status-only homepage with the first usable product catalogue.
+- Added a shared bilingual rendering and calculation layer for product tools.
+- Launched BMI, percentage and age calculators.
+- Added responsive calculator UI, canonical URLs and sitemap entries.
+- Added calculation and page-contract integration coverage.
+
 ## Sprint 5 — Batch 23
 
 - Added a responsive Arabic and English project-status homepage.
