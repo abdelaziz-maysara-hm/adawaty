@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 6 — Batch 2
+
+- Added discount, VAT, loan, compound-interest and date-difference calculators.
+- Expanded the product catalogue from three to eight working tools.
+- Added deterministic finance formulas and calculation coverage.
+- Added canonical pages and sitemap discovery for every new tool.
+
 ## Sprint 6 — Batch 1
 
 - Replaced the status-only homepage with the first usable product catalogue.

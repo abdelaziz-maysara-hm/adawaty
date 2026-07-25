@@ -84,6 +84,96 @@ function calculateAge(values, language) {
     };
 }
 
+function calculateDiscount(values, language) {
+    const savings = values.price * (values.discount / 100);
+    const finalPrice = values.price - savings;
+
+    return {
+        value: formatNumber(finalPrice),
+        label: language === 'ar'
+            ? `وفّرت ${formatNumber(savings)}`
+            : `You save ${formatNumber(savings)}`,
+        details: language === 'ar'
+            ? `السعر الأصلي ${formatNumber(values.price)} — الخصم ${formatNumber(values.discount)}٪`
+            : `Original price ${formatNumber(values.price)} — ${formatNumber(values.discount)}% discount`,
+    };
+}
+
+function calculateVat(values, language) {
+    const tax = values.amount * (values.rate / 100);
+    const total = values.amount + tax;
+
+    return {
+        value: formatNumber(total),
+        label: language === 'ar'
+            ? `قيمة الضريبة ${formatNumber(tax)}`
+            : `Tax amount ${formatNumber(tax)}`,
+        details: language === 'ar'
+            ? `المبلغ قبل الضريبة ${formatNumber(values.amount)}`
+            : `Amount before tax ${formatNumber(values.amount)}`,
+    };
+}
+
+function calculateLoan(values, language) {
+    const monthlyRate = values.annualRate / 1200;
+    const payment = monthlyRate === 0
+        ? values.amount / values.months
+        : values.amount
+            * (
+                monthlyRate * ((1 + monthlyRate) ** values.months)
+            )
+            / (((1 + monthlyRate) ** values.months) - 1);
+    const total = payment * values.months;
+    const interest = total - values.amount;
+
+    return {
+        value: formatNumber(payment),
+        label: language === 'ar'
+            ? 'القسط الشهري التقريبي'
+            : 'Estimated monthly payment',
+        details: language === 'ar'
+            ? `إجمالي السداد ${formatNumber(total)} — الفائدة ${formatNumber(interest)}`
+            : `Total payment ${formatNumber(total)} — interest ${formatNumber(interest)}`,
+    };
+}
+
+function calculateCompoundInterest(values, language) {
+    const rate = values.annualRate / 100;
+    const total = values.principal
+        * ((1 + (rate / values.compounds)) ** (
+            values.compounds * values.years
+        ));
+    const interest = total - values.principal;
+
+    return {
+        value: formatNumber(total),
+        label: language === 'ar'
+            ? `العائد ${formatNumber(interest)}`
+            : `Interest earned ${formatNumber(interest)}`,
+        details: language === 'ar'
+            ? `${formatNumber(values.years)} سنة بمعدل ${formatNumber(values.annualRate)}٪`
+            : `${formatNumber(values.years)} years at ${formatNumber(values.annualRate)}%`,
+    };
+}
+
+function calculateDateDifference(values, language) {
+    const start = new Date(`${values.startDate}T00:00:00Z`);
+    const end = new Date(`${values.endDate}T00:00:00Z`);
+    const millisecondsPerDay = 86_400_000;
+    const days = Math.abs(Math.round((end - start) / millisecondsPerDay));
+    const weeks = days / 7;
+
+    return {
+        value: language === 'ar' ? `${days} يوم` : `${days} days`,
+        label: language === 'ar'
+            ? `${formatNumber(weeks)} أسبوع`
+            : `${formatNumber(weeks)} weeks`,
+        details: language === 'ar'
+            ? 'يُحسب الفرق دون احتساب يوم النهاية كجزء إضافي.'
+            : 'The difference does not count the end date as an extra day.',
+    };
+}
+
 const toolDefinitions = Object.freeze({
     'bmi-calculator': Object.freeze({
         id: 'bmi-calculator',
@@ -193,6 +283,228 @@ const toolDefinitions = Object.freeze({
             }),
         ]),
         calculate: calculateAge,
+    }),
+    'discount-calculator': Object.freeze({
+        id: 'discount-calculator',
+        category: 'finance',
+        icon: '−',
+        title: Object.freeze({
+            ar: 'حاسبة الخصم',
+            en: 'Discount Calculator',
+        }),
+        description: Object.freeze({
+            ar: 'احسب السعر بعد الخصم والمبلغ الذي ستوفره فورًا.',
+            en: 'Calculate the final price and how much you save instantly.',
+        }),
+        note: Object.freeze({
+            ar: 'النتيجة تستخدم نفس العملة التي أدخلت بها السعر.',
+            en: 'The result uses the same currency as the entered price.',
+        }),
+        inputs: Object.freeze([
+            Object.freeze({
+                id: 'price',
+                type: 'number',
+                min: 0,
+                max: 1000000000,
+                step: 0.01,
+                label: Object.freeze({ ar: 'السعر الأصلي', en: 'Original price' }),
+                unit: Object.freeze({ ar: '', en: '' }),
+                placeholder: '1000',
+            }),
+            Object.freeze({
+                id: 'discount',
+                type: 'number',
+                min: 0,
+                max: 100,
+                step: 0.01,
+                label: Object.freeze({ ar: 'نسبة الخصم', en: 'Discount' }),
+                unit: Object.freeze({ ar: '٪', en: '%' }),
+                placeholder: '20',
+            }),
+        ]),
+        calculate: calculateDiscount,
+    }),
+    'vat-calculator': Object.freeze({
+        id: 'vat-calculator',
+        category: 'finance',
+        icon: '+',
+        title: Object.freeze({
+            ar: 'حاسبة ضريبة القيمة المضافة',
+            en: 'VAT Calculator',
+        }),
+        description: Object.freeze({
+            ar: 'احسب قيمة الضريبة والإجمالي بعد إضافتها إلى المبلغ.',
+            en: 'Calculate VAT and the total amount after tax.',
+        }),
+        note: Object.freeze({
+            ar: 'أدخل نسبة الضريبة المعتمدة في دولتك أو فاتورتك.',
+            en: 'Enter the tax rate that applies to your country or invoice.',
+        }),
+        inputs: Object.freeze([
+            Object.freeze({
+                id: 'amount',
+                type: 'number',
+                min: 0,
+                max: 1000000000,
+                step: 0.01,
+                label: Object.freeze({ ar: 'المبلغ قبل الضريبة', en: 'Amount before VAT' }),
+                unit: Object.freeze({ ar: '', en: '' }),
+                placeholder: '1000',
+            }),
+            Object.freeze({
+                id: 'rate',
+                type: 'number',
+                min: 0,
+                max: 100,
+                step: 0.01,
+                label: Object.freeze({ ar: 'نسبة الضريبة', en: 'VAT rate' }),
+                unit: Object.freeze({ ar: '٪', en: '%' }),
+                placeholder: '14',
+            }),
+        ]),
+        calculate: calculateVat,
+    }),
+    'loan-calculator': Object.freeze({
+        id: 'loan-calculator',
+        category: 'finance',
+        icon: '¤',
+        title: Object.freeze({
+            ar: 'حاسبة القروض',
+            en: 'Loan Calculator',
+        }),
+        description: Object.freeze({
+            ar: 'قدّر القسط الشهري وإجمالي الفائدة على القرض.',
+            en: 'Estimate monthly loan payments and total interest.',
+        }),
+        note: Object.freeze({
+            ar: 'الحساب تقديري ولا يشمل المصروفات الإدارية أو التأمين.',
+            en: 'This estimate excludes fees, insurance and other lender charges.',
+        }),
+        inputs: Object.freeze([
+            Object.freeze({
+                id: 'amount',
+                type: 'number',
+                min: 1,
+                max: 1000000000,
+                step: 0.01,
+                label: Object.freeze({ ar: 'قيمة القرض', en: 'Loan amount' }),
+                unit: Object.freeze({ ar: '', en: '' }),
+                placeholder: '100000',
+            }),
+            Object.freeze({
+                id: 'annualRate',
+                type: 'number',
+                min: 0,
+                max: 100,
+                step: 0.01,
+                label: Object.freeze({ ar: 'الفائدة السنوية', en: 'Annual interest' }),
+                unit: Object.freeze({ ar: '٪', en: '%' }),
+                placeholder: '12',
+            }),
+            Object.freeze({
+                id: 'months',
+                type: 'number',
+                min: 1,
+                max: 600,
+                step: 1,
+                label: Object.freeze({ ar: 'مدة القرض', en: 'Loan term' }),
+                unit: Object.freeze({ ar: 'شهر', en: 'months' }),
+                placeholder: '60',
+            }),
+        ]),
+        calculate: calculateLoan,
+    }),
+    'compound-interest-calculator': Object.freeze({
+        id: 'compound-interest-calculator',
+        category: 'finance',
+        icon: '↗',
+        title: Object.freeze({
+            ar: 'حاسبة الفائدة المركبة',
+            en: 'Compound Interest Calculator',
+        }),
+        description: Object.freeze({
+            ar: 'توقّع نمو رأس المال مع الفائدة المركبة بمرور الوقت.',
+            en: 'Project investment growth with compound interest over time.',
+        }),
+        note: Object.freeze({
+            ar: 'النتيجة لا تشمل الضرائب أو الرسوم أو الإيداعات الإضافية.',
+            en: 'The result excludes taxes, fees and additional contributions.',
+        }),
+        inputs: Object.freeze([
+            Object.freeze({
+                id: 'principal',
+                type: 'number',
+                min: 0,
+                max: 1000000000,
+                step: 0.01,
+                label: Object.freeze({ ar: 'رأس المال', en: 'Principal' }),
+                unit: Object.freeze({ ar: '', en: '' }),
+                placeholder: '10000',
+            }),
+            Object.freeze({
+                id: 'annualRate',
+                type: 'number',
+                min: 0,
+                max: 100,
+                step: 0.01,
+                label: Object.freeze({ ar: 'العائد السنوي', en: 'Annual rate' }),
+                unit: Object.freeze({ ar: '٪', en: '%' }),
+                placeholder: '8',
+            }),
+            Object.freeze({
+                id: 'years',
+                type: 'number',
+                min: 0,
+                max: 200,
+                step: 0.1,
+                label: Object.freeze({ ar: 'المدة', en: 'Duration' }),
+                unit: Object.freeze({ ar: 'سنة', en: 'years' }),
+                placeholder: '10',
+            }),
+            Object.freeze({
+                id: 'compounds',
+                type: 'number',
+                min: 1,
+                max: 365,
+                step: 1,
+                label: Object.freeze({ ar: 'مرات التركيب سنويًا', en: 'Compounds per year' }),
+                unit: Object.freeze({ ar: 'مرة', en: 'times' }),
+                placeholder: '12',
+            }),
+        ]),
+        calculate: calculateCompoundInterest,
+    }),
+    'date-difference-calculator': Object.freeze({
+        id: 'date-difference-calculator',
+        category: 'date-time',
+        icon: '↔',
+        title: Object.freeze({
+            ar: 'حاسبة الفرق بين تاريخين',
+            en: 'Date Difference Calculator',
+        }),
+        description: Object.freeze({
+            ar: 'احسب عدد الأيام والأسابيع بين أي تاريخين.',
+            en: 'Calculate the number of days and weeks between two dates.',
+        }),
+        note: Object.freeze({
+            ar: 'يمكن إدخال التاريخين بأي ترتيب.',
+            en: 'The dates can be entered in either order.',
+        }),
+        inputs: Object.freeze([
+            Object.freeze({
+                id: 'startDate',
+                type: 'date',
+                label: Object.freeze({ ar: 'التاريخ الأول', en: 'First date' }),
+                unit: Object.freeze({ ar: '', en: '' }),
+            }),
+            Object.freeze({
+                id: 'endDate',
+                type: 'date',
+                label: Object.freeze({ ar: 'التاريخ الثاني', en: 'Second date' }),
+                unit: Object.freeze({ ar: '', en: '' }),
+            }),
+        ]),
+        calculate: calculateDateDifference,
     }),
 });
 
