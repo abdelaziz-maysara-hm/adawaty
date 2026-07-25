@@ -128,8 +128,6 @@ class Schema {
 
     }
 
-}
-
     /**
      * Validates data against a schema.
      *

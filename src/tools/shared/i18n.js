@@ -127,8 +127,6 @@ class I18n {
 
     }
 
-}
-
     /**
      * Sets the active language.
      *

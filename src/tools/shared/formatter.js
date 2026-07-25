@@ -166,8 +166,6 @@ class Formatter {
 
     }
 
-}
-
     /**
      * Formats a date.
      *
