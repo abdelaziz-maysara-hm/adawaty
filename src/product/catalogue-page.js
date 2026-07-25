@@ -7,6 +7,8 @@ const categories = Object.freeze({
     math: Object.freeze({ ar: 'الرياضيات', en: 'Math' }),
     'date-time': Object.freeze({ ar: 'التاريخ والوقت', en: 'Date & Time' }),
     converter: Object.freeze({ ar: 'التحويلات', en: 'Converters' }),
+    developer: Object.freeze({ ar: 'المطورون', en: 'Developer' }),
+    text: Object.freeze({ ar: 'النصوص', en: 'Text' }),
 });
 
 const copy = Object.freeze({

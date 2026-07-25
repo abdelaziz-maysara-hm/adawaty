@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 31);
+assert.equal(tools.length, 41);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -42,6 +42,16 @@ assert.deepEqual(
         'angle-converter',
         'pressure-converter',
         'energy-converter',
+        'json-formatter',
+        'base64-encoder-decoder',
+        'url-encoder-decoder',
+        'html-entity-encoder-decoder',
+        'text-case-converter',
+        'word-counter',
+        'character-counter',
+        'slug-generator',
+        'jwt-decoder',
+        'unix-timestamp-converter',
     ],
 );
 
@@ -241,6 +251,60 @@ assert.equal(
     '3.14159265',
 );
 
+const jsonFormatter = getToolDefinition('json-formatter');
+assert.equal(
+    jsonFormatter.calculate({ text: '{"ready":true}' }, 'en').value,
+    '{\n  "ready": true\n}',
+);
+assert.throws(
+    () => jsonFormatter.calculate({ text: '{invalid}' }, 'en'),
+    /Invalid JSON/,
+);
+
+const base64 = getToolDefinition('base64-encoder-decoder');
+assert.equal(
+    base64.calculate({ operation: 'encode', text: 'Adawaty' }, 'en').value,
+    'QWRhd2F0eQ==',
+);
+assert.equal(
+    base64.calculate({
+        operation: 'decode',
+        text: 'QWRhd2F0eQ==',
+    }, 'en').value,
+    'Adawaty',
+);
+
+const urlTool = getToolDefinition('url-encoder-decoder');
+assert.equal(
+    urlTool.calculate({ operation: 'encode', text: 'hello world' }, 'en').value,
+    'hello%20world',
+);
+
+const wordCounter = getToolDefinition('word-counter');
+assert.equal(
+    wordCounter.calculate({ text: 'one two three' }, 'en').value,
+    '3',
+);
+
+const slugGenerator = getToolDefinition('slug-generator');
+assert.equal(
+    slugGenerator.calculate({ text: 'Free Online Tools' }, 'en').value,
+    'free-online-tools',
+);
+
+const jwtDecoder = getToolDefinition('jwt-decoder');
+const jwtResult = jwtDecoder.calculate({
+    token: 'eyJhbGciOiJub25lIn0.eyJzdWIiOiIxMjMifQ.',
+}, 'en');
+assert.match(jwtResult.value, /"sub": "123"/);
+
+const timestamp = getToolDefinition('unix-timestamp-converter');
+const timestampInput = '2026-01-01T00:00';
+assert.equal(
+    timestamp.calculate({ dateTime: timestampInput }, 'en').value,
+    `${Math.floor(new Date(timestampInput).getTime() / 1000)}`,
+);
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -259,6 +323,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 6 product tools verification passed.');
+console.log('Sprint 6 Batch 7 product tools verification passed.');
 
 // END OF FILE

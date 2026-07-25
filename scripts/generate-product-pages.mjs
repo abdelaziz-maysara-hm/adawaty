@@ -14,6 +14,8 @@ const categories = Object.freeze({
     math: Object.freeze({ ar: 'أدوات الرياضيات', en: 'Math Tools' }),
     'date-time': Object.freeze({ ar: 'أدوات التاريخ والوقت', en: 'Date & Time Tools' }),
     converter: Object.freeze({ ar: 'أدوات التحويل', en: 'Converters' }),
+    developer: Object.freeze({ ar: 'أدوات المطورين', en: 'Developer Tools' }),
+    text: Object.freeze({ ar: 'أدوات النصوص', en: 'Text Tools' }),
 });
 
 function escapeHtml(value) {

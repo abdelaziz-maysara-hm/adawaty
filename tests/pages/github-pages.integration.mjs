@@ -10,6 +10,8 @@ const [
     healthCategoryHtml,
     catalogueScript,
     converterCategoryHtml,
+    developerCategoryHtml,
+    textCategoryHtml,
 ] = await Promise.all([
     readFile(new URL('../../index.html', import.meta.url), 'utf8'),
     readFile(
@@ -31,10 +33,18 @@ const [
         new URL('../../categories/converter/index.html', import.meta.url),
         'utf8',
     ),
+    readFile(
+        new URL('../../categories/developer/index.html', import.meta.url),
+        'utf8',
+    ),
+    readFile(
+        new URL('../../categories/text/index.html', import.meta.url),
+        'utf8',
+    ),
 ]);
 
 assert.match(indexHtml, /<html lang="ar" dir="rtl" data-language="ar">/);
-assert.match(indexHtml, /Sprint 6 · Batch 6/);
+assert.match(indexHtml, /Sprint 6 · Batch 7/);
 assert.match(indexHtml, /\.\/src\/css\/main\.css/);
 assert.match(indexHtml, /\.\/src\/pages\/home\.js/);
 assert.match(indexHtml, /\.\/tools\/bmi-calculator\//);
@@ -61,9 +71,11 @@ assert.match(catalogueHtml, /data-catalogue-page/);
 assert.match(catalogueHtml, /catalogue-page\.js/);
 assert.match(healthCategoryHtml, /data-category="health"/);
 assert.match(converterCategoryHtml, /data-category="converter"/);
+assert.match(developerCategoryHtml, /data-category="developer"/);
+assert.match(textCategoryHtml, /data-category="text"/);
 assert.match(catalogueScript, /getVisibleTools/);
 assert.match(catalogueScript, /data-category/);
 
-console.log('Sprint 6 Batch 6 catalogue navigation verification passed.');
+console.log('Sprint 6 Batch 7 catalogue navigation verification passed.');
 
 // END OF FILE

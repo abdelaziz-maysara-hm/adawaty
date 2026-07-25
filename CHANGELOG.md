@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 6 — Batch 7
+
+- Added ten bilingual text and developer tools in a scalable definition module.
+- Added JSON, Base64, URL, HTML entity, JWT and Unix timestamp utilities.
+- Added case conversion, word counting, character counting and slug generation.
+- Added textarea support and expanded the catalogue from thirty-one to forty-one tools.
+
 ## Sprint 6 — Batch 6
 
 - Added eleven high-demand unit converters in a separate scalable definition module.
