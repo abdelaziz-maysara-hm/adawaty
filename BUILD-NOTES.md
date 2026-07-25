@@ -1,12 +1,12 @@
-# Sprint 5 — Batch 22 Build Notes
+# Sprint 5 — Batch 23 Build Notes
 
-Added a dependency-free validation harness for the existing runtime:
+Added a deployable project-status preview for GitHub Pages:
 
-- `npm test` discovers and executes every integration test in deterministic path order.
-- `npm run check` validates all JavaScript modules with the active Node.js runtime.
-- `npm run validate` runs both checks and returns a non-zero exit code on any failure.
-- The package is explicitly configured for ES modules and requires Node.js 20 or newer.
+- The root `index.html` provides a responsive Arabic and English experience.
+- The preview reports only milestones verified in the repository.
+- GitHub Actions runs `npm run validate` before every Pages deployment.
+- The site uses repository-relative URLs and requires no build dependencies.
 
-Apply after Sprint 5 Batch 21.
+Apply after Sprint 5 Batch 22.
 
 // END OF FILE

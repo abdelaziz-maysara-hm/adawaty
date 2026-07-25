@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 5 — Batch 23
+
+- Added a responsive Arabic and English project-status homepage.
+- Added a language preference that works without a build step.
+- Added an automated GitHub Pages deployment gated by full validation.
+- Added integration coverage for the page entry point and deployment workflow.
+
 ## Sprint 5 — Batch 22
 
 - Restored a valid ES module package configuration.

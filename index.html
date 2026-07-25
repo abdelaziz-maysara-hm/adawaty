@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-language="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#07111f">
+    <meta
+        name="description"
+        content="Adawaty is a bilingual platform foundation for fast, secure and accessible online tools."
+    >
+    <title>أدواتي | منصة الأدوات العربية والإنجليزية</title>
+    <link rel="stylesheet" href="./src/css/main.css">
+    <script type="module" src="./src/pages/home.js"></script>
+</head>
+<body>
+    <header class="site-header">
+        <nav class="navigation shell" aria-label="التنقل الرئيسي">
+            <a class="brand" href="./" aria-label="أدواتي">
+                <span class="brand-mark" aria-hidden="true">أ</span>
+                <span class="brand-copy">
+                    <strong>أدواتي</strong>
+                    <span>Adawaty Platform</span>
+                </span>
+            </a>
+
+            <div class="nav-actions">
+                <button class="button" id="language-toggle" type="button">
+                    <span data-copy="ar">English</span>
+                    <span data-copy="en">العربية</span>
+                </button>
+                <a
+                    class="button"
+                    href="https://github.com/abdelaziz-maysara-hm/adawaty"
+                    target="_blank"
+                    rel="noreferrer"
+                >
+                    <span class="github-label">GitHub</span>
+                    <span aria-hidden="true">↗</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero shell">
+            <div>
+                <p class="eyebrow">
+                    <span data-copy="ar">نسخة تطويرية مباشرة</span>
+                    <span data-copy="en">Live development preview</span>
+                </p>
+                <h1>
+                    <span data-copy="ar">أساس قوي لكل <em>أداة</em> تحتاجها.</span>
+                    <span data-copy="en">A strong foundation for every <em>tool</em> you need.</span>
+                </h1>
+                <p class="hero-copy">
+                    <span data-copy="ar">
+                        نبني منصة ثنائية اللغة للأدوات المجانية، مع محرك تشغيل قابل
+                        للتوسّع واختبارات تلقائية وأساس يراعي السرعة والأمان وإتاحة الاستخدام.
+                    </span>
+                    <span data-copy="en">
+                        We are building a bilingual free-tools platform with an extensible
+                        runtime, automated verification and a foundation designed for
+                        performance, security and accessibility.
+                    </span>
+                </p>
+                <div class="hero-actions">
+                    <a class="button button-primary" href="#progress">
+                        <span data-copy="ar">شاهد حالة المشروع</span>
+                        <span data-copy="en">View project status</span>
+                    </a>
+                    <a class="button" href="./CHANGELOG.md">
+                        <span data-copy="ar">سجل التطوير</span>
+                        <span data-copy="en">Development log</span>
+                    </a>
+                </div>
+            </div>
+
+            <aside class="status-panel" aria-labelledby="status-title">
+                <div class="panel-header">
+                    <div>
+                        <p>
+                            <span data-copy="ar">آخر نقطة موثقة</span>
+                            <span data-copy="en">Latest verified milestone</span>
+                        </p>
+                        <strong id="status-title">Sprint 5 · Batch 23</strong>
+                    </div>
+                    <span class="live-badge">
+                        <span data-copy="ar">موثّق</span>
+                        <span data-copy="en">VERIFIED</span>
+                    </span>
+                </div>
+
+                <div class="metric-grid">
+                    <div class="metric">
+                        <span>
+                            <span data-copy="ar">اختبارات التكامل</span>
+                            <span data-copy="en">Integration tests</span>
+                        </span>
+                        <strong>23/23</strong>
+                    </div>
+                    <div class="metric">
+                        <span>
+                            <span data-copy="ar">ملفات JavaScript</span>
+                            <span data-copy="en">JavaScript files</span>
+                        </span>
+                        <strong>143</strong>
+                    </div>
+                    <div class="metric metric-wide">
+                        <span>
+                            <span data-copy="ar">سلامة خط الأساس الحالي</span>
+                            <span data-copy="en">Current baseline health</span>
+                        </span>
+                        <strong>100%</strong>
+                        <div class="progress-track" aria-hidden="true"><i></i></div>
+                    </div>
+                </div>
+            </aside>
+        </section>
+
+        <section class="section shell" id="progress">
+            <div class="section-heading">
+                <div>
+                    <h2>
+                        <span data-copy="ar">ما الذي يعمل الآن؟</span>
+                        <span data-copy="en">What works today?</span>
+                    </h2>
+                    <p>
+                        <span data-copy="ar">هذه معاينة صادقة للحالة الفعلية داخل المستودع.</span>
+                        <span data-copy="en">An honest preview of the repository's current state.</span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="cards">
+                <article class="card">
+                    <span class="card-number">01</span>
+                    <h3>
+                        <span data-copy="ar">محرك الأدوات</span>
+                        <span data-copy="en">Tool runtime</span>
+                    </h3>
+                    <p>
+                        <span data-copy="ar">
+                            تسجيل الأدوات، التحميل، دورة الحياة، العزل، الجدولة، الحالة
+                            والمعاملات الذرّية.
+                        </span>
+                        <span data-copy="en">
+                            Registration, loading, lifecycle, sandboxing, scheduling,
+                            state and atomic transactions.
+                        </span>
+                    </p>
+                </article>
+
+                <article class="card">
+                    <span class="card-number">02</span>
+                    <h3>
+                        <span data-copy="ar">الحوكمة والمراقبة</span>
+                        <span data-copy="en">Governance & observability</span>
+                    </h3>
+                    <p>
+                        <span data-copy="ar">
+                            سياسات وصلاحيات، تدقيق، تشخيص، قياسات تشغيلية وتتبع للأخطاء.
+                        </span>
+                        <span data-copy="en">
+                            Policies, permissions, auditing, diagnostics, runtime metrics
+                            and error tracing.
+                        </span>
+                    </p>
+                </article>
+
+                <article class="card">
+                    <span class="card-number">03</span>
+                    <h3>
+                        <span data-copy="ar">التحقق المستمر</span>
+                        <span data-copy="en">Continuous verification</span>
+                    </h3>
+                    <p>
+                        <span data-copy="ar">
+                            فحص Syntax واختبارات تكامل تعمل تلقائيًا قبل نشر أي تحديث
+                            على GitHub Pages.
+                        </span>
+                        <span data-copy="en">
+                            Syntax checks and integration tests run automatically before
+                            every GitHub Pages deployment.
+                        </span>
+                    </p>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-row shell">
+            <p>
+                <span data-copy="ar">أدواتي — نبني الأساس أولًا، ثم نطلق الأدوات.</span>
+                <span data-copy="en">Adawaty — foundation first, tools next.</span>
+            </p>
+            <p>© <span id="current-year"></span> Adawaty</p>
+        </div>
+    </footer>
+</body>
+</html>
