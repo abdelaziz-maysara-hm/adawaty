@@ -12,7 +12,7 @@ const [indexHtml, workflow, homeScript, stylesheet] = await Promise.all([
 ]);
 
 assert.match(indexHtml, /<html lang="ar" dir="rtl" data-language="ar">/);
-assert.match(indexHtml, /Sprint 6 · Batch 2/);
+assert.match(indexHtml, /Sprint 6 · Batch 3/);
 assert.match(indexHtml, /\.\/src\/css\/main\.css/);
 assert.match(indexHtml, /\.\/src\/pages\/home\.js/);
 assert.match(indexHtml, /\.\/tools\/bmi-calculator\//);
@@ -20,6 +20,9 @@ assert.match(indexHtml, /\.\/tools\/percentage-calculator\//);
 assert.match(indexHtml, /\.\/tools\/age-calculator\//);
 assert.match(indexHtml, /\.\/tools\/loan-calculator\//);
 assert.match(indexHtml, /\.\/tools\/date-difference-calculator\//);
+assert.match(indexHtml, /\.\/tools\/bmr-calculator\//);
+assert.match(indexHtml, /\.\/tools\/tdee-calculator\//);
+assert.match(indexHtml, /\.\/tools\/water-intake-calculator\//);
 assert.doesNotMatch(indexHtml, /TODO|PLACEHOLDER/i);
 
 assert.match(workflow, /npm run validate/);

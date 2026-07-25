@@ -174,6 +174,129 @@ function calculateDateDifference(values, language) {
     };
 }
 
+function calculateBmrValue(values) {
+    const base = (10 * values.weight)
+        + (6.25 * values.height)
+        - (5 * values.age);
+    return values.gender === 'male' ? base + 5 : base - 161;
+}
+
+function calculateBmr(values, language) {
+    const calories = Math.round(calculateBmrValue(values));
+
+    return {
+        value: language === 'ar'
+            ? `${formatNumber(calories)} سعرة`
+            : `${formatNumber(calories)} kcal`,
+        label: language === 'ar'
+            ? 'معدل الأيض الأساسي يوميًا'
+            : 'Daily basal metabolic rate',
+        details: language === 'ar'
+            ? 'تقدير للطاقة التي يستهلكها جسمك في الراحة.'
+            : 'An estimate of the energy your body uses at rest.',
+    };
+}
+
+function calculateTdee(values, language) {
+    const calories = Math.round(
+        calculateBmrValue(values) * Number(values.activity),
+    );
+
+    return {
+        value: language === 'ar'
+            ? `${formatNumber(calories)} سعرة`
+            : `${formatNumber(calories)} kcal`,
+        label: language === 'ar'
+            ? 'احتياجك اليومي التقريبي'
+            : 'Estimated daily energy needs',
+        details: language === 'ar'
+            ? 'للمحافظة على الوزن الحالي وفق مستوى النشاط المحدد.'
+            : 'To maintain current weight at the selected activity level.',
+    };
+}
+
+function calculateIdealWeight(values, language) {
+    const inchesOverFiveFeet = Math.max(
+        0,
+        (values.height / 2.54) - 60,
+    );
+    const weight = values.gender === 'male'
+        ? 50 + (2.3 * inchesOverFiveFeet)
+        : 45.5 + (2.3 * inchesOverFiveFeet);
+
+    return {
+        value: `${formatNumber(weight)} ${language === 'ar' ? 'كجم' : 'kg'}`,
+        label: language === 'ar'
+            ? 'تقدير الوزن المثالي'
+            : 'Estimated ideal weight',
+        details: language === 'ar'
+            ? 'محسوب بمعادلة Devine ويُستخدم كمؤشر عام فقط.'
+            : 'Calculated with the Devine formula as a general reference.',
+    };
+}
+
+function calculateWaterIntake(values, language) {
+    const litres = (values.weight * 35) / 1000;
+
+    return {
+        value: `${formatNumber(litres)} ${language === 'ar' ? 'لتر' : 'litres'}`,
+        label: language === 'ar'
+            ? 'الاحتياج اليومي التقريبي'
+            : 'Estimated daily intake',
+        details: language === 'ar'
+            ? 'قد يزيد الاحتياج مع الحرارة والرياضة والحمل وبعض الحالات الصحية.'
+            : 'Needs may increase with heat, exercise, pregnancy or health conditions.',
+    };
+}
+
+function calculateBodySurfaceArea(values, language) {
+    const area = Math.sqrt((values.height * values.weight) / 3600);
+
+    return {
+        value: `${area.toFixed(2)} m²`,
+        label: language === 'ar'
+            ? 'مساحة سطح الجسم'
+            : 'Body surface area',
+        details: language === 'ar'
+            ? 'تم الحساب باستخدام معادلة Mosteller.'
+            : 'Calculated with the Mosteller formula.',
+    };
+}
+
+const genderOptions = Object.freeze([
+    Object.freeze({
+        value: 'male',
+        label: Object.freeze({ ar: 'ذكر', en: 'Male' }),
+    }),
+    Object.freeze({
+        value: 'female',
+        label: Object.freeze({ ar: 'أنثى', en: 'Female' }),
+    }),
+]);
+
+const activityOptions = Object.freeze([
+    Object.freeze({
+        value: '1.2',
+        label: Object.freeze({ ar: 'قليل الحركة', en: 'Sedentary' }),
+    }),
+    Object.freeze({
+        value: '1.375',
+        label: Object.freeze({ ar: 'نشاط خفيف', en: 'Lightly active' }),
+    }),
+    Object.freeze({
+        value: '1.55',
+        label: Object.freeze({ ar: 'نشاط متوسط', en: 'Moderately active' }),
+    }),
+    Object.freeze({
+        value: '1.725',
+        label: Object.freeze({ ar: 'نشاط مرتفع', en: 'Very active' }),
+    }),
+    Object.freeze({
+        value: '1.9',
+        label: Object.freeze({ ar: 'نشاط شديد جدًا', en: 'Extra active' }),
+    }),
+]);
+
 const toolDefinitions = Object.freeze({
     'bmi-calculator': Object.freeze({
         id: 'bmi-calculator',
@@ -505,6 +628,105 @@ const toolDefinitions = Object.freeze({
             }),
         ]),
         calculate: calculateDateDifference,
+    }),
+    'bmr-calculator': Object.freeze({
+        id: 'bmr-calculator',
+        category: 'health',
+        icon: '🔥',
+        title: Object.freeze({ ar: 'حاسبة معدل الأيض الأساسي', en: 'BMR Calculator' }),
+        description: Object.freeze({
+            ar: 'قدّر السعرات التي يحتاجها جسمك يوميًا في حالة الراحة.',
+            en: 'Estimate the calories your body needs each day at rest.',
+        }),
+        note: Object.freeze({
+            ar: 'النتيجة تقديرية وتعتمد على معادلة Mifflin-St Jeor.',
+            en: 'This estimate uses the Mifflin-St Jeor equation.',
+        }),
+        inputs: Object.freeze([
+            Object.freeze({ id: 'gender', type: 'select', label: Object.freeze({ ar: 'النوع', en: 'Sex' }), unit: Object.freeze({ ar: '', en: '' }), options: genderOptions }),
+            Object.freeze({ id: 'age', type: 'number', min: 13, max: 120, step: 1, label: Object.freeze({ ar: 'العمر', en: 'Age' }), unit: Object.freeze({ ar: 'سنة', en: 'years' }), placeholder: '30' }),
+            Object.freeze({ id: 'height', type: 'number', min: 100, max: 250, step: 0.1, label: Object.freeze({ ar: 'الطول', en: 'Height' }), unit: Object.freeze({ ar: 'سم', en: 'cm' }), placeholder: '175' }),
+            Object.freeze({ id: 'weight', type: 'number', min: 25, max: 400, step: 0.1, label: Object.freeze({ ar: 'الوزن', en: 'Weight' }), unit: Object.freeze({ ar: 'كجم', en: 'kg' }), placeholder: '75' }),
+        ]),
+        calculate: calculateBmr,
+    }),
+    'tdee-calculator': Object.freeze({
+        id: 'tdee-calculator',
+        category: 'health',
+        icon: '⚡',
+        title: Object.freeze({ ar: 'حاسبة الاحتياج اليومي من السعرات', en: 'TDEE Calculator' }),
+        description: Object.freeze({
+            ar: 'قدّر السعرات اليومية اللازمة للمحافظة على وزنك وفق نشاطك.',
+            en: 'Estimate daily calories needed to maintain weight based on activity.',
+        }),
+        note: Object.freeze({
+            ar: 'راقب تغير الوزن وعدّل التقدير حسب استجابة جسمك.',
+            en: 'Track weight changes and adjust the estimate to your response.',
+        }),
+        inputs: Object.freeze([
+            Object.freeze({ id: 'gender', type: 'select', label: Object.freeze({ ar: 'النوع', en: 'Sex' }), unit: Object.freeze({ ar: '', en: '' }), options: genderOptions }),
+            Object.freeze({ id: 'age', type: 'number', min: 13, max: 120, step: 1, label: Object.freeze({ ar: 'العمر', en: 'Age' }), unit: Object.freeze({ ar: 'سنة', en: 'years' }), placeholder: '30' }),
+            Object.freeze({ id: 'height', type: 'number', min: 100, max: 250, step: 0.1, label: Object.freeze({ ar: 'الطول', en: 'Height' }), unit: Object.freeze({ ar: 'سم', en: 'cm' }), placeholder: '175' }),
+            Object.freeze({ id: 'weight', type: 'number', min: 25, max: 400, step: 0.1, label: Object.freeze({ ar: 'الوزن', en: 'Weight' }), unit: Object.freeze({ ar: 'كجم', en: 'kg' }), placeholder: '75' }),
+            Object.freeze({ id: 'activity', type: 'select', label: Object.freeze({ ar: 'مستوى النشاط', en: 'Activity level' }), unit: Object.freeze({ ar: '', en: '' }), options: activityOptions }),
+        ]),
+        calculate: calculateTdee,
+    }),
+    'ideal-weight-calculator': Object.freeze({
+        id: 'ideal-weight-calculator',
+        category: 'health',
+        icon: '◎',
+        title: Object.freeze({ ar: 'حاسبة الوزن المثالي', en: 'Ideal Weight Calculator' }),
+        description: Object.freeze({
+            ar: 'احصل على تقدير عام للوزن المثالي وفق الطول والنوع.',
+            en: 'Get a general ideal-weight estimate based on height and sex.',
+        }),
+        note: Object.freeze({
+            ar: 'لا تراعي المعادلة تكوين الجسم أو الكتلة العضلية.',
+            en: 'The formula does not account for body composition or muscle mass.',
+        }),
+        inputs: Object.freeze([
+            Object.freeze({ id: 'gender', type: 'select', label: Object.freeze({ ar: 'النوع', en: 'Sex' }), unit: Object.freeze({ ar: '', en: '' }), options: genderOptions }),
+            Object.freeze({ id: 'height', type: 'number', min: 100, max: 250, step: 0.1, label: Object.freeze({ ar: 'الطول', en: 'Height' }), unit: Object.freeze({ ar: 'سم', en: 'cm' }), placeholder: '175' }),
+        ]),
+        calculate: calculateIdealWeight,
+    }),
+    'water-intake-calculator': Object.freeze({
+        id: 'water-intake-calculator',
+        category: 'health',
+        icon: '💧',
+        title: Object.freeze({ ar: 'حاسبة شرب المياه', en: 'Water Intake Calculator' }),
+        description: Object.freeze({
+            ar: 'قدّر كمية المياه اليومية المناسبة وفق وزنك.',
+            en: 'Estimate daily water intake based on your weight.',
+        }),
+        note: Object.freeze({
+            ar: 'استشر الطبيب إذا كان لديك تقييد للسوائل أو مرض مزمن.',
+            en: 'Seek medical guidance for fluid restrictions or chronic conditions.',
+        }),
+        inputs: Object.freeze([
+            Object.freeze({ id: 'weight', type: 'number', min: 20, max: 400, step: 0.1, label: Object.freeze({ ar: 'الوزن', en: 'Weight' }), unit: Object.freeze({ ar: 'كجم', en: 'kg' }), placeholder: '70' }),
+        ]),
+        calculate: calculateWaterIntake,
+    }),
+    'body-surface-area-calculator': Object.freeze({
+        id: 'body-surface-area-calculator',
+        category: 'health',
+        icon: '◇',
+        title: Object.freeze({ ar: 'حاسبة مساحة سطح الجسم', en: 'Body Surface Area Calculator' }),
+        description: Object.freeze({
+            ar: 'احسب مساحة سطح الجسم من الطول والوزن بمعادلة Mosteller.',
+            en: 'Calculate body surface area from height and weight using Mosteller.',
+        }),
+        note: Object.freeze({
+            ar: 'الاستخدامات الطبية للنتيجة يجب أن تكون تحت إشراف متخصص.',
+            en: 'Medical use of this result requires professional supervision.',
+        }),
+        inputs: Object.freeze([
+            Object.freeze({ id: 'height', type: 'number', min: 30, max: 250, step: 0.1, label: Object.freeze({ ar: 'الطول', en: 'Height' }), unit: Object.freeze({ ar: 'سم', en: 'cm' }), placeholder: '175' }),
+            Object.freeze({ id: 'weight', type: 'number', min: 1, max: 400, step: 0.1, label: Object.freeze({ ar: 'الوزن', en: 'Weight' }), unit: Object.freeze({ ar: 'كجم', en: 'kg' }), placeholder: '75' }),
+        ]),
+        calculate: calculateBodySurfaceArea,
     }),
 });
 

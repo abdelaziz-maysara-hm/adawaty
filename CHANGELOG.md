@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 6 — Batch 3
+
+- Added automatic generation for tool pages and sitemap entries.
+- Added select-field support to the shared product form renderer.
+- Added BMR, TDEE, ideal-weight, water-intake and body-surface-area tools.
+- Expanded the public product catalogue from eight to thirteen tools.
+
 ## Sprint 6 — Batch 2
 
 - Added discount, VAT, loan, compound-interest and date-difference calculators.
