@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-language="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#07111f">
+    <meta name="description" content="تصفح أدوات الصحة المجانية المتاحة على منصة أدواتي.">
+    <title>أدوات الصحة | أدواتي</title>
+    <link rel="canonical" href="https://abdelaziz-maysara-hm.github.io/adawaty/categories/health/">
+    <link rel="stylesheet" href="../../src/css/main.css">
+    <link rel="stylesheet" href="../../src/css/product.css">
+    <script type="module" src="../../src/product/catalogue-page.js"></script>
+</head>
+<body>
+    <header class="site-header">
+        <nav class="navigation shell" aria-label="التنقل الرئيسي">
+            <a class="brand" href="../../">
+                <span class="brand-mark">أ</span>
+                <span class="brand-copy"><strong>أدواتي</strong><span>Adawaty Platform</span></span>
+            </a>
+            <button class="button" id="catalogue-language-toggle" type="button">English</button>
+        </nav>
+    </header>
+    <main class="catalogue-page shell" data-catalogue-page data-base-path="../../" data-category="health">
+        <header class="catalogue-header">
+            <p class="eyebrow"><span data-copy="ar">دليل الأدوات</span><span data-copy="en">Tools directory</span></p>
+            <h1><span data-copy="ar">أدوات الصحة</span><span data-copy="en">Health Tools</span></h1>
+            <p><span data-copy="ar">تصفح أدوات الصحة المجانية المتاحة على منصة أدواتي.</span><span data-copy="en">Search and browse fast, free tools in Arabic and English.</span></p>
+        </header>
+        <section class="catalogue-controls" aria-label="البحث والتصفية">
+            <input id="catalogue-search" type="search" autocomplete="off">
+            <div class="catalogue-filters" id="catalogue-filters"></div>
+            <p id="catalogue-count" aria-live="polite"></p>
+        </section>
+        <div class="catalogue-grid" id="catalogue-grid"></div>
+        <p class="catalogue-empty" id="catalogue-empty" hidden></p>
+    </main>
+    <footer class="site-footer"><div class="footer-row shell"><p>Adawaty</p><p>© <span id="current-year"></span></p></div></footer>
+</body>
+</html>

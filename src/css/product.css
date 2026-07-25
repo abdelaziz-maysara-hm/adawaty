@@ -242,6 +242,16 @@
     line-height: 1.65;
 }
 
+.tools-showcase .tool-link:nth-child(n + 13) {
+    display: none;
+}
+
+.catalogue-cta {
+    display: flex;
+    margin-top: 1.5rem;
+    justify-content: center;
+}
+
 @media (max-width: 900px) {
     .product-grid {
         grid-template-columns: 1fr;
@@ -261,4 +271,122 @@
         padding: 20px;
         border-radius: 22px;
     }
+}
+
+.catalogue-page {
+    min-height: 75vh;
+    padding-block: clamp(3rem, 7vw, 6rem);
+}
+
+.catalogue-header {
+    max-width: 780px;
+}
+
+.catalogue-header h1 {
+    margin: 1rem 0;
+    font-size: clamp(2.4rem, 7vw, 5rem);
+    line-height: 1;
+}
+
+.catalogue-header > p:last-child,
+.catalogue-card p,
+.catalogue-empty {
+    color: var(--muted);
+}
+
+.catalogue-controls {
+    margin-block: 2.5rem 2rem;
+}
+
+.catalogue-controls input {
+    width: min(100%, 720px);
+    padding: 1rem 1.15rem;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: var(--surface);
+    color: var(--text);
+    font: inherit;
+}
+
+.catalogue-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    margin-block: 1rem;
+}
+
+.catalogue-filter {
+    padding: 0.65rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    font: inherit;
+}
+
+.catalogue-filter:hover,
+.catalogue-filter.is-active {
+    border-color: var(--brand);
+    background: rgba(85, 216, 193, 0.12);
+    color: var(--brand);
+}
+
+.catalogue-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+    gap: 1rem;
+}
+
+.catalogue-card {
+    display: flex;
+    min-height: 260px;
+    padding: 1.35rem;
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    background: var(--surface);
+    color: var(--text);
+    flex-direction: column;
+    text-decoration: none;
+    transition: border-color 160ms ease, transform 160ms ease;
+}
+
+.catalogue-card:hover {
+    border-color: var(--brand);
+    transform: translateY(-3px);
+}
+
+.catalogue-card-icon {
+    display: grid;
+    width: 3rem;
+    height: 3rem;
+    place-items: center;
+    border-radius: 14px;
+    background: rgba(85, 216, 193, 0.12);
+    color: var(--brand);
+    font-weight: 800;
+}
+
+.catalogue-card-category {
+    margin-top: 1rem;
+    color: var(--brand);
+    font-size: 0.8rem;
+}
+
+.catalogue-card h2 {
+    margin: 0.5rem 0;
+    font-size: 1.25rem;
+}
+
+.catalogue-card p {
+    margin: 0 0 1.25rem;
+}
+
+.catalogue-card strong {
+    margin-top: auto;
+}
+
+.catalogue-empty {
+    padding: 2rem;
+    text-align: center;
 }
