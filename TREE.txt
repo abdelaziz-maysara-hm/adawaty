@@ -1,16 +1,11 @@
-Adawaty-Sprint-5-Batch-3-Search-Engine/
-├── BUILD-NOTES.md
-├── CHANGELOG.md
-├── TREE.txt
-├── docs/
-│   └── adr/
-│       └── ADR-007-indexed-tool-search.md
-├── src/
-│   └── tools/
-│       ├── index.js
-│       └── tool-search-index.js
-└── tests/
-    └── tools/
-        └── tool-search-index.integration.mjs
+BUILD-NOTES.md
+CHANGELOG.md
+TREE.txt
+docs/adr/ADR-025-runtime-telemetry-metrics-platform.md
+src/tools/index.js
+src/tools/tool-directory.js
+src/tools/tool-runtime-host.js
+src/tools/tool-runtime-telemetry.js
+tests/tools/tool-runtime-telemetry.integration.mjs
 
 // END OF FILE

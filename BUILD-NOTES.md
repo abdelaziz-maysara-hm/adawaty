@@ -1,27 +1,7 @@
-# Sprint 5 — Batch 3 Build Notes
+# Sprint 5 — Batch 21 Build Notes
 
-## Verification performed
+Verified JavaScript syntax, metric registration and recording, immutable snapshots, histogram percentiles, timers, trace lifecycle, RuntimeHost context integration, owner cleanup and ToolDirectory APIs.
 
-```text
-node --check src/tools/tool-search-index.js
-node --check src/tools/index.js
-node tests/tools/tool-search-index.integration.mjs
-```
-
-## Result
-
-```text
-Search module syntax: pass
-Public entry point: pass
-Arabic normalization: pass
-English search: pass
-Weighted ranking: pass
-Structured filtering: pass
-Deprecated filtering: pass
-Autocomplete: pass
-Revision invalidation: pass
-```
-
-Sprint 5 Batches 1 and 2 must already be merged before applying this patch.
+Apply after Sprint 5 Batch 20.
 
 // END OF FILE

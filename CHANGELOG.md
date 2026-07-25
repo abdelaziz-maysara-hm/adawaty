@@ -1,27 +1,10 @@
-# Sprint 5 — Batch 3 Changelog
+# Changelog
 
-## Indexed search
+## Sprint 5 — Batch 21
 
-- Added `ToolSearchIndex`.
-- Added revision-aware lazy rebuilding.
-- Added weighted ranking across IDs, localized names, categories, tags,
-  keywords and descriptions.
-- Added Arabic diacritic and tatweel normalization.
-- Added structured filters for categories, tags, languages, status and
-  featured tools.
-- Excluded deprecated tools by default.
-- Added matched-field diagnostics.
-- Added autocomplete suggestions.
-- Added explicit index clearing and automatic refresh after registry changes.
-
-## Public API
-
-- Exported `ToolSearchIndex`.
-- Exported `normalizeSearchText`.
-
-## Verification
-
-- Added bilingual ranking, filters, deprecated visibility, suggestions,
-  normalization and revision invalidation integration coverage.
+- Added runtime counters, gauges, histograms, summaries and timers.
+- Added correlated traces and spans with error and duration tracking.
+- Added owner-scoped RuntimeHost telemetry context and automatic unmount cleanup.
+- Added ToolDirectory telemetry APIs and diagnostics source integration.
 
 // END OF FILE
