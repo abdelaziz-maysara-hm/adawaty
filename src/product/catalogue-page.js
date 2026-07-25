@@ -6,6 +6,7 @@ const categories = Object.freeze({
     student: Object.freeze({ ar: 'الطلاب', en: 'Student' }),
     math: Object.freeze({ ar: 'الرياضيات', en: 'Math' }),
     'date-time': Object.freeze({ ar: 'التاريخ والوقت', en: 'Date & Time' }),
+    converter: Object.freeze({ ar: 'التحويلات', en: 'Converters' }),
 });
 
 const copy = Object.freeze({

@@ -1,3 +1,5 @@
+import { converterDefinitions } from './definitions/converters.js';
+
 const numberFormatter = new Intl.NumberFormat('en-US', {
     maximumFractionDigits: 2,
 });
@@ -956,6 +958,7 @@ const toolDefinitions = Object.freeze({
         ]),
         calculate: calculateRatio,
     }),
+    ...converterDefinitions,
 });
 
 function getToolDefinition(id) {

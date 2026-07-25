@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 20);
+assert.equal(tools.length, 31);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -31,6 +31,17 @@ assert.deepEqual(
         'attendance-calculator',
         'percentage-change-calculator',
         'ratio-calculator',
+        'length-converter',
+        'weight-converter',
+        'temperature-converter',
+        'area-converter',
+        'volume-converter',
+        'speed-converter',
+        'data-storage-converter',
+        'time-unit-converter',
+        'angle-converter',
+        'pressure-converter',
+        'energy-converter',
     ],
 );
 
@@ -192,6 +203,44 @@ assert.equal(
 const ratio = getToolDefinition('ratio-calculator');
 assert.equal(ratio.calculate({ first: 24, second: 36 }, 'en').value, '2:3');
 
+const length = getToolDefinition('length-converter');
+assert.equal(
+    length.calculate({ value: 1, from: 'kilometre', to: 'metre' }, 'en').value,
+    '1,000',
+);
+
+const weight = getToolDefinition('weight-converter');
+assert.equal(
+    weight.calculate({ value: 1, from: 'kilogram', to: 'gram' }, 'en').value,
+    '1,000',
+);
+
+const temperature = getToolDefinition('temperature-converter');
+assert.equal(
+    temperature.calculate({
+        value: 0,
+        from: 'celsius',
+        to: 'fahrenheit',
+    }, 'en').value,
+    '32',
+);
+
+const dataStorage = getToolDefinition('data-storage-converter');
+assert.equal(
+    dataStorage.calculate({
+        value: 1,
+        from: 'gigabyte',
+        to: 'megabyte',
+    }, 'en').value,
+    '1,024',
+);
+
+const angle = getToolDefinition('angle-converter');
+assert.equal(
+    angle.calculate({ value: 180, from: 'degree', to: 'radian' }, 'en').value,
+    '3.14159265',
+);
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -210,6 +259,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 4 product tools verification passed.');
+console.log('Sprint 6 Batch 6 product tools verification passed.');
 
 // END OF FILE

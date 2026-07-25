@@ -13,6 +13,7 @@ const categories = Object.freeze({
     student: Object.freeze({ ar: 'أدوات الطلاب', en: 'Student Tools' }),
     math: Object.freeze({ ar: 'أدوات الرياضيات', en: 'Math Tools' }),
     'date-time': Object.freeze({ ar: 'أدوات التاريخ والوقت', en: 'Date & Time Tools' }),
+    converter: Object.freeze({ ar: 'أدوات التحويل', en: 'Converters' }),
 });
 
 function escapeHtml(value) {
