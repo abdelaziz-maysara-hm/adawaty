@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 13);
+assert.equal(tools.length, 20);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -24,6 +24,13 @@ assert.deepEqual(
         'ideal-weight-calculator',
         'water-intake-calculator',
         'body-surface-area-calculator',
+        'grade-calculator',
+        'gpa-calculator',
+        'average-calculator',
+        'weighted-average-calculator',
+        'attendance-calculator',
+        'percentage-change-calculator',
+        'ratio-calculator',
     ],
 );
 
@@ -123,6 +130,68 @@ assert.equal(
     '2.00 m²',
 );
 
+const grade = getToolDefinition('grade-calculator');
+assert.equal(grade.calculate({ earned: 85, total: 100 }, 'en').value, '85%');
+assert.throws(
+    () => grade.calculate({ earned: 101, total: 100 }, 'en'),
+    /cannot exceed/,
+);
+
+const gpa = getToolDefinition('gpa-calculator');
+assert.equal(
+    gpa.calculate({
+        grade1: 4,
+        credits1: 3,
+        grade2: 3,
+        credits2: 3,
+        grade3: 4,
+        credits3: 3,
+        grade4: 3,
+        credits4: 3,
+    }, 'en').value,
+    '3.50',
+);
+
+const average = getToolDefinition('average-calculator');
+assert.equal(
+    average.calculate({
+        number1: 10,
+        number2: 20,
+        number3: 30,
+        number4: 40,
+        number5: 50,
+    }, 'en').value,
+    '30',
+);
+
+const weightedAverage = getToolDefinition('weighted-average-calculator');
+assert.equal(
+    weightedAverage.calculate({
+        score1: 80,
+        weight1: 20,
+        score2: 90,
+        weight2: 30,
+        score3: 100,
+        weight3: 50,
+    }, 'en').value,
+    '93',
+);
+
+const attendance = getToolDefinition('attendance-calculator');
+assert.equal(
+    attendance.calculate({ attended: 36, totalClasses: 40 }, 'en').value,
+    '90%',
+);
+
+const percentageChange = getToolDefinition('percentage-change-calculator');
+assert.equal(
+    percentageChange.calculate({ oldValue: 100, newValue: 125 }, 'en').value,
+    '25%',
+);
+
+const ratio = getToolDefinition('ratio-calculator');
+assert.equal(ratio.calculate({ first: 24, second: 36 }, 'en').value, '2:3');
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -141,6 +210,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 3 product tools verification passed.');
+console.log('Sprint 6 Batch 4 product tools verification passed.');
 
 // END OF FILE
