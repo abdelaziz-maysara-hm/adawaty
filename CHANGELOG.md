@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 6 — Batch 9
+
+- Added ten bilingual health and fitness calculators in a dedicated module.
+- Added calorie deficit, macros, protein, body-fat and lean-mass tools.
+- Added waist ratio, heart-rate zone, running pace and sleep-cycle calculators.
+- Added a pregnancy due-date estimate and expanded the catalogue to sixty-one tools.
+
 ## Sprint 6 — Batch 8
 
 - Added ten bilingual finance calculators in a dedicated scalable module.
