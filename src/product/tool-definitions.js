@@ -1,4 +1,5 @@
 import { converterDefinitions } from './definitions/converters.js';
+import { financeDefinitions } from './definitions/finance.js';
 import { textDeveloperDefinitions } from './definitions/text-developer.js';
 
 const numberFormatter = new Intl.NumberFormat('en-US', {
@@ -961,6 +962,7 @@ const toolDefinitions = Object.freeze({
     }),
     ...converterDefinitions,
     ...textDeveloperDefinitions,
+    ...financeDefinitions,
 });
 
 function getToolDefinition(id) {

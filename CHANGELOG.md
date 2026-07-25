@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 6 — Batch 8
+
+- Added ten bilingual finance calculators in a dedicated scalable module.
+- Added mortgage, savings goal, ROI, profit margin and break-even tools.
+- Added simple interest, tip, commission, salary and inflation calculators.
+- Expanded the public catalogue from forty-one to fifty-one working tools.
+
 ## Sprint 6 — Batch 7
 
 - Added ten bilingual text and developer tools in a scalable definition module.
