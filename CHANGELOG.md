@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 6 — Batch 5
+
+- Added a searchable bilingual directory for every public tool.
+- Added category filters and dedicated category landing pages.
+- Limited the homepage to a curated twelve-tool preview.
+- Added automatic catalogue, category and sitemap generation.
+
 ## Sprint 6 — Batch 4
 
 - Added grade, GPA, average, weighted-average and attendance calculators.
