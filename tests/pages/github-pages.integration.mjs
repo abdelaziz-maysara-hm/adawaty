@@ -9,6 +9,7 @@ const [
     catalogueHtml,
     healthCategoryHtml,
     catalogueScript,
+    converterCategoryHtml,
 ] = await Promise.all([
     readFile(new URL('../../index.html', import.meta.url), 'utf8'),
     readFile(
@@ -26,10 +27,14 @@ const [
         new URL('../../src/product/catalogue-page.js', import.meta.url),
         'utf8',
     ),
+    readFile(
+        new URL('../../categories/converter/index.html', import.meta.url),
+        'utf8',
+    ),
 ]);
 
 assert.match(indexHtml, /<html lang="ar" dir="rtl" data-language="ar">/);
-assert.match(indexHtml, /Sprint 6 · Batch 5/);
+assert.match(indexHtml, /Sprint 6 · Batch 6/);
 assert.match(indexHtml, /\.\/src\/css\/main\.css/);
 assert.match(indexHtml, /\.\/src\/pages\/home\.js/);
 assert.match(indexHtml, /\.\/tools\/bmi-calculator\//);
@@ -55,9 +60,10 @@ assert.match(stylesheet, /@media \(max-width: 600px\)/);
 assert.match(catalogueHtml, /data-catalogue-page/);
 assert.match(catalogueHtml, /catalogue-page\.js/);
 assert.match(healthCategoryHtml, /data-category="health"/);
+assert.match(converterCategoryHtml, /data-category="converter"/);
 assert.match(catalogueScript, /getVisibleTools/);
 assert.match(catalogueScript, /data-category/);
 
-console.log('Sprint 6 Batch 5 catalogue navigation verification passed.');
+console.log('Sprint 6 Batch 6 catalogue navigation verification passed.');
 
 // END OF FILE

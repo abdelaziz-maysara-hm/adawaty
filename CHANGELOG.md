@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 6 — Batch 6
+
+- Added eleven high-demand unit converters in a separate scalable definition module.
+- Added length, weight, temperature, area, volume, speed and data converters.
+- Added time, angle, pressure and energy converters.
+- Expanded the public catalogue from twenty to thirty-one working tools.
+
 ## Sprint 6 — Batch 5
 
 - Added a searchable bilingual directory for every public tool.
