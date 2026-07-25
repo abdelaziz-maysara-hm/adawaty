@@ -33,16 +33,28 @@ function createInput(input, language) {
 
     const control = document.createElement('span');
     control.className = 'product-control';
-    const element = document.createElement('input');
+    const element = document.createElement(
+        input.type === 'select' ? 'select' : 'input',
+    );
     element.id = input.id;
     element.name = input.id;
-    element.type = input.type;
     element.required = true;
-    element.inputMode = input.type === 'number' ? 'decimal' : '';
 
-    for (const attribute of ['min', 'max', 'step', 'placeholder']) {
-        if (input[attribute] !== undefined) {
-            element.setAttribute(attribute, String(input[attribute]));
+    if (input.type === 'select') {
+        for (const option of input.options) {
+            const optionElement = document.createElement('option');
+            optionElement.value = option.value;
+            optionElement.textContent = translate(option.label, language);
+            element.append(optionElement);
+        }
+    } else {
+        element.type = input.type;
+        element.inputMode = input.type === 'number' ? 'decimal' : '';
+
+        for (const attribute of ['min', 'max', 'step', 'placeholder']) {
+            if (input[attribute] !== undefined) {
+                element.setAttribute(attribute, String(input[attribute]));
+            }
         }
     }
 

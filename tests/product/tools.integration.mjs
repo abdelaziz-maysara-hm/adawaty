@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 8);
+assert.equal(tools.length, 13);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -19,6 +19,11 @@ assert.deepEqual(
         'loan-calculator',
         'compound-interest-calculator',
         'date-difference-calculator',
+        'bmr-calculator',
+        'tdee-calculator',
+        'ideal-weight-calculator',
+        'water-intake-calculator',
+        'body-surface-area-calculator',
     ],
 );
 
@@ -76,6 +81,48 @@ assert.equal(
     '30 days',
 );
 
+const bmr = getToolDefinition('bmr-calculator');
+assert.equal(
+    bmr.calculate(
+        { gender: 'male', age: 30, height: 175, weight: 75 },
+        'en',
+    ).value,
+    '1,699 kcal',
+);
+
+const tdee = getToolDefinition('tdee-calculator');
+assert.equal(
+    tdee.calculate(
+        {
+            gender: 'male',
+            age: 30,
+            height: 175,
+            weight: 75,
+            activity: '1.2',
+        },
+        'en',
+    ).value,
+    '2,039 kcal',
+);
+
+const idealWeight = getToolDefinition('ideal-weight-calculator');
+assert.equal(
+    idealWeight.calculate(
+        { gender: 'male', height: 175 },
+        'en',
+    ).value,
+    '70.46 kg',
+);
+
+const water = getToolDefinition('water-intake-calculator');
+assert.equal(water.calculate({ weight: 70 }, 'en').value, '2.45 litres');
+
+const bodySurfaceArea = getToolDefinition('body-surface-area-calculator');
+assert.equal(
+    bodySurfaceArea.calculate({ height: 180, weight: 80 }, 'en').value,
+    '2.00 m²',
+);
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -94,6 +141,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 2 product tools verification passed.');
+console.log('Sprint 6 Batch 3 product tools verification passed.');
 
 // END OF FILE

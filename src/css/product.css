@@ -111,7 +111,8 @@
     box-shadow: 0 0 0 4px rgba(85, 216, 193, 0.1);
 }
 
-.product-control input {
+.product-control input,
+.product-control select {
     width: 100%;
     min-height: 58px;
     padding: 0 17px;
@@ -121,6 +122,16 @@
     background: transparent;
     font: inherit;
     font-size: 1.05rem;
+}
+
+.product-control select {
+    appearance: none;
+    cursor: pointer;
+}
+
+.product-control select option {
+    color: var(--text);
+    background: var(--background);
 }
 
 .product-control input::-webkit-calendar-picker-indicator {
