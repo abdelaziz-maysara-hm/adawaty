@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 41);
+assert.equal(tools.length, 51);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -52,6 +52,16 @@ assert.deepEqual(
         'slug-generator',
         'jwt-decoder',
         'unix-timestamp-converter',
+        'simple-interest-calculator',
+        'mortgage-calculator',
+        'savings-goal-calculator',
+        'roi-calculator',
+        'profit-margin-calculator',
+        'break-even-calculator',
+        'tip-calculator',
+        'commission-calculator',
+        'hourly-salary-calculator',
+        'inflation-calculator',
     ],
 );
 
@@ -305,6 +315,85 @@ assert.equal(
     `${Math.floor(new Date(timestampInput).getTime() / 1000)}`,
 );
 
+const simpleInterest = getToolDefinition('simple-interest-calculator');
+assert.equal(
+    simpleInterest.calculate({
+        principal: 1000,
+        annualRate: 10,
+        years: 2,
+    }, 'en').value,
+    '1,200',
+);
+
+const mortgage = getToolDefinition('mortgage-calculator');
+assert.equal(
+    mortgage.calculate({
+        amount: 120000,
+        annualRate: 0,
+        years: 10,
+    }, 'en').value,
+    '1,000',
+);
+
+const savingsGoal = getToolDefinition('savings-goal-calculator');
+assert.equal(
+    savingsGoal.calculate({
+        goal: 12000,
+        current: 0,
+        annualRate: 0,
+        years: 1,
+    }, 'en').value,
+    '1,000',
+);
+
+const roi = getToolDefinition('roi-calculator');
+assert.equal(
+    roi.calculate({ initial: 1000, final: 1250 }, 'en').value,
+    '25',
+);
+
+const profitMargin = getToolDefinition('profit-margin-calculator');
+assert.equal(
+    profitMargin.calculate({ revenue: 1000, cost: 700 }, 'en').value,
+    '30',
+);
+
+const breakEven = getToolDefinition('break-even-calculator');
+assert.equal(
+    breakEven.calculate({
+        fixedCosts: 1000,
+        price: 20,
+        variableCost: 10,
+    }, 'en').value,
+    '100',
+);
+assert.throws(
+    () => breakEven.calculate({
+        fixedCosts: 1000,
+        price: 10,
+        variableCost: 10,
+    }, 'en'),
+    /must exceed/,
+);
+
+const tip = getToolDefinition('tip-calculator');
+assert.equal(
+    tip.calculate({ bill: 100, rate: 20, people: 2 }, 'en').value,
+    '60',
+);
+
+const salary = getToolDefinition('hourly-salary-calculator');
+assert.equal(
+    salary.calculate({ hourly: 10, hours: 40, weeks: 52 }, 'en').value,
+    '20,800',
+);
+
+const inflation = getToolDefinition('inflation-calculator');
+assert.equal(
+    inflation.calculate({ amount: 1000, rate: 10, years: 1 }, 'en').value,
+    '1,100',
+);
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -323,6 +412,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 7 product tools verification passed.');
+console.log('Sprint 6 Batch 8 product tools verification passed.');
 
 // END OF FILE
