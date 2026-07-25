@@ -1,0 +1,16 @@
+Adawaty-Sprint-5-Batch-3-Search-Engine/
+├── BUILD-NOTES.md
+├── CHANGELOG.md
+├── TREE.txt
+├── docs/
+│   └── adr/
+│       └── ADR-007-indexed-tool-search.md
+├── src/
+│   └── tools/
+│       ├── index.js
+│       └── tool-search-index.js
+└── tests/
+    └── tools/
+        └── tool-search-index.integration.mjs
+
+// END OF FILE
