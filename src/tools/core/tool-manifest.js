@@ -126,8 +126,6 @@ class ToolManifest {
 
     }
 
-}
-
     /**
      * Updates a manifest.
      *

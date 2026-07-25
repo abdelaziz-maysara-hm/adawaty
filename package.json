@@ -1,0 +1,15 @@
+{
+  "name": "adawaty",
+  "version": "0.5.22",
+  "private": true,
+  "type": "module",
+  "description": "A bilingual, extensible platform for free online tools.",
+  "scripts": {
+    "test": "node scripts/run-tests.mjs",
+    "check": "node scripts/check-syntax.mjs",
+    "validate": "npm run check && npm test"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -143,8 +143,6 @@ class ToolDiscovery {
 
     }
 
-}
-
     /**
      * Discovers a tool.
      *

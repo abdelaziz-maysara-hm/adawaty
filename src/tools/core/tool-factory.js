@@ -130,8 +130,6 @@ class ToolFactory {
 
     }
 
-}
-
     /**
      * Creates a tool instance.
      *

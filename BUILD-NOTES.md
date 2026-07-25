@@ -1,7 +1,12 @@
-# Sprint 5 — Batch 21 Build Notes
+# Sprint 5 — Batch 23 Build Notes
 
-Verified JavaScript syntax, metric registration and recording, immutable snapshots, histogram percentiles, timers, trace lifecycle, RuntimeHost context integration, owner cleanup and ToolDirectory APIs.
+Added a deployable project-status preview for GitHub Pages:
 
-Apply after Sprint 5 Batch 20.
+- The root `index.html` provides a responsive Arabic and English experience.
+- The preview reports only milestones verified in the repository.
+- GitHub Actions runs `npm run validate` before every Pages deployment.
+- The site uses repository-relative URLs and requires no build dependencies.
+
+Apply after Sprint 5 Batch 22.
 
 // END OF FILE

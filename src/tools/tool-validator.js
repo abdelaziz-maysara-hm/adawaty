@@ -77,6 +77,21 @@ class ToolValidator {
             errors
         );
 
+        this.validateKeywords(
+            definition.keywords,
+            errors
+        );
+
+        this.validateTags(
+            definition.tags,
+            errors
+        );
+
+        this.validateDescription(
+            definition.description,
+            errors
+        );
+
         return {
 
             valid:
@@ -368,33 +383,6 @@ class ToolValidator {
         }
 
     }
-	
-	        this.validateKeywords(
-            definition.keywords,
-            errors
-        );
-
-        this.validateTags(
-            definition.tags,
-            errors
-        );
-
-        this.validateDescription(
-            definition.description,
-            errors
-        );
-
-        return {
-
-            valid:
-                errors.length === 0,
-
-            errors
-
-        };
-
-    }
-
     /**
      * Validates a tool definition and
      * throws when validation fails.

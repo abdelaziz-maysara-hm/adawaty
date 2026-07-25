@@ -116,8 +116,6 @@ class ToolConfig {
 
     }
 
-}
-
     /**
      * Merges two configurations.
      *

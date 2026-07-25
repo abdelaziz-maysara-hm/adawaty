@@ -441,8 +441,8 @@ class ToolLayout extends HTMLElement {
         );
 
     }
-	
-	    /**
+
+    /**
      * Shows the loading state.
      *
      * @returns {void}
@@ -591,3 +591,13 @@ class ToolLayout extends HTMLElement {
         );
 
     }
+
+}
+
+if (!customElements.get('tool-layout')) {
+    customElements.define('tool-layout', ToolLayout);
+}
+
+export default ToolLayout;
+
+// END OF FILE

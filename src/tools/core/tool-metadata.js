@@ -123,8 +123,6 @@ class ToolMetadata {
 
     }
 
-}
-
     /**
      * Updates metadata.
      *
