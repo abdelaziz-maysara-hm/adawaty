@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 6 — Batch 4
+
+- Added grade, GPA, average, weighted-average and attendance calculators.
+- Added percentage-change and ratio calculators.
+- Expanded the public product catalogue from thirteen to twenty working tools.
+- Added deterministic formula and generated-page coverage for every new tool.
+
 ## Sprint 6 — Batch 3
 
 - Added automatic generation for tool pages and sitemap entries.

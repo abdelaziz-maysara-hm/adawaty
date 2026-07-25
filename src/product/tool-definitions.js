@@ -263,6 +263,136 @@ function calculateBodySurfaceArea(values, language) {
     };
 }
 
+function calculateGrade(values, language) {
+    if (values.earned > values.total) {
+        throw new Error(language === 'ar'
+            ? 'الدرجة المحصّلة لا يمكن أن تتجاوز الدرجة الكلية.'
+            : 'The earned score cannot exceed the total score.');
+    }
+    const percentage = (values.earned / values.total) * 100;
+    const grade = percentage >= 90 ? 'A'
+        : percentage >= 80 ? 'B'
+            : percentage >= 70 ? 'C'
+                : percentage >= 60 ? 'D' : 'F';
+    return {
+        value: `${formatNumber(percentage)}%`,
+        label: language === 'ar' ? `التقدير ${grade}` : `Grade ${grade}`,
+        details: language === 'ar'
+            ? `${formatNumber(values.earned)} من ${formatNumber(values.total)}`
+            : `${formatNumber(values.earned)} out of ${formatNumber(values.total)}`,
+    };
+}
+
+function calculateGpa(values, language) {
+    const courses = [
+        [values.grade1, values.credits1],
+        [values.grade2, values.credits2],
+        [values.grade3, values.credits3],
+        [values.grade4, values.credits4],
+    ];
+    const totalCredits = courses.reduce((sum, course) => sum + course[1], 0);
+    const weightedPoints = courses.reduce(
+        (sum, course) => sum + (course[0] * course[1]),
+        0,
+    );
+    const gpa = weightedPoints / totalCredits;
+    return {
+        value: gpa.toFixed(2),
+        label: language === 'ar' ? 'المعدل التراكمي من 4' : 'GPA on a 4.0 scale',
+        details: language === 'ar'
+            ? `إجمالي الساعات: ${formatNumber(totalCredits)}`
+            : `Total credits: ${formatNumber(totalCredits)}`,
+    };
+}
+
+function calculateAverage(values, language) {
+    const numbers = [
+        values.number1,
+        values.number2,
+        values.number3,
+        values.number4,
+        values.number5,
+    ];
+    const average = numbers.reduce((sum, number) => sum + number, 0)
+        / numbers.length;
+    return {
+        value: formatNumber(average),
+        label: language === 'ar' ? 'المتوسط الحسابي' : 'Arithmetic mean',
+        details: language === 'ar'
+            ? `مجموع القيم: ${formatNumber(numbers.reduce((sum, number) => sum + number, 0))}`
+            : `Sum: ${formatNumber(numbers.reduce((sum, number) => sum + number, 0))}`,
+    };
+}
+
+function calculateWeightedAverage(values, language) {
+    const totalWeight = values.weight1 + values.weight2 + values.weight3;
+    const result = (
+        (values.score1 * values.weight1)
+        + (values.score2 * values.weight2)
+        + (values.score3 * values.weight3)
+    ) / totalWeight;
+    return {
+        value: formatNumber(result),
+        label: language === 'ar' ? 'المتوسط المرجّح' : 'Weighted average',
+        details: language === 'ar'
+            ? `إجمالي الأوزان: ${formatNumber(totalWeight)}`
+            : `Total weight: ${formatNumber(totalWeight)}`,
+    };
+}
+
+function calculateAttendance(values, language) {
+    if (values.attended > values.totalClasses) {
+        throw new Error(language === 'ar'
+            ? 'عدد مرات الحضور لا يمكن أن يتجاوز إجمالي المحاضرات.'
+            : 'Attended classes cannot exceed total classes.');
+    }
+    const percentage = (values.attended / values.totalClasses) * 100;
+    return {
+        value: `${formatNumber(percentage)}%`,
+        label: language === 'ar' ? 'نسبة الحضور' : 'Attendance rate',
+        details: language === 'ar'
+            ? `الغياب: ${formatNumber(values.totalClasses - values.attended)}`
+            : `Absences: ${formatNumber(values.totalClasses - values.attended)}`,
+    };
+}
+
+function calculatePercentageChange(values, language) {
+    const change = ((values.newValue - values.oldValue) / Math.abs(values.oldValue))
+        * 100;
+    const direction = change >= 0
+        ? { ar: 'زيادة', en: 'Increase' }
+        : { ar: 'انخفاض', en: 'Decrease' };
+    return {
+        value: `${formatNumber(Math.abs(change))}%`,
+        label: language === 'ar' ? direction.ar : direction.en,
+        details: language === 'ar'
+            ? `التغير: ${formatNumber(values.newValue - values.oldValue)}`
+            : `Difference: ${formatNumber(values.newValue - values.oldValue)}`,
+    };
+}
+
+function calculateRatio(values, language) {
+    const divisor = greatestCommonDivisor(values.first, values.second);
+    const first = values.first / divisor;
+    const second = values.second / divisor;
+    return {
+        value: `${formatNumber(first)}:${formatNumber(second)}`,
+        label: language === 'ar' ? 'أبسط صورة للنسبة' : 'Simplified ratio',
+        details: language === 'ar'
+            ? `القاسم المشترك الأكبر: ${formatNumber(divisor)}`
+            : `Greatest common divisor: ${formatNumber(divisor)}`,
+    };
+}
+
+function greatestCommonDivisor(first, second) {
+    let left = Math.abs(Math.round(first));
+    let right = Math.abs(Math.round(second));
+    while (right !== 0) {
+        [left, right] = [right, left % right];
+    }
+    return left;
+}
+
 const genderOptions = Object.freeze([
     Object.freeze({
         value: 'male',
@@ -727,6 +857,104 @@ const toolDefinitions = Object.freeze({
             Object.freeze({ id: 'weight', type: 'number', min: 1, max: 400, step: 0.1, label: Object.freeze({ ar: 'الوزن', en: 'Weight' }), unit: Object.freeze({ ar: 'كجم', en: 'kg' }), placeholder: '75' }),
         ]),
         calculate: calculateBodySurfaceArea,
+    }),
+    'grade-calculator': Object.freeze({
+        id: 'grade-calculator',
+        category: 'student',
+        icon: 'A+',
+        title: Object.freeze({ ar: 'حاسبة الدرجات', en: 'Grade Calculator' }),
+        description: Object.freeze({ ar: 'احسب النسبة المئوية والتقدير من الدرجة المحصّلة والدرجة الكلية.', en: 'Calculate a percentage and letter grade from earned and total scores.' }),
+        note: Object.freeze({ ar: 'يستخدم التقدير نطاقات A إلى F الشائعة.', en: 'Uses common A-to-F grade bands.' }),
+        inputs: Object.freeze([
+            Object.freeze({ id: 'earned', type: 'number', min: 0, max: 100000, step: 0.01, label: Object.freeze({ ar: 'الدرجة المحصّلة', en: 'Earned score' }), unit: Object.freeze({ ar: '', en: '' }), placeholder: '85' }),
+            Object.freeze({ id: 'total', type: 'number', min: 0.01, max: 100000, step: 0.01, label: Object.freeze({ ar: 'الدرجة الكلية', en: 'Total score' }), unit: Object.freeze({ ar: '', en: '' }), placeholder: '100' }),
+        ]),
+        calculate: calculateGrade,
+    }),
+    'gpa-calculator': Object.freeze({
+        id: 'gpa-calculator',
+        category: 'student',
+        icon: '4.0',
+        title: Object.freeze({ ar: 'حاسبة المعدل التراكمي', en: 'GPA Calculator' }),
+        description: Object.freeze({ ar: 'احسب المعدل التراكمي لأربع مواد مع مراعاة الساعات المعتمدة.', en: 'Calculate a four-course GPA weighted by credit hours.' }),
+        note: Object.freeze({ ar: 'أدخل نقاط كل مادة من 0 إلى 4.', en: 'Enter each course grade point from 0 to 4.' }),
+        inputs: Object.freeze([
+            Object.freeze({ id: 'grade1', type: 'number', min: 0, max: 4, step: 0.01, label: Object.freeze({ ar: 'نقاط المادة الأولى', en: 'Course 1 points' }), unit: Object.freeze({ ar: '', en: '' }), placeholder: '4' }),
+            Object.freeze({ id: 'credits1', type: 'number', min: 0.5, max: 20, step: 0.5, label: Object.freeze({ ar: 'ساعات المادة الأولى', en: 'Course 1 credits' }), unit: Object.freeze({ ar: '', en: '' }), placeholder: '3' }),
+            Object.freeze({ id: 'grade2', type: 'number', min: 0, max: 4, step: 0.01, label: Object.freeze({ ar: 'نقاط المادة الثانية', en: 'Course 2 points' }), unit: Object.freeze({ ar: '', en: '' }), placeholder: '3.5' }),
+            Object.freeze({ id: 'credits2', type: 'number', min: 0.5, max: 20, step: 0.5, label: Object.freeze({ ar: 'ساعات المادة الثانية', en: 'Course 2 credits' }), unit: Object.freeze({ ar: '', en: '' }), placeholder: '3' }),
+            Object.freeze({ id: 'grade3', type: 'number', min: 0, max: 4, step: 0.01, label: Object.freeze({ ar: 'نقاط المادة الثالثة', en: 'Course 3 points' }), unit: Object.freeze({ ar: '', en: '' }), placeholder: '3' }),
+            Object.freeze({ id: 'credits3', type: 'number', min: 0.5, max: 20, step: 0.5, label: Object.freeze({ ar: 'ساعات المادة الثالثة', en: 'Course 3 credits' }), unit: Object.freeze({ ar: '', en: '' }), placeholder: '3' }),
+            Object.freeze({ id: 'grade4', type: 'number', min: 0, max: 4, step: 0.01, label: Object.freeze({ ar: 'نقاط المادة الرابعة', en: 'Course 4 points' }), unit: Object.freeze({ ar: '', en: '' }), placeholder: '3.7' }),
+            Object.freeze({ id: 'credits4', type: 'number', min: 0.5, max: 20, step: 0.5, label: Object.freeze({ ar: 'ساعات المادة الرابعة', en: 'Course 4 credits' }), unit: Object.freeze({ ar: '', en: '' }), placeholder: '3' }),
+        ]),
+        calculate: calculateGpa,
+    }),
+    'average-calculator': Object.freeze({
+        id: 'average-calculator',
+        category: 'math',
+        icon: 'x̄',
+        title: Object.freeze({ ar: 'حاسبة المتوسط', en: 'Average Calculator' }),
+        description: Object.freeze({ ar: 'احسب المتوسط الحسابي لخمس قيم بسرعة.', en: 'Calculate the arithmetic mean of five values.' }),
+        note: Object.freeze({ ar: 'يجمع القيم ثم يقسم الناتج على خمسة.', en: 'Adds the values and divides the total by five.' }),
+        inputs: Object.freeze([1, 2, 3, 4, 5].map((number) => Object.freeze({ id: `number${number}`, type: 'number', min: -1000000000, max: 1000000000, step: 0.01, label: Object.freeze({ ar: `القيمة ${number}`, en: `Value ${number}` }), unit: Object.freeze({ ar: '', en: '' }), placeholder: `${number * 10}` }))),
+        calculate: calculateAverage,
+    }),
+    'weighted-average-calculator': Object.freeze({
+        id: 'weighted-average-calculator',
+        category: 'student',
+        icon: 'Σ',
+        title: Object.freeze({ ar: 'حاسبة المتوسط المرجّح', en: 'Weighted Average Calculator' }),
+        description: Object.freeze({ ar: 'احسب متوسط ثلاث درجات مع اختلاف وزن كل درجة.', en: 'Calculate the weighted average of three scores.' }),
+        note: Object.freeze({ ar: 'يمكن إدخال الأوزان كنسب أو أرقام نسبية.', en: 'Weights can be percentages or relative values.' }),
+        inputs: Object.freeze([
+            Object.freeze({ id: 'score1', type: 'number', min: -1000000, max: 1000000, step: 0.01, label: Object.freeze({ ar: 'الدرجة الأولى', en: 'Score 1' }), unit: Object.freeze({ ar: '', en: '' }), placeholder: '80' }),
+            Object.freeze({ id: 'weight1', type: 'number', min: 0.01, max: 1000000, step: 0.01, label: Object.freeze({ ar: 'وزن الدرجة الأولى', en: 'Weight 1' }), unit: Object.freeze({ ar: '', en: '' }), placeholder: '20' }),
+            Object.freeze({ id: 'score2', type: 'number', min: -1000000, max: 1000000, step: 0.01, label: Object.freeze({ ar: 'الدرجة الثانية', en: 'Score 2' }), unit: Object.freeze({ ar: '', en: '' }), placeholder: '90' }),
+            Object.freeze({ id: 'weight2', type: 'number', min: 0.01, max: 1000000, step: 0.01, label: Object.freeze({ ar: 'وزن الدرجة الثانية', en: 'Weight 2' }), unit: Object.freeze({ ar: '', en: '' }), placeholder: '30' }),
+            Object.freeze({ id: 'score3', type: 'number', min: -1000000, max: 1000000, step: 0.01, label: Object.freeze({ ar: 'الدرجة الثالثة', en: 'Score 3' }), unit: Object.freeze({ ar: '', en: '' }), placeholder: '95' }),
+            Object.freeze({ id: 'weight3', type: 'number', min: 0.01, max: 1000000, step: 0.01, label: Object.freeze({ ar: 'وزن الدرجة الثالثة', en: 'Weight 3' }), unit: Object.freeze({ ar: '', en: '' }), placeholder: '50' }),
+        ]),
+        calculate: calculateWeightedAverage,
+    }),
+    'attendance-calculator': Object.freeze({
+        id: 'attendance-calculator',
+        category: 'student',
+        icon: '✓',
+        title: Object.freeze({ ar: 'حاسبة نسبة الحضور', en: 'Attendance Calculator' }),
+        description: Object.freeze({ ar: 'احسب نسبة حضورك وعدد مرات الغياب.', en: 'Calculate your attendance rate and absences.' }),
+        note: Object.freeze({ ar: 'أدخل عدد المحاضرات المنعقدة والحضور الفعلي.', en: 'Enter total classes held and classes attended.' }),
+        inputs: Object.freeze([
+            Object.freeze({ id: 'attended', type: 'number', min: 0, max: 100000, step: 1, label: Object.freeze({ ar: 'مرات الحضور', en: 'Classes attended' }), unit: Object.freeze({ ar: '', en: '' }), placeholder: '36' }),
+            Object.freeze({ id: 'totalClasses', type: 'number', min: 1, max: 100000, step: 1, label: Object.freeze({ ar: 'إجمالي المحاضرات', en: 'Total classes' }), unit: Object.freeze({ ar: '', en: '' }), placeholder: '40' }),
+        ]),
+        calculate: calculateAttendance,
+    }),
+    'percentage-change-calculator': Object.freeze({
+        id: 'percentage-change-calculator',
+        category: 'math',
+        icon: 'Δ%',
+        title: Object.freeze({ ar: 'حاسبة نسبة التغير', en: 'Percentage Change Calculator' }),
+        description: Object.freeze({ ar: 'احسب نسبة الزيادة أو الانخفاض بين قيمتين.', en: 'Calculate the percentage increase or decrease between two values.' }),
+        note: Object.freeze({ ar: 'تُقاس نسبة التغير مقارنة بالقيمة القديمة.', en: 'Percentage change is measured against the old value.' }),
+        inputs: Object.freeze([
+            Object.freeze({ id: 'oldValue', type: 'number', min: 0.01, max: 1000000000, step: 0.01, label: Object.freeze({ ar: 'القيمة القديمة', en: 'Old value' }), unit: Object.freeze({ ar: '', en: '' }), placeholder: '100' }),
+            Object.freeze({ id: 'newValue', type: 'number', min: -1000000000, max: 1000000000, step: 0.01, label: Object.freeze({ ar: 'القيمة الجديدة', en: 'New value' }), unit: Object.freeze({ ar: '', en: '' }), placeholder: '125' }),
+        ]),
+        calculate: calculatePercentageChange,
+    }),
+    'ratio-calculator': Object.freeze({
+        id: 'ratio-calculator',
+        category: 'math',
+        icon: ':',
+        title: Object.freeze({ ar: 'حاسبة تبسيط النسبة', en: 'Ratio Calculator' }),
+        description: Object.freeze({ ar: 'بسّط النسبة بين عددين صحيحين إلى أصغر صورة.', en: 'Simplify a ratio between two integers.' }),
+        note: Object.freeze({ ar: 'تستخدم الأداة القاسم المشترك الأكبر.', en: 'Uses the greatest common divisor.' }),
+        inputs: Object.freeze([
+            Object.freeze({ id: 'first', type: 'number', min: 1, max: 1000000000, step: 1, label: Object.freeze({ ar: 'العدد الأول', en: 'First number' }), unit: Object.freeze({ ar: '', en: '' }), placeholder: '24' }),
+            Object.freeze({ id: 'second', type: 'number', min: 1, max: 1000000000, step: 1, label: Object.freeze({ ar: 'العدد الثاني', en: 'Second number' }), unit: Object.freeze({ ar: '', en: '' }), placeholder: '36' }),
+        ]),
+        calculate: calculateRatio,
     }),
 });
 
