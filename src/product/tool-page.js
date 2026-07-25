@@ -33,9 +33,10 @@ function createInput(input, language) {
 
     const control = document.createElement('span');
     control.className = 'product-control';
-    const element = document.createElement(
-        input.type === 'select' ? 'select' : 'input',
-    );
+    const tagName = input.type === 'select'
+        ? 'select'
+        : input.type === 'textarea' ? 'textarea' : 'input';
+    const element = document.createElement(tagName);
     element.id = input.id;
     element.name = input.id;
     element.required = true;
@@ -47,6 +48,9 @@ function createInput(input, language) {
             optionElement.textContent = translate(option.label, language);
             element.append(optionElement);
         }
+    } else if (input.type === 'textarea') {
+        element.rows = input.rows ?? 8;
+        element.placeholder = input.placeholder ?? '';
     } else {
         element.type = input.type;
         element.inputMode = input.type === 'number' ? 'decimal' : '';

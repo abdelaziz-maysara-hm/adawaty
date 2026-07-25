@@ -112,7 +112,8 @@
 }
 
 .product-control input,
-.product-control select {
+.product-control select,
+.product-control textarea {
     width: 100%;
     min-height: 58px;
     padding: 0 17px;
@@ -175,6 +176,8 @@
     font-size: clamp(2.2rem, 6vw, 4rem);
     font-weight: 900;
     line-height: 1;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
 }
 
 .product-result-label {
@@ -306,6 +309,12 @@
     background: var(--surface);
     color: var(--text);
     font: inherit;
+}
+
+.product-control textarea {
+    min-height: 180px;
+    padding-block: 16px;
+    resize: vertical;
 }
 
 .catalogue-filters {

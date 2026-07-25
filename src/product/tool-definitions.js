@@ -1,4 +1,5 @@
 import { converterDefinitions } from './definitions/converters.js';
+import { textDeveloperDefinitions } from './definitions/text-developer.js';
 
 const numberFormatter = new Intl.NumberFormat('en-US', {
     maximumFractionDigits: 2,
@@ -959,6 +960,7 @@ const toolDefinitions = Object.freeze({
         calculate: calculateRatio,
     }),
     ...converterDefinitions,
+    ...textDeveloperDefinitions,
 });
 
 function getToolDefinition(id) {
