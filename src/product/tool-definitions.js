@@ -19,6 +19,7 @@ import { physicsEngineeringDefinitions } from './definitions/physics-engineering
 import { advancedGeometryDefinitions } from './definitions/advanced-geometry.js';
 import { webDeveloperDefinitions } from './definitions/web-developer.js';
 import { frontendDeveloperDefinitions } from './definitions/frontend-developer.js';
+import { statisticsDefinitions } from './definitions/statistics.js';
 import { financeDefinitions } from './definitions/finance.js';
 import { healthDefinitions } from './definitions/health.js';
 import { mathDefinitions } from './definitions/math.js';
@@ -1007,6 +1008,7 @@ const toolDefinitions = Object.freeze({
     ...advancedGeometryDefinitions,
     ...webDeveloperDefinitions,
     ...frontendDeveloperDefinitions,
+    ...statisticsDefinitions,
 });
 
 function getToolDefinition(id) {
