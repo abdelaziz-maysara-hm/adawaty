@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 281);
+assert.equal(tools.length, 291);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -292,6 +292,16 @@ assert.deepEqual(
         'covariance-calculator',
         'pearson-correlation-calculator',
         'linear-regression-calculator',
+        'geometric-mean-calculator',
+        'harmonic-mean-calculator',
+        'statistical-range-calculator',
+        'mean-absolute-deviation-calculator',
+        'standard-error-calculator',
+        'confidence-interval-calculator',
+        'sample-size-calculator',
+        'binomial-probability-calculator',
+        'odds-probability-converter',
+        'expected-value-calculator',
     ],
 );
 
@@ -1552,6 +1562,17 @@ assert.equal(getToolDefinition('covariance-calculator').calculate({ xValues: '1,
 assert.equal(getToolDefinition('pearson-correlation-calculator').calculate({ xValues: '1,2,3', yValues: '2,4,6' }, 'en').value, '1');
 assert.equal(getToolDefinition('linear-regression-calculator').calculate({ xValues: '1,2,3', yValues: '2,4,6' }, 'en').value, 'y = 2x + 0');
 
+assert.equal(getToolDefinition('geometric-mean-calculator').calculate({ values: '2, 8' }, 'en').value, '4');
+assert.equal(getToolDefinition('harmonic-mean-calculator').calculate({ values: '2, 4' }, 'en').value, '2.666667');
+assert.equal(getToolDefinition('statistical-range-calculator').calculate({ values: '2, 9, 4' }, 'en').value, '7');
+assert.equal(getToolDefinition('mean-absolute-deviation-calculator').calculate({ values: '2, 4, 6' }, 'en').value, '1.333333');
+assert.equal(getToolDefinition('standard-error-calculator').calculate({ standardDeviation: 12, sampleSize: 36 }, 'en').value, '2');
+assert.match(getToolDefinition('confidence-interval-calculator').calculate({ mean: 75, standardDeviation: 10, sampleSize: 100, confidence: '95' }, 'en').value, /^73\.040036/);
+assert.equal(getToolDefinition('sample-size-calculator').calculate({ proportion: 50, margin: 5, confidence: '95', population: 0 }, 'en').value, '385');
+assert.equal(getToolDefinition('binomial-probability-calculator').calculate({ trials: 10, successes: 3, probability: 50 }, 'en').value, '11.71875%');
+assert.equal(getToolDefinition('odds-probability-converter').calculate({ value: 75, direction: 'probability-to-odds' }, 'en').value, '3 : 1');
+assert.equal(getToolDefinition('expected-value-calculator').calculate({ outcomes: '0, 10, 50', probabilities: '50, 40, 10' }, 'en').value, '9');
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -1572,6 +1593,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 32 product tools verification passed.');
+console.log('Sprint 6 Batch 33 product tools verification passed.');
 
 // END OF FILE

@@ -1,5 +1,13 @@
 # Changelog
 
+## Sprint 6 — Batch 33
+
+- Added 10 bilingual probability and applied-statistics tools.
+- Added geometric and harmonic means, range and mean absolute deviation.
+- Added standard error, confidence interval and sample-size calculators.
+- Added binomial probability, odds conversion and expected value.
+- Expanded the generated catalogue to 291 working tools.
+
 ## Sprint 6 — Batch 32
 
 - Added 10 bilingual statistics tools for descriptive and inferential workflows.
