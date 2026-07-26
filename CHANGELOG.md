@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 6 — Batch 21
+
+- Added ten bilingual data and developer tools.
+- Added CSV and JSON conversion, validation and minification.
+- Added XML, SQL and URL query utilities.
+- Added secure UUID and random-string generation, expanding the catalogue to 171 tools.
+
 ## Sprint 6 — Batch 20
 
 - Added ten bilingual text productivity tools.
