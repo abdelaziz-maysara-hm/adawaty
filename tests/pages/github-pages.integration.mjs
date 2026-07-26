@@ -44,7 +44,7 @@ const [
 ]);
 
 assert.match(indexHtml, /<html lang="ar" dir="rtl" data-language="ar">/);
-assert.match(indexHtml, /Sprint 6 · Batch 9/);
+assert.match(indexHtml, /Sprint 6 · Batch 10/);
 assert.match(indexHtml, /\.\/src\/css\/main\.css/);
 assert.match(indexHtml, /\.\/src\/pages\/home\.js/);
 assert.match(indexHtml, /\.\/tools\/bmi-calculator\//);
@@ -76,6 +76,6 @@ assert.match(textCategoryHtml, /data-category="text"/);
 assert.match(catalogueScript, /getVisibleTools/);
 assert.match(catalogueScript, /data-category/);
 
-console.log('Sprint 6 Batch 9 catalogue navigation verification passed.');
+console.log('Sprint 6 Batch 10 catalogue navigation verification passed.');
 
 // END OF FILE

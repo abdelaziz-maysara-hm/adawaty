@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 61);
+assert.equal(tools.length, 71);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -72,6 +72,16 @@ assert.deepEqual(
         'running-pace-calculator',
         'sleep-cycle-calculator',
         'pregnancy-due-date-calculator',
+        'gcd-calculator',
+        'lcm-calculator',
+        'fraction-simplifier',
+        'quadratic-equation-calculator',
+        'circle-calculator',
+        'triangle-area-calculator',
+        'rectangle-calculator',
+        'pythagorean-theorem-calculator',
+        'standard-deviation-calculator',
+        'probability-calculator',
     ],
 );
 
@@ -473,6 +483,79 @@ assert.match(
     /October 8, 2026/,
 );
 
+assert.equal(
+    getToolDefinition('gcd-calculator').calculate({
+        first: 48,
+        second: 18,
+    }, 'en').value,
+    '6',
+);
+assert.equal(
+    getToolDefinition('lcm-calculator').calculate({
+        first: 12,
+        second: 18,
+    }, 'en').value,
+    '36',
+);
+
+const fraction = getToolDefinition('fraction-simplifier');
+assert.equal(
+    fraction.calculate({ numerator: 42, denominator: 56 }, 'en').value,
+    '3/4',
+);
+assert.throws(
+    () => fraction.calculate({ numerator: 1, denominator: 0 }, 'en'),
+    /cannot be zero/,
+);
+
+const quadratic = getToolDefinition('quadratic-equation-calculator');
+assert.equal(
+    quadratic.calculate({ a: 1, b: -3, c: 2 }, 'en').value,
+    'x₁ = 2, x₂ = 1',
+);
+assert.match(
+    quadratic.calculate({ a: 1, b: 0, c: 1 }, 'en').value,
+    /± 1i/,
+);
+
+assert.equal(
+    getToolDefinition('triangle-area-calculator').calculate({
+        base: 10,
+        height: 6,
+    }, 'en').value,
+    '30',
+);
+assert.equal(
+    getToolDefinition('pythagorean-theorem-calculator').calculate({
+        a: 3,
+        b: 4,
+    }, 'en').value,
+    '5',
+);
+
+const deviation = getToolDefinition('standard-deviation-calculator');
+assert.equal(
+    deviation.calculate({
+        type: 'population',
+        value1: 1,
+        value2: 2,
+        value3: 3,
+        value4: 4,
+        value5: 5,
+    }, 'en').value,
+    '1.414214',
+);
+
+const probability = getToolDefinition('probability-calculator');
+assert.equal(
+    probability.calculate({ favorable: 1, total: 4 }, 'en').value,
+    '25%',
+);
+assert.throws(
+    () => probability.calculate({ favorable: 5, total: 4 }, 'en'),
+    /cannot exceed/,
+);
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -491,6 +574,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 9 product tools verification passed.');
+console.log('Sprint 6 Batch 10 product tools verification passed.');
 
 // END OF FILE
