@@ -11,6 +11,7 @@ const categories = Object.freeze({
     text: Object.freeze({ ar: 'النصوص', en: 'Text' }),
     engineering: Object.freeze({ ar: 'الهندسة والعلوم', en: 'Engineering' }),
     'security-network': Object.freeze({ ar: 'الأمان والشبكات', en: 'Security & Network' }),
+    seo: Object.freeze({ ar: 'تحسين محركات البحث', en: 'SEO' }),
 });
 
 const copy = Object.freeze({

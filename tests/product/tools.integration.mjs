@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 101);
+assert.equal(tools.length, 111);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -112,6 +112,16 @@ assert.deepEqual(
         'mac-address-formatter',
         'network-port-lookup',
         'data-transfer-time-calculator',
+        'meta-tag-generator',
+        'open-graph-generator',
+        'twitter-card-generator',
+        'utm-link-builder',
+        'robots-txt-generator',
+        'canonical-tag-generator',
+        'hreflang-tag-generator',
+        'sitemap-entry-generator',
+        'keyword-density-checker',
+        'serp-snippet-preview',
     ],
 );
 
@@ -801,6 +811,88 @@ assert.equal(
     '1.3333 min',
 );
 
+const metaTags = getToolDefinition('meta-tag-generator').calculate({
+    title: 'Tools & Calculators',
+    description: 'Fast <private> tools',
+    keywords: 'tools, calculators',
+    robots: 'index,follow',
+}, 'en');
+assert.match(metaTags.value, /Tools &amp; Calculators/);
+assert.match(metaTags.value, /Fast &lt;private&gt; tools/);
+
+assert.match(
+    getToolDefinition('open-graph-generator').calculate({
+        title: 'Adawaty',
+        description: 'Free tools',
+        url: 'https://example.com/tools/',
+        image: 'https://example.com/card.png',
+    }, 'en').value,
+    /property="og:image"/,
+);
+assert.throws(
+    () => getToolDefinition('open-graph-generator').calculate({
+        title: 'Adawaty',
+        description: 'Free tools',
+        url: 'not-a-url',
+        image: 'https://example.com/card.png',
+    }, 'en'),
+    /valid absolute URL/,
+);
+
+const campaignUrl = getToolDefinition('utm-link-builder').calculate({
+    url: 'https://example.com/landing',
+    source: 'newsletter',
+    medium: 'email',
+    campaign: 'summer launch',
+    content: 'hero',
+}, 'en').value;
+assert.match(campaignUrl, /utm_source=newsletter/);
+assert.match(campaignUrl, /utm_campaign=summer\+launch/);
+
+const robotsTxt = getToolDefinition('robots-txt-generator').calculate({
+    domain: 'https://example.com/',
+    disallow: '/admin/\nprivate/',
+}, 'en').value;
+assert.match(robotsTxt, /Disallow: \/admin\//);
+assert.match(robotsTxt, /Sitemap: https:\/\/example\.com\/sitemap\.xml/);
+
+assert.equal(
+    getToolDefinition('canonical-tag-generator').calculate({
+        url: 'https://example.com/page',
+    }, 'en').value,
+    '<link rel="canonical" href="https://example.com/page">',
+);
+assert.match(
+    getToolDefinition('hreflang-tag-generator').calculate({
+        arabicUrl: 'https://example.com/ar/',
+        englishUrl: 'https://example.com/en/',
+    }, 'en').value,
+    /hreflang="x-default"/,
+);
+assert.match(
+    getToolDefinition('sitemap-entry-generator').calculate({
+        url: 'https://example.com/tool/',
+        changeFrequency: 'weekly',
+        priority: 0.8,
+    }, 'en').value,
+    /<priority>0\.8<\/priority>/,
+);
+assert.equal(
+    getToolDefinition('keyword-density-checker').calculate({
+        keyword: 'online tools',
+        text: 'Online tools are useful online tools.',
+    }, 'en').value,
+    '66.67%',
+);
+assert.match(
+    getToolDefinition('serp-snippet-preview').calculate({
+        title: 'Free tools',
+        url: 'https://example.com/tools/',
+        description: 'Useful browser tools.',
+    }, 'en').details,
+    /10\/60 title/,
+);
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -819,6 +911,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 13 product tools verification passed.');
+console.log('Sprint 6 Batch 14 product tools verification passed.');
 
 // END OF FILE
