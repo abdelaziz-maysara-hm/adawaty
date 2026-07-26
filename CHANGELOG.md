@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 6 — Batch 30
+
+- Added ten bilingual web and data developer tools.
+- Added JSON sorting, flattening and unflattening.
+- Added URL parsing and normalization plus Regex and JavaScript escaping.
+- Added HTTP, MIME and Cron references, expanding the catalogue to 261 tools.
+
 ## Sprint 6 — Batch 29
 
 - Added ten bilingual geometry calculators.

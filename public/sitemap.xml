@@ -1335,4 +1335,54 @@
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/json-key-sorter/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/json-flattener/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/json-unflattener/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/url-parser/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/url-normalizer/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/regex-escape-tool/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/javascript-string-escape-tool/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/http-status-code-lookup/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/mime-type-lookup/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/cron-expression-builder/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
 </urlset>
