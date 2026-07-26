@@ -1,5 +1,13 @@
 # Changelog
 
+## Sprint 6 — Batch 32
+
+- Added 10 bilingual statistics tools for descriptive and inferential workflows.
+- Added median, mode, variance, quartile, percentile and z-score calculators.
+- Added coefficient of variation, covariance and Pearson correlation.
+- Added least-squares linear regression with R².
+- Expanded the generated catalogue to 281 working tools.
+
 ## Sprint 6 — Batch 31
 
 - Added 10 bilingual front-end developer tools for HTML, CSS, Markdown and Data URIs.

@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 271);
+assert.equal(tools.length, 281);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -282,6 +282,16 @@ assert.deepEqual(
         'css-px-rem-converter',
         'data-uri-encoder',
         'data-uri-decoder',
+        'median-calculator',
+        'mode-calculator',
+        'variance-calculator',
+        'quartile-iqr-calculator',
+        'percentile-calculator',
+        'z-score-calculator',
+        'coefficient-of-variation-calculator',
+        'covariance-calculator',
+        'pearson-correlation-calculator',
+        'linear-regression-calculator',
     ],
 );
 
@@ -1531,6 +1541,17 @@ assert.equal(getToolDefinition('css-px-rem-converter').calculate({ value: 24, ro
 assert.match(getToolDefinition('data-uri-encoder').calculate({ content: 'Hello world', mimeType: 'text/plain' }, 'en').value, /^data:text\/plain;charset=utf-8,Hello%20world$/);
 assert.equal(getToolDefinition('data-uri-decoder').calculate({ uri: 'data:text/plain;charset=utf-8,Hello%20world' }, 'en').value, 'Hello world');
 
+assert.equal(getToolDefinition('median-calculator').calculate({ values: '1, 3, 5, 7' }, 'en').value, '4');
+assert.equal(getToolDefinition('mode-calculator').calculate({ values: '1, 2, 2, 3' }, 'en').value, '2');
+assert.equal(getToolDefinition('variance-calculator').calculate({ values: '1, 2, 3', type: 'population' }, 'en').value, '0.666667');
+assert.match(getToolDefinition('quartile-iqr-calculator').calculate({ values: '1, 2, 3, 4, 5' }, 'en').value, /IQR: 2$/);
+assert.equal(getToolDefinition('percentile-calculator').calculate({ values: '1, 2, 3, 4, 5', percentile: 75 }, 'en').value, '4');
+assert.equal(getToolDefinition('z-score-calculator').calculate({ value: 85, average: 70, standardDeviation: 10 }, 'en').value, '1.5');
+assert.equal(getToolDefinition('coefficient-of-variation-calculator').calculate({ values: '2, 4, 6', type: 'population' }, 'en').value, '40.824829%');
+assert.equal(getToolDefinition('covariance-calculator').calculate({ xValues: '1,2,3', yValues: '2,4,6', type: 'population' }, 'en').value, '1.333333');
+assert.equal(getToolDefinition('pearson-correlation-calculator').calculate({ xValues: '1,2,3', yValues: '2,4,6' }, 'en').value, '1');
+assert.equal(getToolDefinition('linear-regression-calculator').calculate({ xValues: '1,2,3', yValues: '2,4,6' }, 'en').value, 'y = 2x + 0');
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -1551,6 +1572,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 31 product tools verification passed.');
+console.log('Sprint 6 Batch 32 product tools verification passed.');
 
 // END OF FILE
