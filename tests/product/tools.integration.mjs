@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 321);
+assert.equal(tools.length, 331);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -332,6 +332,16 @@ assert.deepEqual(
         'triangle-circumradius-calculator',
         'polygon-interior-angle-sum-calculator',
         'polygon-diagonal-count-calculator',
+        'power-rule-derivative-calculator',
+        'polynomial-derivative-calculator',
+        'polynomial-definite-integral-calculator',
+        'average-rate-of-change-calculator',
+        'polynomial-tangent-line-calculator',
+        'polynomial-limit-calculator',
+        'riemann-sum-calculator',
+        'exponential-function-derivative-calculator',
+        'numerical-derivative-calculator',
+        'quadratic-partial-derivative-calculator',
     ],
 );
 
@@ -1636,6 +1646,17 @@ assert.equal(getToolDefinition('triangle-circumradius-calculator').calculate({ a
 assert.equal(getToolDefinition('polygon-interior-angle-sum-calculator').calculate({ sides: 6 }, 'en').value, '720°');
 assert.equal(getToolDefinition('polygon-diagonal-count-calculator').calculate({ sides: 8 }, 'en').value, '20');
 
+assert.equal(getToolDefinition('power-rule-derivative-calculator').calculate({ coefficient: 3, exponent: 4 }, 'en').value, '12x^3');
+assert.equal(getToolDefinition('polynomial-derivative-calculator').calculate({ coefficients: '2, 3, 1' }, 'en').value, '4x + 3');
+assert.equal(getToolDefinition('polynomial-definite-integral-calculator').calculate({ coefficients: '3, 0, 2', lower: 0, upper: 2 }, 'en').value, '12');
+assert.equal(getToolDefinition('average-rate-of-change-calculator').calculate({ coefficients: '1, 0, 0', start: 1, end: 3 }, 'en').value, '4');
+assert.equal(getToolDefinition('polynomial-tangent-line-calculator').calculate({ coefficients: '1, 0, 0', x: 2 }, 'en').value, 'y = 4x − 4');
+assert.equal(getToolDefinition('polynomial-limit-calculator').calculate({ coefficients: '2, -3, 1', approach: 2 }, 'en').value, '3');
+assert.equal(getToolDefinition('riemann-sum-calculator').calculate({ coefficients: '1, 0', lower: 0, upper: 2, intervals: 2, method: 'midpoint' }, 'en').value, '2');
+assert.equal(getToolDefinition('exponential-function-derivative-calculator').calculate({ coefficient: 2, base: 1, x: 5 }, 'en').value, '0');
+assert.equal(getToolDefinition('numerical-derivative-calculator').calculate({ coefficients: '1, 0, 0', x: 2, step: 0.0001 }, 'en').value, '4');
+assert.equal(getToolDefinition('quadratic-partial-derivative-calculator').calculate({ a: 1, b: 2, c: 3, x: 2, y: 4 }, 'en').value, '∂f/∂x = 12\n∂f/∂y = 28');
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -1656,6 +1677,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 36 product tools verification passed.');
+console.log('Sprint 6 Batch 37 product tools verification passed.');
 
 // END OF FILE

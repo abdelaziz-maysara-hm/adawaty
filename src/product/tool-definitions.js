@@ -24,6 +24,7 @@ import { probabilityStatisticsDefinitions } from './definitions/probability-stat
 import { algebraSequenceDefinitions } from './definitions/algebra-sequences.js';
 import { trigonometryDefinitions } from './definitions/trigonometry.js';
 import { coordinateGeometryDefinitions } from './definitions/coordinate-geometry.js';
+import { calculusDefinitions } from './definitions/calculus.js';
 import { financeDefinitions } from './definitions/finance.js';
 import { healthDefinitions } from './definitions/health.js';
 import { mathDefinitions } from './definitions/math.js';
@@ -1017,6 +1018,7 @@ const toolDefinitions = Object.freeze({
     ...algebraSequenceDefinitions,
     ...trigonometryDefinitions,
     ...coordinateGeometryDefinitions,
+    ...calculusDefinitions,
 });
 
 function getToolDefinition(id) {
