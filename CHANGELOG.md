@@ -1,5 +1,13 @@
 # Changelog
 
+## Sprint 6 — Batch 37
+
+- Added 10 bilingual calculus and mathematical-analysis tools.
+- Added power-rule and polynomial derivatives, tangent lines and numerical derivatives.
+- Added polynomial limits, definite integrals and Riemann sums.
+- Added exponential and partial-derivative calculations.
+- Expanded the generated catalogue to 331 working tools.
+
 ## Sprint 6 — Batch 36
 
 - Added 10 bilingual coordinate-geometry, triangle and polygon tools.
