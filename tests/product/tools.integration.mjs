@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 71);
+assert.equal(tools.length, 81);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -82,6 +82,16 @@ assert.deepEqual(
         'pythagorean-theorem-calculator',
         'standard-deviation-calculator',
         'probability-calculator',
+        'days-until-date-calculator',
+        'business-days-calculator',
+        'date-add-subtract-calculator',
+        'week-number-calculator',
+        'leap-year-calculator',
+        'time-duration-calculator',
+        'birthday-countdown-calculator',
+        'work-hours-calculator',
+        'timezone-converter',
+        'day-of-week-calculator',
     ],
 );
 
@@ -556,6 +566,80 @@ assert.throws(
     /cannot exceed/,
 );
 
+assert.equal(
+    getToolDefinition('business-days-calculator').calculate({
+        startDate: '2026-01-05',
+        endDate: '2026-01-09',
+    }, 'en').value,
+    '5 business days',
+);
+
+assert.match(
+    getToolDefinition('date-add-subtract-calculator').calculate({
+        startDate: '2026-01-01',
+        operation: 'add',
+        amount: 30,
+        unit: 'days',
+    }, 'en').value,
+    /January 31, 2026/,
+);
+
+assert.equal(
+    getToolDefinition('week-number-calculator').calculate({
+        date: '2026-01-01',
+    }, 'en').value,
+    '1',
+);
+
+assert.equal(
+    getToolDefinition('leap-year-calculator').calculate({
+        year: 2028,
+    }, 'en').value,
+    'Leap year',
+);
+
+assert.equal(
+    getToolDefinition('time-duration-calculator').calculate({
+        startTime: '22:30',
+        endTime: '01:00',
+    }, 'en').value,
+    '2:30',
+);
+
+const workHours = getToolDefinition('work-hours-calculator');
+assert.equal(
+    workHours.calculate({
+        startTime: '09:00',
+        endTime: '17:00',
+        breakMinutes: 60,
+    }, 'en').value,
+    '7',
+);
+assert.throws(
+    () => workHours.calculate({
+        startTime: '09:00',
+        endTime: '10:00',
+        breakMinutes: 120,
+    }, 'en'),
+    /exceeds/,
+);
+
+const timezone = getToolDefinition('timezone-converter');
+const timezoneResult = timezone.calculate({
+    time: '23:30',
+    fromOffset: '0',
+    toOffset: '2',
+}, 'en');
+assert.equal(timezoneResult.value, '01:30');
+assert.equal(timezoneResult.details, 'next day');
+
+assert.equal(
+    getToolDefinition('day-of-week-calculator').calculate({
+        date: '2026-01-01',
+    }, 'en').value,
+    'Thursday',
+);
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -574,6 +658,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 10 product tools verification passed.');
+console.log('Sprint 6 Batch 11 product tools verification passed.');
 
 // END OF FILE

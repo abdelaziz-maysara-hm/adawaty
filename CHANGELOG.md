@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 6 — Batch 11
+
+- Added ten bilingual date and time tools in a dedicated scalable module.
+- Added business-day, date arithmetic, week-number and leap-year calculators.
+- Added time duration, birthday countdown and work-hours utilities.
+- Added timezone and weekday tools, expanding the catalogue to eighty-one.
+
 ## Sprint 6 — Batch 10
 
 - Added ten bilingual mathematics tools in a dedicated scalable module.
