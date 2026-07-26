@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 231);
+assert.equal(tools.length, 241);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -242,6 +242,16 @@ assert.deepEqual(
         'weekend-days-between-dates-calculator',
         'anniversary-calculator',
         'julian-day-number-calculator',
+        'momentum-calculator',
+        'gravitational-potential-energy-calculator',
+        'mechanical-work-calculator',
+        'pressure-from-force-calculator',
+        'mass-volume-density-calculator',
+        'wave-speed-calculator',
+        'heat-energy-calculator',
+        'mass-energy-equivalence-calculator',
+        'hookes-law-calculator',
+        'ideal-gas-pressure-calculator',
     ],
 );
 
@@ -1447,6 +1457,17 @@ assert.equal(getToolDefinition('weekend-days-between-dates-calculator').calculat
 assert.equal(getToolDefinition('anniversary-calculator').calculate({ eventDate: '2010-06-10', referenceDate: '2025-06-09' }, 'en').value, '14');
 assert.equal(getToolDefinition('julian-day-number-calculator').calculate({ date: '2000-01-01' }, 'en').value, '2451545');
 
+assert.equal(getToolDefinition('momentum-calculator').calculate({ mass: 10, velocity: 5 }, 'en').value, '50 kg·m/s');
+assert.equal(getToolDefinition('gravitational-potential-energy-calculator').calculate({ mass: 10, height: 5, gravity: 9.8 }, 'en').value, '490 J');
+assert.equal(getToolDefinition('mechanical-work-calculator').calculate({ force: 100, distance: 5, angle: 0 }, 'en').value, '500 J');
+assert.equal(getToolDefinition('pressure-from-force-calculator').calculate({ force: 1000, area: 0.5 }, 'en').value, '2,000 Pa');
+assert.equal(getToolDefinition('mass-volume-density-calculator').calculate({ mass: 500, volume: 0.5 }, 'en').value, '1,000 kg/m³');
+assert.equal(getToolDefinition('wave-speed-calculator').calculate({ frequency: 440, wavelength: 0.78 }, 'en').value, '343.2 m/s');
+assert.equal(getToolDefinition('heat-energy-calculator').calculate({ mass: 2, specificHeat: 4186, temperatureChange: 10 }, 'en').value, '83,720 J');
+assert.match(getToolDefinition('mass-energy-equivalence-calculator').calculate({ mass: 1 }, 'en').value, /^89,875,517,873,681,760 J$/);
+assert.equal(getToolDefinition('hookes-law-calculator').calculate({ constant: 200, displacement: 0.05 }, 'en').value, '10 N');
+assert.match(getToolDefinition('ideal-gas-pressure-calculator').calculate({ moles: 1, temperature: 300, volume: 0.024 }, 'en').value, /^103,930/);
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -1467,6 +1488,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 27 product tools verification passed.');
+console.log('Sprint 6 Batch 28 product tools verification passed.');
 
 // END OF FILE
