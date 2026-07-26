@@ -9,6 +9,7 @@ const categories = Object.freeze({
     converter: Object.freeze({ ar: 'التحويلات', en: 'Converters' }),
     developer: Object.freeze({ ar: 'المطورون', en: 'Developer' }),
     text: Object.freeze({ ar: 'النصوص', en: 'Text' }),
+    engineering: Object.freeze({ ar: 'الهندسة والعلوم', en: 'Engineering' }),
 });
 
 const copy = Object.freeze({

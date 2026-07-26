@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 6 — Batch 12
+
+- Added ten bilingual engineering and science tools in a dedicated module.
+- Added Ohm's law, electrical power, resistor and voltage-divider calculators.
+- Added force, kinetic energy, potential energy, density and pressure tools.
+- Added wavelength calculation and expanded the catalogue to ninety-one tools.
+
 ## Sprint 6 — Batch 11
 
 - Added ten bilingual date and time tools in a dedicated scalable module.
