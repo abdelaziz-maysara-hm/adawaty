@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 81);
+assert.equal(tools.length, 91);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -92,6 +92,16 @@ assert.deepEqual(
         'work-hours-calculator',
         'timezone-converter',
         'day-of-week-calculator',
+        'ohms-law-calculator',
+        'electrical-power-calculator',
+        'resistor-combination-calculator',
+        'voltage-divider-calculator',
+        'force-calculator',
+        'kinetic-energy-calculator',
+        'potential-energy-calculator',
+        'density-calculator',
+        'physics-pressure-calculator',
+        'wavelength-frequency-calculator',
     ],
 );
 
@@ -640,6 +650,78 @@ assert.equal(
     'Thursday',
 );
 
+assert.equal(
+    getToolDefinition('ohms-law-calculator').calculate({
+        voltage: 12,
+        resistance: 6,
+    }, 'en').value,
+    '2 A',
+);
+assert.equal(
+    getToolDefinition('electrical-power-calculator').calculate({
+        voltage: 220,
+        current: 2,
+    }, 'en').value,
+    '440 W',
+);
+
+const resistors = getToolDefinition('resistor-combination-calculator');
+assert.equal(
+    resistors.calculate({
+        mode: 'series',
+        r1: 100,
+        r2: 200,
+        r3: 300,
+    }, 'en').value,
+    '600 Ω',
+);
+assert.equal(
+    resistors.calculate({
+        mode: 'parallel',
+        r1: 100,
+        r2: 100,
+        r3: 100,
+    }, 'en').value,
+    '33.33333333 Ω',
+);
+
+assert.equal(
+    getToolDefinition('voltage-divider-calculator').calculate({
+        inputVoltage: 12,
+        r1: 1000,
+        r2: 1000,
+    }, 'en').value,
+    '6 V',
+);
+assert.equal(
+    getToolDefinition('force-calculator').calculate({
+        mass: 10,
+        acceleration: 9.81,
+    }, 'en').value,
+    '98.1 N',
+);
+assert.equal(
+    getToolDefinition('kinetic-energy-calculator').calculate({
+        mass: 10,
+        velocity: 5,
+    }, 'en').value,
+    '125 J',
+);
+assert.equal(
+    getToolDefinition('density-calculator').calculate({
+        mass: 100,
+        volume: 2,
+    }, 'en').value,
+    '50 kg/m³',
+);
+assert.equal(
+    getToolDefinition('wavelength-frequency-calculator').calculate({
+        speed: 300000000,
+        frequency: 100000000,
+    }, 'en').value,
+    '3 m',
+);
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -658,6 +740,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 11 product tools verification passed.');
+console.log('Sprint 6 Batch 12 product tools verification passed.');
 
 // END OF FILE
