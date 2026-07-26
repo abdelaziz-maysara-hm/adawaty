@@ -1,5 +1,13 @@
 # Changelog
 
+## Sprint 6 — Batch 34
+
+- Added 10 bilingual algebra, coordinate-geometry and sequence tools.
+- Added linear and simultaneous equation solvers, slope and midpoint.
+- Added arithmetic and geometric term and series calculators.
+- Added polynomial evaluation and 2×2 matrix determinant/inverse.
+- Expanded the generated catalogue beyond 300 to 301 working tools.
+
 ## Sprint 6 — Batch 33
 
 - Added 10 bilingual probability and applied-statistics tools.
