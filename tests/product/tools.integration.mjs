@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 331);
+assert.equal(tools.length, 341);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -342,6 +342,16 @@ assert.deepEqual(
         'exponential-function-derivative-calculator',
         'numerical-derivative-calculator',
         'quadratic-partial-derivative-calculator',
+        'brick-quantity-calculator',
+        'mortar-volume-calculator',
+        'cement-bag-calculator',
+        'flooring-material-calculator',
+        'drywall-sheet-calculator',
+        'roofing-area-calculator',
+        'gravel-quantity-calculator',
+        'topsoil-volume-calculator',
+        'staircase-dimensions-calculator',
+        'room-air-conditioner-size-calculator',
     ],
 );
 
@@ -1657,6 +1667,17 @@ assert.equal(getToolDefinition('exponential-function-derivative-calculator').cal
 assert.equal(getToolDefinition('numerical-derivative-calculator').calculate({ coefficients: '1, 0, 0', x: 2, step: 0.0001 }, 'en').value, '4');
 assert.equal(getToolDefinition('quadratic-partial-derivative-calculator').calculate({ a: 1, b: 2, c: 3, x: 2, y: 4 }, 'en').value, '∂f/∂x = 12\n∂f/∂y = 28');
 
+assert.equal(getToolDefinition('brick-quantity-calculator').calculate({ wallLength: 5, wallHeight: 3, brickLength: 0.2, brickHeight: 0.1, mortar: 0.01, waste: 5 }, 'en').value, '682');
+assert.equal(getToolDefinition('mortar-volume-calculator').calculate({ length: 5, height: 3, thickness: 0.2, mortarPercent: 25, waste: 10 }, 'en').value, '0.825 m³');
+assert.equal(getToolDefinition('cement-bag-calculator').calculate({ volume: 1, cementPercent: 20, density: 1440, bagWeight: 50, waste: 5 }, 'en').value, '7');
+assert.equal(getToolDefinition('flooring-material-calculator').calculate({ length: 5, width: 4, coverage: 2.2, waste: 10 }, 'en').value, '10');
+assert.equal(getToolDefinition('drywall-sheet-calculator').calculate({ surfaceLength: 6, surfaceHeight: 3, sheetLength: 2.4, sheetWidth: 1.2, waste: 10 }, 'en').value, '7');
+assert.match(getToolDefinition('roofing-area-calculator').calculate({ length: 10, width: 8, rise: 2, waste: 10 }, 'en').value, /^98\.387 m²$/);
+assert.equal(getToolDefinition('gravel-quantity-calculator').calculate({ length: 5, width: 4, depth: 0.08, density: 1680, waste: 5 }, 'en').value, '2,822.4 kg');
+assert.equal(getToolDefinition('topsoil-volume-calculator').calculate({ length: 6, width: 3, depth: 0.2, allowance: 10 }, 'en').value, '3.96 m³');
+assert.equal(getToolDefinition('staircase-dimensions-calculator').calculate({ totalRise: 3, targetRiser: 0.175, treadDepth: 0.28 }, 'en').value, '17');
+assert.equal(getToolDefinition('room-air-conditioner-size-calculator').calculate({ length: 5, width: 4, height: 2.8, people: 2, sunFactor: 1 }, 'en').value, '12,000 BTU/h');
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -1677,6 +1698,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 37 product tools verification passed.');
+console.log('Sprint 6 Batch 38 product tools verification passed.');
 
 // END OF FILE
