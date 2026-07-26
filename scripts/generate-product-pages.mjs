@@ -17,6 +17,7 @@ const categories = Object.freeze({
     developer: Object.freeze({ ar: 'أدوات المطورين', en: 'Developer Tools' }),
     text: Object.freeze({ ar: 'أدوات النصوص', en: 'Text Tools' }),
     engineering: Object.freeze({ ar: 'أدوات الهندسة والعلوم', en: 'Engineering Tools' }),
+    'security-network': Object.freeze({ ar: 'أدوات الأمان والشبكات', en: 'Security & Network Tools' }),
 });
 
 function escapeHtml(value) {

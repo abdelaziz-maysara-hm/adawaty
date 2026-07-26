@@ -44,7 +44,7 @@ const [
 ]);
 
 assert.match(indexHtml, /<html lang="ar" dir="rtl" data-language="ar">/);
-assert.match(indexHtml, /Sprint 6 · Batch 12/);
+assert.match(indexHtml, /Sprint 6 · Batch 13/);
 assert.match(indexHtml, /\.\/src\/css\/main\.css/);
 assert.match(indexHtml, /\.\/src\/pages\/home\.js/);
 assert.match(indexHtml, /\.\/tools\/bmi-calculator\//);
@@ -78,9 +78,17 @@ const engineeringCategoryHtml = await readFile(
     'utf8',
 );
 assert.match(engineeringCategoryHtml, /data-category="engineering"/);
+const securityNetworkCategoryHtml = await readFile(
+    new URL('../../categories/security-network/index.html', import.meta.url),
+    'utf8',
+);
+assert.match(
+    securityNetworkCategoryHtml,
+    /data-category="security-network"/,
+);
 assert.match(catalogueScript, /getVisibleTools/);
 assert.match(catalogueScript, /data-category/);
 
-console.log('Sprint 6 Batch 12 catalogue navigation verification passed.');
+console.log('Sprint 6 Batch 13 catalogue navigation verification passed.');
 
 // END OF FILE

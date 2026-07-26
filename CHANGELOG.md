@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 6 — Batch 13
+
+- Added ten bilingual security and networking tools in a dedicated module.
+- Added secure password generation, strength checking and entropy estimation.
+- Added IPv4 subnet, CIDR range, binary IP and MAC address utilities.
+- Added common-port lookup and transfer-time estimation, expanding the catalogue to 101 tools.
+
 ## Sprint 6 — Batch 12
 
 - Added ten bilingual engineering and science tools in a dedicated module.

@@ -1,6 +1,7 @@
 import { converterDefinitions } from './definitions/converters.js';
 import { dateTimeDefinitions } from './definitions/date-time.js';
 import { engineeringDefinitions } from './definitions/engineering.js';
+import { securityNetworkDefinitions } from './definitions/security-network.js';
 import { financeDefinitions } from './definitions/finance.js';
 import { healthDefinitions } from './definitions/health.js';
 import { mathDefinitions } from './definitions/math.js';
@@ -971,6 +972,7 @@ const toolDefinitions = Object.freeze({
     ...mathDefinitions,
     ...dateTimeDefinitions,
     ...engineeringDefinitions,
+    ...securityNetworkDefinitions,
 });
 
 function getToolDefinition(id) {
