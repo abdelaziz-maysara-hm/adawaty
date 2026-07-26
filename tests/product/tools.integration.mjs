@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 351);
+assert.equal(tools.length, 361);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -362,6 +362,16 @@ assert.deepEqual(
         'shipping-dimensional-weight-calculator',
         'marketplace-fee-profit-calculator',
         'customer-retention-rate-calculator',
+        'cost-per-click-calculator',
+        'cost-per-thousand-impressions-calculator',
+        'click-through-rate-calculator',
+        'social-media-engagement-rate-calculator',
+        'email-open-rate-calculator',
+        'email-click-rate-calculator',
+        'email-unsubscribe-rate-calculator',
+        'lead-conversion-rate-calculator',
+        'break-even-roas-calculator',
+        'advertising-frequency-calculator',
     ],
 );
 
@@ -1699,6 +1709,17 @@ assert.equal(getToolDefinition('shipping-dimensional-weight-calculator').calcula
 assert.equal(getToolDefinition('marketplace-fee-profit-calculator').calculate({ price: 100, feePercent: 12, fixedFee: 0.3, productCost: 40, shippingCost: 10 }, 'en').value, '37.7');
 assert.equal(getToolDefinition('customer-retention-rate-calculator').calculate({ start: 1000, end: 1100, newCustomers: 200 }, 'en').value, '90%');
 
+assert.equal(getToolDefinition('cost-per-click-calculator').calculate({ cost: 500, clicks: 1000 }, 'en').value, '0.5');
+assert.equal(getToolDefinition('cost-per-thousand-impressions-calculator').calculate({ cost: 1000, impressions: 250000 }, 'en').value, '4');
+assert.equal(getToolDefinition('click-through-rate-calculator').calculate({ clicks: 2500, impressions: 100000 }, 'en').value, '2.5%');
+assert.equal(getToolDefinition('social-media-engagement-rate-calculator').calculate({ interactions: 750, reach: 25000 }, 'en').value, '3%');
+assert.equal(getToolDefinition('email-open-rate-calculator').calculate({ opens: 2400, delivered: 10000 }, 'en').value, '24%');
+assert.equal(getToolDefinition('email-click-rate-calculator').calculate({ clicks: 350, delivered: 10000 }, 'en').value, '3.5%');
+assert.equal(getToolDefinition('email-unsubscribe-rate-calculator').calculate({ unsubscribes: 25, delivered: 10000 }, 'en').value, '0.25%');
+assert.equal(getToolDefinition('lead-conversion-rate-calculator').calculate({ customers: 80, leads: 1000 }, 'en').value, '8%');
+assert.equal(getToolDefinition('break-even-roas-calculator').calculate({ margin: 40 }, 'en').value, '2.5x');
+assert.equal(getToolDefinition('advertising-frequency-calculator').calculate({ impressions: 300000, reach: 100000 }, 'en').value, '3x');
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -1719,6 +1740,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 39 product tools verification passed.');
+console.log('Sprint 6 Batch 40 product tools verification passed.');
 
 // END OF FILE

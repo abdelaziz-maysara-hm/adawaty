@@ -27,6 +27,7 @@ import { coordinateGeometryDefinitions } from './definitions/coordinate-geometry
 import { calculusDefinitions } from './definitions/calculus.js';
 import { constructionDefinitions } from './definitions/construction.js';
 import { ecommerceBusinessDefinitions } from './definitions/ecommerce-business.js';
+import { marketingMetricDefinitions } from './definitions/marketing-metrics.js';
 import { financeDefinitions } from './definitions/finance.js';
 import { healthDefinitions } from './definitions/health.js';
 import { mathDefinitions } from './definitions/math.js';
@@ -1023,6 +1024,7 @@ const toolDefinitions = Object.freeze({
     ...calculusDefinitions,
     ...constructionDefinitions,
     ...ecommerceBusinessDefinitions,
+    ...marketingMetricDefinitions,
 });
 
 function getToolDefinition(id) {

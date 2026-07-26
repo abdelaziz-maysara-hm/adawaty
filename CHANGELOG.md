@@ -1,5 +1,13 @@
 # Changelog
 
+## Sprint 6 — Batch 40
+
+- Added 10 bilingual digital-marketing measurement tools.
+- Added CPC, CPM, CTR, engagement and advertising-frequency calculators.
+- Added email open, click and unsubscribe rate calculators.
+- Added lead-conversion and break-even ROAS tools.
+- Expanded the generated catalogue to 361 working tools.
+
 ## Sprint 6 — Batch 39
 
 - Added 10 bilingual ecommerce and business-performance tools.
