@@ -1,5 +1,13 @@
 # Changelog
 
+## Sprint 6 — Batch 41
+
+- Added 10 bilingual creator, video and live-stream planning tools.
+- Added video size, bitrate, watch-time and audience-retention calculators.
+- Added subscriber-growth and sponsorship estimators.
+- Added aspect-ratio, resolution-scaling and streaming-bandwidth tools.
+- Expanded the generated catalogue to 371 working tools.
+
 ## Sprint 6 — Batch 40
 
 - Added 10 bilingual digital-marketing measurement tools.

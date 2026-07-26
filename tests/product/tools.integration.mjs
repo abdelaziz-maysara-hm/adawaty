@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 361);
+assert.equal(tools.length, 371);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -372,6 +372,16 @@ assert.deepEqual(
         'lead-conversion-rate-calculator',
         'break-even-roas-calculator',
         'advertising-frequency-calculator',
+        'video-file-size-calculator',
+        'video-bitrate-calculator',
+        'video-watch-time-calculator',
+        'average-view-duration-calculator',
+        'video-audience-retention-calculator',
+        'subscriber-growth-rate-calculator',
+        'video-sponsorship-cpm-calculator',
+        'video-aspect-ratio-calculator',
+        'video-resolution-scale-calculator',
+        'live-stream-bandwidth-calculator',
     ],
 );
 
@@ -1720,6 +1730,17 @@ assert.equal(getToolDefinition('lead-conversion-rate-calculator').calculate({ cu
 assert.equal(getToolDefinition('break-even-roas-calculator').calculate({ margin: 40 }, 'en').value, '2.5x');
 assert.equal(getToolDefinition('advertising-frequency-calculator').calculate({ impressions: 300000, reach: 100000 }, 'en').value, '3x');
 
+assert.equal(getToolDefinition('video-file-size-calculator').calculate({ bitrate: 8, minutes: 10, seconds: 0 }, 'en').value, '600 MB');
+assert.equal(getToolDefinition('video-bitrate-calculator').calculate({ size: 600, minutes: 10, seconds: 0 }, 'en').value, '8 Mbps');
+assert.equal(getToolDefinition('video-watch-time-calculator').calculate({ views: 100000, averageMinutes: 4 }, 'en').value, '6,666.667 hours');
+assert.equal(getToolDefinition('average-view-duration-calculator').calculate({ watchMinutes: 400000, views: 100000 }, 'en').value, '4 minutes');
+assert.equal(getToolDefinition('video-audience-retention-calculator').calculate({ averageMinutes: 4, videoMinutes: 10 }, 'en').value, '40%');
+assert.equal(getToolDefinition('subscriber-growth-rate-calculator').calculate({ start: 10000, end: 12500 }, 'en').value, '25%');
+assert.equal(getToolDefinition('video-sponsorship-cpm-calculator').calculate({ views: 100000, cpm: 25 }, 'en').value, '2,500');
+assert.equal(getToolDefinition('video-aspect-ratio-calculator').calculate({ width: 1920, height: 1080 }, 'en').value, '16:9');
+assert.equal(getToolDefinition('video-resolution-scale-calculator').calculate({ originalWidth: 1920, originalHeight: 1080, targetWidth: 1280 }, 'en').value, '1280 × 720');
+assert.equal(getToolDefinition('live-stream-bandwidth-calculator').calculate({ viewers: 1000, bitrate: 6, overhead: 10 }, 'en').value, '6.6 Gbps');
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -1740,6 +1761,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 40 product tools verification passed.');
+console.log('Sprint 6 Batch 41 product tools verification passed.');
 
 // END OF FILE

@@ -28,6 +28,7 @@ import { calculusDefinitions } from './definitions/calculus.js';
 import { constructionDefinitions } from './definitions/construction.js';
 import { ecommerceBusinessDefinitions } from './definitions/ecommerce-business.js';
 import { marketingMetricDefinitions } from './definitions/marketing-metrics.js';
+import { creatorVideoDefinitions } from './definitions/creator-video.js';
 import { financeDefinitions } from './definitions/finance.js';
 import { healthDefinitions } from './definitions/health.js';
 import { mathDefinitions } from './definitions/math.js';
@@ -1025,6 +1026,7 @@ const toolDefinitions = Object.freeze({
     ...constructionDefinitions,
     ...ecommerceBusinessDefinitions,
     ...marketingMetricDefinitions,
+    ...creatorVideoDefinitions,
 });
 
 function getToolDefinition(id) {
