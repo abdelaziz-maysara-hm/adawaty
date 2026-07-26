@@ -1291,11 +1291,13 @@ for (const [index, page] of toolPages.entries()) {
     assert.match(page, new RegExp(`data-tool-page="${tools[index].id}"`));
     assert.match(page, /src\/product\/tool-page\.js/);
     assert.match(page, /rel="canonical"/);
+    assert.match(page, /"@type":"WebApplication"/);
+    assert.match(page, /"isAccessibleForFree":true/);
     assert.doesNotMatch(page, /TODO|PLACEHOLDER/i);
 }
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 18 product tools verification passed.');
+console.log('Sprint 6 Batch 19 product tools verification passed.');
 
 // END OF FILE

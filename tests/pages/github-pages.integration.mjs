@@ -44,7 +44,7 @@ const [
 ]);
 
 assert.match(indexHtml, /<html lang="ar" dir="rtl" data-language="ar">/);
-assert.match(indexHtml, /Sprint 6 · Batch 18/);
+assert.match(indexHtml, /Sprint 6 · Batch 19/);
 assert.match(indexHtml, /\.\/src\/css\/main\.css/);
 assert.match(indexHtml, /\.\/src\/pages\/home\.js/);
 assert.match(indexHtml, /\.\/tools\/bmi-calculator\//);
@@ -69,6 +69,7 @@ assert.match(homeScript, /applyLanguage\(getInitialLanguage\(\)\)/);
 assert.match(stylesheet, /@media \(max-width: 600px\)/);
 assert.match(catalogueHtml, /data-catalogue-page/);
 assert.match(catalogueHtml, /catalogue-page\.js/);
+assert.match(catalogueHtml, /"@type":"CollectionPage"/);
 assert.match(healthCategoryHtml, /data-category="health"/);
 assert.match(converterCategoryHtml, /data-category="converter"/);
 assert.match(developerCategoryHtml, /data-category="developer"/);
@@ -109,6 +110,6 @@ assert.match(islamicCategoryHtml, /data-category="islamic"/);
 assert.match(catalogueScript, /getVisibleTools/);
 assert.match(catalogueScript, /data-category/);
 
-console.log('Sprint 6 Batch 18 catalogue navigation verification passed.');
+console.log('Sprint 6 Batch 19 catalogue navigation verification passed.');
 
 // END OF FILE

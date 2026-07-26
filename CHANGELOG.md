@@ -1,5 +1,11 @@
 # Changelog
 
+## Sprint 6 — Batch 19
+
+- Added Schema.org WebApplication structured data to all 151 tool pages.
+- Added CollectionPage structured data to the catalogue and category pages.
+- Declared bilingual, free, browser-based utility metadata for search engines.
+
 ## Sprint 6 — Batch 18
 
 - Added ten bilingual Islamic planning tools in a dedicated category.

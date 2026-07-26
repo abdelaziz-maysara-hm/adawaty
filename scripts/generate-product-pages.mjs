@@ -33,10 +33,32 @@ function escapeHtml(value) {
         .replaceAll("'", '&#39;');
 }
 
+function safeJson(value) {
+    return JSON.stringify(value).replaceAll('<', '\\u003c');
+}
+
 function createToolPage(tool) {
     const title = escapeHtml(tool.title.ar);
     const description = escapeHtml(tool.description.ar);
     const canonical = `${baseUrl}/tools/${tool.id}/`;
+    const structuredData = safeJson({
+        '@context': 'https://schema.org',
+        '@type': 'WebApplication',
+        name: tool.title.en,
+        alternateName: tool.title.ar,
+        description: tool.description.en,
+        url: canonical,
+        applicationCategory: 'UtilitiesApplication',
+        operatingSystem: 'Any',
+        browserRequirements: 'Requires JavaScript',
+        offers: {
+            '@type': 'Offer',
+            price: '0',
+            priceCurrency: 'USD',
+        },
+        isAccessibleForFree: true,
+        inLanguage: ['ar', 'en'],
+    });
 
     return `<!doctype html>
 <html lang="ar" dir="rtl" data-language="ar">
@@ -51,6 +73,7 @@ function createToolPage(tool) {
     <meta property="og:title" content="${title}">
     <meta property="og:description" content="${description}">
     <meta property="og:url" content="${canonical}">
+    <script type="application/ld+json">${structuredData}</script>
     <link rel="stylesheet" href="../../src/css/main.css">
     <link rel="stylesheet" href="../../src/css/product.css">
     <script type="module" src="../../src/product/tool-page.js"></script>
@@ -124,6 +147,19 @@ function createCataloguePage({
     canonical,
     category = '',
 }) {
+    const structuredData = safeJson({
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        name: title,
+        description,
+        url: canonical,
+        isPartOf: {
+            '@type': 'WebSite',
+            name: 'Adawaty',
+            url: `${baseUrl}/`,
+        },
+        inLanguage: ['ar', 'en'],
+    });
     return `<!doctype html>
 <html lang="ar" dir="rtl" data-language="ar">
 <head>
@@ -133,6 +169,7 @@ function createCataloguePage({
     <meta name="description" content="${escapeHtml(description)}">
     <title>${escapeHtml(title)} | أدواتي</title>
     <link rel="canonical" href="${canonical}">
+    <script type="application/ld+json">${structuredData}</script>
     <link rel="stylesheet" href="${basePath}src/css/main.css">
     <link rel="stylesheet" href="${basePath}src/css/product.css">
     <script type="module" src="${basePath}src/product/catalogue-page.js"></script>
