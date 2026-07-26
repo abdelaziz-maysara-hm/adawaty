@@ -1,5 +1,13 @@
 # Changelog
 
+## Sprint 6 — Batch 39
+
+- Added 10 bilingual ecommerce and business-performance tools.
+- Added CAC, CLV, ROAS, conversion and cart-abandonment calculators.
+- Added inventory turnover, reorder-point and dimensional-weight tools.
+- Added marketplace profit and customer-retention calculators.
+- Expanded the generated catalogue to 351 working tools.
+
 ## Sprint 6 — Batch 38
 
 - Added 10 bilingual construction and home-planning tools.
