@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 131);
+assert.equal(tools.length, 141);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -142,6 +142,16 @@ assert.deepEqual(
         'wallpaper-roll-calculator',
         'recipe-scaler',
         'rent-affordability-calculator',
+        'acceleration-converter',
+        'force-unit-converter',
+        'power-unit-converter',
+        'torque-converter',
+        'frequency-converter',
+        'density-unit-converter',
+        'flow-rate-converter',
+        'cooking-volume-converter',
+        'data-transfer-rate-converter',
+        'illuminance-converter',
     ],
 );
 
@@ -1088,6 +1098,87 @@ assert.equal(
     '5,000',
 );
 
+assert.equal(
+    getToolDefinition('acceleration-converter').calculate({
+        value: 1,
+        from: 'g',
+        to: 'm/s²',
+    }, 'en').value,
+    '9.80665',
+);
+assert.equal(
+    getToolDefinition('force-unit-converter').calculate({
+        value: 1,
+        from: 'kN',
+        to: 'N',
+    }, 'en').value,
+    '1,000',
+);
+assert.equal(
+    getToolDefinition('power-unit-converter').calculate({
+        value: 1,
+        from: 'hp',
+        to: 'W',
+    }, 'en').value,
+    '745.699872',
+);
+assert.equal(
+    getToolDefinition('torque-converter').calculate({
+        value: 1,
+        from: 'lbf·ft',
+        to: 'N·m',
+    }, 'en').value,
+    '1.3558179483',
+);
+assert.equal(
+    getToolDefinition('frequency-converter').calculate({
+        value: 60,
+        from: 'rpm',
+        to: 'Hz',
+    }, 'en').value,
+    '1',
+);
+assert.equal(
+    getToolDefinition('density-unit-converter').calculate({
+        value: 1,
+        from: 'g/cm³',
+        to: 'kg/m³',
+    }, 'en').value,
+    '1,000',
+);
+assert.equal(
+    getToolDefinition('flow-rate-converter').calculate({
+        value: 60,
+        from: 'L/min',
+        to: 'L/s',
+    }, 'en').value,
+    '1',
+);
+assert.equal(
+    getToolDefinition('cooking-volume-converter').calculate({
+        value: 1,
+        from: 'cup',
+        to: 'mL',
+    }, 'en').value,
+    '236.5882365',
+);
+assert.equal(
+    getToolDefinition('data-transfer-rate-converter').calculate({
+        value: 1,
+        from: 'MB/s',
+        to: 'Mbps',
+    }, 'en').value,
+    '8',
+);
+assert.equal(
+    getToolDefinition('illuminance-converter').calculate({
+        value: 1,
+        from: 'fc',
+        to: 'lx',
+    }, 'en').value,
+    '10.7639104',
+);
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -1106,6 +1197,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 16 product tools verification passed.');
+console.log('Sprint 6 Batch 17 product tools verification passed.');
 
 // END OF FILE
