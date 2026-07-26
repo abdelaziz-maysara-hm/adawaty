@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 6 — Batch 17
+
+- Added ten bilingual advanced unit converters in a scalable module.
+- Added acceleration, force, power, torque, frequency and density conversion.
+- Added flow-rate, cooking-volume, transfer-rate and illuminance tools.
+- Expanded the verified catalogue to 141 working tools.
+
 ## Sprint 6 — Batch 16
 
 - Added ten bilingual home and lifestyle calculators in a dedicated module.
