@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 341);
+assert.equal(tools.length, 351);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -352,6 +352,16 @@ assert.deepEqual(
         'topsoil-volume-calculator',
         'staircase-dimensions-calculator',
         'room-air-conditioner-size-calculator',
+        'customer-acquisition-cost-calculator',
+        'customer-lifetime-value-calculator',
+        'return-on-ad-spend-calculator',
+        'ecommerce-conversion-rate-calculator',
+        'cart-abandonment-rate-calculator',
+        'inventory-turnover-calculator',
+        'inventory-reorder-point-calculator',
+        'shipping-dimensional-weight-calculator',
+        'marketplace-fee-profit-calculator',
+        'customer-retention-rate-calculator',
     ],
 );
 
@@ -1678,6 +1688,17 @@ assert.equal(getToolDefinition('topsoil-volume-calculator').calculate({ length: 
 assert.equal(getToolDefinition('staircase-dimensions-calculator').calculate({ totalRise: 3, targetRiser: 0.175, treadDepth: 0.28 }, 'en').value, '17');
 assert.equal(getToolDefinition('room-air-conditioner-size-calculator').calculate({ length: 5, width: 4, height: 2.8, people: 2, sunFactor: 1 }, 'en').value, '12,000 BTU/h');
 
+assert.equal(getToolDefinition('customer-acquisition-cost-calculator').calculate({ marketing: 10000, sales: 5000, customers: 100 }, 'en').value, '150');
+assert.equal(getToolDefinition('customer-lifetime-value-calculator').calculate({ orderValue: 50, frequency: 6, margin: 40, years: 3 }, 'en').value, '360');
+assert.equal(getToolDefinition('return-on-ad-spend-calculator').calculate({ revenue: 20000, spend: 5000 }, 'en').value, '4x');
+assert.equal(getToolDefinition('ecommerce-conversion-rate-calculator').calculate({ conversions: 250, visitors: 10000 }, 'en').value, '2.5%');
+assert.equal(getToolDefinition('cart-abandonment-rate-calculator').calculate({ carts: 1000, orders: 300 }, 'en').value, '70%');
+assert.equal(getToolDefinition('inventory-turnover-calculator').calculate({ cogs: 120000, beginning: 20000, ending: 30000 }, 'en').value, '4.8x');
+assert.equal(getToolDefinition('inventory-reorder-point-calculator').calculate({ dailySales: 20, leadDays: 7, safetyStock: 50 }, 'en').value, '190');
+assert.equal(getToolDefinition('shipping-dimensional-weight-calculator').calculate({ length: 40, width: 30, height: 20, divisor: 5000 }, 'en').value, '4.8 kg');
+assert.equal(getToolDefinition('marketplace-fee-profit-calculator').calculate({ price: 100, feePercent: 12, fixedFee: 0.3, productCost: 40, shippingCost: 10 }, 'en').value, '37.7');
+assert.equal(getToolDefinition('customer-retention-rate-calculator').calculate({ start: 1000, end: 1100, newCustomers: 200 }, 'en').value, '90%');
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -1698,6 +1719,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 38 product tools verification passed.');
+console.log('Sprint 6 Batch 39 product tools verification passed.');
 
 // END OF FILE
