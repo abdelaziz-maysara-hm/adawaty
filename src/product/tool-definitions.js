@@ -15,6 +15,7 @@ import { advancedHealthDefinitions } from './definitions/advanced-health.js';
 import { studentStudyDefinitions } from './definitions/student-study.js';
 import { textEncodingDefinitions } from './definitions/text-encoding.js';
 import { advancedDateTimeDefinitions } from './definitions/advanced-date-time.js';
+import { physicsEngineeringDefinitions } from './definitions/physics-engineering.js';
 import { financeDefinitions } from './definitions/finance.js';
 import { healthDefinitions } from './definitions/health.js';
 import { mathDefinitions } from './definitions/math.js';
@@ -999,6 +1000,7 @@ const toolDefinitions = Object.freeze({
     ...studentStudyDefinitions,
     ...textEncodingDefinitions,
     ...advancedDateTimeDefinitions,
+    ...physicsEngineeringDefinitions,
 });
 
 function getToolDefinition(id) {

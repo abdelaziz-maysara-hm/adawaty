@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 6 — Batch 28
+
+- Added ten bilingual physics and engineering calculators.
+- Added momentum, potential energy, mechanical work, pressure and density.
+- Added wave speed, heat energy and mass-energy equivalence.
+- Added Hooke's law and ideal-gas pressure, expanding the catalogue to 241 tools.
+
 ## Sprint 6 — Batch 27
 
 - Added ten bilingual advanced date and time tools.

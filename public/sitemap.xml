@@ -1235,4 +1235,54 @@
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/momentum-calculator/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/gravitational-potential-energy-calculator/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/mechanical-work-calculator/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/pressure-from-force-calculator/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/mass-volume-density-calculator/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/wave-speed-calculator/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/heat-energy-calculator/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/mass-energy-equivalence-calculator/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/hookes-law-calculator/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/ideal-gas-pressure-calculator/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
 </urlset>
