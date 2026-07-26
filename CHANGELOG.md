@@ -1,5 +1,13 @@
 # Changelog
 
+## Sprint 6 — Batch 36
+
+- Added 10 bilingual coordinate-geometry, triangle and polygon tools.
+- Added line equations, point-to-line distance and three-dimensional distance.
+- Added triangle centroid, coordinate area, Heron's formula, inradius and circumradius.
+- Added polygon interior-angle and diagonal-count calculators.
+- Expanded the generated catalogue to 321 working tools.
+
 ## Sprint 6 — Batch 35
 
 - Added 10 bilingual trigonometry and circular-geometry tools.
