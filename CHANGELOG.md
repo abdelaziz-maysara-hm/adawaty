@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 6 — Batch 14
+
+- Added ten bilingual SEO and campaign utilities in a dedicated module.
+- Added Meta, Open Graph, Twitter Card, canonical and hreflang generators.
+- Added UTM link, robots.txt and XML sitemap entry builders.
+- Added keyword-density and SERP preview tools, expanding the catalogue to 111 tools.
+
 ## Sprint 6 — Batch 13
 
 - Added ten bilingual security and networking tools in a dedicated module.
