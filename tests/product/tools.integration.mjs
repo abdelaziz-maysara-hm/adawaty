@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 311);
+assert.equal(tools.length, 321);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -322,6 +322,16 @@ assert.deepEqual(
         'chord-length-calculator',
         'circular-segment-area-calculator',
         'decimal-degrees-dms-converter',
+        'line-equation-two-points-calculator',
+        'point-to-line-distance-calculator',
+        'three-dimensional-distance-calculator',
+        'triangle-centroid-calculator',
+        'triangle-area-coordinates-calculator',
+        'herons-formula-calculator',
+        'triangle-inradius-calculator',
+        'triangle-circumradius-calculator',
+        'polygon-interior-angle-sum-calculator',
+        'polygon-diagonal-count-calculator',
     ],
 );
 
@@ -1615,6 +1625,17 @@ assert.equal(getToolDefinition('chord-length-calculator').calculate({ radius: 10
 assert.equal(getToolDefinition('circular-segment-area-calculator').calculate({ radius: 10, angle: 60 }, 'en').value, '9.058607');
 assert.equal(getToolDefinition('decimal-degrees-dms-converter').calculate({ direction: 'dms-to-decimal', decimal: 0, degree: 30, minute: 30, second: 30 }, 'en').value, '30.508333°');
 
+assert.equal(getToolDefinition('line-equation-two-points-calculator').calculate({ x1: 1, y1: 2, x2: 4, y2: 8 }, 'en').value, 'y = 2x + 0');
+assert.equal(getToolDefinition('point-to-line-distance-calculator').calculate({ x: 0, y: 0, a: 3, b: 4, c: -10 }, 'en').value, '2');
+assert.equal(getToolDefinition('three-dimensional-distance-calculator').calculate({ x1: 0, y1: 0, z1: 0, x2: 2, y2: 3, z2: 6 }, 'en').value, '7');
+assert.equal(getToolDefinition('triangle-centroid-calculator').calculate({ x1: 0, y1: 0, x2: 6, y2: 0, x3: 0, y3: 6 }, 'en').value, '(2, 2)');
+assert.equal(getToolDefinition('triangle-area-coordinates-calculator').calculate({ x1: 0, y1: 0, x2: 4, y2: 0, x3: 0, y3: 3 }, 'en').value, '6');
+assert.equal(getToolDefinition('herons-formula-calculator').calculate({ a: 3, b: 4, c: 5 }, 'en').value, '6');
+assert.equal(getToolDefinition('triangle-inradius-calculator').calculate({ a: 3, b: 4, c: 5 }, 'en').value, '1');
+assert.equal(getToolDefinition('triangle-circumradius-calculator').calculate({ a: 3, b: 4, c: 5 }, 'en').value, '2.5');
+assert.equal(getToolDefinition('polygon-interior-angle-sum-calculator').calculate({ sides: 6 }, 'en').value, '720°');
+assert.equal(getToolDefinition('polygon-diagonal-count-calculator').calculate({ sides: 8 }, 'en').value, '20');
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -1635,6 +1656,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 35 product tools verification passed.');
+console.log('Sprint 6 Batch 36 product tools verification passed.');
 
 // END OF FILE
