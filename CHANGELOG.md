@@ -1,5 +1,13 @@
 # Changelog
 
+## Sprint 6 — Batch 35
+
+- Added 10 bilingual trigonometry and circular-geometry tools.
+- Added direct and inverse trigonometric functions.
+- Added law of cosines and law of sines calculators.
+- Added arc, sector, chord, circular segment and DMS conversion tools.
+- Expanded the generated catalogue to 311 working tools.
+
 ## Sprint 6 — Batch 34
 
 - Added 10 bilingual algebra, coordinate-geometry and sequence tools.

@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 301);
+assert.equal(tools.length, 311);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -312,6 +312,16 @@ assert.deepEqual(
         'geometric-series-sum-calculator',
         'polynomial-evaluator',
         'two-by-two-matrix-calculator',
+        'trigonometric-functions-calculator',
+        'inverse-trigonometric-calculator',
+        'law-of-cosines-side-calculator',
+        'law-of-cosines-angle-calculator',
+        'law-of-sines-side-calculator',
+        'arc-length-calculator',
+        'sector-area-calculator',
+        'chord-length-calculator',
+        'circular-segment-area-calculator',
+        'decimal-degrees-dms-converter',
     ],
 );
 
@@ -1594,6 +1604,17 @@ assert.equal(getToolDefinition('geometric-series-sum-calculator').calculate({ fi
 assert.equal(getToolDefinition('polynomial-evaluator').calculate({ coefficients: '2, 3, 1', x: 4 }, 'en').value, '45');
 assert.match(getToolDefinition('two-by-two-matrix-calculator').calculate({ a: 4, b: 7, c: 2, d: 6 }, 'en').value, /^det = 10/);
 
+assert.match(getToolDefinition('trigonometric-functions-calculator').calculate({ angle: 30 }, 'en').value, /^sin: 0\.5/);
+assert.equal(getToolDefinition('inverse-trigonometric-calculator').calculate({ value: 0.5, function: 'asin' }, 'en').value, '30°');
+assert.equal(getToolDefinition('law-of-cosines-side-calculator').calculate({ a: 3, b: 4, angle: 90 }, 'en').value, '5');
+assert.match(getToolDefinition('law-of-cosines-angle-calculator').calculate({ a: 3, b: 4, c: 5 }, 'en').value, /^90°$/);
+assert.equal(getToolDefinition('law-of-sines-side-calculator').calculate({ knownSide: 10, knownAngle: 30, targetAngle: 90 }, 'en').value, '20');
+assert.equal(getToolDefinition('arc-length-calculator').calculate({ radius: 10, angle: 180 }, 'en').value, '31.415927');
+assert.equal(getToolDefinition('sector-area-calculator').calculate({ radius: 10, angle: 180 }, 'en').value, '157.079633');
+assert.equal(getToolDefinition('chord-length-calculator').calculate({ radius: 10, angle: 60 }, 'en').value, '10');
+assert.equal(getToolDefinition('circular-segment-area-calculator').calculate({ radius: 10, angle: 60 }, 'en').value, '9.058607');
+assert.equal(getToolDefinition('decimal-degrees-dms-converter').calculate({ direction: 'dms-to-decimal', decimal: 0, degree: 30, minute: 30, second: 30 }, 'en').value, '30.508333°');
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -1614,6 +1635,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 34 product tools verification passed.');
+console.log('Sprint 6 Batch 35 product tools verification passed.');
 
 // END OF FILE
