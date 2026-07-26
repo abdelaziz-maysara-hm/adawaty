@@ -7,6 +7,7 @@ import { colorCssDefinitions } from './definitions/color-css.js';
 import { homeLifestyleDefinitions } from './definitions/home-lifestyle.js';
 import { advancedConverterDefinitions } from './definitions/advanced-converters.js';
 import { islamicDefinitions } from './definitions/islamic.js';
+import { textProductivityDefinitions } from './definitions/text-productivity.js';
 import { financeDefinitions } from './definitions/finance.js';
 import { healthDefinitions } from './definitions/health.js';
 import { mathDefinitions } from './definitions/math.js';
@@ -983,6 +984,7 @@ const toolDefinitions = Object.freeze({
     ...homeLifestyleDefinitions,
     ...advancedConverterDefinitions,
     ...islamicDefinitions,
+    ...textProductivityDefinitions,
 });
 
 function getToolDefinition(id) {
