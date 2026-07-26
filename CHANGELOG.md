@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 6 — Batch 24
+
+- Added ten bilingual health and fitness calculators.
+- Added body-measurement, adjusted-weight and healthy-range tools.
+- Added MET, steps, strength and running performance estimates.
+- Added Cooper-test VO₂ max estimation, expanding the catalogue to 201 tools.
+
 ## Sprint 6 — Batch 23
 
 - Added ten bilingual advanced personal and business finance tools.
