@@ -3,6 +3,7 @@ import { dateTimeDefinitions } from './definitions/date-time.js';
 import { engineeringDefinitions } from './definitions/engineering.js';
 import { securityNetworkDefinitions } from './definitions/security-network.js';
 import { seoDefinitions } from './definitions/seo.js';
+import { colorCssDefinitions } from './definitions/color-css.js';
 import { financeDefinitions } from './definitions/finance.js';
 import { healthDefinitions } from './definitions/health.js';
 import { mathDefinitions } from './definitions/math.js';
@@ -975,6 +976,7 @@ const toolDefinitions = Object.freeze({
     ...engineeringDefinitions,
     ...securityNetworkDefinitions,
     ...seoDefinitions,
+    ...colorCssDefinitions,
 });
 
 function getToolDefinition(id) {

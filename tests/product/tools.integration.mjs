@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 111);
+assert.equal(tools.length, 121);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -122,6 +122,16 @@ assert.deepEqual(
         'sitemap-entry-generator',
         'keyword-density-checker',
         'serp-snippet-preview',
+        'hex-to-rgb-converter',
+        'rgb-to-hex-converter',
+        'rgb-to-hsl-converter',
+        'wcag-contrast-checker',
+        'color-blender',
+        'color-tint-shade-generator',
+        'css-linear-gradient-generator',
+        'css-box-shadow-generator',
+        'css-border-radius-generator',
+        'css-clamp-calculator',
     ],
 );
 
@@ -893,6 +903,96 @@ assert.match(
     /10\/60 title/,
 );
 
+assert.equal(
+    getToolDefinition('hex-to-rgb-converter').calculate({
+        hex: '#4080FF',
+    }, 'en').value,
+    'rgb(64, 128, 255)',
+);
+assert.equal(
+    getToolDefinition('rgb-to-hex-converter').calculate({
+        red: 64,
+        green: 128,
+        blue: 255,
+    }, 'en').value,
+    '#4080FF',
+);
+assert.throws(
+    () => getToolDefinition('rgb-to-hex-converter').calculate({
+        red: 256,
+        green: 0,
+        blue: 0,
+    }, 'en'),
+    /integers from 0 to 255/,
+);
+assert.equal(
+    getToolDefinition('rgb-to-hsl-converter').calculate({
+        red: 255,
+        green: 0,
+        blue: 0,
+    }, 'en').value,
+    'hsl(0, 100.0%, 50.0%)',
+);
+assert.equal(
+    getToolDefinition('wcag-contrast-checker').calculate({
+        foreground: '#000',
+        background: '#FFF',
+    }, 'en').value,
+    '21.00:1',
+);
+assert.equal(
+    getToolDefinition('color-blender').calculate({
+        first: '#000000',
+        second: '#FFFFFF',
+        amount: 50,
+    }, 'en').value,
+    '#808080',
+);
+assert.equal(
+    getToolDefinition('color-tint-shade-generator').calculate({
+        color: '#000000',
+        mode: 'tint',
+        amount: 20,
+    }, 'en').value,
+    '#333333',
+);
+assert.equal(
+    getToolDefinition('css-linear-gradient-generator').calculate({
+        first: '#06B6D4',
+        second: '#8B5CF6',
+        angle: 135,
+    }, 'en').value,
+    'background: linear-gradient(135deg, #06B6D4, #8B5CF6);',
+);
+assert.equal(
+    getToolDefinition('css-box-shadow-generator').calculate({
+        x: 0,
+        y: 12,
+        blur: 30,
+        spread: -8,
+        color: '#0F172A',
+    }, 'en').value,
+    'box-shadow: 0px 12px 30px -8px #0F172A;',
+);
+assert.equal(
+    getToolDefinition('css-border-radius-generator').calculate({
+        topLeft: 8,
+        topRight: 16,
+        bottomRight: 24,
+        bottomLeft: 32,
+    }, 'en').value,
+    'border-radius: 8px 16px 24px 32px;',
+);
+assert.equal(
+    getToolDefinition('css-clamp-calculator').calculate({
+        minSize: 16,
+        maxSize: 32,
+        minViewport: 320,
+        maxViewport: 1200,
+    }, 'en').value,
+    'clamp(1rem, 0.6364rem + 1.8182vw, 2rem)',
+);
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -911,6 +1011,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 14 product tools verification passed.');
+console.log('Sprint 6 Batch 15 product tools verification passed.');
 
 // END OF FILE

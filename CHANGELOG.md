@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 6 — Batch 15
+
+- Added ten bilingual color and CSS tools in a dedicated module.
+- Added HEX, RGB and HSL conversion plus WCAG contrast checking.
+- Added color blending, tint, shade and linear-gradient generation.
+- Added box-shadow, border-radius and fluid clamp tools, expanding the catalogue to 121 tools.
+
 ## Sprint 6 — Batch 14
 
 - Added ten bilingual SEO and campaign utilities in a dedicated module.
