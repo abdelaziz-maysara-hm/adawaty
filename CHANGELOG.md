@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 6 — Batch 18
+
+- Added ten bilingual Islamic planning tools in a dedicated category.
+- Added cash, gold, silver and business zakat estimates with explicit assumptions.
+- Added Quran reading, khatma and memorization planning calculators.
+- Added tasbeeh, fasting and geometric Qibla tools, expanding the catalogue to 151 tools.
+
 ## Sprint 6 — Batch 17
 
 - Added ten bilingual advanced unit converters in a scalable module.
