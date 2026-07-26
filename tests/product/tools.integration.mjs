@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 221);
+assert.equal(tools.length, 231);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -232,6 +232,16 @@ assert.deepEqual(
         'initials-generator',
         'vowel-consonant-counter',
         'word-frequency-analyzer',
+        'age-at-date-calculator',
+        'inclusive-date-range-calculator',
+        'months-between-dates-calculator',
+        'days-in-month-calculator',
+        'calendar-quarter-calculator',
+        'time-addition-calculator',
+        'decimal-hours-to-time-calculator',
+        'weekend-days-between-dates-calculator',
+        'anniversary-calculator',
+        'julian-day-number-calculator',
     ],
 );
 
@@ -1426,6 +1436,17 @@ assert.equal(getToolDefinition('initials-generator').calculate({ text: 'Adawaty 
 assert.equal(getToolDefinition('vowel-consonant-counter').calculate({ text: 'Adawaty' }, 'en').value, '3');
 assert.match(getToolDefinition('word-frequency-analyzer').calculate({ text: 'tools make tools useful' }, 'en').value, /^tools: 2/);
 
+assert.equal(getToolDefinition('age-at-date-calculator').calculate({ birthDate: '2000-01-15', referenceDate: '2025-03-20' }, 'en').value, '25 years');
+assert.equal(getToolDefinition('inclusive-date-range-calculator').calculate({ startDate: '2025-01-01', endDate: '2025-01-10' }, 'en').value, '10');
+assert.equal(getToolDefinition('months-between-dates-calculator').calculate({ startDate: '2024-01-15', endDate: '2025-03-14' }, 'en').value, '13');
+assert.equal(getToolDefinition('days-in-month-calculator').calculate({ date: '2024-02-10' }, 'en').value, '29');
+assert.equal(getToolDefinition('calendar-quarter-calculator').calculate({ date: '2025-08-10' }, 'en').value, 'Q3');
+assert.equal(getToolDefinition('time-addition-calculator').calculate({ time: '23:30', hours: 2, minutes: 45 }, 'en').value, '02:15');
+assert.equal(getToolDefinition('decimal-hours-to-time-calculator').calculate({ decimalHours: 7.75 }, 'en').value, '7:45:00');
+assert.equal(getToolDefinition('weekend-days-between-dates-calculator').calculate({ startDate: '2025-01-06', endDate: '2025-01-12' }, 'en').value, '2');
+assert.equal(getToolDefinition('anniversary-calculator').calculate({ eventDate: '2010-06-10', referenceDate: '2025-06-09' }, 'en').value, '14');
+assert.equal(getToolDefinition('julian-day-number-calculator').calculate({ date: '2000-01-01' }, 'en').value, '2451545');
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -1446,6 +1467,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 26 product tools verification passed.');
+console.log('Sprint 6 Batch 27 product tools verification passed.');
 
 // END OF FILE

@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 6 — Batch 27
+
+- Added ten bilingual advanced date and time tools.
+- Added age-at-date, inclusive range and complete-month calculations.
+- Added month length, calendar quarter and time-addition utilities.
+- Added decimal time, weekend, anniversary and Julian-day tools, expanding the catalogue to 231 tools.
+
 ## Sprint 6 — Batch 26
 
 - Added ten bilingual text encoding and language-analysis tools.
