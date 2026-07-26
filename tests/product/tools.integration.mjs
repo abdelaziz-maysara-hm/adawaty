@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 201);
+assert.equal(tools.length, 211);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -212,6 +212,16 @@ assert.deepEqual(
         'one-rep-max-calculator',
         'race-time-predictor',
         'cooper-test-vo2-max-calculator',
+        'weighted-course-grade-calculator',
+        'required-final-grade-calculator',
+        'cumulative-gpa-calculator',
+        'percentage-to-gpa-calculator',
+        'attendance-goal-calculator',
+        'allowable-absences-calculator',
+        'study-plan-calculator',
+        'pomodoro-session-planner',
+        'quiz-average-calculator',
+        'class-rank-percentile-calculator',
     ],
 );
 
@@ -1384,6 +1394,17 @@ assert.equal(getToolDefinition('one-rep-max-calculator').calculate({ weight: 80,
 assert.match(getToolDefinition('race-time-predictor').calculate({ knownDistance: 5, knownMinutes: 25, targetDistance: 10 }, 'en').value, /^0:52:/);
 assert.equal(getToolDefinition('cooper-test-vo2-max-calculator').calculate({ distance: 2400 }, 'en').value, '42.37 ml/kg/min');
 
+assert.equal(getToolDefinition('weighted-course-grade-calculator').calculate({ score1: 80, weight1: 25, score2: 80, weight2: 25, score3: 100, weight3: 25, score4: 100, weight4: 25 }, 'en').value, '90%');
+assert.equal(getToolDefinition('required-final-grade-calculator').calculate({ currentGrade: 80, completedWeight: 75, targetGrade: 85 }, 'en').value, '100%');
+assert.equal(getToolDefinition('cumulative-gpa-calculator').calculate({ gpa1: 3, credits1: 10, gpa2: 3, credits2: 10, gpa3: 4, credits3: 10, gpa4: 4, credits4: 10 }, 'en').value, '3.50');
+assert.equal(getToolDefinition('percentage-to-gpa-calculator').calculate({ percentage: 87 }, 'en').value, '3.3');
+assert.equal(getToolDefinition('attendance-goal-calculator').calculate({ attended: 32, total: 40, target: 85 }, 'en').value, '14');
+assert.equal(getToolDefinition('allowable-absences-calculator').calculate({ attended: 36, total: 40, minimum: 75 }, 'en').value, '8');
+assert.equal(getToolDefinition('study-plan-calculator').calculate({ chapters: 24, days: 12, hoursPerDay: 3 }, 'en').value, '2');
+assert.equal(getToolDefinition('pomodoro-session-planner').calculate({ studyMinutes: 120, focusMinutes: 25, breakMinutes: 5 }, 'en').value, '5');
+assert.equal(getToolDefinition('quiz-average-calculator').calculate({ score1: 70, score2: 80, score3: 90, score4: 100, score5: 60 }, 'en').value, '80%');
+assert.equal(getToolDefinition('class-rank-percentile-calculator').calculate({ rank: 20, classSize: 100 }, 'en').value, '81%');
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -1404,6 +1425,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 24 product tools verification passed.');
+console.log('Sprint 6 Batch 25 product tools verification passed.');
 
 // END OF FILE

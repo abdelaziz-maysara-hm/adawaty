@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 6 — Batch 25
+
+- Added ten bilingual student and study-planning tools.
+- Added weighted grade, required final grade, cumulative GPA and GPA conversion.
+- Added attendance goals, absence allowance and class-rank percentile.
+- Added study, Pomodoro and quiz-average planning, expanding the catalogue to 211 tools.
+
 ## Sprint 6 — Batch 24
 
 - Added ten bilingual health and fitness calculators.
