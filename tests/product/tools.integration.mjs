@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 251);
+assert.equal(tools.length, 261);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -262,6 +262,16 @@ assert.deepEqual(
         'rhombus-area-calculator',
         'regular-polygon-calculator',
         'distance-between-points-calculator',
+        'json-key-sorter',
+        'json-flattener',
+        'json-unflattener',
+        'url-parser',
+        'url-normalizer',
+        'regex-escape-tool',
+        'javascript-string-escape-tool',
+        'http-status-code-lookup',
+        'mime-type-lookup',
+        'cron-expression-builder',
     ],
 );
 
@@ -1489,6 +1499,17 @@ assert.equal(getToolDefinition('rhombus-area-calculator').calculate({ diagonalA:
 assert.match(getToolDefinition('regular-polygon-calculator').calculate({ sides: 6, length: 5 }, 'en').value, /^64\.951/);
 assert.equal(getToolDefinition('distance-between-points-calculator').calculate({ x1: 1, y1: 2, x2: 4, y2: 6 }, 'en').value, '5 units');
 
+assert.match(getToolDefinition('json-key-sorter').calculate({ json: '{"z":1,"a":2}' }, 'en').value, /^\{\n  "a"/);
+assert.match(getToolDefinition('json-flattener').calculate({ json: '{"user":{"name":"Ali"}}' }, 'en').value, /"user.name": "Ali"/);
+assert.match(getToolDefinition('json-unflattener').calculate({ json: '{"user.name":"Ali"}' }, 'en').value, /"user": \{/);
+assert.match(getToolDefinition('url-parser').calculate({ url: 'https://example.com/path?q=tools' }, 'en').value, /"hostname": "example.com"/);
+assert.equal(getToolDefinition('url-normalizer').calculate({ url: 'HTTPS://Example.COM:443/path?z=2&a=1#top' }, 'en').value, 'https://example.com/path?a=1&z=2');
+assert.equal(getToolDefinition('regex-escape-tool').calculate({ text: 'a+b?' }, 'en').value, 'a\\+b\\?');
+assert.equal(getToolDefinition('javascript-string-escape-tool').calculate({ text: 'one\ntwo' }, 'en').value, 'one\\ntwo');
+assert.equal(getToolDefinition('http-status-code-lookup').calculate({ code: 404 }, 'en').value, 'Not Found');
+assert.equal(getToolDefinition('mime-type-lookup').calculate({ filename: 'data.json' }, 'en').value, 'application/json');
+assert.equal(getToolDefinition('cron-expression-builder').calculate({ minute: '0', hour: '9', day: '*', month: '*', weekday: '1-5' }, 'en').value, '0 9 * * 1-5');
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -1509,6 +1530,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 29 product tools verification passed.');
+console.log('Sprint 6 Batch 30 product tools verification passed.');
 
 // END OF FILE
