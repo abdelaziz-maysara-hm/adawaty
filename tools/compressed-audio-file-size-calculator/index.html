@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-language="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#07111f">
+    <meta name="description" content="قدّر حجم ملف MP3 أو AAC من معدل البت والمدة.">
+    <title>حاسبة حجم ملف الصوت المضغوط | أدواتي</title>
+    <link rel="canonical" href="https://abdelaziz-maysara-hm.github.io/adawaty/tools/compressed-audio-file-size-calculator/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="حاسبة حجم ملف الصوت المضغوط">
+    <meta property="og:description" content="قدّر حجم ملف MP3 أو AAC من معدل البت والمدة.">
+    <meta property="og:url" content="https://abdelaziz-maysara-hm.github.io/adawaty/tools/compressed-audio-file-size-calculator/">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Compressed Audio File Size Calculator","alternateName":"حاسبة حجم ملف الصوت المضغوط","description":"Estimate MP3 or AAC file size from bitrate and duration.","url":"https://abdelaziz-maysara-hm.github.io/adawaty/tools/compressed-audio-file-size-calculator/","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true,"inLanguage":["ar","en"]}</script>
+    <link rel="stylesheet" href="../../src/css/main.css">
+    <link rel="stylesheet" href="../../src/css/product.css">
+    <script type="module" src="../../src/product/tool-page.js"></script>
+</head>
+<body>
+    <header class="site-header">
+        <nav class="navigation shell" aria-label="التنقل الرئيسي">
+            <a class="brand" href="../../">
+                <span class="brand-mark">أ</span>
+                <span class="brand-copy"><strong>أدواتي</strong><span>Adawaty Platform</span></span>
+            </a>
+            <button class="button" id="tool-language-toggle" type="button">English</button>
+        </nav>
+    </header>
+    <main class="product-page shell" data-tool-page="compressed-audio-file-size-calculator">
+        <a class="product-back" href="../../#tools"><span aria-hidden="true">←</span><span id="back-label">كل الأدوات</span></a>
+        <div class="product-grid">
+            <section class="product-intro">
+                <span class="product-icon" id="tool-icon" aria-hidden="true"></span>
+                <h1 id="tool-title">حاسبة حجم ملف الصوت المضغوط</h1>
+                <p class="product-description" id="tool-description">قدّر حجم ملف MP3 أو AAC من معدل البت والمدة.</p>
+                <p class="product-note" id="tool-note">النتيجة تقريبية ولا تشمل بيانات الحاوية الصغيرة.</p>
+            </section>
+            <section class="product-calculator" aria-label="Calculator">
+                <form class="product-form" id="tool-form"></form>
+                <output class="product-result" id="tool-result" tabindex="-1" hidden>
+                    <strong class="product-result-value" id="result-value"></strong>
+                    <span class="product-result-label" id="result-label"></span>
+                    <span class="product-result-details" id="result-details"></span>
+                </output>
+            </section>
+        </div>
+    </main>
+    <footer class="site-footer"><div class="footer-row shell"><p>Adawaty</p><p>© <span id="current-year"></span></p></div></footer>
+</body>
+</html>

@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 371);
+assert.equal(tools.length, 381);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -382,6 +382,16 @@ assert.deepEqual(
         'video-aspect-ratio-calculator',
         'video-resolution-scale-calculator',
         'live-stream-bandwidth-calculator',
+        'compressed-audio-file-size-calculator',
+        'uncompressed-audio-size-calculator',
+        'audio-bitrate-calculator',
+        'audio-sample-count-calculator',
+        'bpm-beat-duration-calculator',
+        'music-delay-time-calculator',
+        'semitone-frequency-calculator',
+        'decibel-amplitude-ratio-calculator',
+        'podcast-ad-revenue-calculator',
+        'audio-transcription-time-calculator',
     ],
 );
 
@@ -1741,6 +1751,17 @@ assert.equal(getToolDefinition('video-aspect-ratio-calculator').calculate({ widt
 assert.equal(getToolDefinition('video-resolution-scale-calculator').calculate({ originalWidth: 1920, originalHeight: 1080, targetWidth: 1280 }, 'en').value, '1280 × 720');
 assert.equal(getToolDefinition('live-stream-bandwidth-calculator').calculate({ viewers: 1000, bitrate: 6, overhead: 10 }, 'en').value, '6.6 Gbps');
 
+assert.equal(getToolDefinition('compressed-audio-file-size-calculator').calculate({ bitrate: 320, minutes: 5, seconds: 0 }, 'en').value, '12 MB');
+assert.equal(getToolDefinition('uncompressed-audio-size-calculator').calculate({ sampleRate: 48000, bitDepth: 24, channels: 2, minutes: 5, seconds: 0 }, 'en').value, '86.4 MB');
+assert.equal(getToolDefinition('audio-bitrate-calculator').calculate({ size: 12, minutes: 5, seconds: 0 }, 'en').value, '320 kbps');
+assert.equal(getToolDefinition('audio-sample-count-calculator').calculate({ sampleRate: 48000, channels: 2, minutes: 1, seconds: 0 }, 'en').value, '5,760,000');
+assert.equal(getToolDefinition('bpm-beat-duration-calculator').calculate({ bpm: 120 }, 'en').value, '500 ms');
+assert.match(getToolDefinition('music-delay-time-calculator').calculate({ bpm: 120 }, 'en').value, /^Whole: 2,000 ms/);
+assert.equal(getToolDefinition('semitone-frequency-calculator').calculate({ frequency: 440, semitones: 12 }, 'en').value, '880 Hz');
+assert.equal(getToolDefinition('decibel-amplitude-ratio-calculator').calculate({ reference: 1, measured: 2 }, 'en').value, '6.021 dB');
+assert.equal(getToolDefinition('podcast-ad-revenue-calculator').calculate({ downloads: 20000, cpm: 25, slots: 2, fillRate: 100 }, 'en').value, '1,000');
+assert.equal(getToolDefinition('audio-transcription-time-calculator').calculate({ audioMinutes: 60, workFactor: 4 }, 'en').value, '4 hours');
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -1761,6 +1782,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 41 product tools verification passed.');
+console.log('Sprint 6 Batch 42 product tools verification passed.');
 
 // END OF FILE

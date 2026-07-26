@@ -29,6 +29,7 @@ import { constructionDefinitions } from './definitions/construction.js';
 import { ecommerceBusinessDefinitions } from './definitions/ecommerce-business.js';
 import { marketingMetricDefinitions } from './definitions/marketing-metrics.js';
 import { creatorVideoDefinitions } from './definitions/creator-video.js';
+import { audioPodcastDefinitions } from './definitions/audio-podcast.js';
 import { financeDefinitions } from './definitions/finance.js';
 import { healthDefinitions } from './definitions/health.js';
 import { mathDefinitions } from './definitions/math.js';
@@ -1027,6 +1028,7 @@ const toolDefinitions = Object.freeze({
     ...ecommerceBusinessDefinitions,
     ...marketingMetricDefinitions,
     ...creatorVideoDefinitions,
+    ...audioPodcastDefinitions,
 });
 
 function getToolDefinition(id) {
