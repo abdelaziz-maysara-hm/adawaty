@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 141);
+assert.equal(tools.length, 151);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -152,6 +152,16 @@ assert.deepEqual(
         'cooking-volume-converter',
         'data-transfer-rate-converter',
         'illuminance-converter',
+        'cash-zakat-calculator',
+        'gold-zakat-calculator',
+        'silver-zakat-calculator',
+        'business-zakat-calculator',
+        'quran-reading-plan-calculator',
+        'quran-khatma-plan-calculator',
+        'quran-memorization-plan-calculator',
+        'tasbeeh-progress-calculator',
+        'fasting-days-tracker',
+        'qibla-direction-calculator',
     ],
 );
 
@@ -1179,6 +1189,95 @@ assert.equal(
     '10.7639104',
 );
 
+assert.equal(
+    getToolDefinition('cash-zakat-calculator').calculate({
+        cash: 100000,
+        receivables: 0,
+        debts: 0,
+        nisab: 85000,
+    }, 'en').value,
+    '2,500',
+);
+assert.equal(
+    getToolDefinition('cash-zakat-calculator').calculate({
+        cash: 50000,
+        receivables: 0,
+        debts: 0,
+        nisab: 85000,
+    }, 'en').value,
+    '0',
+);
+assert.equal(
+    getToolDefinition('gold-zakat-calculator').calculate({
+        weight: 100,
+        karat: '24',
+        pureGoldPrice: 4000,
+    }, 'en').value,
+    '10,000',
+);
+assert.equal(
+    getToolDefinition('silver-zakat-calculator').calculate({
+        weight: 700,
+        price: 50,
+    }, 'en').value,
+    '875',
+);
+assert.equal(
+    getToolDefinition('business-zakat-calculator').calculate({
+        cash: 50000,
+        inventory: 100000,
+        receivables: 20000,
+        liabilities: 30000,
+        nisab: 85000,
+    }, 'en').value,
+    '3,500',
+);
+assert.equal(
+    getToolDefinition('quran-reading-plan-calculator').calculate({
+        pages: 604,
+        days: 30,
+        sessions: 5,
+    }, 'en').value,
+    '20.133 pages/day',
+);
+assert.equal(
+    getToolDefinition('quran-khatma-plan-calculator').calculate({
+        completions: 1,
+        days: 30,
+        sessions: 5,
+    }, 'en').value,
+    '4.027 pages/session',
+);
+assert.equal(
+    getToolDefinition('quran-memorization-plan-calculator').calculate({
+        pages: 604,
+        daysPerWeek: 5,
+        pagesPerDay: 1,
+    }, 'en').value,
+    '120.8 weeks',
+);
+assert.equal(
+    getToolDefinition('tasbeeh-progress-calculator').calculate({
+        target: 100,
+        completed: 33,
+    }, 'en').value,
+    '67',
+);
+assert.equal(
+    getToolDefinition('fasting-days-tracker').calculate({
+        target: 30,
+        completed: 12,
+    }, 'en').value,
+    '18 days',
+);
+const qiblaBearing = Number.parseFloat(
+    getToolDefinition('qibla-direction-calculator').calculate({
+        latitude: 30.0444,
+        longitude: 31.2357,
+    }, 'en').value,
+);
+assert.ok(qiblaBearing > 135 && qiblaBearing < 137);
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -1197,6 +1296,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 17 product tools verification passed.');
+console.log('Sprint 6 Batch 18 product tools verification passed.');
 
 // END OF FILE
