@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 261);
+assert.equal(tools.length, 271);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -272,6 +272,16 @@ assert.deepEqual(
         'http-status-code-lookup',
         'mime-type-lookup',
         'cron-expression-builder',
+        'html-minifier',
+        'html-beautifier',
+        'html-to-text-converter',
+        'html-tag-counter',
+        'markdown-to-html-converter',
+        'css-minifier',
+        'css-specificity-calculator',
+        'css-px-rem-converter',
+        'data-uri-encoder',
+        'data-uri-decoder',
     ],
 );
 
@@ -1510,6 +1520,17 @@ assert.equal(getToolDefinition('http-status-code-lookup').calculate({ code: 404 
 assert.equal(getToolDefinition('mime-type-lookup').calculate({ filename: 'data.json' }, 'en').value, 'application/json');
 assert.equal(getToolDefinition('cron-expression-builder').calculate({ minute: '0', hour: '9', day: '*', month: '*', weekday: '1-5' }, 'en').value, '0 9 * * 1-5');
 
+assert.equal(getToolDefinition('html-minifier').calculate({ html: '<main>\n  <p>Hello</p>\n</main>' }, 'en').value, '<main><p>Hello</p></main>');
+assert.equal(getToolDefinition('html-beautifier').calculate({ html: '<main><p>Hello</p></main>' }, 'en').value, '<main>\n  <p>\n    Hello\n  </p>\n</main>');
+assert.equal(getToolDefinition('html-to-text-converter').calculate({ html: '<h1>Hello</h1><p>Free <b>tools</b>.</p>' }, 'en').value, 'Hello\nFree tools.');
+assert.match(getToolDefinition('html-tag-counter').calculate({ html: '<main><p>One</p><p>Two</p></main>' }, 'en').value, /"p": 2/);
+assert.match(getToolDefinition('markdown-to-html-converter').calculate({ markdown: '# Tools\n\n- Fast\n- Free' }, 'en').value, /^<h1>Tools<\/h1>/);
+assert.equal(getToolDefinition('css-minifier').calculate({ css: '.card { color: red; padding: 1rem; }' }, 'en').value, '.card{color:red;padding:1rem}');
+assert.equal(getToolDefinition('css-specificity-calculator').calculate({ selector: '#app .card:hover > h2::before' }, 'en').value, '0-1-2-2');
+assert.equal(getToolDefinition('css-px-rem-converter').calculate({ value: 24, rootSize: 16, direction: 'px-to-rem' }, 'en').value, '1.5rem');
+assert.match(getToolDefinition('data-uri-encoder').calculate({ content: 'Hello world', mimeType: 'text/plain' }, 'en').value, /^data:text\/plain;charset=utf-8,Hello%20world$/);
+assert.equal(getToolDefinition('data-uri-decoder').calculate({ uri: 'data:text/plain;charset=utf-8,Hello%20world' }, 'en').value, 'Hello world');
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -1530,6 +1551,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 30 product tools verification passed.');
+console.log('Sprint 6 Batch 31 product tools verification passed.');
 
 // END OF FILE
