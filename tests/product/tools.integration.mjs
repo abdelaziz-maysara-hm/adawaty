@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 91);
+assert.equal(tools.length, 101);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -102,6 +102,16 @@ assert.deepEqual(
         'density-calculator',
         'physics-pressure-calculator',
         'wavelength-frequency-calculator',
+        'password-generator',
+        'password-strength-checker',
+        'password-entropy-calculator',
+        'ipv4-subnet-calculator',
+        'cidr-range-calculator',
+        'ip-address-to-binary',
+        'binary-to-ip-address',
+        'mac-address-formatter',
+        'network-port-lookup',
+        'data-transfer-time-calculator',
     ],
 );
 
@@ -722,6 +732,75 @@ assert.equal(
     '3 m',
 );
 
+const generatedPassword = getToolDefinition('password-generator').calculate({
+    length: 24,
+    characters: 'lettersNumbers',
+}, 'en').value;
+assert.equal(generatedPassword.length, 24);
+assert.match(generatedPassword, /^[A-Za-z0-9]+$/);
+
+assert.equal(
+    getToolDefinition('password-strength-checker').calculate({
+        password: 'Correct-Horse-Battery-Staple-2026!',
+    }, 'en').value,
+    'Very strong',
+);
+assert.match(
+    getToolDefinition('password-entropy-calculator').calculate({
+        password: 'Abc123!',
+    }, 'en').value,
+    /bits$/,
+);
+
+const subnet = getToolDefinition('ipv4-subnet-calculator');
+assert.equal(
+    subnet.calculate({ address: '192.168.1.25', prefix: 24 }, 'en').value,
+    '192.168.1.0/24',
+);
+assert.throws(
+    () => subnet.calculate({ address: '999.1.1.1', prefix: 24 }, 'en'),
+    /Invalid IPv4/,
+);
+assert.equal(
+    getToolDefinition('cidr-range-calculator').calculate({
+        address: '10.20.30.40',
+        prefix: 24,
+    }, 'en').value,
+    '10.20.30.1 – 10.20.30.254',
+);
+assert.equal(
+    getToolDefinition('ip-address-to-binary').calculate({
+        address: '192.168.1.1',
+    }, 'en').value,
+    '11000000.10101000.00000001.00000001',
+);
+assert.equal(
+    getToolDefinition('binary-to-ip-address').calculate({
+        binary: '11000000.10101000.00000001.00000001',
+    }, 'en').value,
+    '192.168.1.1',
+);
+assert.equal(
+    getToolDefinition('mac-address-formatter').calculate({
+        address: 'A1B2C3D4E5F6',
+        format: 'colon',
+    }, 'en').value,
+    'A1:B2:C3:D4:E5:F6',
+);
+assert.equal(
+    getToolDefinition('network-port-lookup').calculate({
+        port: 443,
+    }, 'en').value,
+    'HTTPS',
+);
+assert.equal(
+    getToolDefinition('data-transfer-time-calculator').calculate({
+        size: 1,
+        speed: 100,
+    }, 'en').value,
+    '1.3333 min',
+);
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -740,6 +819,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 12 product tools verification passed.');
+console.log('Sprint 6 Batch 13 product tools verification passed.');
 
 // END OF FILE
