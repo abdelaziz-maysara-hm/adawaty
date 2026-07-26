@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 6 — Batch 26
+
+- Added ten bilingual text encoding and language-analysis tools.
+- Added Morse, binary, ROT13, NATO phonetic and Unicode conversion.
+- Added palindrome, anagram, initials and letter analysis.
+- Added word-frequency analysis, expanding the catalogue to 221 tools.
+
 ## Sprint 6 — Batch 25
 
 - Added ten bilingual student and study-planning tools.

@@ -13,6 +13,7 @@ import { advancedMathDefinitions } from './definitions/advanced-math.js';
 import { advancedFinanceDefinitions } from './definitions/advanced-finance.js';
 import { advancedHealthDefinitions } from './definitions/advanced-health.js';
 import { studentStudyDefinitions } from './definitions/student-study.js';
+import { textEncodingDefinitions } from './definitions/text-encoding.js';
 import { financeDefinitions } from './definitions/finance.js';
 import { healthDefinitions } from './definitions/health.js';
 import { mathDefinitions } from './definitions/math.js';
@@ -995,6 +996,7 @@ const toolDefinitions = Object.freeze({
     ...advancedFinanceDefinitions,
     ...advancedHealthDefinitions,
     ...studentStudyDefinitions,
+    ...textEncodingDefinitions,
 });
 
 function getToolDefinition(id) {

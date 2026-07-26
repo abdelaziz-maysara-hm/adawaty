@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 211);
+assert.equal(tools.length, 221);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -222,6 +222,16 @@ assert.deepEqual(
         'pomodoro-session-planner',
         'quiz-average-calculator',
         'class-rank-percentile-calculator',
+        'morse-code-translator',
+        'binary-text-converter',
+        'rot13-converter',
+        'nato-phonetic-alphabet-converter',
+        'unicode-code-point-converter',
+        'palindrome-checker',
+        'anagram-checker',
+        'initials-generator',
+        'vowel-consonant-counter',
+        'word-frequency-analyzer',
     ],
 );
 
@@ -1405,6 +1415,17 @@ assert.equal(getToolDefinition('pomodoro-session-planner').calculate({ studyMinu
 assert.equal(getToolDefinition('quiz-average-calculator').calculate({ score1: 70, score2: 80, score3: 90, score4: 100, score5: 60 }, 'en').value, '80%');
 assert.equal(getToolDefinition('class-rank-percentile-calculator').calculate({ rank: 20, classSize: 100 }, 'en').value, '81%');
 
+assert.equal(getToolDefinition('morse-code-translator').calculate({ text: 'SOS', operation: 'encode' }, 'en').value, '... --- ...');
+assert.equal(getToolDefinition('binary-text-converter').calculate({ text: 'A', operation: 'encode' }, 'en').value, '01000001');
+assert.equal(getToolDefinition('rot13-converter').calculate({ text: 'Hello' }, 'en').value, 'Uryyb');
+assert.equal(getToolDefinition('nato-phonetic-alphabet-converter').calculate({ text: 'AB1' }, 'en').value, 'Alpha Bravo One');
+assert.equal(getToolDefinition('unicode-code-point-converter').calculate({ text: 'A🚀', operation: 'encode' }, 'en').value, 'U+0041 U+1F680');
+assert.equal(getToolDefinition('palindrome-checker').calculate({ text: 'Never odd or even' }, 'en').value, 'Yes');
+assert.equal(getToolDefinition('anagram-checker').calculate({ first: 'listen', second: 'silent' }, 'en').value, 'Anagrams');
+assert.equal(getToolDefinition('initials-generator').calculate({ text: 'Adawaty Free Tools' }, 'en').value, 'AFT');
+assert.equal(getToolDefinition('vowel-consonant-counter').calculate({ text: 'Adawaty' }, 'en').value, '3');
+assert.match(getToolDefinition('word-frequency-analyzer').calculate({ text: 'tools make tools useful' }, 'en').value, /^tools: 2/);
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -1425,6 +1446,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 25 product tools verification passed.');
+console.log('Sprint 6 Batch 26 product tools verification passed.');
 
 // END OF FILE
