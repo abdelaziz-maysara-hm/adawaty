@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 181);
+assert.equal(tools.length, 191);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -192,6 +192,16 @@ assert.deepEqual(
         'percentage-error-calculator',
         'scientific-notation-converter',
         'number-base-converter',
+        'cagr-calculator',
+        'debt-to-income-calculator',
+        'net-worth-calculator',
+        'emergency-fund-calculator',
+        'dividend-yield-calculator',
+        'payback-period-calculator',
+        'markup-calculator',
+        'credit-card-payoff-calculator',
+        'loan-affordability-calculator',
+        'investment-fee-calculator',
     ],
 );
 
@@ -1342,6 +1352,17 @@ assert.equal(getToolDefinition('percentage-error-calculator').calculate({ observ
 assert.match(getToolDefinition('scientific-notation-converter').calculate({ value: '602000000000000000000000', operation: 'to-scientific' }, 'en').value, /^6\.02e\+23$/);
 assert.equal(getToolDefinition('number-base-converter').calculate({ value: 'FF', fromBase: '16', toBase: '2' }, 'en').value, '11111111');
 
+assert.equal(getToolDefinition('cagr-calculator').calculate({ initial: 100, final: 121, years: 2 }, 'en').value, '10');
+assert.equal(getToolDefinition('debt-to-income-calculator').calculate({ monthlyDebt: 5000, grossIncome: 20000 }, 'en').value, '25');
+assert.equal(getToolDefinition('net-worth-calculator').calculate({ cash: 100, investments: 200, property: 700, liabilities: 400 }, 'en').value, '600');
+assert.equal(getToolDefinition('emergency-fund-calculator').calculate({ monthlyExpenses: 10000, coverageMonths: 6, currentSavings: 20000 }, 'en').value, '60,000');
+assert.equal(getToolDefinition('dividend-yield-calculator').calculate({ annualDividend: 4, sharePrice: 80, shares: 100 }, 'en').value, '5');
+assert.equal(getToolDefinition('payback-period-calculator').calculate({ investment: 120000, monthlyCashFlow: 8000 }, 'en').value, '15');
+assert.equal(getToolDefinition('markup-calculator').calculate({ cost: 80, price: 120 }, 'en').value, '50');
+assert.equal(getToolDefinition('credit-card-payoff-calculator').calculate({ balance: 1200, annualRate: 0, monthlyPayment: 100 }, 'en').value, '12');
+assert.equal(getToolDefinition('loan-affordability-calculator').calculate({ monthlyIncome: 10000, existingDebt: 1000, maxDebtRatio: 40, annualRate: 0, termYears: 1 }, 'en').value, '36,000');
+assert.equal(getToolDefinition('investment-fee-calculator').calculate({ principal: 100000, annualReturn: 8, annualFee: 1, years: 1 }, 'en').value, '1,000');
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -1362,6 +1383,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 22 product tools verification passed.');
+console.log('Sprint 6 Batch 23 product tools verification passed.');
 
 // END OF FILE

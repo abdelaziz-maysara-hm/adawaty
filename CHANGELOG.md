@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 6 — Batch 23
+
+- Added ten bilingual advanced personal and business finance tools.
+- Added CAGR, debt-to-income, net-worth and emergency-fund calculators.
+- Added dividend yield, payback period, markup and credit-card payoff tools.
+- Added loan affordability and investment-fee analysis, expanding the catalogue to 191 tools.
+
 ## Sprint 6 — Batch 22
 
 - Added ten bilingual advanced mathematics tools.
