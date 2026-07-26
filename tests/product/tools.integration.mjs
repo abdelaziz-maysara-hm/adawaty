@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 161);
+assert.equal(tools.length, 171);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -172,6 +172,16 @@ assert.deepEqual(
         'whitespace-cleaner',
         'find-and-replace-tool',
         'lorem-ipsum-generator',
+        'csv-to-json-converter',
+        'json-to-csv-converter',
+        'json-minifier',
+        'json-validator',
+        'xml-formatter',
+        'sql-formatter',
+        'query-string-parser',
+        'query-string-builder',
+        'uuid-generator',
+        'random-string-generator',
     ],
 );
 
@@ -1299,6 +1309,17 @@ assert.equal(getToolDefinition('whitespace-cleaner').calculate({ text: '  too   
 assert.equal(getToolDefinition('find-and-replace-tool').calculate({ text: 'one one', find: 'one', replacement: 'two' }, 'en').value, 'two two');
 assert.match(getToolDefinition('lorem-ipsum-generator').calculate({ paragraphs: 2, wordsPerParagraph: 5 }, 'en').value, /\n\n/);
 
+assert.match(getToolDefinition('csv-to-json-converter').calculate({ csv: 'name,score\nAli,95' }, 'en').value, /"name": "Ali"/);
+assert.equal(getToolDefinition('json-to-csv-converter').calculate({ json: '[{"name":"Ali","score":95}]' }, 'en').value, 'name,score\nAli,95');
+assert.equal(getToolDefinition('json-minifier').calculate({ json: '{ "ok": true }' }, 'en').value, '{"ok":true}');
+assert.equal(getToolDefinition('json-validator').calculate({ json: '{"ok":true}' }, 'en').value, 'Valid');
+assert.equal(getToolDefinition('xml-formatter').calculate({ xml: '<root><item>One</item></root>' }, 'en').value, '<root>\n  <item>One</item>\n</root>');
+assert.match(getToolDefinition('sql-formatter').calculate({ sql: 'select id from tools where active=1' }, 'en').value, /^SELECT id\nFROM tools\nWHERE active=1$/);
+assert.match(getToolDefinition('query-string-parser').calculate({ query: '?q=tools&lang=en' }, 'en').value, /"q": "tools"/);
+assert.equal(getToolDefinition('query-string-builder').calculate({ json: '{"q":"free tools","lang":"en"}' }, 'en').value, '?q=free+tools&lang=en');
+assert.match(getToolDefinition('uuid-generator').calculate({ count: 1 }, 'en').value, /^[0-9a-f-]{36}$/i);
+assert.equal(getToolDefinition('random-string-generator').calculate({ length: 24, charset: 'hex' }, 'en').value.length, 24);
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -1319,6 +1340,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 20 product tools verification passed.');
+console.log('Sprint 6 Batch 21 product tools verification passed.');
 
 // END OF FILE
