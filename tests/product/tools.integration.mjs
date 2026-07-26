@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 241);
+assert.equal(tools.length, 251);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -252,6 +252,16 @@ assert.deepEqual(
         'mass-energy-equivalence-calculator',
         'hookes-law-calculator',
         'ideal-gas-pressure-calculator',
+        'sphere-calculator',
+        'cylinder-calculator',
+        'cone-calculator',
+        'cube-calculator',
+        'trapezoid-area-calculator',
+        'parallelogram-area-calculator',
+        'ellipse-area-calculator',
+        'rhombus-area-calculator',
+        'regular-polygon-calculator',
+        'distance-between-points-calculator',
     ],
 );
 
@@ -1468,6 +1478,17 @@ assert.match(getToolDefinition('mass-energy-equivalence-calculator').calculate({
 assert.equal(getToolDefinition('hookes-law-calculator').calculate({ constant: 200, displacement: 0.05 }, 'en').value, '10 N');
 assert.match(getToolDefinition('ideal-gas-pressure-calculator').calculate({ moles: 1, temperature: 300, volume: 0.024 }, 'en').value, /^103,930/);
 
+assert.match(getToolDefinition('sphere-calculator').calculate({ radius: 3 }, 'en').value, /^113\.097/);
+assert.match(getToolDefinition('cylinder-calculator').calculate({ radius: 2, height: 5 }, 'en').value, /^62\.831/);
+assert.match(getToolDefinition('cone-calculator').calculate({ radius: 3, height: 4 }, 'en').value, /^37\.699/);
+assert.equal(getToolDefinition('cube-calculator').calculate({ side: 4 }, 'en').value, '64 units³');
+assert.equal(getToolDefinition('trapezoid-area-calculator').calculate({ baseA: 8, baseB: 12, height: 5 }, 'en').value, '50 units²');
+assert.equal(getToolDefinition('parallelogram-area-calculator').calculate({ base: 10, height: 6 }, 'en').value, '60 units²');
+assert.match(getToolDefinition('ellipse-area-calculator').calculate({ semiMajor: 8, semiMinor: 5 }, 'en').value, /^125\.663/);
+assert.equal(getToolDefinition('rhombus-area-calculator').calculate({ diagonalA: 10, diagonalB: 6 }, 'en').value, '30 units²');
+assert.match(getToolDefinition('regular-polygon-calculator').calculate({ sides: 6, length: 5 }, 'en').value, /^64\.951/);
+assert.equal(getToolDefinition('distance-between-points-calculator').calculate({ x1: 1, y1: 2, x2: 4, y2: 6 }, 'en').value, '5 units');
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -1488,6 +1509,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 28 product tools verification passed.');
+console.log('Sprint 6 Batch 29 product tools verification passed.');
 
 // END OF FILE
