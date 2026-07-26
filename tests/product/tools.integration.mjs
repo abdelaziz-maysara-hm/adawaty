@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 51);
+assert.equal(tools.length, 61);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -62,6 +62,16 @@ assert.deepEqual(
         'commission-calculator',
         'hourly-salary-calculator',
         'inflation-calculator',
+        'calorie-deficit-calculator',
+        'macro-calculator',
+        'protein-intake-calculator',
+        'body-fat-calculator',
+        'lean-body-mass-calculator',
+        'waist-to-height-ratio-calculator',
+        'target-heart-rate-calculator',
+        'running-pace-calculator',
+        'sleep-cycle-calculator',
+        'pregnancy-due-date-calculator',
     ],
 );
 
@@ -394,6 +404,75 @@ assert.equal(
     '1,100',
 );
 
+const calorieDeficit = getToolDefinition('calorie-deficit-calculator');
+assert.equal(
+    calorieDeficit.calculate({ maintenance: 2500, deficit: 500 }, 'en').value,
+    '2,000 kcal',
+);
+assert.throws(
+    () => calorieDeficit.calculate({
+        maintenance: 2000,
+        deficit: 2000,
+    }, 'en'),
+    /must be below/,
+);
+
+const macros = getToolDefinition('macro-calculator');
+assert.equal(
+    macros.calculate({
+        calories: 2000,
+        protein: 30,
+        carbs: 40,
+        fat: 30,
+    }, 'en').value,
+    '150 g',
+);
+assert.throws(
+    () => macros.calculate({
+        calories: 2000,
+        protein: 20,
+        carbs: 20,
+        fat: 20,
+    }, 'en'),
+    /must total 100/,
+);
+
+const protein = getToolDefinition('protein-intake-calculator');
+assert.equal(
+    protein.calculate({ weight: 75, factor: '1.6' }, 'en').value,
+    '120 g',
+);
+
+const waistHeight = getToolDefinition('waist-to-height-ratio-calculator');
+assert.equal(
+    waistHeight.calculate({ waist: 80, height: 160 }, 'en').value,
+    '0.5',
+);
+
+const heartRate = getToolDefinition('target-heart-rate-calculator');
+assert.equal(
+    heartRate.calculate({ age: 30, resting: 70 }, 'en').value,
+    '130–172 bpm',
+);
+
+const runningPace = getToolDefinition('running-pace-calculator');
+assert.equal(
+    runningPace.calculate({ distance: 5, minutes: 30 }, 'en').value,
+    '6:00 min/km',
+);
+
+const sleepCycle = getToolDefinition('sleep-cycle-calculator');
+assert.equal(
+    sleepCycle.calculate({ wakeTime: '07:00' }, 'en').value,
+    '21:46 · 23:16 · 00:46',
+);
+
+const pregnancy = getToolDefinition('pregnancy-due-date-calculator');
+assert.match(
+    pregnancy.calculate({ lastPeriod: '2026-01-01' }, 'en').value,
+    /October 8, 2026/,
+);
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -412,6 +491,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 8 product tools verification passed.');
+console.log('Sprint 6 Batch 9 product tools verification passed.');
 
 // END OF FILE
