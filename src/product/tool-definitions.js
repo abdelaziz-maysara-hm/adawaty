@@ -21,6 +21,7 @@ import { webDeveloperDefinitions } from './definitions/web-developer.js';
 import { frontendDeveloperDefinitions } from './definitions/frontend-developer.js';
 import { statisticsDefinitions } from './definitions/statistics.js';
 import { probabilityStatisticsDefinitions } from './definitions/probability-statistics.js';
+import { algebraSequenceDefinitions } from './definitions/algebra-sequences.js';
 import { financeDefinitions } from './definitions/finance.js';
 import { healthDefinitions } from './definitions/health.js';
 import { mathDefinitions } from './definitions/math.js';
@@ -1011,6 +1012,7 @@ const toolDefinitions = Object.freeze({
     ...frontendDeveloperDefinitions,
     ...statisticsDefinitions,
     ...probabilityStatisticsDefinitions,
+    ...algebraSequenceDefinitions,
 });
 
 function getToolDefinition(id) {

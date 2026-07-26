@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 291);
+assert.equal(tools.length, 301);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -302,6 +302,16 @@ assert.deepEqual(
         'binomial-probability-calculator',
         'odds-probability-converter',
         'expected-value-calculator',
+        'linear-equation-solver',
+        'two-variable-equation-solver',
+        'slope-calculator',
+        'midpoint-calculator',
+        'arithmetic-sequence-calculator',
+        'geometric-sequence-calculator',
+        'arithmetic-series-sum-calculator',
+        'geometric-series-sum-calculator',
+        'polynomial-evaluator',
+        'two-by-two-matrix-calculator',
     ],
 );
 
@@ -1573,6 +1583,17 @@ assert.equal(getToolDefinition('binomial-probability-calculator').calculate({ tr
 assert.equal(getToolDefinition('odds-probability-converter').calculate({ value: 75, direction: 'probability-to-odds' }, 'en').value, '3 : 1');
 assert.equal(getToolDefinition('expected-value-calculator').calculate({ outcomes: '0, 10, 50', probabilities: '50, 40, 10' }, 'en').value, '9');
 
+assert.equal(getToolDefinition('linear-equation-solver').calculate({ a: 3, b: 5, c: 20 }, 'en').value, '5');
+assert.equal(getToolDefinition('two-variable-equation-solver').calculate({ a1: 2, b1: 1, c1: 7, a2: 1, b2: -1, c2: 2 }, 'en').value, 'x = 3\ny = 1');
+assert.equal(getToolDefinition('slope-calculator').calculate({ x1: 1, y1: 2, x2: 4, y2: 8 }, 'en').value, '2');
+assert.equal(getToolDefinition('midpoint-calculator').calculate({ x1: 1, y1: 2, x2: 5, y2: 8 }, 'en').value, '(3, 5)');
+assert.equal(getToolDefinition('arithmetic-sequence-calculator').calculate({ first: 3, difference: 4, term: 10 }, 'en').value, '39');
+assert.equal(getToolDefinition('geometric-sequence-calculator').calculate({ first: 2, ratio: 3, term: 6 }, 'en').value, '486');
+assert.equal(getToolDefinition('arithmetic-series-sum-calculator').calculate({ first: 3, difference: 4, terms: 10 }, 'en').value, '210');
+assert.equal(getToolDefinition('geometric-series-sum-calculator').calculate({ first: 2, ratio: 3, terms: 5 }, 'en').value, '242');
+assert.equal(getToolDefinition('polynomial-evaluator').calculate({ coefficients: '2, 3, 1', x: 4 }, 'en').value, '45');
+assert.match(getToolDefinition('two-by-two-matrix-calculator').calculate({ a: 4, b: 7, c: 2, d: 6 }, 'en').value, /^det = 10/);
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -1593,6 +1614,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 33 product tools verification passed.');
+console.log('Sprint 6 Batch 34 product tools verification passed.');
 
 // END OF FILE
