@@ -1,5 +1,13 @@
 # Changelog
 
+## Sprint 6 — Batch 42
+
+- Added 10 bilingual audio, music and podcast tools.
+- Added compressed and uncompressed audio size, bitrate and sample calculators.
+- Added BPM, delay-time, pitch-shift and decibel tools.
+- Added podcast revenue and transcription-time estimators.
+- Expanded the generated catalogue to 381 working tools.
+
 ## Sprint 6 — Batch 41
 
 - Added 10 bilingual creator, video and live-stream planning tools.
