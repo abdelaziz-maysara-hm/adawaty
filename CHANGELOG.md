@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 6 — Batch 10
+
+- Added ten bilingual mathematics tools in a dedicated scalable module.
+- Added GCD, LCM, fraction simplification and quadratic-equation calculators.
+- Added circle, triangle, rectangle and Pythagorean geometry tools.
+- Added standard deviation and probability tools, expanding the catalogue to seventy-one.
+
 ## Sprint 6 — Batch 9
 
 - Added ten bilingual health and fitness calculators in a dedicated module.
