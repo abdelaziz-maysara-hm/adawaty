@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 6 — Batch 20
+
+- Added ten bilingual text productivity tools.
+- Added line, sentence, paragraph and reading-time analysis.
+- Added duplicate removal, sorting, reversal, whitespace cleanup and replacement.
+- Added placeholder text generation, expanding the catalogue to 161 tools.
+
 ## Sprint 6 — Batch 19
 
 - Added Schema.org WebApplication structured data to all 151 tool pages.

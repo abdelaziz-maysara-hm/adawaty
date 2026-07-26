@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 151);
+assert.equal(tools.length, 161);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -162,6 +162,16 @@ assert.deepEqual(
         'tasbeeh-progress-calculator',
         'fasting-days-tracker',
         'qibla-direction-calculator',
+        'line-counter',
+        'sentence-counter',
+        'paragraph-counter',
+        'reading-time-calculator',
+        'duplicate-line-remover',
+        'line-sorter',
+        'text-reverser',
+        'whitespace-cleaner',
+        'find-and-replace-tool',
+        'lorem-ipsum-generator',
     ],
 );
 
@@ -1278,6 +1288,17 @@ const qiblaBearing = Number.parseFloat(
 );
 assert.ok(qiblaBearing > 135 && qiblaBearing < 137);
 
+assert.equal(getToolDefinition('line-counter').calculate({ text: 'a\nb\n\nc' }, 'en').value, '4');
+assert.equal(getToolDefinition('sentence-counter').calculate({ text: 'One. Two? Three!' }, 'en').value, '3');
+assert.equal(getToolDefinition('paragraph-counter').calculate({ text: 'One.\n\nTwo.' }, 'en').value, '2');
+assert.equal(getToolDefinition('reading-time-calculator').calculate({ text: 'one two three four', speed: 200 }, 'en').value, '0.02 min');
+assert.equal(getToolDefinition('duplicate-line-remover').calculate({ text: 'a\nb\na' }, 'en').value, 'a\nb');
+assert.equal(getToolDefinition('line-sorter').calculate({ text: 'c\na\nb', direction: 'ascending' }, 'en').value, 'a\nb\nc');
+assert.equal(getToolDefinition('text-reverser').calculate({ text: 'abc' }, 'en').value, 'cba');
+assert.equal(getToolDefinition('whitespace-cleaner').calculate({ text: '  too   many \n\n\n spaces  ' }, 'en').value, 'too many\n\nspaces');
+assert.equal(getToolDefinition('find-and-replace-tool').calculate({ text: 'one one', find: 'one', replacement: 'two' }, 'en').value, 'two two');
+assert.match(getToolDefinition('lorem-ipsum-generator').calculate({ paragraphs: 2, wordsPerParagraph: 5 }, 'en').value, /\n\n/);
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -1298,6 +1319,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 19 product tools verification passed.');
+console.log('Sprint 6 Batch 20 product tools verification passed.');
 
 // END OF FILE
