@@ -1,5 +1,13 @@
 # Changelog
 
+## Sprint 6 — Batch 38
+
+- Added 10 bilingual construction and home-planning tools.
+- Added brick, mortar, cement, flooring and drywall estimators.
+- Added roofing, gravel, topsoil and staircase calculators.
+- Added a room air-conditioner sizing estimator.
+- Expanded the generated catalogue to 341 working tools.
+
 ## Sprint 6 — Batch 37
 
 - Added 10 bilingual calculus and mathematical-analysis tools.
