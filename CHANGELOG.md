@@ -1,5 +1,13 @@
 # Changelog
 
+## Sprint 6 — Batch 31
+
+- Added 10 bilingual front-end developer tools for HTML, CSS, Markdown and Data URIs.
+- Added HTML minifying, formatting, text extraction and tag analysis.
+- Added CSS minifying, specificity analysis and px/rem conversion.
+- Added local Data URI encoding and decoding.
+- Expanded the generated catalogue to 271 working tools.
+
 ## Sprint 6 — Batch 30
 
 - Added ten bilingual web and data developer tools.
