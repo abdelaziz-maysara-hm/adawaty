@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 191);
+assert.equal(tools.length, 201);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -202,6 +202,16 @@ assert.deepEqual(
         'credit-card-payoff-calculator',
         'loan-affordability-calculator',
         'investment-fee-calculator',
+        'waist-to-hip-ratio-calculator',
+        'ponderal-index-calculator',
+        'adjusted-body-weight-calculator',
+        'healthy-weight-range-calculator',
+        'met-calorie-burn-calculator',
+        'steps-to-distance-calculator',
+        'steps-to-calories-calculator',
+        'one-rep-max-calculator',
+        'race-time-predictor',
+        'cooper-test-vo2-max-calculator',
     ],
 );
 
@@ -1363,6 +1373,17 @@ assert.equal(getToolDefinition('credit-card-payoff-calculator').calculate({ bala
 assert.equal(getToolDefinition('loan-affordability-calculator').calculate({ monthlyIncome: 10000, existingDebt: 1000, maxDebtRatio: 40, annualRate: 0, termYears: 1 }, 'en').value, '36,000');
 assert.equal(getToolDefinition('investment-fee-calculator').calculate({ principal: 100000, annualReturn: 8, annualFee: 1, years: 1 }, 'en').value, '1,000');
 
+assert.equal(getToolDefinition('waist-to-hip-ratio-calculator').calculate({ waist: 82, hip: 100 }, 'en').value, '0.82');
+assert.equal(getToolDefinition('ponderal-index-calculator').calculate({ weight: 70, height: 175 }, 'en').value, '13.06');
+assert.equal(getToolDefinition('adjusted-body-weight-calculator').calculate({ actualWeight: 100, idealWeight: 70 }, 'en').value, '82 kg');
+assert.equal(getToolDefinition('healthy-weight-range-calculator').calculate({ height: 175 }, 'en').value, '56.66–76.26 kg');
+assert.equal(getToolDefinition('met-calorie-burn-calculator').calculate({ met: 6, weight: 70, duration: 45 }, 'en').value, '330.75 kcal');
+assert.equal(getToolDefinition('steps-to-distance-calculator').calculate({ steps: 10000, stride: 75 }, 'en').value, '7.5 km');
+assert.equal(getToolDefinition('steps-to-calories-calculator').calculate({ steps: 10000, weight: 70 }, 'en').value, '400 kcal');
+assert.equal(getToolDefinition('one-rep-max-calculator').calculate({ weight: 80, repetitions: 8 }, 'en').value, '101.33 kg');
+assert.match(getToolDefinition('race-time-predictor').calculate({ knownDistance: 5, knownMinutes: 25, targetDistance: 10 }, 'en').value, /^0:52:/);
+assert.equal(getToolDefinition('cooper-test-vo2-max-calculator').calculate({ distance: 2400 }, 'en').value, '42.37 ml/kg/min');
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -1383,6 +1404,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 23 product tools verification passed.');
+console.log('Sprint 6 Batch 24 product tools verification passed.');
 
 // END OF FILE
