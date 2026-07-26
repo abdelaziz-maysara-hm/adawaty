@@ -9,6 +9,7 @@ import { advancedConverterDefinitions } from './definitions/advanced-converters.
 import { islamicDefinitions } from './definitions/islamic.js';
 import { textProductivityDefinitions } from './definitions/text-productivity.js';
 import { dataDeveloperDefinitions } from './definitions/data-developer.js';
+import { advancedMathDefinitions } from './definitions/advanced-math.js';
 import { financeDefinitions } from './definitions/finance.js';
 import { healthDefinitions } from './definitions/health.js';
 import { mathDefinitions } from './definitions/math.js';
@@ -987,6 +988,7 @@ const toolDefinitions = Object.freeze({
     ...islamicDefinitions,
     ...textProductivityDefinitions,
     ...dataDeveloperDefinitions,
+    ...advancedMathDefinitions,
 });
 
 function getToolDefinition(id) {

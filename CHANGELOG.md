@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 6 — Batch 22
+
+- Added ten bilingual advanced mathematics tools.
+- Added prime, factorial, permutation and combination calculators.
+- Added logarithm, exponent, nth-root and percentage-error calculators.
+- Added scientific-notation and number-base conversion, expanding the catalogue to 181 tools.
+
 ## Sprint 6 — Batch 21
 
 - Added ten bilingual data and developer tools.

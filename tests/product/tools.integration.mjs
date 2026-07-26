@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 171);
+assert.equal(tools.length, 181);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -182,6 +182,16 @@ assert.deepEqual(
         'query-string-builder',
         'uuid-generator',
         'random-string-generator',
+        'prime-number-checker',
+        'factorial-calculator',
+        'permutation-calculator',
+        'combination-calculator',
+        'logarithm-calculator',
+        'exponent-calculator',
+        'nth-root-calculator',
+        'percentage-error-calculator',
+        'scientific-notation-converter',
+        'number-base-converter',
     ],
 );
 
@@ -1320,6 +1330,18 @@ assert.equal(getToolDefinition('query-string-builder').calculate({ json: '{"q":"
 assert.match(getToolDefinition('uuid-generator').calculate({ count: 1 }, 'en').value, /^[0-9a-f-]{36}$/i);
 assert.equal(getToolDefinition('random-string-generator').calculate({ length: 24, charset: 'hex' }, 'en').value.length, 24);
 
+assert.equal(getToolDefinition('prime-number-checker').calculate({ number: 97 }, 'en').value, 'Prime');
+assert.equal(getToolDefinition('prime-number-checker').calculate({ number: 91 }, 'en').label, 'Smallest factor: 7');
+assert.equal(getToolDefinition('factorial-calculator').calculate({ number: 10 }, 'en').value, '3,628,800');
+assert.equal(getToolDefinition('permutation-calculator').calculate({ n: 10, r: 3 }, 'en').value, '720');
+assert.equal(getToolDefinition('combination-calculator').calculate({ n: 10, r: 3 }, 'en').value, '120');
+assert.equal(getToolDefinition('logarithm-calculator').calculate({ number: 1000, base: 10 }, 'en').value, '3');
+assert.equal(getToolDefinition('exponent-calculator').calculate({ base: 2, exponent: 10 }, 'en').value, '1,024');
+assert.equal(getToolDefinition('nth-root-calculator').calculate({ number: 125, degree: 3 }, 'en').value, '5');
+assert.equal(getToolDefinition('percentage-error-calculator').calculate({ observed: 9.5, actual: 10 }, 'en').value, '5%');
+assert.match(getToolDefinition('scientific-notation-converter').calculate({ value: '602000000000000000000000', operation: 'to-scientific' }, 'en').value, /^6\.02e\+23$/);
+assert.equal(getToolDefinition('number-base-converter').calculate({ value: 'FF', fromBase: '16', toBase: '2' }, 'en').value, '11111111');
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -1340,6 +1362,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 21 product tools verification passed.');
+console.log('Sprint 6 Batch 22 product tools verification passed.');
 
 // END OF FILE
