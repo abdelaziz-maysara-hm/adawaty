@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 381);
+assert.equal(tools.length, 391);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -392,6 +392,16 @@ assert.deepEqual(
         'decibel-amplitude-ratio-calculator',
         'podcast-ad-revenue-calculator',
         'audio-transcription-time-calculator',
+        'depth-of-field-calculator',
+        'camera-exposure-value-calculator',
+        'shutter-angle-calculator',
+        'hyperfocal-distance-calculator',
+        'crop-factor-focal-length-calculator',
+        'image-megapixel-calculator',
+        'photo-print-size-calculator',
+        'photo-storage-capacity-calculator',
+        'timelapse-duration-calculator',
+        'nd-filter-exposure-calculator',
     ],
 );
 
@@ -1762,6 +1772,17 @@ assert.equal(getToolDefinition('decibel-amplitude-ratio-calculator').calculate({
 assert.equal(getToolDefinition('podcast-ad-revenue-calculator').calculate({ downloads: 20000, cpm: 25, slots: 2, fillRate: 100 }, 'en').value, '1,000');
 assert.equal(getToolDefinition('audio-transcription-time-calculator').calculate({ audioMinutes: 60, workFactor: 4 }, 'en').value, '4 hours');
 
+assert.match(getToolDefinition('depth-of-field-calculator').calculate({ focalLength: 50, aperture: 2.8, circle: 0.03, distance: 5 }, 'en').value, /^Near:/);
+assert.equal(getToolDefinition('camera-exposure-value-calculator').calculate({ aperture: 8, shutter: 0.008 }, 'en').value, '12.966 EV');
+assert.equal(getToolDefinition('shutter-angle-calculator').calculate({ shutter: 0.020833, fps: 24 }, 'en').value, '179.997 °');
+assert.equal(getToolDefinition('hyperfocal-distance-calculator').calculate({ focalLength: 35, aperture: 8, circle: 0.03 }, 'en').value, '5.139 m');
+assert.equal(getToolDefinition('crop-factor-focal-length-calculator').calculate({ focalLength: 35, cropFactor: 1.5 }, 'en').value, '52.5 mm');
+assert.equal(getToolDefinition('image-megapixel-calculator').calculate({ width: 6000, height: 4000 }, 'en').value, '24 MP');
+assert.equal(getToolDefinition('photo-print-size-calculator').calculate({ width: 6000, height: 4000, dpi: 300 }, 'en').value, '20 × 13.333 in');
+assert.equal(getToolDefinition('photo-storage-capacity-calculator').calculate({ storage: 64, photoSize: 25 }, 'en').value, '2560');
+assert.equal(getToolDefinition('timelapse-duration-calculator').calculate({ shootMinutes: 60, interval: 5, fps: 30 }, 'en').value, '24.033 seconds');
+assert.equal(getToolDefinition('nd-filter-exposure-calculator').calculate({ baseExposure: 0.008, stops: 10 }, 'en').value, '8.192 seconds');
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -1782,6 +1803,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 42 product tools verification passed.');
+console.log('Sprint 6 Batch 43 product tools verification passed.');
 
 // END OF FILE

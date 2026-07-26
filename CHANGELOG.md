@@ -1,5 +1,13 @@
 # Changelog
 
+## Sprint 6 — Batch 43
+
+- Added 10 bilingual photography and camera-planning tools.
+- Added depth-of-field, exposure-value, shutter-angle and hyperfocal calculators.
+- Added crop-factor, megapixel, print-size and photo-storage tools.
+- Added timelapse and ND-filter exposure calculators.
+- Expanded the generated catalogue to 391 working tools.
+
 ## Sprint 6 — Batch 42
 
 - Added 10 bilingual audio, music and podcast tools.
