@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 6 — Batch 16
+
+- Added ten bilingual home and lifestyle calculators in a dedicated module.
+- Added fuel cost, fuel economy, road-trip and electricity estimators.
+- Added paint, tile, concrete and wallpaper planning tools.
+- Added recipe scaling and rent affordability, expanding the catalogue to 131 tools.
+
 ## Sprint 6 — Batch 15
 
 - Added ten bilingual color and CSS tools in a dedicated module.

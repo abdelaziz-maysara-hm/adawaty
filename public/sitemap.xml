@@ -71,6 +71,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/categories/home-lifestyle/</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/bmi-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
@@ -672,6 +677,56 @@
     </url>
     <url>
         <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/css-clamp-calculator/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/fuel-cost-calculator/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/fuel-economy-calculator/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/road-trip-cost-calculator/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/electricity-cost-calculator/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/paint-calculator/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/tile-calculator/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/concrete-volume-calculator/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/wallpaper-roll-calculator/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/recipe-scaler/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/rent-affordability-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
