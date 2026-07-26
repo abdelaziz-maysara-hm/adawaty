@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 6 — Batch 29
+
+- Added ten bilingual geometry calculators.
+- Added sphere, cylinder, cone and cube measurements.
+- Added trapezoid, parallelogram, ellipse and rhombus areas.
+- Added regular polygon and point-distance calculations, expanding the catalogue to 251 tools.
+
 ## Sprint 6 — Batch 28
 
 - Added ten bilingual physics and engineering calculators.
