@@ -4,6 +4,7 @@ import { engineeringDefinitions } from './definitions/engineering.js';
 import { securityNetworkDefinitions } from './definitions/security-network.js';
 import { seoDefinitions } from './definitions/seo.js';
 import { colorCssDefinitions } from './definitions/color-css.js';
+import { homeLifestyleDefinitions } from './definitions/home-lifestyle.js';
 import { financeDefinitions } from './definitions/finance.js';
 import { healthDefinitions } from './definitions/health.js';
 import { mathDefinitions } from './definitions/math.js';
@@ -977,6 +978,7 @@ const toolDefinitions = Object.freeze({
     ...securityNetworkDefinitions,
     ...seoDefinitions,
     ...colorCssDefinitions,
+    ...homeLifestyleDefinitions,
 });
 
 function getToolDefinition(id) {

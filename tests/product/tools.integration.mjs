@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 121);
+assert.equal(tools.length, 131);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -132,6 +132,16 @@ assert.deepEqual(
         'css-box-shadow-generator',
         'css-border-radius-generator',
         'css-clamp-calculator',
+        'fuel-cost-calculator',
+        'fuel-economy-calculator',
+        'road-trip-cost-calculator',
+        'electricity-cost-calculator',
+        'paint-calculator',
+        'tile-calculator',
+        'concrete-volume-calculator',
+        'wallpaper-roll-calculator',
+        'recipe-scaler',
+        'rent-affordability-calculator',
     ],
 );
 
@@ -993,6 +1003,91 @@ assert.equal(
     'clamp(1rem, 0.6364rem + 1.8182vw, 2rem)',
 );
 
+assert.equal(
+    getToolDefinition('fuel-cost-calculator').calculate({
+        distance: 350,
+        consumption: 7.5,
+        price: 15,
+    }, 'en').value,
+    '393.75',
+);
+assert.equal(
+    getToolDefinition('fuel-economy-calculator').calculate({
+        distance: 500,
+        fuel: 40,
+    }, 'en').value,
+    '12.5 km/L',
+);
+assert.equal(
+    getToolDefinition('road-trip-cost-calculator').calculate({
+        distance: 700,
+        consumption: 8,
+        fuelPrice: 15,
+        tolls: 100,
+    }, 'en').value,
+    '940',
+);
+assert.equal(
+    getToolDefinition('electricity-cost-calculator').calculate({
+        watts: 1500,
+        hours: 4,
+        days: 30,
+        rate: 1.5,
+    }, 'en').value,
+    '270',
+);
+assert.equal(
+    getToolDefinition('paint-calculator').calculate({
+        area: 80,
+        coats: 2,
+        coverage: 10,
+        waste: 10,
+    }, 'en').value,
+    '17.6 L',
+);
+assert.equal(
+    getToolDefinition('tile-calculator').calculate({
+        area: 24,
+        tileWidth: 60,
+        tileLength: 60,
+        waste: 10,
+    }, 'en').value,
+    '74',
+);
+assert.equal(
+    getToolDefinition('concrete-volume-calculator').calculate({
+        length: 6,
+        width: 4,
+        thickness: 15,
+        waste: 5,
+    }, 'en').value,
+    '3.78 m³',
+);
+assert.equal(
+    getToolDefinition('wallpaper-roll-calculator').calculate({
+        area: 45,
+        coverage: 5.2,
+        waste: 15,
+    }, 'en').value,
+    '10',
+);
+assert.equal(
+    getToolDefinition('recipe-scaler').calculate({
+        amount: 250,
+        originalServings: 4,
+        newServings: 10,
+    }, 'en').value,
+    '625',
+);
+assert.equal(
+    getToolDefinition('rent-affordability-calculator').calculate({
+        income: 20000,
+        ratio: 30,
+        housingExpenses: 1000,
+    }, 'en').value,
+    '5,000',
+);
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -1011,6 +1106,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 15 product tools verification passed.');
+console.log('Sprint 6 Batch 16 product tools verification passed.');
 
 // END OF FILE
