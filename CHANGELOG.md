@@ -1,5 +1,13 @@
 # Changelog
 
+## Sprint 6 — Batch 44
+
+- Added 10 bilingual food, baking and recipe-planning tools.
+- Added baker's percentage, dough hydration, pizza dough and brine calculators.
+- Added serving cost, menu price, calories and cooking-yield tools.
+- Added caffeine-intake and coffee brew-ratio calculators.
+- Expanded the generated catalogue to 401 working tools.
+
 ## Sprint 6 — Batch 43
 
 - Added 10 bilingual photography and camera-planning tools.
