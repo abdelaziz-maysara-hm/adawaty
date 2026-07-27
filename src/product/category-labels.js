@@ -15,6 +15,8 @@ const categoryLabels = Object.freeze({
     'home-lifestyle': Object.freeze({ ar: 'المنزل والحياة', en: 'Home & Lifestyle' }),
     islamic: Object.freeze({ ar: 'إسلامية', en: 'Islamic' }),
     image: Object.freeze({ ar: 'الصور والوسائط', en: 'Image & Media' }),
+    video: Object.freeze({ ar: 'الفيديو', en: 'Video' }),
+    audio: Object.freeze({ ar: 'الصوت والبودكاست', en: 'Audio & Podcast' }),
     pdf: Object.freeze({ ar: 'ملفات PDF', en: 'PDF' }),
 });
 

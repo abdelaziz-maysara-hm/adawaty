@@ -8,7 +8,7 @@ import {
 import { categoryLabels } from '../../src/product/category-labels.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 492);
+assert.equal(tools.length, 494);
 assert.deepEqual(
     [...new Set(tools.map((tool) => tool.category))]
         .filter((category) => !categoryLabels[category]),
@@ -510,6 +510,8 @@ assert.deepEqual(
         'pdf-page-remover',
         'pdf-watermark',
         'pdf-workflow',
+        'video-thumbnail-extractor',
+        'video-contact-sheet-generator',
     ],
 );
 
@@ -2018,6 +2020,16 @@ for (const id of [
 }
 assert.equal(getToolDefinition('pdf-merge').inputs[0].multiple, true);
 
+for (const id of [
+    'video-thumbnail-extractor',
+    'video-contact-sheet-generator',
+]) {
+    const fileTool = getToolDefinition(id);
+    assert.equal(typeof fileTool.process, 'function');
+    assert.equal(fileTool.inputs[0].type, 'file');
+    assert.match(fileTool.inputs[0].accept, /video/);
+}
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -2039,6 +2051,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 7 Batch 10 product tools verification passed.');
+console.log('Sprint 7 Batch 11 product tools verification passed.');
 
 // END OF FILE

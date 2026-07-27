@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 7 — Batch 11
+
+- Added a local video thumbnail extractor with selectable timestamps and JPG export.
+- Added a video contact-sheet generator that combines multiple frames into one downloadable overview.
+- Separated video and audio tools into dedicated catalogue categories for clearer discovery.
+- Kept video processing private by decoding and rendering files entirely inside the browser.
+
 ## Sprint 7 — Batch 10
 
 - Added a social-media image pack generator that exports multiple publishing sizes in one ZIP.

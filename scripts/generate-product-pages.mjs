@@ -6,7 +6,7 @@ import { listToolDefinitions } from '../src/product/tool-definitions.js';
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const baseUrl = 'https://abdelaziz-maysara-hm.github.io/adawaty';
-const assetVersion = 's7b10';
+const assetVersion = 's7b11';
 const tools = listToolDefinitions();
 const categories = Object.freeze({
     health: Object.freeze({ ar: 'أدوات الصحة', en: 'Health Tools' }),
@@ -25,6 +25,8 @@ const categories = Object.freeze({
     'home-lifestyle': Object.freeze({ ar: 'أدوات المنزل والحياة', en: 'Home & Lifestyle Tools' }),
     islamic: Object.freeze({ ar: 'الأدوات الإسلامية', en: 'Islamic Tools' }),
     image: Object.freeze({ ar: 'أدوات الصور والوسائط', en: 'Image & Media Tools' }),
+    video: Object.freeze({ ar: 'أدوات الفيديو', en: 'Video Tools' }),
+    audio: Object.freeze({ ar: 'أدوات الصوت والبودكاست', en: 'Audio & Podcast Tools' }),
     pdf: Object.freeze({ ar: 'أدوات PDF', en: 'PDF Tools' }),
 });
 

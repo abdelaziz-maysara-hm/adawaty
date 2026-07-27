@@ -47,6 +47,7 @@ import { imageBatchToolDefinitions } from './definitions/image-batch-tools.js';
 import { imageWorkflowToolDefinitions } from './definitions/image-workflow-tools.js';
 import { pdfFileToolDefinitions } from './definitions/pdf-file-tools.js';
 import { pdfWorkflowToolDefinitions } from './definitions/pdf-workflow-tools.js';
+import { videoFileToolDefinitions } from './definitions/video-file-tools.js';
 import { financeDefinitions } from './definitions/finance.js';
 import { healthDefinitions } from './definitions/health.js';
 import { mathDefinitions } from './definitions/math.js';
@@ -1063,6 +1064,7 @@ const toolDefinitions = Object.freeze({
     ...imageWorkflowToolDefinitions,
     ...pdfFileToolDefinitions,
     ...pdfWorkflowToolDefinitions,
+    ...videoFileToolDefinitions,
 });
 
 function getToolDefinition(id) {

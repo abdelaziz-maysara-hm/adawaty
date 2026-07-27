@@ -91,6 +91,16 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/categories/video/</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/categories/audio/</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://abdelaziz-maysara-hm.github.io/adawaty/categories/pdf/</loc>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
@@ -2552,6 +2562,16 @@
     </url>
     <url>
         <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/pdf-workflow/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/video-thumbnail-extractor/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/video-contact-sheet-generator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
