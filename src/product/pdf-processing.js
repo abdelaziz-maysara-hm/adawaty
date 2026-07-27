@@ -1,5 +1,8 @@
 const PDF_LIB_URL = 'https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/+esm';
+const PDF_JS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.mjs';
+const PDF_JS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.worker.mjs';
 let pdfLibPromise;
+let pdfJsPromise;
 
 async function loadPdfLib() {
     pdfLibPromise ??= import(PDF_LIB_URL).catch((error) => {
@@ -7,6 +10,17 @@ async function loadPdfLib() {
         throw new Error(`Unable to load the PDF processing engine: ${error.message}`);
     });
     return pdfLibPromise;
+}
+
+async function loadPdfJs() {
+    pdfJsPromise ??= import(PDF_JS_URL).then((module) => {
+        module.GlobalWorkerOptions.workerSrc = PDF_JS_WORKER_URL;
+        return module;
+    }).catch((error) => {
+        pdfJsPromise = undefined;
+        throw new Error(`Unable to load the PDF rendering engine: ${error.message}`);
+    });
+    return pdfJsPromise;
 }
 
 function assertPdfFile(file) {
@@ -62,6 +76,7 @@ export {
     assertPdfFile,
     createPdfBlob,
     loadPdfLib,
+    loadPdfJs,
     outputName,
     parsePageSelection,
 };
