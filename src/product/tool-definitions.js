@@ -40,6 +40,7 @@ import { travelPlanningDefinitions } from './definitions/travel-planning.js';
 import { gardenLandscapeDefinitions } from './definitions/garden-landscape.js';
 import { petCareDefinitions } from './definitions/pet-care.js';
 import { imageFileToolDefinitions } from './definitions/image-file-tools.js';
+import { imageEditingToolDefinitions } from './definitions/image-editing-tools.js';
 import { financeDefinitions } from './definitions/finance.js';
 import { healthDefinitions } from './definitions/health.js';
 import { mathDefinitions } from './definitions/math.js';
@@ -1049,6 +1050,7 @@ const toolDefinitions = Object.freeze({
     ...gardenLandscapeDefinitions,
     ...petCareDefinitions,
     ...imageFileToolDefinitions,
+    ...imageEditingToolDefinitions,
 });
 
 function getToolDefinition(id) {
