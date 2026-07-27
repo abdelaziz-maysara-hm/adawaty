@@ -24,7 +24,7 @@ import {
 } from '../../src/product/definitions/file-utility-tools.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 570);
+assert.equal(tools.length, 580);
 assert.deepEqual(
     [...new Set(tools.map((tool) => tool.category))]
         .filter((category) => !categoryLabels[category]),
@@ -604,6 +604,16 @@ assert.deepEqual(
         'text-file-encoding-normalizer',
         'csv-file-to-json-converter',
         'json-file-to-csv-converter',
+        'html-link-extractor',
+        'html-image-source-extractor',
+        'html-heading-extractor',
+        'html-table-to-csv-converter',
+        'html-meta-tag-extractor',
+        'markdown-link-extractor',
+        'markdown-image-extractor',
+        'url-domain-extractor',
+        'url-query-parameter-remover',
+        'url-list-deduplicator',
     ],
 );
 
@@ -2310,6 +2320,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 7 Batch 25 product tools verification passed.');
+console.log('Sprint 7 Batch 26 product tools verification passed.');
 
 // END OF FILE
