@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 7 — Batch 28
+
+- Replaced the development-status landing page with a polished public product homepage.
+- Prioritized image, PDF, video, audio, text and data workflows throughout navigation and discovery.
+- Added homepage search with catalogue query handoff, responsive category browsing and clearer privacy messaging.
+- Refreshed the visual system, mobile navigation, public copy and cache versions for launch readiness.
+
 ## Sprint 7 — Batch 27
 
 - Added ten browser-local HTML cleanup, inspection and content-conversion tools.

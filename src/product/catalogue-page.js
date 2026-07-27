@@ -1,5 +1,5 @@
-import { listToolDefinitions } from './tool-definitions.js?v=s7b26';
-import { categoryLabels as categories } from './category-labels.js?v=s7b26';
+import { listToolDefinitions } from './tool-definitions.js?v=s7b28';
+import { categoryLabels as categories } from './category-labels.js?v=s7b28';
 
 const copy = Object.freeze({
     ar: Object.freeze({
@@ -37,6 +37,10 @@ const fixedCategory = root?.dataset.category ?? '';
 const tools = listToolDefinitions();
 let activeCategory = fixedCategory;
 let language = localStorage.getItem('adawaty-language') === 'en' ? 'en' : 'ar';
+const initialQuery = new URLSearchParams(window.location.search).get('q');
+if (initialQuery) {
+    search.value = initialQuery;
+}
 
 function escapeHtml(value) {
     return String(value)
