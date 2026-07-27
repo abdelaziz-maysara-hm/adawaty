@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 7 — Batch 20
+
+- Added MP4 and WebM video format conversion.
+- Added proportional video resizing for common web and mobile resolutions.
+- Added synchronized video speed adjustment from 0.5× to 2×.
+- Expanded the catalogue to 520 tools and regenerated all public pages and sitemap entries.
+
 ## Sprint 7 — Batch 19
 
 - Added local video trimming with configurable start and end times.

@@ -155,10 +155,147 @@ const videoMute = Object.freeze({
     },
 });
 
+const videoConverter = Object.freeze({
+    id: 'video-format-converter',
+    category: 'video',
+    icon: 'MP4↔WEBM',
+    action: Object.freeze({ ar: 'حوّل الفيديو', en: 'Convert video' }),
+    title: Object.freeze({ ar: 'تحويل صيغة الفيديو MP4 وWebM', en: 'MP4 and WebM Video Converter' }),
+    description: Object.freeze({
+        ar: 'حوّل ملفات الفيديو إلى MP4 المتوافق على نطاق واسع أو WebM المناسب للويب.',
+        en: 'Convert videos to widely compatible MP4 or web-optimized WebM.',
+    }),
+    note: Object.freeze({
+        ar: 'يُعاد ترميز الفيديو محليًا؛ الملفات الطويلة تحتاج وقتًا وذاكرة أكبر.',
+        en: 'The video is re-encoded locally; long files require more time and memory.',
+    }),
+    inputs: Object.freeze([
+        videoInput(),
+        Object.freeze({
+            id: 'format',
+            type: 'select',
+            label: Object.freeze({ ar: 'صيغة الإخراج', en: 'Output format' }),
+            unit: Object.freeze({ ar: '', en: '' }),
+            options: Object.freeze([
+                Object.freeze({ value: 'mp4', label: Object.freeze({ ar: 'MP4', en: 'MP4' }) }),
+                Object.freeze({ value: 'webm', label: Object.freeze({ ar: 'WebM', en: 'WebM' }) }),
+            ]),
+        }),
+    ]),
+    async process(values, language) {
+        const webm = values.format === 'webm';
+        const args = webm
+            ? ['-c:v', 'libvpx-vp9', '-crf', '32', '-b:v', '0', '-c:a', 'libopus']
+            : ['-c:v', 'libx264', '-preset', 'veryfast', '-crf', '24', '-c:a', 'aac', '-movflags', '+faststart'];
+        const blob = await processVideo(
+            values.video,
+            args,
+            `converted.${webm ? 'webm' : 'mp4'}`,
+            webm ? 'video/webm' : 'video/mp4',
+        );
+        return output(
+            blob,
+            `adawaty-converted-video.${webm ? 'webm' : 'mp4'}`,
+            language,
+            'الفيديو المحوّل جاهز',
+            'Converted video is ready',
+        );
+    },
+});
+
+const videoResizer = Object.freeze({
+    id: 'video-resizer',
+    category: 'video',
+    icon: 'VIDEO↔',
+    action: Object.freeze({ ar: 'غيّر الأبعاد', en: 'Resize video' }),
+    title: Object.freeze({ ar: 'تغيير أبعاد ودقة الفيديو', en: 'Resize Video Resolution' }),
+    description: Object.freeze({
+        ar: 'غيّر عرض الفيديو إلى دقة مناسبة للموبايل أو الويب مع الحفاظ على نسبة الأبعاد.',
+        en: 'Resize video width for mobile or web while preserving its aspect ratio.',
+    }),
+    note: Object.freeze({
+        ar: 'لن يتم تكبير الفيديو إذا كان عرضه الأصلي أقل من القيمة المختارة.',
+        en: 'The video will not be enlarged when its original width is below the selected value.',
+    }),
+    inputs: Object.freeze([
+        videoInput(),
+        Object.freeze({
+            id: 'width',
+            type: 'select',
+            label: Object.freeze({ ar: 'العرض الجديد', en: 'New width' }),
+            unit: Object.freeze({ ar: '', en: '' }),
+            options: Object.freeze([
+                Object.freeze({ value: '1920', label: Object.freeze({ ar: '1920 بكسل', en: '1920 px' }) }),
+                Object.freeze({ value: '1280', label: Object.freeze({ ar: '1280 بكسل', en: '1280 px' }) }),
+                Object.freeze({ value: '854', label: Object.freeze({ ar: '854 بكسل', en: '854 px' }) }),
+                Object.freeze({ value: '640', label: Object.freeze({ ar: '640 بكسل', en: '640 px' }) }),
+            ]),
+        }),
+    ]),
+    async process(values, language) {
+        const blob = await processVideo(
+            values.video,
+            [
+                '-vf', `scale='min(${values.width},iw)':-2`,
+                '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '24',
+                '-c:a', 'aac', '-movflags', '+faststart',
+            ],
+            'resized.mp4',
+        );
+        return output(blob, 'adawaty-resized-video.mp4', language, 'الفيديو بالأبعاد الجديدة جاهز', 'Resized video is ready');
+    },
+});
+
+const videoSpeedChanger = Object.freeze({
+    id: 'video-speed-changer',
+    category: 'video',
+    icon: 'VIDEO×',
+    action: Object.freeze({ ar: 'غيّر السرعة', en: 'Change speed' }),
+    title: Object.freeze({ ar: 'تسريع أو إبطاء الفيديو', en: 'Video Speed Changer' }),
+    description: Object.freeze({
+        ar: 'سرّع الفيديو أو أبطئه مع تعديل الصوت ليتزامن مع السرعة الجديدة.',
+        en: 'Speed up or slow down a video while keeping its audio synchronized.',
+    }),
+    note: Object.freeze({
+        ar: 'تتغير مدة الفيديو حسب السرعة المختارة، وتتم إعادة الترميز محليًا.',
+        en: 'Duration changes with the selected speed and the video is re-encoded locally.',
+    }),
+    inputs: Object.freeze([
+        videoInput(),
+        Object.freeze({
+            id: 'speed',
+            type: 'select',
+            label: Object.freeze({ ar: 'السرعة', en: 'Speed' }),
+            unit: Object.freeze({ ar: '', en: '' }),
+            options: Object.freeze(['0.5', '0.75', '1.25', '1.5', '2'].map((speed) => Object.freeze({
+                value: speed,
+                label: Object.freeze({ ar: `${speed}×`, en: `${speed}×` }),
+            }))),
+        }),
+    ]),
+    async process(values, language) {
+        const speed = Number(values.speed);
+        const blob = await processVideo(
+            values.video,
+            [
+                '-filter_complex', `[0:v]setpts=${1 / speed}*PTS[v];[0:a]atempo=${speed}[a]`,
+                '-map', '[v]', '-map', '[a]',
+                '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '24',
+                '-c:a', 'aac', '-movflags', '+faststart',
+            ],
+            'speed-changed.mp4',
+        );
+        return output(blob, 'adawaty-speed-changed-video.mp4', language, 'الفيديو بالسرعة الجديدة جاهز', 'Speed-adjusted video is ready');
+    },
+});
+
 const videoProcessingToolDefinitions = Object.freeze({
     [videoTrimmer.id]: videoTrimmer,
     [videoCompressor.id]: videoCompressor,
     [videoMute.id]: videoMute,
+    [videoConverter.id]: videoConverter,
+    [videoResizer.id]: videoResizer,
+    [videoSpeedChanger.id]: videoSpeedChanger,
 });
 
 export { videoProcessingToolDefinitions };
