@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 471);
+assert.equal(tools.length, 474);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -482,6 +482,9 @@ assert.deepEqual(
         'pet-food-monthly-cost-calculator',
         'aquarium-volume-calculator',
         'aquarium-water-change-calculator',
+        'image-compressor',
+        'image-resizer',
+        'image-format-converter',
     ],
 );
 
@@ -1951,6 +1954,16 @@ assert.equal(getToolDefinition('pet-food-monthly-cost-calculator').calculate({ d
 assert.equal(getToolDefinition('aquarium-volume-calculator').calculate({ length: 100, width: 40, height: 45 }, 'en').value, '180 L');
 assert.equal(getToolDefinition('aquarium-water-change-calculator').calculate({ volume: 160, percent: 25 }, 'en').value, '40 L');
 
+for (const id of [
+    'image-compressor',
+    'image-resizer',
+    'image-format-converter',
+]) {
+    const fileTool = getToolDefinition(id);
+    assert.equal(typeof fileTool.process, 'function');
+    assert.equal(fileTool.inputs[0].type, 'file');
+}
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -1966,11 +1979,12 @@ for (const [index, page] of toolPages.entries()) {
     assert.match(page, /rel="canonical"/);
     assert.match(page, /"@type":"WebApplication"/);
     assert.match(page, /"isAccessibleForFree":true/);
+    assert.match(page, /href="\.\.\/\.\.\/all-tools\/"/);
     assert.doesNotMatch(page, /TODO|PLACEHOLDER/i);
 }
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 51 product tools verification passed.');
+console.log('Sprint 7 Batch 1 product tools verification passed.');
 
 // END OF FILE

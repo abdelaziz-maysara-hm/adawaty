@@ -22,6 +22,7 @@ const categories = Object.freeze({
     'color-css': Object.freeze({ ar: 'أدوات الألوان وCSS', en: 'Color & CSS Tools' }),
     'home-lifestyle': Object.freeze({ ar: 'أدوات المنزل والحياة', en: 'Home & Lifestyle Tools' }),
     islamic: Object.freeze({ ar: 'الأدوات الإسلامية', en: 'Islamic Tools' }),
+    image: Object.freeze({ ar: 'أدوات الصور والوسائط', en: 'Image & Media Tools' }),
 });
 
 function escapeHtml(value) {
@@ -89,7 +90,7 @@ function createToolPage(tool) {
         </nav>
     </header>
     <main class="product-page shell" data-tool-page="${escapeHtml(tool.id)}">
-        <a class="product-back" href="../../#tools"><span aria-hidden="true">←</span><span id="back-label">كل الأدوات</span></a>
+        <a class="product-back" href="../../all-tools/"><span aria-hidden="true">←</span><span id="back-label">كل الأدوات</span></a>
         <div class="product-grid">
             <section class="product-intro">
                 <span class="product-icon" id="tool-icon" aria-hidden="true"></span>
@@ -103,6 +104,8 @@ function createToolPage(tool) {
                     <strong class="product-result-value" id="result-value"></strong>
                     <span class="product-result-label" id="result-label"></span>
                     <span class="product-result-details" id="result-details"></span>
+                    <img class="product-result-preview" id="result-preview" alt="" hidden>
+                    <a class="button button-primary product-download" id="result-download" hidden></a>
                 </output>
             </section>
         </div>

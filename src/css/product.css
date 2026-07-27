@@ -125,6 +125,24 @@
     font-size: 1.05rem;
 }
 
+.product-control input[type="file"] {
+    min-height: auto;
+    padding-block: 15px;
+    cursor: pointer;
+}
+
+.product-control input[type="file"]::file-selector-button {
+    margin-inline-end: 12px;
+    padding: 9px 13px;
+    border: 0;
+    border-radius: 10px;
+    background: rgba(85, 216, 193, 0.14);
+    color: var(--brand);
+    cursor: pointer;
+    font: inherit;
+    font-weight: 800;
+}
+
 .product-control select {
     appearance: none;
     cursor: pointer;
@@ -169,6 +187,32 @@
 .product-result-label,
 .product-result-details {
     display: block;
+}
+
+.product-result-preview {
+    display: block;
+    width: 100%;
+    max-height: 420px;
+    margin-top: 20px;
+    border-radius: 16px;
+    object-fit: contain;
+    background: rgba(4, 14, 26, 0.45);
+}
+
+.product-result-preview[hidden],
+.product-download[hidden] {
+    display: none;
+}
+
+.product-download {
+    display: inline-flex;
+    margin-top: 18px;
+    text-decoration: none;
+}
+
+.product-submit:disabled {
+    cursor: wait;
+    opacity: 0.72;
 }
 
 .product-result-value {
@@ -273,6 +317,17 @@
     .product-calculator {
         padding: 20px;
         border-radius: 22px;
+    }
+
+    .product-control input,
+    .product-control select,
+    .product-control textarea {
+        font-size: 1rem;
+    }
+
+    .product-download {
+        width: 100%;
+        justify-content: center;
     }
 }
 

@@ -8,6 +8,9 @@ const form = document.querySelector('#tool-form');
 const result = document.querySelector('#tool-result');
 const languageButton = document.querySelector('#tool-language-toggle');
 const currentYear = document.querySelector('#current-year');
+const resultPreview = document.querySelector('#result-preview');
+const resultDownload = document.querySelector('#result-download');
+let resultObjectUrl = '';
 
 if (!tool || !form || !result) {
     throw new Error(`Unable to initialize tool page "${toolId}".`);
@@ -55,7 +58,7 @@ function createInput(input, language) {
         element.type = input.type;
         element.inputMode = input.type === 'number' ? 'decimal' : '';
 
-        for (const attribute of ['min', 'max', 'step', 'placeholder']) {
+        for (const attribute of ['min', 'max', 'step', 'placeholder', 'accept']) {
             if (input[attribute] !== undefined) {
                 element.setAttribute(attribute, String(input[attribute]));
             }
@@ -84,8 +87,27 @@ function renderForm(language) {
     const submit = document.createElement('button');
     submit.className = 'button button-primary product-submit';
     submit.type = 'submit';
-    submit.textContent = language === 'ar' ? 'احسب الآن' : 'Calculate now';
+    submit.textContent = translate(tool.action, language)
+        || (language === 'ar' ? 'احسب الآن' : 'Calculate now');
     form.append(submit);
+}
+
+function clearProcessedOutput() {
+    if (resultObjectUrl) {
+        URL.revokeObjectURL(resultObjectUrl);
+        resultObjectUrl = '';
+    }
+
+    if (resultPreview) {
+        resultPreview.hidden = true;
+        resultPreview.removeAttribute('src');
+    }
+
+    if (resultDownload) {
+        resultDownload.hidden = true;
+        resultDownload.removeAttribute('href');
+        resultDownload.removeAttribute('download');
+    }
 }
 
 function updateCopy(language) {
@@ -110,6 +132,7 @@ function updateCopy(language) {
     document.querySelector('#back-label').textContent = language === 'ar'
         ? 'كل الأدوات'
         : 'All tools';
+    clearProcessedOutput();
     result.hidden = true;
     renderForm(language);
 
@@ -126,24 +149,51 @@ function readValues() {
             const element = form.elements.namedItem(input.id);
             const value = input.type === 'number'
                 ? Number(element.value)
-                : element.value;
+                : input.type === 'file' ? element.files?.[0] : element.value;
             return [input.id, value];
         }),
     );
 }
 
-form.addEventListener('submit', (event) => {
+form.addEventListener('submit', async (event) => {
     event.preventDefault();
 
     if (!form.reportValidity()) {
         return;
     }
 
+    const submit = form.querySelector('[type="submit"]');
+    const language = getLanguage();
+    const originalCopy = submit.textContent;
+    submit.disabled = true;
+    submit.textContent = language === 'ar' ? 'جارٍ المعالجة…' : 'Processing…';
+    clearProcessedOutput();
+
     try {
-        const output = tool.calculate(readValues(), getLanguage());
+        const handler = tool.process ?? tool.calculate;
+        const output = await handler(readValues(), language);
         document.querySelector('#result-value').textContent = output.value;
         document.querySelector('#result-label').textContent = output.label;
         document.querySelector('#result-details').textContent = output.details;
+
+        if (output.download?.blob && resultDownload) {
+            resultObjectUrl = URL.createObjectURL(output.download.blob);
+            resultDownload.href = resultObjectUrl;
+            resultDownload.download = output.download.filename;
+            resultDownload.textContent = language === 'ar'
+                ? 'تنزيل الملف'
+                : 'Download file';
+            resultDownload.hidden = false;
+        }
+
+        if (output.preview && resultPreview) {
+            const previewUrl = resultObjectUrl || URL.createObjectURL(output.preview);
+            resultObjectUrl = previewUrl;
+            resultPreview.src = previewUrl;
+            resultPreview.alt = output.label;
+            resultPreview.hidden = false;
+        }
+
         result.hidden = false;
         result.focus();
     } catch (error) {
@@ -152,6 +202,9 @@ form.addEventListener('submit', (event) => {
         document.querySelector('#result-details').textContent = '';
         result.hidden = false;
         result.focus();
+    } finally {
+        submit.disabled = false;
+        submit.textContent = originalCopy;
     }
 });
 

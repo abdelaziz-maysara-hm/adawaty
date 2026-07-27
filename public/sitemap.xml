@@ -81,6 +81,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/categories/image/</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/bmi-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
@@ -2432,6 +2437,21 @@
     </url>
     <url>
         <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/aquarium-water-change-calculator/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/image-compressor/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/image-resizer/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/image-format-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
