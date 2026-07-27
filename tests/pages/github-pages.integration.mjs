@@ -44,7 +44,7 @@ const [
 ]);
 
 assert.match(indexHtml, /<html lang="ar" dir="rtl" data-language="ar">/);
-assert.match(indexHtml, /Sprint 7 · Batch 4/);
+assert.match(indexHtml, /Sprint 7 · Batch 5/);
 assert.match(indexHtml, /\.\/src\/css\/main\.css/);
 assert.match(indexHtml, /\.\/src\/pages\/home\.js/);
 assert.match(indexHtml, /\.\/tools\/bmi-calculator\//);
@@ -112,9 +112,14 @@ const imageCategoryHtml = await readFile(
     'utf8',
 );
 assert.match(imageCategoryHtml, /data-category="image"/);
+const pdfCategoryHtml = await readFile(
+    new URL('../../categories/pdf/index.html', import.meta.url),
+    'utf8',
+);
+assert.match(pdfCategoryHtml, /data-category="pdf"/);
 assert.match(catalogueScript, /getVisibleTools/);
 assert.match(catalogueScript, /data-category/);
 
-console.log('Sprint 7 Batch 4 catalogue navigation verification passed.');
+console.log('Sprint 7 Batch 5 catalogue navigation verification passed.');
 
 // END OF FILE

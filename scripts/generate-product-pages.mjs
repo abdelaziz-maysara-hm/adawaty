@@ -23,6 +23,7 @@ const categories = Object.freeze({
     'home-lifestyle': Object.freeze({ ar: 'أدوات المنزل والحياة', en: 'Home & Lifestyle Tools' }),
     islamic: Object.freeze({ ar: 'الأدوات الإسلامية', en: 'Islamic Tools' }),
     image: Object.freeze({ ar: 'أدوات الصور والوسائط', en: 'Image & Media Tools' }),
+    pdf: Object.freeze({ ar: 'أدوات PDF', en: 'PDF Tools' }),
 });
 
 function escapeHtml(value) {

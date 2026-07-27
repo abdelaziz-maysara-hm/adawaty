@@ -16,6 +16,7 @@ const categories = Object.freeze({
     'home-lifestyle': Object.freeze({ ar: 'المنزل والحياة', en: 'Home & Lifestyle' }),
     islamic: Object.freeze({ ar: 'إسلامية', en: 'Islamic' }),
     image: Object.freeze({ ar: 'الصور والوسائط', en: 'Image & Media' }),
+    pdf: Object.freeze({ ar: 'ملفات PDF', en: 'PDF' }),
 });
 
 const copy = Object.freeze({
