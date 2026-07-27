@@ -38,6 +38,7 @@ import { automotiveEvDefinitions } from './definitions/automotive-ev.js';
 import { realEstateDefinitions } from './definitions/real-estate.js';
 import { travelPlanningDefinitions } from './definitions/travel-planning.js';
 import { gardenLandscapeDefinitions } from './definitions/garden-landscape.js';
+import { petCareDefinitions } from './definitions/pet-care.js';
 import { financeDefinitions } from './definitions/finance.js';
 import { healthDefinitions } from './definitions/health.js';
 import { mathDefinitions } from './definitions/math.js';
@@ -1045,6 +1046,7 @@ const toolDefinitions = Object.freeze({
     ...realEstateDefinitions,
     ...travelPlanningDefinitions,
     ...gardenLandscapeDefinitions,
+    ...petCareDefinitions,
 });
 
 function getToolDefinition(id) {

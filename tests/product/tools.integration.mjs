@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 461);
+assert.equal(tools.length, 471);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -472,6 +472,16 @@ assert.deepEqual(
         'hedge-plant-count-calculator',
         'compost-blend-calculator',
         'rainwater-harvesting-calculator',
+        'dog-age-in-human-years-calculator',
+        'cat-age-in-human-years-calculator',
+        'dog-daily-calorie-calculator',
+        'cat-daily-calorie-calculator',
+        'pet-food-portion-calculator',
+        'pet-water-intake-calculator',
+        'pet-weight-change-calculator',
+        'pet-food-monthly-cost-calculator',
+        'aquarium-volume-calculator',
+        'aquarium-water-change-calculator',
     ],
 );
 
@@ -1930,6 +1940,17 @@ assert.equal(getToolDefinition('hedge-plant-count-calculator').calculate({ lengt
 assert.equal(getToolDefinition('compost-blend-calculator').calculate({ totalVolume: 500, compostPercent: 30 }, 'en').value, '150 L');
 assert.equal(getToolDefinition('rainwater-harvesting-calculator').calculate({ roofArea: 120, rainfall: 25, efficiency: 85 }, 'en').value, '2,550 L');
 
+assert.equal(getToolDefinition('dog-age-in-human-years-calculator').calculate({ age: 5 }, 'en').value, '39 years');
+assert.equal(getToolDefinition('cat-age-in-human-years-calculator').calculate({ age: 5 }, 'en').value, '36 years');
+assert.equal(getToolDefinition('dog-daily-calorie-calculator').calculate({ weight: 20, factor: 1.6 }, 'en').value, '1,059.231 kcal/day');
+assert.equal(getToolDefinition('cat-daily-calorie-calculator').calculate({ weight: 4.5, factor: 1.2 }, 'en').value, '259.531 kcal/day');
+assert.equal(getToolDefinition('pet-food-portion-calculator').calculate({ dailyCalories: 600, caloriesPer100g: 380, meals: 2 }, 'en').value, '157.895 g/day');
+assert.equal(getToolDefinition('pet-water-intake-calculator').calculate({ weight: 10, rate: 60 }, 'en').value, '600 mL/day');
+assert.equal(getToolDefinition('pet-weight-change-calculator').calculate({ previous: 12, current: 11.4 }, 'en').value, '-5 %');
+assert.equal(getToolDefinition('pet-food-monthly-cost-calculator').calculate({ dailyGrams: 300, packageWeight: 10, packagePrice: 45 }, 'en').value, '40.5');
+assert.equal(getToolDefinition('aquarium-volume-calculator').calculate({ length: 100, width: 40, height: 45 }, 'en').value, '180 L');
+assert.equal(getToolDefinition('aquarium-water-change-calculator').calculate({ volume: 160, percent: 25 }, 'en').value, '40 L');
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -1950,6 +1971,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 50 product tools verification passed.');
+console.log('Sprint 6 Batch 51 product tools verification passed.');
 
 // END OF FILE

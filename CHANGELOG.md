@@ -1,5 +1,13 @@
 # Changelog
 
+## Sprint 6 — Batch 51
+
+- Added 10 bilingual pet-care, feeding and aquarium tools.
+- Added dog- and cat-age plus daily-calorie calculators.
+- Added food-portion, water-intake, weight-change and monthly-cost tools.
+- Added aquarium-volume and water-change calculators.
+- Expanded the generated catalogue to 471 working tools.
+
 ## Sprint 6 — Batch 50
 
 - Added 10 bilingual garden, lawn and landscape-planning tools.
