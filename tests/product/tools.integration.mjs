@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 391);
+assert.equal(tools.length, 401);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -402,6 +402,16 @@ assert.deepEqual(
         'photo-storage-capacity-calculator',
         'timelapse-duration-calculator',
         'nd-filter-exposure-calculator',
+        'bakers-percentage-calculator',
+        'dough-hydration-calculator',
+        'pizza-dough-ball-calculator',
+        'brine-salt-calculator',
+        'food-cost-per-serving-calculator',
+        'menu-price-food-cost-calculator',
+        'recipe-calories-per-serving-calculator',
+        'caffeine-intake-calculator',
+        'coffee-brew-ratio-calculator',
+        'cooking-yield-percentage-calculator',
     ],
 );
 
@@ -1783,6 +1793,17 @@ assert.equal(getToolDefinition('photo-storage-capacity-calculator').calculate({ 
 assert.equal(getToolDefinition('timelapse-duration-calculator').calculate({ shootMinutes: 60, interval: 5, fps: 30 }, 'en').value, '24.033 seconds');
 assert.equal(getToolDefinition('nd-filter-exposure-calculator').calculate({ baseExposure: 0.008, stops: 10 }, 'en').value, '8.192 seconds');
 
+assert.equal(getToolDefinition('bakers-percentage-calculator').calculate({ flour: 1000, ingredient: 20 }, 'en').value, '2%');
+assert.equal(getToolDefinition('dough-hydration-calculator').calculate({ flour: 1000, water: 650 }, 'en').value, '65%');
+assert.equal(getToolDefinition('pizza-dough-ball-calculator').calculate({ balls: 6, ballWeight: 250, hydration: 65, salt: 2.5, yeast: 0.2 }, 'en').value, '1,500 g');
+assert.equal(getToolDefinition('brine-salt-calculator').calculate({ water: 2000, percentage: 3 }, 'en').value, '60 g');
+assert.equal(getToolDefinition('food-cost-per-serving-calculator').calculate({ ingredientCost: 120, servings: 8, waste: 5 }, 'en').value, '15.75');
+assert.equal(getToolDefinition('menu-price-food-cost-calculator').calculate({ cost: 30, targetPercent: 30 }, 'en').value, '100');
+assert.equal(getToolDefinition('recipe-calories-per-serving-calculator').calculate({ totalCalories: 2400, servings: 8 }, 'en').value, '300 kcal');
+assert.equal(getToolDefinition('caffeine-intake-calculator').calculate({ servings: 3, perServing: 95 }, 'en').value, '285 mg');
+assert.equal(getToolDefinition('coffee-brew-ratio-calculator').calculate({ coffee: 30, ratio: 16 }, 'en').value, '480 g');
+assert.equal(getToolDefinition('cooking-yield-percentage-calculator').calculate({ original: 1000, final: 750 }, 'en').value, '75%');
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -1803,6 +1824,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 43 product tools verification passed.');
+console.log('Sprint 6 Batch 44 product tools verification passed.');
 
 // END OF FILE
