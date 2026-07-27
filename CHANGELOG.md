@@ -1,5 +1,13 @@
 # Changelog
 
+## Sprint 6 — Batch 45
+
+- Added 10 bilingual project-management and freelance tools.
+- Added PERT, utilization, billable-hours and earned-value calculators.
+- Added EAC, sprint velocity, team capacity and meeting-cost tools.
+- Added freelance-rate and project-duration estimators.
+- Expanded the generated catalogue to 411 working tools.
+
 ## Sprint 6 — Batch 44
 
 - Added 10 bilingual food, baking and recipe-planning tools.

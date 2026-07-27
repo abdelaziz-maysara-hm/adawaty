@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 401);
+assert.equal(tools.length, 411);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -412,6 +412,16 @@ assert.deepEqual(
         'caffeine-intake-calculator',
         'coffee-brew-ratio-calculator',
         'cooking-yield-percentage-calculator',
+        'pert-estimate-calculator',
+        'billable-utilization-rate-calculator',
+        'billable-hours-target-calculator',
+        'earned-value-management-calculator',
+        'estimate-at-completion-calculator',
+        'agile-sprint-velocity-calculator',
+        'agile-team-capacity-calculator',
+        'meeting-cost-calculator',
+        'freelance-hourly-rate-calculator',
+        'project-duration-throughput-calculator',
     ],
 );
 
@@ -1804,6 +1814,17 @@ assert.equal(getToolDefinition('caffeine-intake-calculator').calculate({ serving
 assert.equal(getToolDefinition('coffee-brew-ratio-calculator').calculate({ coffee: 30, ratio: 16 }, 'en').value, '480 g');
 assert.equal(getToolDefinition('cooking-yield-percentage-calculator').calculate({ original: 1000, final: 750 }, 'en').value, '75%');
 
+assert.equal(getToolDefinition('pert-estimate-calculator').calculate({ optimistic: 4, likely: 7, pessimistic: 16 }, 'en').value, '8');
+assert.equal(getToolDefinition('billable-utilization-rate-calculator').calculate({ billable: 120, available: 160 }, 'en').value, '75%');
+assert.equal(getToolDefinition('billable-hours-target-calculator').calculate({ target: 10000, rate: 50 }, 'en').value, '200 hours');
+assert.equal(getToolDefinition('earned-value-management-calculator').calculate({ budget: 100000, actualCost: 45000, plannedValue: 50000, complete: 40 }, 'en').value, '40,000');
+assert.equal(getToolDefinition('estimate-at-completion-calculator').calculate({ budget: 100000, cpi: 0.8 }, 'en').value, '125,000');
+assert.equal(getToolDefinition('agile-sprint-velocity-calculator').calculate({ points: 160, sprints: 5 }, 'en').value, '32 points/sprint');
+assert.equal(getToolDefinition('agile-team-capacity-calculator').calculate({ members: 5, days: 10, hours: 8, focus: 70 }, 'en').value, '280 hours');
+assert.equal(getToolDefinition('meeting-cost-calculator').calculate({ attendees: 8, hourlyCost: 40, duration: 1.5 }, 'en').value, '480');
+assert.equal(getToolDefinition('freelance-hourly-rate-calculator').calculate({ income: 60000, expenses: 10000, weeks: 46, hours: 25, taxReserve: 20 }, 'en').value, '76.087');
+assert.equal(getToolDefinition('project-duration-throughput-calculator').calculate({ remaining: 240, throughput: 30 }, 'en').value, '8 periods');
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -1824,6 +1845,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 44 product tools verification passed.');
+console.log('Sprint 6 Batch 45 product tools verification passed.');
 
 // END OF FILE

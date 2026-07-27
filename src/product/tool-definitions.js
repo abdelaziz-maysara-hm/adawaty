@@ -32,6 +32,7 @@ import { creatorVideoDefinitions } from './definitions/creator-video.js';
 import { audioPodcastDefinitions } from './definitions/audio-podcast.js';
 import { photographyDefinitions } from './definitions/photography.js';
 import { foodRecipeDefinitions } from './definitions/food-recipe.js';
+import { projectManagementDefinitions } from './definitions/project-management.js';
 import { financeDefinitions } from './definitions/finance.js';
 import { healthDefinitions } from './definitions/health.js';
 import { mathDefinitions } from './definitions/math.js';
@@ -1033,6 +1034,7 @@ const toolDefinitions = Object.freeze({
     ...audioPodcastDefinitions,
     ...photographyDefinitions,
     ...foodRecipeDefinitions,
+    ...projectManagementDefinitions,
 });
 
 function getToolDefinition(id) {
