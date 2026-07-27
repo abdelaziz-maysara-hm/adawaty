@@ -59,6 +59,7 @@ import { dataFormatToolDefinitions } from './definitions/data-format-tools.js';
 import { fileUtilityToolDefinitions } from './definitions/file-utility-tools.js';
 import { archiveFileToolDefinitions } from './definitions/archive-file-tools.js';
 import { webContentToolDefinitions } from './definitions/web-content-tools.js';
+import { webTransformToolDefinitions } from './definitions/web-transform-tools.js';
 import { financeDefinitions } from './definitions/finance.js';
 import { healthDefinitions } from './definitions/health.js';
 import { mathDefinitions } from './definitions/math.js';
@@ -1087,6 +1088,7 @@ const toolDefinitions = Object.freeze({
     ...fileUtilityToolDefinitions,
     ...archiveFileToolDefinitions,
     ...webContentToolDefinitions,
+    ...webTransformToolDefinitions,
 });
 
 function getToolDefinition(id) {

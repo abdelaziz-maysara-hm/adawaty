@@ -1,5 +1,11 @@
 # Changelog
 
+## Sprint 7 — Batch 27
+
+- Added ten browser-local HTML cleanup, inspection and content-conversion tools.
+- Added HTML-to-Markdown and Markdown-to-HTML workflows with downloadable results.
+- Expanded the catalogue to 590 tools and regenerated all public pages and sitemap entries.
+
 ## Sprint 7 — Batch 26
 
 - Added ten HTML, Markdown and URL extraction and cleanup tools.

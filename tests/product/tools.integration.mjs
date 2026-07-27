@@ -24,7 +24,7 @@ import {
 } from '../../src/product/definitions/file-utility-tools.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 580);
+assert.equal(tools.length, 590);
 assert.deepEqual(
     [...new Set(tools.map((tool) => tool.category))]
         .filter((category) => !categoryLabels[category]),
@@ -614,6 +614,16 @@ assert.deepEqual(
         'url-domain-extractor',
         'url-query-parameter-remover',
         'url-list-deduplicator',
+        'html-script-remover',
+        'html-style-remover',
+        'html-comment-remover',
+        'html-inline-event-remover',
+        'html-class-extractor',
+        'html-id-extractor',
+        'html-form-field-extractor',
+        'html-list-to-text-converter',
+        'html-to-markdown-converter',
+        'html-data-attribute-extractor',
     ],
 );
 
@@ -2203,6 +2213,16 @@ for (const id of [
     'json-path-extractor',
     'json-to-xml-converter',
     'ndjson-to-json-converter',
+    'html-script-remover',
+    'html-style-remover',
+    'html-comment-remover',
+    'html-inline-event-remover',
+    'html-class-extractor',
+    'html-id-extractor',
+    'html-form-field-extractor',
+    'html-list-to-text-converter',
+    'html-to-markdown-converter',
+    'html-data-attribute-extractor',
 ]) {
     const transformationTool = getToolDefinition(id);
     assert.equal(typeof transformationTool.process, 'function');
@@ -2320,6 +2340,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 7 Batch 26 product tools verification passed.');
+console.log('Sprint 7 Batch 27 product tools verification passed.');
 
 // END OF FILE
