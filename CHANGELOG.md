@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 7 — Batch 7
+
+- Added PDF page removal and text watermark tools.
+- Added a PDF multi-tool workflow for page order, removal, rotation and watermarking in one operation.
+- Kept every PDF operation private and browser-based with downloadable results.
+- Expanded the generated catalogue to 490 working tools.
+
 ## Sprint 7 — Batch 6
 
 - Added a batch image tool that combines resizing, conversion, compression, color adjustment, grayscale and rotation.
