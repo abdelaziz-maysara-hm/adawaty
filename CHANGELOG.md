@@ -1,5 +1,13 @@
 # Changelog
 
+## Sprint 6 — Batch 47
+
+- Added 10 bilingual automotive, tire and electric-vehicle tools.
+- Added tire diameter, size comparison and speedometer-error calculators.
+- Added engine displacement, power-to-weight, depreciation and braking tools.
+- Added EV charging-time, charging-cost and range calculators.
+- Expanded the generated catalogue to 431 working tools.
+
 ## Sprint 6 — Batch 46
 
 - Added 10 bilingual solar-energy, battery and DC electrical tools.
