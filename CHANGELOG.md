@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 7 — Batch 18
+
+- Added Arabic, English and bilingual OCR for scanned PDF documents.
+- Added scanned PDF to editable Word conversion using browser-local OCR.
+- Added image-to-text OCR for receipts, screenshots and document photos.
+- Expanded the catalogue to 514 tools and regenerated all public pages and sitemap entries.
+
 ## Sprint 7 — Batch 17
 
 - Added browser-local text extraction from text-based PDF documents.
