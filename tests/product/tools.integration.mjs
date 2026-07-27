@@ -24,7 +24,7 @@ import {
 } from '../../src/product/definitions/file-utility-tools.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 560);
+assert.equal(tools.length, 570);
 assert.deepEqual(
     [...new Set(tools.map((tool) => tool.category))]
         .filter((category) => !categoryLabels[category]),
@@ -594,6 +594,16 @@ assert.deepEqual(
         'gzip-file-compressor',
         'gzip-file-decompressor',
         'binary-file-to-hex-converter',
+        'zip-files-creator',
+        'zip-entry-list',
+        'zip-single-file-extractor',
+        'file-splitter-to-zip',
+        'file-parts-merger',
+        'multi-file-sha256-manifest',
+        'file-metadata-exporter',
+        'text-file-encoding-normalizer',
+        'csv-file-to-json-converter',
+        'json-file-to-csv-converter',
     ],
 );
 
@@ -2216,6 +2226,16 @@ for (const id of [
     'gzip-file-compressor',
     'gzip-file-decompressor',
     'binary-file-to-hex-converter',
+    'zip-files-creator',
+    'zip-entry-list',
+    'zip-single-file-extractor',
+    'file-splitter-to-zip',
+    'file-parts-merger',
+    'multi-file-sha256-manifest',
+    'file-metadata-exporter',
+    'text-file-encoding-normalizer',
+    'csv-file-to-json-converter',
+    'json-file-to-csv-converter',
 ]) {
     const fileTool = getToolDefinition(id);
     assert.equal(typeof fileTool.process, 'function');
@@ -2290,6 +2310,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 7 Batch 24 product tools verification passed.');
+console.log('Sprint 7 Batch 25 product tools verification passed.');
 
 // END OF FILE
