@@ -1,5 +1,13 @@
 # Changelog
 
+## Sprint 6 — Batch 50
+
+- Added 10 bilingual garden, lawn and landscape-planning tools.
+- Added lawn-seed, sod-roll, mulch and fertilizer calculators.
+- Added irrigation-water, sprinkler-runtime and planting-layout tools.
+- Added hedge, compost-blend and rainwater-harvesting calculators.
+- Expanded the generated catalogue to 461 working tools.
+
 ## Sprint 6 — Batch 49
 
 - Added 10 bilingual travel-planning and trip-budget tools.
