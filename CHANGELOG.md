@@ -1,5 +1,13 @@
 # Changelog
 
+## Sprint 7 — Batch 6
+
+- Added a batch image tool that combines resizing, conversion, compression, color adjustment, grayscale and rotation.
+- Added ZIP downloads for processing up to 30 images in one operation.
+- Prioritized real processing tools in the catalogue and moved image and PDF categories first.
+- Added dedicated catalogue filters for processing tools and calculators/generators.
+- Expanded the generated catalogue to 487 working tools.
+
 ## Sprint 7 — Batch 5
 
 - Added working PDF merge, page extraction and page rotation tools.

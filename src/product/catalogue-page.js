@@ -22,6 +22,8 @@ const categories = Object.freeze({
 const copy = Object.freeze({
     ar: Object.freeze({
         all: 'كل الأدوات',
+        processing: 'أدوات المعالجة',
+        calculators: 'الحاسبات والمولدات',
         search: 'ابحث باسم الأداة أو وصفها',
         count: 'أداة متاحة',
         empty: 'لا توجد أدوات مطابقة لبحثك.',
@@ -30,6 +32,8 @@ const copy = Object.freeze({
     }),
     en: Object.freeze({
         all: 'All tools',
+        processing: 'Processing tools',
+        calculators: 'Calculators & generators',
         search: 'Search by tool name or description',
         count: 'tools available',
         empty: 'No tools match your search.',
@@ -64,7 +68,10 @@ function escapeHtml(value) {
 function getVisibleTools() {
     const query = search.value.trim().toLocaleLowerCase(language);
     return tools.filter((tool) => {
-        const matchesCategory = !activeCategory || tool.category === activeCategory;
+        const matchesCategory = !activeCategory
+            || (activeCategory === 'processing' && typeof tool.process === 'function')
+            || (activeCategory === 'calculators' && typeof tool.process !== 'function')
+            || tool.category === activeCategory;
         const searchable = [
             tool.title.ar,
             tool.title.en,
@@ -72,6 +79,13 @@ function getVisibleTools() {
             tool.description.en,
         ].join(' ').toLocaleLowerCase(language);
         return matchesCategory && (!query || searchable.includes(query));
+    }).sort((first, second) => {
+        const processingOrder = Number(typeof second.process === 'function')
+            - Number(typeof first.process === 'function');
+        return processingOrder || first.title[language].localeCompare(
+            second.title[language],
+            language,
+        );
     });
 }
 
@@ -80,9 +94,21 @@ function renderFilters() {
         filters.hidden = true;
         return;
     }
-    const availableCategories = [...new Set(tools.map((tool) => tool.category))];
+    const categoryPriority = ['image', 'pdf'];
+    const availableCategories = [...new Set(tools.map((tool) => tool.category))]
+        .sort((first, second) => {
+            const firstPriority = categoryPriority.indexOf(first);
+            const secondPriority = categoryPriority.indexOf(second);
+            if (firstPriority >= 0 || secondPriority >= 0) {
+                return (firstPriority < 0 ? 99 : firstPriority)
+                    - (secondPriority < 0 ? 99 : secondPriority);
+            }
+            return categories[first].en.localeCompare(categories[second].en);
+        });
     filters.innerHTML = [
         `<button class="catalogue-filter${activeCategory ? '' : ' is-active'}" data-category="" type="button">${copy[language].all}</button>`,
+        `<button class="catalogue-filter${activeCategory === 'processing' ? ' is-active' : ''}" data-category="processing" type="button">${copy[language].processing}</button>`,
+        `<button class="catalogue-filter${activeCategory === 'calculators' ? ' is-active' : ''}" data-category="calculators" type="button">${copy[language].calculators}</button>`,
         ...availableCategories.map((category) => (
             `<button class="catalogue-filter${activeCategory === category ? ' is-active' : ''}" data-category="${escapeHtml(category)}" type="button">${escapeHtml(categories[category]?.[language] ?? category)}</button>`
         )),
