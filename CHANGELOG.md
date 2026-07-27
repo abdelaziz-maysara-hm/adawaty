@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 7 — Batch 14
+
+- Added multi-image to PDF conversion for ordered JPG, PNG and WebP files.
+- Added PDF page rendering to high-quality JPG or PNG images inside a downloadable ZIP.
+- Added a reusable browser-local PDF.js rendering loader alongside the existing PDF editing engine.
+- Expanded the catalogue to 502 tools and regenerated all public pages and sitemap entries.
+
 ## Sprint 7 — Batch 13
 
 - Reached 500 published tools with four browser-local audio processing workflows.
