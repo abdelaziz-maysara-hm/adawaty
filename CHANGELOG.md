@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 7 — Batch 4
+
+- Added image brightness, contrast and saturation adjustment.
+- Added adjustable sepia and color-inversion image tools.
+- Reused the private browser processing pipeline with preview and download.
+- Expanded the generated catalogue to 483 working tools.
+
 ## Sprint 7 — Batch 3
 
 - Added working grayscale, blur and text-watermark image tools.
