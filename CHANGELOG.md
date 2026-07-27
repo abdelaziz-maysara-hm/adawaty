@@ -1,5 +1,11 @@
 # Changelog
 
+## Sprint 7 — Batch 24
+
+- Added ten local file utilities for hashing, Base64, text-file workflows, GZIP and hexadecimal conversion.
+- Added multi-file text merging and large-file-friendly browser stream compression.
+- Expanded the catalogue to 560 tools and regenerated all public pages and sitemap entries.
+
 ## Sprint 7 — Batch 23
 
 - Added ten practical CSV, JSON, JSON Lines, Markdown, HTML, SQL and XML conversion tools.
