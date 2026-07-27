@@ -53,6 +53,49 @@ function selectInput(id, ar, en, options) {
     });
 }
 
+function parsePageOrder(value, pageCount, language) {
+    const tokens = String(value ?? '')
+        .split(',')
+        .map((token) => token.trim())
+        .filter(Boolean);
+    if (tokens.length === 0) {
+        throw new Error(localized(
+            language,
+            'اكتب ترتيب الصفحات مثل 3,1,2 أو 4-2,1.',
+            'Enter a page order such as 3,1,2 or 4-2,1.',
+        ));
+    }
+
+    const indices = [];
+    for (const token of tokens) {
+        const match = token.match(/^(\d+)(?:-(\d+))?$/);
+        if (!match) {
+            throw new Error(localized(
+                language,
+                'استخدم أرقام صفحات مفصولة بفواصل ونطاقات مثل 1,3-5.',
+                'Use comma-separated page numbers and ranges such as 1,3-5.',
+            ));
+        }
+        const start = Number(match[1]);
+        const end = Number(match[2] ?? match[1]);
+        if (start < 1 || start > pageCount || end < 1 || end > pageCount) {
+            throw new Error(localized(
+                language,
+                `يجب أن تكون الصفحات بين 1 و${pageCount}.`,
+                `Pages must be between 1 and ${pageCount}.`,
+            ));
+        }
+        const step = start <= end ? 1 : -1;
+        for (let page = start; ; page += step) {
+            indices.push(page - 1);
+            if (page === end) {
+                break;
+            }
+        }
+    }
+    return indices;
+}
+
 function pdfResult(blob, filename, pageCount, language, ar, en) {
     return {
         value: localized(language, `${pageCount} صفحة`, `${pageCount} pages`),
@@ -223,10 +266,142 @@ const pageNumberer = Object.freeze({
     },
 });
 
+const pageReorderer = Object.freeze({
+    id: 'pdf-page-reorderer',
+    category: 'pdf',
+    icon: 'PDF⇅',
+    action: Object.freeze({ ar: 'رتّب الصفحات', en: 'Reorder pages' }),
+    title: Object.freeze({ ar: 'إعادة ترتيب صفحات PDF', en: 'Reorder PDF Pages' }),
+    description: Object.freeze({
+        ar: 'أنشئ نسخة جديدة من ملف PDF بترتيب صفحات مخصص، مع إمكانية تكرار صفحة أو حذفها من النتيجة.',
+        en: 'Create a new PDF in a custom page order, with support for repeating or omitting pages.',
+    }),
+    note: Object.freeze({
+        ar: 'اكتب 3,1,2 لتغيير الترتيب، أو 5-1 للعكس، أو كرر رقمًا لنسخ الصفحة. المعالجة محلية.',
+        en: 'Enter 3,1,2 to reorder, 5-1 to reverse a range, or repeat a number to duplicate a page.',
+    }),
+    inputs: Object.freeze([
+        pdfInput(),
+        Object.freeze({
+            id: 'order',
+            type: 'text',
+            label: Object.freeze({ ar: 'ترتيب الصفحات الجديد', en: 'New page order' }),
+            unit: Object.freeze({ ar: '', en: '' }),
+            placeholder: '3,1,2,4-6',
+        }),
+    ]),
+    async process(values, language) {
+        assertPdfFile(values.pdf);
+        const { PDFDocument } = await loadPdfLib();
+        const source = await PDFDocument.load(await values.pdf.arrayBuffer());
+        const indices = parsePageOrder(values.order, source.getPageCount(), language);
+        const reordered = await PDFDocument.create();
+        const pages = await reordered.copyPages(source, indices);
+        pages.forEach((page) => reordered.addPage(page));
+        const blob = createPdfBlob(await reordered.save());
+        return pdfResult(
+            blob,
+            outputName(values.pdf, 'reordered'),
+            reordered.getPageCount(),
+            language,
+            'تمت إعادة ترتيب الصفحات',
+            'PDF pages reordered',
+        );
+    },
+});
+
+const pageReverser = Object.freeze({
+    id: 'pdf-page-reverser',
+    category: 'pdf',
+    icon: 'PDF↕',
+    action: Object.freeze({ ar: 'اعكس الصفحات', en: 'Reverse pages' }),
+    title: Object.freeze({ ar: 'عكس ترتيب صفحات PDF', en: 'Reverse PDF Page Order' }),
+    description: Object.freeze({
+        ar: 'اعكس ترتيب جميع صفحات المستند بضغطة واحدة، لتصبح الصفحة الأخيرة هي الأولى.',
+        en: 'Reverse every page in a PDF so the last page becomes the first.',
+    }),
+    note: Object.freeze({
+        ar: 'مفيد للمستندات الممسوحة ضوئيًا أو المصدّرة بترتيب عكسي. الملف لا يغادر جهازك.',
+        en: 'Useful for scans or exports saved in reverse order. The file never leaves your device.',
+    }),
+    inputs: Object.freeze([pdfInput()]),
+    async process(values, language) {
+        assertPdfFile(values.pdf);
+        const { PDFDocument } = await loadPdfLib();
+        const source = await PDFDocument.load(await values.pdf.arrayBuffer());
+        const reversed = await PDFDocument.create();
+        const indices = source.getPageIndices().reverse();
+        const pages = await reversed.copyPages(source, indices);
+        pages.forEach((page) => reversed.addPage(page));
+        const blob = createPdfBlob(await reversed.save());
+        return pdfResult(
+            blob,
+            outputName(values.pdf, 'reversed'),
+            reversed.getPageCount(),
+            language,
+            'تم عكس ترتيب الصفحات',
+            'PDF page order reversed',
+        );
+    },
+});
+
+const pdfInterleaver = Object.freeze({
+    id: 'pdf-page-interleaver',
+    category: 'pdf',
+    icon: 'A↔B',
+    action: Object.freeze({ ar: 'شابك ملفين', en: 'Interleave PDFs' }),
+    title: Object.freeze({ ar: 'دمج صفحات ملفي PDF بالتبادل', en: 'Interleave Two PDF Files' }),
+    description: Object.freeze({
+        ar: 'ادمج ملفين بحيث تأتي صفحة من الأول ثم صفحة من الثاني بالتبادل، مع الاحتفاظ بالصفحات الزائدة.',
+        en: 'Combine two PDFs by alternating one page from each file and retaining any remaining pages.',
+    }),
+    note: Object.freeze({
+        ar: 'مفيد لدمج المسح الضوئي للصفحات الفردية والزوجية. اختر الملف الذي يحتوي الصفحة الأولى أولًا.',
+        en: 'Ideal for combining odd-page and even-page scans. Select the file containing page one first.',
+    }),
+    inputs: Object.freeze([
+        Object.freeze({ ...pdfInput(), id: 'firstPdf', label: Object.freeze({ ar: 'ملف PDF الأول', en: 'First PDF' }) }),
+        Object.freeze({ ...pdfInput(), id: 'secondPdf', label: Object.freeze({ ar: 'ملف PDF الثاني', en: 'Second PDF' }) }),
+    ]),
+    async process(values, language) {
+        assertPdfFile(values.firstPdf);
+        assertPdfFile(values.secondPdf);
+        const { PDFDocument } = await loadPdfLib();
+        const first = await PDFDocument.load(await values.firstPdf.arrayBuffer());
+        const second = await PDFDocument.load(await values.secondPdf.arrayBuffer());
+        const output = await PDFDocument.create();
+        const maxPages = Math.max(first.getPageCount(), second.getPageCount());
+
+        for (let index = 0; index < maxPages; index += 1) {
+            if (index < first.getPageCount()) {
+                const [page] = await output.copyPages(first, [index]);
+                output.addPage(page);
+            }
+            if (index < second.getPageCount()) {
+                const [page] = await output.copyPages(second, [index]);
+                output.addPage(page);
+            }
+        }
+
+        const blob = createPdfBlob(await output.save());
+        return pdfResult(
+            blob,
+            'interleaved-document.pdf',
+            output.getPageCount(),
+            language,
+            'تم دمج الصفحات بالتبادل',
+            'PDF pages interleaved',
+        );
+    },
+});
+
 const pdfDocumentToolDefinitions = Object.freeze({
     [pdfSplitter.id]: pdfSplitter,
     [metadataCleaner.id]: metadataCleaner,
     [pageNumberer.id]: pageNumberer,
+    [pageReorderer.id]: pageReorderer,
+    [pageReverser.id]: pageReverser,
+    [pdfInterleaver.id]: pdfInterleaver,
 });
 
 export { pdfDocumentToolDefinitions };

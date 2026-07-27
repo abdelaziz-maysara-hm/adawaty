@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 7 — Batch 16
+
+- Added custom PDF page reordering with descending ranges, omission and page duplication.
+- Added one-click reversal of complete PDF page order.
+- Added alternating page interleaving for combining two-sided scan files.
+- Expanded the catalogue to 508 tools and regenerated all public pages and sitemap entries.
+
 ## Sprint 7 — Batch 15
 
 - Added PDF splitting into one document per page with a combined ZIP download.
