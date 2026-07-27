@@ -1,5 +1,11 @@
 # Changelog
 
+## Sprint 7 — Batch 26
+
+- Added ten HTML, Markdown and URL extraction and cleanup tools.
+- Added structured web-content exports for links, images, headings, metadata and tables.
+- Expanded the catalogue to 580 tools and regenerated all public pages and sitemap entries.
+
 ## Sprint 7 — Batch 25
 
 - Added ten ZIP, multipart, checksum-manifest, metadata and file-format workflow tools.
