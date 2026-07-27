@@ -50,6 +50,7 @@ import { pdfFileToolDefinitions } from './definitions/pdf-file-tools.js';
 import { pdfWorkflowToolDefinitions } from './definitions/pdf-workflow-tools.js';
 import { pdfImageToolDefinitions } from './definitions/pdf-image-tools.js';
 import { pdfDocumentToolDefinitions } from './definitions/pdf-document-tools.js';
+import { pdfContentToolDefinitions } from './definitions/pdf-content-tools.js';
 import { videoFileToolDefinitions } from './definitions/video-file-tools.js';
 import { financeDefinitions } from './definitions/finance.js';
 import { healthDefinitions } from './definitions/health.js';
@@ -1070,6 +1071,7 @@ const toolDefinitions = Object.freeze({
     ...pdfWorkflowToolDefinitions,
     ...pdfImageToolDefinitions,
     ...pdfDocumentToolDefinitions,
+    ...pdfContentToolDefinitions,
     ...videoFileToolDefinitions,
 });
 

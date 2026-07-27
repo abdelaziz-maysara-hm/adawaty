@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 7 — Batch 17
+
+- Added browser-local text extraction from text-based PDF documents.
+- Added PDF-to-Word conversion with editable DOCX output and preserved page separation.
+- Added A4, Letter and Legal page-size normalization with proportional content fitting.
+- Expanded the catalogue to 511 tools and regenerated all public pages and sitemap entries.
+
 ## Sprint 7 — Batch 16
 
 - Added custom PDF page reordering with descending ranges, omission and page duplication.

@@ -12,7 +12,7 @@ import {
 } from '../../src/product/audio-processing.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 508);
+assert.equal(tools.length, 511);
 assert.deepEqual(
     [...new Set(tools.map((tool) => tool.category))]
         .filter((category) => !categoryLabels[category]),
@@ -526,6 +526,9 @@ assert.deepEqual(
         'pdf-page-reorderer',
         'pdf-page-reverser',
         'pdf-page-interleaver',
+        'pdf-text-extractor',
+        'pdf-to-word-converter',
+        'pdf-page-size-normalizer',
         'video-thumbnail-extractor',
         'video-contact-sheet-generator',
         'video-frame-sequence-extractor',
@@ -2053,6 +2056,9 @@ for (const id of [
     'pdf-page-reorderer',
     'pdf-page-reverser',
     'pdf-page-interleaver',
+    'pdf-text-extractor',
+    'pdf-to-word-converter',
+    'pdf-page-size-normalizer',
 ]) {
     const fileTool = getToolDefinition(id);
     assert.equal(typeof fileTool.process, 'function');
@@ -2140,6 +2146,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 7 Batch 16 product tools verification passed.');
+console.log('Sprint 7 Batch 17 product tools verification passed.');
 
 // END OF FILE
