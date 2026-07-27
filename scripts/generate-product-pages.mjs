@@ -6,7 +6,7 @@ import { listToolDefinitions } from '../src/product/tool-definitions.js';
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const baseUrl = 'https://abdelaziz-maysara-hm.github.io/adawaty';
-const assetVersion = 's7b17';
+const assetVersion = 's7b18';
 const tools = listToolDefinitions();
 const categories = Object.freeze({
     health: Object.freeze({ ar: 'أدوات الصحة', en: 'Health Tools' }),

@@ -268,6 +268,9 @@ const pdfContentToolDefinitions = Object.freeze({
     [pdfPageSizeNormalizer.id]: pdfPageSizeNormalizer,
 });
 
-export { pdfContentToolDefinitions };
+export {
+    createDocx,
+    pdfContentToolDefinitions,
+};
 
 // END OF FILE
