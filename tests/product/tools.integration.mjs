@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 487);
+assert.equal(tools.length, 490);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -498,6 +498,9 @@ assert.deepEqual(
         'pdf-merge',
         'pdf-page-extractor',
         'pdf-page-rotator',
+        'pdf-page-remover',
+        'pdf-watermark',
+        'pdf-workflow',
     ],
 );
 
@@ -1992,6 +1995,9 @@ for (const id of [
     'pdf-merge',
     'pdf-page-extractor',
     'pdf-page-rotator',
+    'pdf-page-remover',
+    'pdf-watermark',
+    'pdf-workflow',
 ]) {
     const fileTool = getToolDefinition(id);
     assert.equal(typeof fileTool.process, 'function');
@@ -2021,6 +2027,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 7 Batch 6 product tools verification passed.');
+console.log('Sprint 7 Batch 7 product tools verification passed.');
 
 // END OF FILE
