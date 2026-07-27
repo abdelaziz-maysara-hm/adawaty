@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 7 — Batch 5
+
+- Added working PDF merge, page extraction and page rotation tools.
+- Added reusable in-browser PDF processing with page-range validation.
+- Added multiple-file inputs and downloadable PDF results to the shared tool page.
+- Added a searchable PDF category and expanded the catalogue to 486 working tools.
+
 ## Sprint 7 — Batch 4
 
 - Added image brightness, contrast and saturation adjustment.

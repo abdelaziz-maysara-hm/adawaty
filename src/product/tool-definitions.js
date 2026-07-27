@@ -43,6 +43,7 @@ import { imageFileToolDefinitions } from './definitions/image-file-tools.js';
 import { imageEditingToolDefinitions } from './definitions/image-editing-tools.js';
 import { imageEnhancementToolDefinitions } from './definitions/image-enhancement-tools.js';
 import { imageFilterToolDefinitions } from './definitions/image-filter-tools.js';
+import { pdfFileToolDefinitions } from './definitions/pdf-file-tools.js';
 import { financeDefinitions } from './definitions/finance.js';
 import { healthDefinitions } from './definitions/health.js';
 import { mathDefinitions } from './definitions/math.js';
@@ -1055,6 +1056,7 @@ const toolDefinitions = Object.freeze({
     ...imageEditingToolDefinitions,
     ...imageEnhancementToolDefinitions,
     ...imageFilterToolDefinitions,
+    ...pdfFileToolDefinitions,
 });
 
 function getToolDefinition(id) {

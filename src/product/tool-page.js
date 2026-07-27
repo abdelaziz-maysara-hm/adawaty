@@ -58,7 +58,7 @@ function createInput(input, language) {
         element.type = input.type;
         element.inputMode = input.type === 'number' ? 'decimal' : '';
 
-        for (const attribute of ['min', 'max', 'step', 'placeholder', 'accept']) {
+        for (const attribute of ['min', 'max', 'step', 'placeholder', 'accept', 'multiple']) {
             if (input[attribute] !== undefined) {
                 element.setAttribute(attribute, String(input[attribute]));
             }
@@ -149,7 +149,11 @@ function readValues() {
             const element = form.elements.namedItem(input.id);
             const value = input.type === 'number'
                 ? Number(element.value)
-                : input.type === 'file' ? element.files?.[0] : element.value;
+                : input.type === 'file'
+                    ? input.multiple
+                        ? Array.from(element.files ?? [])
+                        : element.files?.[0]
+                    : element.value;
             return [input.id, value];
         }),
     );
