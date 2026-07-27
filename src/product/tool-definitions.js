@@ -53,6 +53,7 @@ import { pdfDocumentToolDefinitions } from './definitions/pdf-document-tools.js'
 import { pdfContentToolDefinitions } from './definitions/pdf-content-tools.js';
 import { ocrToolDefinitions } from './definitions/ocr-tools.js';
 import { videoFileToolDefinitions } from './definitions/video-file-tools.js';
+import { videoProcessingToolDefinitions } from './definitions/video-processing-tools.js';
 import { financeDefinitions } from './definitions/finance.js';
 import { healthDefinitions } from './definitions/health.js';
 import { mathDefinitions } from './definitions/math.js';
@@ -1075,6 +1076,7 @@ const toolDefinitions = Object.freeze({
     ...pdfContentToolDefinitions,
     ...ocrToolDefinitions,
     ...videoFileToolDefinitions,
+    ...videoProcessingToolDefinitions,
 });
 
 function getToolDefinition(id) {
