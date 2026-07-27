@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 7 — Batch 3
+
+- Added working grayscale, blur and text-watermark image tools.
+- Added reusable filter and watermark rendering to the local image engine.
+- Added adjustable effect strength, watermark position, size, color and opacity.
+- Expanded the generated catalogue to 480 working tools.
+
 ## Sprint 7 — Batch 2
 
 - Added working image crop, rotate/flip and metadata-removal tools.
