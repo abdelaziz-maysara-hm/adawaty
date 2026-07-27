@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 431);
+assert.equal(tools.length, 441);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -442,6 +442,16 @@ assert.deepEqual(
         'ev-charging-cost-calculator',
         'ev-range-calculator',
         'vehicle-braking-distance-calculator',
+        'rental-yield-calculator',
+        'real-estate-cap-rate-calculator',
+        'cash-on-cash-return-calculator',
+        'property-price-per-square-meter-calculator',
+        'property-appreciation-calculator',
+        'property-down-payment-calculator',
+        'property-closing-cost-calculator',
+        'rental-vacancy-loss-calculator',
+        'property-tax-calculator',
+        'gross-rent-multiplier-calculator',
     ],
 );
 
@@ -1867,6 +1877,17 @@ assert.equal(getToolDefinition('ev-charging-cost-calculator').calculate({ capaci
 assert.equal(getToolDefinition('ev-range-calculator').calculate({ capacity: 75, usable: 90, consumption: 18 }, 'en').value, '375 km');
 assert.equal(getToolDefinition('vehicle-braking-distance-calculator').calculate({ speed: 100, reaction: 1.5, friction: 0.7 }, 'en').value, '97.868 m');
 
+assert.equal(getToolDefinition('rental-yield-calculator').calculate({ price: 200000, monthlyRent: 1500 }, 'en').value, '9 %');
+assert.equal(getToolDefinition('real-estate-cap-rate-calculator').calculate({ noi: 18000, value: 250000 }, 'en').value, '7.2 %');
+assert.equal(getToolDefinition('cash-on-cash-return-calculator').calculate({ cashFlow: 12000, cashInvested: 80000 }, 'en').value, '15 %');
+assert.equal(getToolDefinition('property-price-per-square-meter-calculator').calculate({ price: 200000, area: 120 }, 'en').value, '1,666.667 per m²');
+assert.equal(getToolDefinition('property-appreciation-calculator').calculate({ currentValue: 250000, rate: 5, years: 10 }, 'en').value, '407,223.657');
+assert.equal(getToolDefinition('property-down-payment-calculator').calculate({ price: 300000, percent: 20 }, 'en').value, '60,000');
+assert.equal(getToolDefinition('property-closing-cost-calculator').calculate({ price: 300000, rate: 4 }, 'en').value, '12,000');
+assert.equal(getToolDefinition('rental-vacancy-loss-calculator').calculate({ monthlyRent: 1500, units: 4, vacancy: 5 }, 'en').value, '3,600');
+assert.equal(getToolDefinition('property-tax-calculator').calculate({ taxableValue: 250000, rate: 1.2 }, 'en').value, '3,000');
+assert.equal(getToolDefinition('gross-rent-multiplier-calculator').calculate({ price: 240000, monthlyRent: 2000 }, 'en').value, '10 x');
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -1887,6 +1908,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 47 product tools verification passed.');
+console.log('Sprint 6 Batch 48 product tools verification passed.');
 
 // END OF FILE

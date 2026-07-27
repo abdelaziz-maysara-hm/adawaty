@@ -35,6 +35,7 @@ import { foodRecipeDefinitions } from './definitions/food-recipe.js';
 import { projectManagementDefinitions } from './definitions/project-management.js';
 import { solarBatteryDefinitions } from './definitions/solar-battery.js';
 import { automotiveEvDefinitions } from './definitions/automotive-ev.js';
+import { realEstateDefinitions } from './definitions/real-estate.js';
 import { financeDefinitions } from './definitions/finance.js';
 import { healthDefinitions } from './definitions/health.js';
 import { mathDefinitions } from './definitions/math.js';
@@ -1039,6 +1040,7 @@ const toolDefinitions = Object.freeze({
     ...projectManagementDefinitions,
     ...solarBatteryDefinitions,
     ...automotiveEvDefinitions,
+    ...realEstateDefinitions,
 });
 
 function getToolDefinition(id) {

@@ -1,5 +1,13 @@
 # Changelog
 
+## Sprint 6 — Batch 48
+
+- Added 10 bilingual real-estate investment and ownership tools.
+- Added rental yield, cap-rate, cash-on-cash and gross-rent-multiplier calculators.
+- Added price-per-area, appreciation, down-payment and closing-cost tools.
+- Added vacancy-loss and property-tax calculators.
+- Expanded the generated catalogue to 441 working tools.
+
 ## Sprint 6 — Batch 47
 
 - Added 10 bilingual automotive, tire and electric-vehicle tools.
