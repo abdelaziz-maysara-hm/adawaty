@@ -55,6 +55,7 @@ import { ocrToolDefinitions } from './definitions/ocr-tools.js';
 import { videoFileToolDefinitions } from './definitions/video-file-tools.js';
 import { videoProcessingToolDefinitions } from './definitions/video-processing-tools.js';
 import { listDataToolDefinitions } from './definitions/list-data-tools.js';
+import { dataFormatToolDefinitions } from './definitions/data-format-tools.js';
 import { financeDefinitions } from './definitions/finance.js';
 import { healthDefinitions } from './definitions/health.js';
 import { mathDefinitions } from './definitions/math.js';
@@ -1079,6 +1080,7 @@ const toolDefinitions = Object.freeze({
     ...videoFileToolDefinitions,
     ...videoProcessingToolDefinitions,
     ...listDataToolDefinitions,
+    ...dataFormatToolDefinitions,
 });
 
 function getToolDefinition(id) {

@@ -14,9 +14,13 @@ import {
     parseDelimited,
     stringifyDelimited,
 } from '../../src/product/definitions/list-data-tools.js';
+import {
+    jsonToXml,
+    resolvePath,
+} from '../../src/product/definitions/data-format-tools.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 540);
+assert.equal(tools.length, 550);
 assert.deepEqual(
     [...new Set(tools.map((tool) => tool.category))]
         .filter((category) => !categoryLabels[category]),
@@ -566,6 +570,16 @@ assert.deepEqual(
         'csv-row-filter',
         'csv-row-sorter',
         'csv-deduplicator',
+        'csv-to-markdown-table',
+        'csv-to-html-table',
+        'csv-to-sql-insert',
+        'csv-to-json-lines',
+        'json-array-deduplicator',
+        'json-property-remover',
+        'json-array-sorter',
+        'json-path-extractor',
+        'json-to-xml-converter',
+        'ndjson-to-json-converter',
     ],
 );
 
@@ -2145,6 +2159,16 @@ for (const id of [
     'csv-row-filter',
     'csv-row-sorter',
     'csv-deduplicator',
+    'csv-to-markdown-table',
+    'csv-to-html-table',
+    'csv-to-sql-insert',
+    'csv-to-json-lines',
+    'json-array-deduplicator',
+    'json-property-remover',
+    'json-array-sorter',
+    'json-path-extractor',
+    'json-to-xml-converter',
+    'ndjson-to-json-converter',
 ]) {
     const transformationTool = getToolDefinition(id);
     assert.equal(typeof transformationTool.process, 'function');
@@ -2163,6 +2187,8 @@ assert.equal(
     stringifyDelimited([['name', 'note'], ['Ahmed', 'Cairo, Egypt']], ','),
     'name,note\nAhmed,\"Cairo, Egypt\"',
 );
+assert.equal(resolvePath({ users: [{ name: 'Ahmed' }] }, 'users[0].name'), 'Ahmed');
+assert.match(jsonToXml({ name: 'Ahmed & Sara' }, 'people'), /Ahmed &amp; Sara/);
 
 for (const id of [
     'audio-trimmer',
@@ -2232,6 +2258,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 7 Batch 22 product tools verification passed.');
+console.log('Sprint 7 Batch 23 product tools verification passed.');
 
 // END OF FILE
