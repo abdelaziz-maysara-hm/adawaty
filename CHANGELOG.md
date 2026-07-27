@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 7 — Batch 12
+
+- Added a video frame sequence extractor that exports up to 30 JPG frames in one ZIP.
+- Added browser-local extraction of video audio tracks into editable WAV files.
+- Reused the video decoder foundation while adding a reusable PCM WAV encoding module.
+- Expanded regression coverage and regenerated all catalogue, tool and sitemap pages.
+
 ## Sprint 7 — Batch 11
 
 - Added a local video thumbnail extractor with selectable timestamps and JPG export.

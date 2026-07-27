@@ -1,10 +1,23 @@
 import { canvasToBlob } from '../image-processing.js';
 import {
+    audioBufferToWavBlob,
+    decodeAudioFile,
+    formatAudioDuration,
+} from '../audio-processing.js';
+import {
     captureVideoFrame,
     drawVideoFrame,
     loadVideo,
     seekVideo,
 } from '../video-processing.js';
+
+const JSZIP_URL = 'https://cdn.jsdelivr.net/npm/jszip@3.10.1/+esm';
+let zipPromise;
+
+function loadZip() {
+    zipPromise ??= import(JSZIP_URL).then((module) => module.default);
+    return zipPromise;
+}
 
 function localized(language, ar, en) {
     return language === 'ar' ? ar : en;
@@ -180,9 +193,129 @@ const contactSheetGenerator = videoBase({
     },
 });
 
+const frameSequenceExtractor = videoBase({
+    id: 'video-frame-sequence-extractor',
+    icon: 'ZIP',
+    action: Object.freeze({
+        ar: 'استخرج اللقطات',
+        en: 'Extract frames',
+    }),
+    title: Object.freeze({
+        ar: 'استخراج لقطات الفيديو إلى ZIP',
+        en: 'Video Frame Sequence Extractor',
+    }),
+    description: Object.freeze({
+        ar: 'استخرج عدة لقطات JPG موزعة على مدة الفيديو ونزّلها معًا داخل ملف ZIP واحد.',
+        en: 'Extract multiple JPG frames distributed across a video and download them together in one ZIP.',
+    }),
+    note: Object.freeze({
+        ar: 'تتم قراءة الفيديو وإنشاء الصور على جهازك. يحتاج إنشاء ZIP إلى اتصال بالإنترنت لتحميل مكتبة الضغط.',
+        en: 'The video and frames stay on your device. ZIP creation needs internet access to load the compression library.',
+    }),
+    inputs: Object.freeze([
+        videoInput(),
+        numberInput('frameCount', 'عدد اللقطات', 'Number of frames', 12, 2, 30),
+        numberInput('width', 'عرض كل لقطة', 'Frame width', 1280, 160, 1920, 'px'),
+    ]),
+    async process(values, language) {
+        const loaded = await loadVideo(values.video);
+
+        try {
+            const JSZip = await loadZip();
+            const zip = new JSZip();
+            const digits = String(values.frameCount).length;
+
+            for (let index = 0; index < values.frameCount; index += 1) {
+                const time = loaded.video.duration
+                    * (index + 1) / (values.frameCount + 1);
+                await seekVideo(loaded.video, time);
+                const frame = await captureVideoFrame(loaded.video, {
+                    width: values.width,
+                    quality: 0.9,
+                });
+                const position = String(index + 1).padStart(digits, '0');
+                zip.file(`frame-${position}.jpg`, frame.blob);
+            }
+
+            const blob = await zip.generateAsync({
+                type: 'blob',
+                compression: 'DEFLATE',
+                compressionOptions: { level: 6 },
+            });
+
+            return {
+                value: `${values.frameCount} ${localized(language, 'لقطة', 'frames')}`,
+                label: localized(
+                    language,
+                    'حزمة لقطات الفيديو جاهزة',
+                    'Video frame package is ready',
+                ),
+                details: localized(
+                    language,
+                    `${(blob.size / 1024 / 1024).toFixed(1)} ميجابايت داخل ملف ZIP واحد.`,
+                    `${(blob.size / 1024 / 1024).toFixed(1)} MB in one ZIP file.`,
+                ),
+                download: {
+                    blob,
+                    filename: 'adawaty-video-frames.zip',
+                },
+            };
+        } finally {
+            URL.revokeObjectURL(loaded.url);
+        }
+    },
+});
+
+const videoAudioExtractor = videoBase({
+    id: 'video-audio-extractor',
+    icon: 'WAV',
+    action: Object.freeze({
+        ar: 'استخرج الصوت',
+        en: 'Extract audio',
+    }),
+    title: Object.freeze({
+        ar: 'استخراج الصوت من الفيديو',
+        en: 'Extract Audio from Video',
+    }),
+    description: Object.freeze({
+        ar: 'استخرج المسار الصوتي من ملف فيديو وحوّله إلى WAV متوافق مع برامج التحرير والتشغيل.',
+        en: 'Extract a video audio track as a WAV file compatible with common editors and players.',
+    }),
+    note: Object.freeze({
+        ar: 'تتم العملية بالكامل داخل المتصفح. قد تحتاج الملفات الطويلة إلى ذاكرة كبيرة، ويجب أن يدعم المتصفح ترميز الصوت المستخدم.',
+        en: 'Processing stays in the browser. Long files may need substantial memory, and the audio codec must be browser-supported.',
+    }),
+    inputs: Object.freeze([videoInput()]),
+    async process(values, language) {
+        const audioBuffer = await decodeAudioFile(values.video);
+        const blob = audioBufferToWavBlob(audioBuffer);
+        const channels = Math.min(audioBuffer.numberOfChannels, 2);
+
+        return {
+            value: formatAudioDuration(audioBuffer.duration),
+            label: localized(
+                language,
+                'ملف الصوت WAV جاهز',
+                'WAV audio file is ready',
+            ),
+            details: localized(
+                language,
+                `${audioBuffer.sampleRate} هرتز · ${channels === 1 ? 'أحادي' : 'ستيريو'} · ${(blob.size / 1024 / 1024).toFixed(1)} ميجابايت`,
+                `${audioBuffer.sampleRate} Hz · ${channels === 1 ? 'Mono' : 'Stereo'} · ${(blob.size / 1024 / 1024).toFixed(1)} MB`,
+            ),
+            download: {
+                blob,
+                filename: 'adawaty-extracted-audio.wav',
+            },
+        };
+    },
+});
+
 const videoFileToolDefinitions = Object.freeze({
     [thumbnailExtractor.id]: thumbnailExtractor,
     [contactSheetGenerator.id]: contactSheetGenerator,
+    [frameSequenceExtractor.id]: frameSequenceExtractor,
+    [videoAudioExtractor.id]: videoAudioExtractor,
 });
 
 export { videoFileToolDefinitions };
