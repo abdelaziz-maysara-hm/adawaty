@@ -24,7 +24,7 @@ function field(id, ar, en, placeholder, options = {}) {
 function tool(config) {
     return Object.freeze({
         id: config.id,
-        category: 'image',
+        category: 'video',
         icon: config.icon,
         title: Object.freeze(config.title),
         description: Object.freeze(config.description),

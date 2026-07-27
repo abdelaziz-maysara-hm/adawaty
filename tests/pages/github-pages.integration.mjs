@@ -44,9 +44,9 @@ const [
 ]);
 
 assert.match(indexHtml, /<html lang="ar" dir="rtl" data-language="ar">/);
-assert.match(indexHtml, /Sprint 7 · Batch 10/);
+assert.match(indexHtml, /Sprint 7 · Batch 11/);
 assert.match(indexHtml, /\.\/src\/css\/main\.css/);
-assert.match(indexHtml, /\.\/src\/pages\/home\.js\?v=s7b10/);
+assert.match(indexHtml, /\.\/src\/pages\/home\.js\?v=s7b11/);
 assert.match(indexHtml, /http-equiv="Cache-Control" content="no-cache"/);
 assert.match(indexHtml, /\.\/tools\/bmi-calculator\//);
 assert.match(indexHtml, /\.\/tools\/percentage-calculator\//);
@@ -71,7 +71,7 @@ assert.match(homeScript, /adawaty-language/);
 assert.match(homeScript, /adawaty-preview-language/);
 assert.match(stylesheet, /@media \(max-width: 600px\)/);
 assert.match(catalogueHtml, /data-catalogue-page/);
-assert.match(catalogueHtml, /catalogue-page\.js\?v=s7b10/);
+assert.match(catalogueHtml, /catalogue-page\.js\?v=s7b11/);
 assert.match(catalogueHtml, /http-equiv="Cache-Control" content="no-cache"/);
 assert.match(catalogueHtml, /"@type":"CollectionPage"/);
 assert.match(healthCategoryHtml, /data-category="health"/);
@@ -121,6 +121,16 @@ const pdfCategoryHtml = await readFile(
     'utf8',
 );
 assert.match(pdfCategoryHtml, /data-category="pdf"/);
+const videoCategoryHtml = await readFile(
+    new URL('../../categories/video/index.html', import.meta.url),
+    'utf8',
+);
+assert.match(videoCategoryHtml, /data-category="video"/);
+const audioCategoryHtml = await readFile(
+    new URL('../../categories/audio/index.html', import.meta.url),
+    'utf8',
+);
+assert.match(audioCategoryHtml, /data-category="audio"/);
 const studentStudyCategoryHtml = await readFile(
     new URL('../../categories/student-study/index.html', import.meta.url),
     'utf8',
@@ -137,9 +147,9 @@ const bmiToolHtml = await readFile(
     new URL('../../tools/bmi-calculator/index.html', import.meta.url),
     'utf8',
 );
-assert.match(bmiToolHtml, /tool-page\.js\?v=s7b10/);
+assert.match(bmiToolHtml, /tool-page\.js\?v=s7b11/);
 assert.match(bmiToolHtml, /http-equiv="Cache-Control" content="no-cache"/);
 
-console.log('Sprint 7 Batch 10 catalogue navigation verification passed.');
+console.log('Sprint 7 Batch 11 catalogue navigation verification passed.');
 
 // END OF FILE
