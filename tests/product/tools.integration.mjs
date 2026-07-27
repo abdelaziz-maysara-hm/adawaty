@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 451);
+assert.equal(tools.length, 461);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -462,6 +462,16 @@ assert.deepEqual(
         'vacation-savings-calculator',
         'travel-points-value-calculator',
         'group-trip-cost-split-calculator',
+        'lawn-seed-quantity-calculator',
+        'sod-roll-count-calculator',
+        'garden-mulch-calculator',
+        'garden-fertilizer-application-calculator',
+        'garden-irrigation-water-calculator',
+        'sprinkler-runtime-calculator',
+        'garden-plant-spacing-calculator',
+        'hedge-plant-count-calculator',
+        'compost-blend-calculator',
+        'rainwater-harvesting-calculator',
     ],
 );
 
@@ -1909,6 +1919,17 @@ assert.equal(getToolDefinition('vacation-savings-calculator').calculate({ target
 assert.equal(getToolDefinition('travel-points-value-calculator').calculate({ cashPrice: 750, cashFees: 50, points: 50000 }, 'en').value, '1.4 cents/point');
 assert.equal(getToolDefinition('group-trip-cost-split-calculator').calculate({ sharedCost: 2400, travelers: 6, individualCost: 150 }, 'en').value, '550');
 
+assert.equal(getToolDefinition('lawn-seed-quantity-calculator').calculate({ area: 250, rate: 35, waste: 5 }, 'en').value, '9.188 kg');
+assert.equal(getToolDefinition('sod-roll-count-calculator').calculate({ area: 120, rollArea: 1, waste: 8 }, 'en').value, '130');
+assert.equal(getToolDefinition('garden-mulch-calculator').calculate({ area: 40, depth: 7.5, waste: 10 }, 'en').value, '3.3 m³');
+assert.equal(getToolDefinition('garden-fertilizer-application-calculator').calculate({ area: 150, rate: 3 }, 'en').value, '4.5 kg');
+assert.equal(getToolDefinition('garden-irrigation-water-calculator').calculate({ area: 200, depth: 15, efficiency: 80 }, 'en').value, '3,750 L');
+assert.equal(getToolDefinition('sprinkler-runtime-calculator').calculate({ depth: 12, precipitationRate: 20 }, 'en').value, '36 minutes');
+assert.equal(getToolDefinition('garden-plant-spacing-calculator').calculate({ length: 10, width: 4, rowSpacing: 50, plantSpacing: 40 }, 'en').value, '200');
+assert.equal(getToolDefinition('hedge-plant-count-calculator').calculate({ length: 25, spacing: 60, rows: 1 }, 'en').value, '43');
+assert.equal(getToolDefinition('compost-blend-calculator').calculate({ totalVolume: 500, compostPercent: 30 }, 'en').value, '150 L');
+assert.equal(getToolDefinition('rainwater-harvesting-calculator').calculate({ roofArea: 120, rainfall: 25, efficiency: 85 }, 'en').value, '2,550 L');
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -1929,6 +1950,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 49 product tools verification passed.');
+console.log('Sprint 6 Batch 50 product tools verification passed.');
 
 // END OF FILE
