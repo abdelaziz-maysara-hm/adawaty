@@ -2285,4 +2285,54 @@
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/travel-budget-calculator/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/daily-travel-budget-calculator/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/hotel-stay-cost-calculator/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/flight-time-estimator/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/flight-arrival-time-calculator/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/airline-luggage-fee-calculator/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/travel-currency-exchange-fee-calculator/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/vacation-savings-calculator/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/travel-points-value-calculator/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/group-trip-cost-split-calculator/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
 </urlset>

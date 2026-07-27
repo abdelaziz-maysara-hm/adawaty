@@ -1,5 +1,13 @@
 # Changelog
 
+## Sprint 6 — Batch 49
+
+- Added 10 bilingual travel-planning and trip-budget tools.
+- Added total and daily budget, hotel cost and group-split calculators.
+- Added flight duration, arrival-time and luggage-fee tools.
+- Added currency-exchange, vacation-savings and travel-points calculators.
+- Expanded the generated catalogue to 451 working tools.
+
 ## Sprint 6 — Batch 48
 
 - Added 10 bilingual real-estate investment and ownership tools.
