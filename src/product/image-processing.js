@@ -50,6 +50,8 @@ async function renderImage({
     rotation = 0,
     flipX = false,
     flipY = false,
+    filter = 'none',
+    watermark,
 }) {
     if (!(file instanceof File) || !file.type.startsWith('image/')) {
         throw new Error('Please select a valid image file.');
@@ -82,6 +84,7 @@ async function renderImage({
 
     context.imageSmoothingEnabled = true;
     context.imageSmoothingQuality = 'high';
+    context.filter = filter;
     context.save();
     context.translate(canvas.width / 2, canvas.height / 2);
     context.rotate(normalizedRotation * Math.PI / 180);
@@ -98,6 +101,38 @@ async function renderImage({
         targetHeight,
     );
     context.restore();
+    context.filter = 'none';
+
+    if (watermark?.text) {
+        const fontSize = Math.max(12, Number(watermark.fontSize) || 32);
+        const padding = Math.max(12, Math.round(fontSize * 0.6));
+        context.save();
+        context.globalAlpha = Math.min(
+            1,
+            Math.max(0.05, Number(watermark.opacity) || 0.7),
+        );
+        context.fillStyle = watermark.color || '#ffffff';
+        context.font = `700 ${fontSize}px system-ui, sans-serif`;
+        context.textBaseline = 'bottom';
+        const textWidth = context.measureText(watermark.text).width;
+        const positions = {
+            'top-left': [padding, padding + fontSize],
+            'top-right': [canvas.width - padding - textWidth, padding + fontSize],
+            center: [
+                (canvas.width - textWidth) / 2,
+                (canvas.height + fontSize) / 2,
+            ],
+            'bottom-left': [padding, canvas.height - padding],
+            'bottom-right': [
+                canvas.width - padding - textWidth,
+                canvas.height - padding,
+            ],
+        };
+        const [x, y] = positions[watermark.position]
+            ?? positions['bottom-right'];
+        context.fillText(watermark.text, Math.max(padding, x), y);
+        context.restore();
+    }
 
     return {
         blob: await canvasToBlob(canvas, type, quality),
