@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 486);
+assert.equal(tools.length, 487);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -494,6 +494,7 @@ assert.deepEqual(
         'image-color-adjuster',
         'image-sepia-filter',
         'image-color-inverter',
+        'image-batch-processor',
         'pdf-merge',
         'pdf-page-extractor',
         'pdf-page-rotator',
@@ -1979,11 +1980,13 @@ for (const id of [
     'image-color-adjuster',
     'image-sepia-filter',
     'image-color-inverter',
+    'image-batch-processor',
 ]) {
     const fileTool = getToolDefinition(id);
     assert.equal(typeof fileTool.process, 'function');
     assert.equal(fileTool.inputs[0].type, 'file');
 }
+assert.equal(getToolDefinition('image-batch-processor').inputs[0].multiple, true);
 
 for (const id of [
     'pdf-merge',
@@ -2018,6 +2021,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 7 Batch 5 product tools verification passed.');
+console.log('Sprint 7 Batch 6 product tools verification passed.');
 
 // END OF FILE
