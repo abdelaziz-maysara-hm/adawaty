@@ -8,7 +8,7 @@ import {
 import { categoryLabels } from '../../src/product/category-labels.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 490);
+assert.equal(tools.length, 492);
 assert.deepEqual(
     [...new Set(tools.map((tool) => tool.category))]
         .filter((category) => !categoryLabels[category]),
@@ -502,6 +502,8 @@ assert.deepEqual(
         'image-sepia-filter',
         'image-color-inverter',
         'image-batch-processor',
+        'social-media-image-pack',
+        'image-collage-maker',
         'pdf-merge',
         'pdf-page-extractor',
         'pdf-page-rotator',
@@ -1991,12 +1993,15 @@ for (const id of [
     'image-sepia-filter',
     'image-color-inverter',
     'image-batch-processor',
+    'social-media-image-pack',
+    'image-collage-maker',
 ]) {
     const fileTool = getToolDefinition(id);
     assert.equal(typeof fileTool.process, 'function');
     assert.equal(fileTool.inputs[0].type, 'file');
 }
 assert.equal(getToolDefinition('image-batch-processor').inputs[0].multiple, true);
+assert.equal(getToolDefinition('image-collage-maker').inputs[0].multiple, true);
 
 for (const id of [
     'pdf-merge',
@@ -2034,6 +2039,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 7 Batch 9 product tools verification passed.');
+console.log('Sprint 7 Batch 10 product tools verification passed.');
 
 // END OF FILE

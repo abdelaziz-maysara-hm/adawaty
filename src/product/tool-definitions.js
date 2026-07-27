@@ -44,6 +44,7 @@ import { imageEditingToolDefinitions } from './definitions/image-editing-tools.j
 import { imageEnhancementToolDefinitions } from './definitions/image-enhancement-tools.js';
 import { imageFilterToolDefinitions } from './definitions/image-filter-tools.js';
 import { imageBatchToolDefinitions } from './definitions/image-batch-tools.js';
+import { imageWorkflowToolDefinitions } from './definitions/image-workflow-tools.js';
 import { pdfFileToolDefinitions } from './definitions/pdf-file-tools.js';
 import { pdfWorkflowToolDefinitions } from './definitions/pdf-workflow-tools.js';
 import { financeDefinitions } from './definitions/finance.js';
@@ -1059,6 +1060,7 @@ const toolDefinitions = Object.freeze({
     ...imageEnhancementToolDefinitions,
     ...imageFilterToolDefinitions,
     ...imageBatchToolDefinitions,
+    ...imageWorkflowToolDefinitions,
     ...pdfFileToolDefinitions,
     ...pdfWorkflowToolDefinitions,
 });

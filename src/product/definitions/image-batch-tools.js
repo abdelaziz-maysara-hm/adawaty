@@ -190,6 +190,6 @@ const imageBatchToolDefinitions = Object.freeze({
     [batchProcessor.id]: batchProcessor,
 });
 
-export { imageBatchToolDefinitions };
+export { imageBatchToolDefinitions, loadZip };
 
 // END OF FILE
