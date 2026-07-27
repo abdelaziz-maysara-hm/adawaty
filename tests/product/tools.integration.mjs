@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 421);
+assert.equal(tools.length, 431);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -432,6 +432,16 @@ assert.deepEqual(
         'energy-storage-duration-calculator',
         'dc-power-current-calculator',
         'dc-voltage-drop-calculator',
+        'tire-size-diameter-calculator',
+        'tire-size-comparison-calculator',
+        'speedometer-tire-error-calculator',
+        'engine-displacement-calculator',
+        'vehicle-power-to-weight-calculator',
+        'vehicle-depreciation-calculator',
+        'ev-charging-time-calculator',
+        'ev-charging-cost-calculator',
+        'ev-range-calculator',
+        'vehicle-braking-distance-calculator',
     ],
 );
 
@@ -1846,6 +1856,17 @@ assert.equal(getToolDefinition('energy-storage-duration-calculator').calculate({
 assert.equal(getToolDefinition('dc-power-current-calculator').calculate({ power: 1200, voltage: 48 }, 'en').value, '25 A');
 assert.equal(getToolDefinition('dc-voltage-drop-calculator').calculate({ current: 20, length: 15, resistance: 0.0033, voltage: 48 }, 'en').value, '1.98 V');
 
+assert.equal(getToolDefinition('tire-size-diameter-calculator').calculate({ width: 225, aspect: 45, rim: 17 }, 'en').value, '634.3 mm');
+assert.equal(getToolDefinition('tire-size-comparison-calculator').calculate({ oldWidth: 225, oldAspect: 45, oldRim: 17, newWidth: 235, newAspect: 45, newRim: 17 }, 'en').value, '1.419 %');
+assert.equal(getToolDefinition('speedometer-tire-error-calculator').calculate({ indicated: 100, oldDiameter: 634.3, newDiameter: 643.3 }, 'en').value, '101.419 km/h');
+assert.equal(getToolDefinition('engine-displacement-calculator').calculate({ cylinders: 4, bore: 86, stroke: 86 }, 'en').value, '1.998 L');
+assert.equal(getToolDefinition('vehicle-power-to-weight-calculator').calculate({ power: 200, weight: 1500 }, 'en').value, '133.333 hp/tonne');
+assert.equal(getToolDefinition('vehicle-depreciation-calculator').calculate({ price: 30000, rate: 15, years: 5 }, 'en').value, '13,311.159');
+assert.equal(getToolDefinition('ev-charging-time-calculator').calculate({ capacity: 75, start: 20, target: 80, power: 11, efficiency: 90 }, 'en').value, '4.545 hours');
+assert.equal(getToolDefinition('ev-charging-cost-calculator').calculate({ capacity: 75, start: 20, target: 80, price: 0.2, efficiency: 90 }, 'en').value, '10');
+assert.equal(getToolDefinition('ev-range-calculator').calculate({ capacity: 75, usable: 90, consumption: 18 }, 'en').value, '375 km');
+assert.equal(getToolDefinition('vehicle-braking-distance-calculator').calculate({ speed: 100, reaction: 1.5, friction: 0.7 }, 'en').value, '97.868 m');
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -1866,6 +1887,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 46 product tools verification passed.');
+console.log('Sprint 6 Batch 47 product tools verification passed.');
 
 // END OF FILE
