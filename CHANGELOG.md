@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 7 — Batch 21
+
+- Added ten high-utility list, text extraction and CSV transformation tools.
+- Added local downloads for processed lists and tabular data without server uploads.
+- Added quoted-field-aware CSV parsing and serialization.
+- Expanded the catalogue to 530 tools and regenerated all public pages and sitemap entries.
+
 ## Sprint 7 — Batch 20
 
 - Added MP4 and WebM video format conversion.

@@ -10,9 +10,13 @@ import {
     audioBufferToWavBlob,
     processAudioBuffer,
 } from '../../src/product/audio-processing.js';
+import {
+    parseDelimited,
+    stringifyDelimited,
+} from '../../src/product/definitions/list-data-tools.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 520);
+assert.equal(tools.length, 530);
 assert.deepEqual(
     [...new Set(tools.map((tool) => tool.category))]
         .filter((category) => !categoryLabels[category]),
@@ -542,6 +546,16 @@ assert.deepEqual(
         'video-format-converter',
         'video-resizer',
         'video-speed-changer',
+        'list-randomizer',
+        'list-intersection',
+        'list-difference',
+        'list-chunker',
+        'line-prefix-adder',
+        'line-suffix-adder',
+        'email-address-extractor',
+        'url-extractor',
+        'csv-delimiter-converter',
+        'csv-column-extractor',
     ],
 );
 
@@ -2101,6 +2115,36 @@ for (const id of [
 }
 
 for (const id of [
+    'list-randomizer',
+    'list-intersection',
+    'list-difference',
+    'list-chunker',
+    'line-prefix-adder',
+    'line-suffix-adder',
+    'email-address-extractor',
+    'url-extractor',
+    'csv-delimiter-converter',
+    'csv-column-extractor',
+]) {
+    const transformationTool = getToolDefinition(id);
+    assert.equal(typeof transformationTool.process, 'function');
+    assert.ok(transformationTool.inputs.some((input) => input.type === 'textarea'));
+}
+
+assert.deepEqual(
+    parseDelimited('name,note\nAhmed,\"Cairo, Egypt\"\nSara,\"Line 1\nLine 2\"', ','),
+    [
+        ['name', 'note'],
+        ['Ahmed', 'Cairo, Egypt'],
+        ['Sara', 'Line 1\nLine 2'],
+    ],
+);
+assert.equal(
+    stringifyDelimited([['name', 'note'], ['Ahmed', 'Cairo, Egypt']], ','),
+    'name,note\nAhmed,\"Cairo, Egypt\"',
+);
+
+for (const id of [
     'audio-trimmer',
     'audio-volume-changer',
     'audio-fade-in-out-editor',
@@ -2168,6 +2212,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 7 Batch 20 product tools verification passed.');
+console.log('Sprint 7 Batch 21 product tools verification passed.');
 
 // END OF FILE
