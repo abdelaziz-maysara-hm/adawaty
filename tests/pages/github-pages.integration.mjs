@@ -44,9 +44,9 @@ const [
 ]);
 
 assert.match(indexHtml, /<html lang="ar" dir="rtl" data-language="ar">/);
-assert.match(indexHtml, /Sprint 7 · Batch 26/);
+assert.match(indexHtml, /Sprint 7 · Batch 27/);
 assert.match(indexHtml, /\.\/src\/css\/main\.css/);
-assert.match(indexHtml, /\.\/src\/pages\/home\.js\?v=s7b26/);
+assert.match(indexHtml, /\.\/src\/pages\/home\.js\?v=s7b27/);
 assert.match(indexHtml, /http-equiv="Cache-Control" content="no-cache"/);
 assert.match(indexHtml, /\.\/tools\/bmi-calculator\//);
 assert.match(indexHtml, /\.\/tools\/percentage-calculator\//);
@@ -71,7 +71,7 @@ assert.match(homeScript, /adawaty-language/);
 assert.match(homeScript, /adawaty-preview-language/);
 assert.match(stylesheet, /@media \(max-width: 600px\)/);
 assert.match(catalogueHtml, /data-catalogue-page/);
-assert.match(catalogueHtml, /catalogue-page\.js\?v=s7b26/);
+assert.match(catalogueHtml, /catalogue-page\.js\?v=s7b27/);
 assert.match(catalogueHtml, /http-equiv="Cache-Control" content="no-cache"/);
 assert.match(catalogueHtml, /"@type":"CollectionPage"/);
 assert.match(healthCategoryHtml, /data-category="health"/);
@@ -147,9 +147,9 @@ const bmiToolHtml = await readFile(
     new URL('../../tools/bmi-calculator/index.html', import.meta.url),
     'utf8',
 );
-assert.match(bmiToolHtml, /tool-page\.js\?v=s7b26/);
+assert.match(bmiToolHtml, /tool-page\.js\?v=s7b27/);
 assert.match(bmiToolHtml, /http-equiv="Cache-Control" content="no-cache"/);
 
-console.log('Sprint 7 Batch 26 catalogue navigation verification passed.');
+console.log('Sprint 7 Batch 27 catalogue navigation verification passed.');
 
 // END OF FILE
