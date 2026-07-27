@@ -16,7 +16,7 @@ import {
 } from '../../src/product/definitions/list-data-tools.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 530);
+assert.equal(tools.length, 540);
 assert.deepEqual(
     [...new Set(tools.map((tool) => tool.category))]
         .filter((category) => !categoryLabels[category]),
@@ -556,6 +556,16 @@ assert.deepEqual(
         'url-extractor',
         'csv-delimiter-converter',
         'csv-column-extractor',
+        'list-union',
+        'list-reverser',
+        'list-numberer',
+        'list-frequency-table',
+        'csv-transposer',
+        'csv-column-remover',
+        'csv-header-renamer',
+        'csv-row-filter',
+        'csv-row-sorter',
+        'csv-deduplicator',
     ],
 );
 
@@ -2125,6 +2135,16 @@ for (const id of [
     'url-extractor',
     'csv-delimiter-converter',
     'csv-column-extractor',
+    'list-union',
+    'list-reverser',
+    'list-numberer',
+    'list-frequency-table',
+    'csv-transposer',
+    'csv-column-remover',
+    'csv-header-renamer',
+    'csv-row-filter',
+    'csv-row-sorter',
+    'csv-deduplicator',
 ]) {
     const transformationTool = getToolDefinition(id);
     assert.equal(typeof transformationTool.process, 'function');
@@ -2212,6 +2232,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 7 Batch 21 product tools verification passed.');
+console.log('Sprint 7 Batch 22 product tools verification passed.');
 
 // END OF FILE
