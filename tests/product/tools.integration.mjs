@@ -6,9 +6,12 @@ import {
     listToolDefinitions,
 } from '../../src/product/tool-definitions.js';
 import { categoryLabels } from '../../src/product/category-labels.js';
+import {
+    audioBufferToWavBlob,
+} from '../../src/product/audio-processing.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 494);
+assert.equal(tools.length, 496);
 assert.deepEqual(
     [...new Set(tools.map((tool) => tool.category))]
         .filter((category) => !categoryLabels[category]),
@@ -512,6 +515,8 @@ assert.deepEqual(
         'pdf-workflow',
         'video-thumbnail-extractor',
         'video-contact-sheet-generator',
+        'video-frame-sequence-extractor',
+        'video-audio-extractor',
     ],
 );
 
@@ -2023,12 +2028,27 @@ assert.equal(getToolDefinition('pdf-merge').inputs[0].multiple, true);
 for (const id of [
     'video-thumbnail-extractor',
     'video-contact-sheet-generator',
+    'video-frame-sequence-extractor',
+    'video-audio-extractor',
 ]) {
     const fileTool = getToolDefinition(id);
     assert.equal(typeof fileTool.process, 'function');
     assert.equal(fileTool.inputs[0].type, 'file');
     assert.match(fileTool.inputs[0].accept, /video/);
 }
+
+const wavBlob = audioBufferToWavBlob({
+    numberOfChannels: 1,
+    length: 2,
+    sampleRate: 44_100,
+    getChannelData: () => new Float32Array([-1, 1]),
+});
+assert.equal(wavBlob.type, 'audio/wav');
+assert.equal(wavBlob.size, 48);
+const wavHeader = new TextDecoder().decode(
+    (await wavBlob.arrayBuffer()).slice(0, 12),
+);
+assert.match(wavHeader, /^RIFF....WAVE$/s);
 
 const toolPages = await Promise.all(
     tools.map((tool) =>
@@ -2051,6 +2071,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 7 Batch 11 product tools verification passed.');
+console.log('Sprint 7 Batch 12 product tools verification passed.');
 
 // END OF FILE
