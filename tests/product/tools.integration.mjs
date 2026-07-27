@@ -12,7 +12,7 @@ import {
 } from '../../src/product/audio-processing.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 502);
+assert.equal(tools.length, 505);
 assert.deepEqual(
     [...new Set(tools.map((tool) => tool.category))]
         .filter((category) => !categoryLabels[category]),
@@ -520,6 +520,9 @@ assert.deepEqual(
         'pdf-workflow',
         'images-to-pdf-converter',
         'pdf-to-images-converter',
+        'pdf-splitter',
+        'pdf-metadata-cleaner',
+        'pdf-page-number-adder',
         'video-thumbnail-extractor',
         'video-contact-sheet-generator',
         'video-frame-sequence-extractor',
@@ -2040,6 +2043,16 @@ const pdfToImages = getToolDefinition('pdf-to-images-converter');
 assert.equal(typeof pdfToImages.process, 'function');
 assert.equal(pdfToImages.inputs[0].type, 'file');
 assert.match(pdfToImages.inputs[0].accept, /pdf/);
+for (const id of [
+    'pdf-splitter',
+    'pdf-metadata-cleaner',
+    'pdf-page-number-adder',
+]) {
+    const fileTool = getToolDefinition(id);
+    assert.equal(typeof fileTool.process, 'function');
+    assert.equal(fileTool.inputs[0].type, 'file');
+    assert.match(fileTool.inputs[0].accept, /pdf/);
+}
 
 for (const id of [
     'video-thumbnail-extractor',
@@ -2121,6 +2134,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 7 Batch 14 product tools verification passed.');
+console.log('Sprint 7 Batch 15 product tools verification passed.');
 
 // END OF FILE

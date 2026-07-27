@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 7 — Batch 15
+
+- Added PDF splitting into one document per page with a combined ZIP download.
+- Added PDF metadata cleaning for title, author, subject, keywords and timestamp fields.
+- Added configurable page numbering with starting number, font size and placement controls.
+- Expanded the catalogue to 505 tools and regenerated all public pages and sitemap entries.
+
 ## Sprint 7 — Batch 14
 
 - Added multi-image to PDF conversion for ordered JPG, PNG and WebP files.

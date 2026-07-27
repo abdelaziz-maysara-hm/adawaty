@@ -1,5 +1,5 @@
-import { listToolDefinitions } from './tool-definitions.js?v=s7b14';
-import { categoryLabels as categories } from './category-labels.js?v=s7b14';
+import { listToolDefinitions } from './tool-definitions.js?v=s7b15';
+import { categoryLabels as categories } from './category-labels.js?v=s7b15';
 
 const copy = Object.freeze({
     ar: Object.freeze({
