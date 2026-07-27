@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 480);
+assert.equal(tools.length, 483);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -491,6 +491,9 @@ assert.deepEqual(
         'image-grayscale-converter',
         'image-blur-tool',
         'image-watermark-tool',
+        'image-color-adjuster',
+        'image-sepia-filter',
+        'image-color-inverter',
     ],
 );
 
@@ -1970,6 +1973,9 @@ for (const id of [
     'image-grayscale-converter',
     'image-blur-tool',
     'image-watermark-tool',
+    'image-color-adjuster',
+    'image-sepia-filter',
+    'image-color-inverter',
 ]) {
     const fileTool = getToolDefinition(id);
     assert.equal(typeof fileTool.process, 'function');
@@ -1997,6 +2003,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 7 Batch 3 product tools verification passed.');
+console.log('Sprint 7 Batch 4 product tools verification passed.');
 
 // END OF FILE
