@@ -33,6 +33,7 @@ import { audioPodcastDefinitions } from './definitions/audio-podcast.js';
 import { photographyDefinitions } from './definitions/photography.js';
 import { foodRecipeDefinitions } from './definitions/food-recipe.js';
 import { projectManagementDefinitions } from './definitions/project-management.js';
+import { solarBatteryDefinitions } from './definitions/solar-battery.js';
 import { financeDefinitions } from './definitions/finance.js';
 import { healthDefinitions } from './definitions/health.js';
 import { mathDefinitions } from './definitions/math.js';
@@ -1035,6 +1036,7 @@ const toolDefinitions = Object.freeze({
     ...photographyDefinitions,
     ...foodRecipeDefinitions,
     ...projectManagementDefinitions,
+    ...solarBatteryDefinitions,
 });
 
 function getToolDefinition(id) {

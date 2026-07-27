@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 411);
+assert.equal(tools.length, 421);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -422,6 +422,16 @@ assert.deepEqual(
         'meeting-cost-calculator',
         'freelance-hourly-rate-calculator',
         'project-duration-throughput-calculator',
+        'solar-panel-count-calculator',
+        'solar-array-daily-output-calculator',
+        'battery-bank-capacity-calculator',
+        'battery-runtime-calculator',
+        'battery-charge-time-calculator',
+        'solar-inverter-size-calculator',
+        'solar-payback-period-calculator',
+        'energy-storage-duration-calculator',
+        'dc-power-current-calculator',
+        'dc-voltage-drop-calculator',
     ],
 );
 
@@ -1825,6 +1835,17 @@ assert.equal(getToolDefinition('meeting-cost-calculator').calculate({ attendees:
 assert.equal(getToolDefinition('freelance-hourly-rate-calculator').calculate({ income: 60000, expenses: 10000, weeks: 46, hours: 25, taxReserve: 20 }, 'en').value, '76.087');
 assert.equal(getToolDefinition('project-duration-throughput-calculator').calculate({ remaining: 240, throughput: 30 }, 'en').value, '8 periods');
 
+assert.equal(getToolDefinition('solar-panel-count-calculator').calculate({ dailyEnergy: 20, panelPower: 550, sunHours: 5, efficiency: 80 }, 'en').value, '10');
+assert.equal(getToolDefinition('solar-array-daily-output-calculator').calculate({ panels: 10, panelPower: 550, sunHours: 5, efficiency: 80 }, 'en').value, '22 kWh/day');
+assert.equal(getToolDefinition('battery-bank-capacity-calculator').calculate({ dailyEnergy: 5000, days: 2, voltage: 48, depth: 80, efficiency: 90 }, 'en').value, '289.352 Ah');
+assert.equal(getToolDefinition('battery-runtime-calculator').calculate({ voltage: 12, ampHours: 200, load: 500, depth: 80, efficiency: 90 }, 'en').value, '3.456 hours');
+assert.equal(getToolDefinition('battery-charge-time-calculator').calculate({ capacity: 100, state: 20, current: 20, lossFactor: 15 }, 'en').value, '4.6 hours');
+assert.equal(getToolDefinition('solar-inverter-size-calculator').calculate({ continuousLoad: 3000, headroom: 25 }, 'en').value, '3,750 W');
+assert.equal(getToolDefinition('solar-payback-period-calculator').calculate({ systemCost: 12000, annualSavings: 1800 }, 'en').value, '6.667 years');
+assert.equal(getToolDefinition('energy-storage-duration-calculator').calculate({ capacity: 10, load: 2, depth: 90, efficiency: 90 }, 'en').value, '4.05 hours');
+assert.equal(getToolDefinition('dc-power-current-calculator').calculate({ power: 1200, voltage: 48 }, 'en').value, '25 A');
+assert.equal(getToolDefinition('dc-voltage-drop-calculator').calculate({ current: 20, length: 15, resistance: 0.0033, voltage: 48 }, 'en').value, '1.98 V');
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -1845,6 +1866,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 45 product tools verification passed.');
+console.log('Sprint 6 Batch 46 product tools verification passed.');
 
 // END OF FILE
