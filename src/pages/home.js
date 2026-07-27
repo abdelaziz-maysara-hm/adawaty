@@ -1,6 +1,8 @@
 const root = document.documentElement;
 const languageToggle = document.querySelector('#language-toggle');
 const currentYear = document.querySelector('#current-year');
+const languageStorageKey = 'adawaty-language';
+const legacyLanguageStorageKey = 'adawaty-preview-language';
 
 const languageSettings = Object.freeze({
     ar: Object.freeze({
@@ -29,7 +31,8 @@ function applyLanguage(language) {
     );
 
     try {
-        localStorage.setItem('adawaty-preview-language', selectedLanguage);
+        localStorage.setItem(languageStorageKey, selectedLanguage);
+        localStorage.removeItem(legacyLanguageStorageKey);
     } catch {
         // The preview remains functional when storage is unavailable.
     }
@@ -37,7 +40,8 @@ function applyLanguage(language) {
 
 function getInitialLanguage() {
     try {
-        const savedLanguage = localStorage.getItem('adawaty-preview-language');
+        const savedLanguage = localStorage.getItem(languageStorageKey)
+            ?? localStorage.getItem(legacyLanguageStorageKey);
 
         if (languageSettings[savedLanguage]) {
             return savedLanguage;

@@ -1,4 +1,4 @@
-import { listToolDefinitions } from './tool-definitions.js';
+import { listToolDefinitions } from './tool-definitions.js?v=s7b8';
 
 const categories = Object.freeze({
     health: Object.freeze({ ar: 'الصحة', en: 'Health' }),
