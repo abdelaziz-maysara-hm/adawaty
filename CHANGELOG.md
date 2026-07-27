@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 7 — Batch 13
+
+- Reached 500 published tools with four browser-local audio processing workflows.
+- Added audio trimming, volume adjustment and configurable fade-in/fade-out effects.
+- Added stereo-to-mono conversion with equal channel mixing.
+- Added reusable sample-range, gain, fade and channel-processing coverage for WAV output.
+
 ## Sprint 7 — Batch 12
 
 - Added a video frame sequence extractor that exports up to 30 JPG frames in one ZIP.

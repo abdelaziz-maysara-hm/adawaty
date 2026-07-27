@@ -82,10 +82,77 @@ function formatAudioDuration(duration) {
     return `${minutes}:${seconds}`;
 }
 
+function processAudioBuffer(audioBuffer, {
+    startSeconds = 0,
+    endSeconds = audioBuffer.duration,
+    gain = 1,
+    fadeInSeconds = 0,
+    fadeOutSeconds = 0,
+    channelMode = 'preserve',
+} = {}) {
+    const sampleRate = audioBuffer.sampleRate;
+    const startFrame = Math.max(
+        0,
+        Math.min(audioBuffer.length, Math.floor(startSeconds * sampleRate)),
+    );
+    const endFrame = Math.max(
+        startFrame,
+        Math.min(audioBuffer.length, Math.ceil(endSeconds * sampleRate)),
+    );
+    const length = endFrame - startFrame;
+    const sourceChannels = Array.from(
+        { length: audioBuffer.numberOfChannels },
+        (_, index) => audioBuffer.getChannelData(index),
+    );
+    const numberOfChannels = channelMode === 'mono'
+        ? 1
+        : Math.min(sourceChannels.length, 2);
+    const outputChannels = Array.from(
+        { length: numberOfChannels },
+        () => new Float32Array(length),
+    );
+
+    for (let index = 0; index < length; index += 1) {
+        const elapsed = index / sampleRate;
+        const remaining = (length - index - 1) / sampleRate;
+        const fadeInGain = fadeInSeconds > 0
+            ? Math.min(1, elapsed / fadeInSeconds)
+            : 1;
+        const fadeOutGain = fadeOutSeconds > 0
+            ? Math.min(1, remaining / fadeOutSeconds)
+            : 1;
+        const envelope = gain * Math.min(fadeInGain, fadeOutGain);
+
+        if (channelMode === 'mono') {
+            const mixed = sourceChannels.reduce(
+                (sum, channel) => sum + channel[startFrame + index],
+                0,
+            ) / sourceChannels.length;
+            outputChannels[0][index] = mixed * envelope;
+            continue;
+        }
+
+        for (let channel = 0; channel < numberOfChannels; channel += 1) {
+            outputChannels[channel][index] = sourceChannels[channel][
+                startFrame + index
+            ] * envelope;
+        }
+    }
+
+    return {
+        numberOfChannels,
+        length,
+        sampleRate,
+        duration: length / sampleRate,
+        getChannelData: (index) => outputChannels[index],
+    };
+}
+
 export {
     audioBufferToWavBlob,
     decodeAudioFile,
     formatAudioDuration,
+    processAudioBuffer,
 };
 
 // END OF FILE

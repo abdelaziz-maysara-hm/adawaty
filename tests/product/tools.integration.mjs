@@ -8,10 +8,11 @@ import {
 import { categoryLabels } from '../../src/product/category-labels.js';
 import {
     audioBufferToWavBlob,
+    processAudioBuffer,
 } from '../../src/product/audio-processing.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 496);
+assert.equal(tools.length, 500);
 assert.deepEqual(
     [...new Set(tools.map((tool) => tool.category))]
         .filter((category) => !categoryLabels[category]),
@@ -402,6 +403,10 @@ assert.deepEqual(
         'decibel-amplitude-ratio-calculator',
         'podcast-ad-revenue-calculator',
         'audio-transcription-time-calculator',
+        'audio-trimmer',
+        'audio-volume-changer',
+        'audio-fade-in-out-editor',
+        'stereo-to-mono-converter',
         'depth-of-field-calculator',
         'camera-exposure-value-calculator',
         'shutter-angle-calculator',
@@ -2037,6 +2042,18 @@ for (const id of [
     assert.match(fileTool.inputs[0].accept, /video/);
 }
 
+for (const id of [
+    'audio-trimmer',
+    'audio-volume-changer',
+    'audio-fade-in-out-editor',
+    'stereo-to-mono-converter',
+]) {
+    const fileTool = getToolDefinition(id);
+    assert.equal(typeof fileTool.process, 'function');
+    assert.equal(fileTool.inputs[0].type, 'file');
+    assert.match(fileTool.inputs[0].accept, /audio/);
+}
+
 const wavBlob = audioBufferToWavBlob({
     numberOfChannels: 1,
     length: 2,
@@ -2049,6 +2066,28 @@ const wavHeader = new TextDecoder().decode(
     (await wavBlob.arrayBuffer()).slice(0, 12),
 );
 assert.match(wavHeader, /^RIFF....WAVE$/s);
+
+const processedAudio = processAudioBuffer({
+    numberOfChannels: 2,
+    length: 4,
+    sampleRate: 2,
+    duration: 2,
+    getChannelData: (index) => index === 0
+        ? new Float32Array([1, 0.5, 0, -0.5])
+        : new Float32Array([-1, -0.5, 0, 0.5]),
+}, {
+    startSeconds: 0.5,
+    endSeconds: 1.5,
+    gain: 0.5,
+    channelMode: 'mono',
+});
+assert.equal(processedAudio.numberOfChannels, 1);
+assert.equal(processedAudio.length, 2);
+assert.equal(processedAudio.duration, 1);
+assert.deepEqual(
+    Array.from(processedAudio.getChannelData(0)),
+    [0, 0],
+);
 
 const toolPages = await Promise.all(
     tools.map((tool) =>
@@ -2071,6 +2110,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 7 Batch 12 product tools verification passed.');
+console.log('Sprint 7 Batch 13 product tools verification passed.');
 
 // END OF FILE
