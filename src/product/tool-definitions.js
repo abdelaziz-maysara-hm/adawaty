@@ -36,6 +36,7 @@ import { projectManagementDefinitions } from './definitions/project-management.j
 import { solarBatteryDefinitions } from './definitions/solar-battery.js';
 import { automotiveEvDefinitions } from './definitions/automotive-ev.js';
 import { realEstateDefinitions } from './definitions/real-estate.js';
+import { travelPlanningDefinitions } from './definitions/travel-planning.js';
 import { financeDefinitions } from './definitions/finance.js';
 import { healthDefinitions } from './definitions/health.js';
 import { mathDefinitions } from './definitions/math.js';
@@ -1041,6 +1042,7 @@ const toolDefinitions = Object.freeze({
     ...solarBatteryDefinitions,
     ...automotiveEvDefinitions,
     ...realEstateDefinitions,
+    ...travelPlanningDefinitions,
 });
 
 function getToolDefinition(id) {

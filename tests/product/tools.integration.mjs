@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 441);
+assert.equal(tools.length, 451);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -452,6 +452,16 @@ assert.deepEqual(
         'rental-vacancy-loss-calculator',
         'property-tax-calculator',
         'gross-rent-multiplier-calculator',
+        'travel-budget-calculator',
+        'daily-travel-budget-calculator',
+        'hotel-stay-cost-calculator',
+        'flight-time-estimator',
+        'flight-arrival-time-calculator',
+        'airline-luggage-fee-calculator',
+        'travel-currency-exchange-fee-calculator',
+        'vacation-savings-calculator',
+        'travel-points-value-calculator',
+        'group-trip-cost-split-calculator',
     ],
 );
 
@@ -1888,6 +1898,17 @@ assert.equal(getToolDefinition('rental-vacancy-loss-calculator').calculate({ mon
 assert.equal(getToolDefinition('property-tax-calculator').calculate({ taxableValue: 250000, rate: 1.2 }, 'en').value, '3,000');
 assert.equal(getToolDefinition('gross-rent-multiplier-calculator').calculate({ price: 240000, monthlyRent: 2000 }, 'en').value, '10 x');
 
+assert.equal(getToolDefinition('travel-budget-calculator').calculate({ transport: 800, lodging: 700, food: 350, activities: 250, reserve: 10 }, 'en').value, '2,310');
+assert.equal(getToolDefinition('daily-travel-budget-calculator').calculate({ budget: 1200, days: 8, travelers: 2 }, 'en').value, '75');
+assert.equal(getToolDefinition('hotel-stay-cost-calculator').calculate({ nightlyRate: 120, nights: 5, rooms: 1, tax: 12, fees: 50 }, 'en').value, '722');
+assert.equal(getToolDefinition('flight-time-estimator').calculate({ distance: 3000, speed: 850, overhead: 30 }, 'en').value, '4.029 hours');
+assert.equal(getToolDefinition('flight-arrival-time-calculator').calculate({ departure: 14.5, duration: 6.75, zoneDifference: 2 }, 'en').value, '23:15');
+assert.equal(getToolDefinition('airline-luggage-fee-calculator').calculate({ weight: 28, allowance: 23, rate: 15 }, 'en').value, '75');
+assert.equal(getToolDefinition('travel-currency-exchange-fee-calculator').calculate({ amount: 1000, rate: 0.92, markup: 3, fixedFee: 5 }, 'en').value, '887.938');
+assert.equal(getToolDefinition('vacation-savings-calculator').calculate({ target: 5000, saved: 1000, months: 10 }, 'en').value, '400');
+assert.equal(getToolDefinition('travel-points-value-calculator').calculate({ cashPrice: 750, cashFees: 50, points: 50000 }, 'en').value, '1.4 cents/point');
+assert.equal(getToolDefinition('group-trip-cost-split-calculator').calculate({ sharedCost: 2400, travelers: 6, individualCost: 150 }, 'en').value, '550');
+
 const toolPages = await Promise.all(
     tools.map((tool) =>
         readFile(
@@ -1908,6 +1929,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 6 Batch 48 product tools verification passed.');
+console.log('Sprint 6 Batch 49 product tools verification passed.');
 
 // END OF FILE
