@@ -1,5 +1,11 @@
 # Changelog
 
+## Sprint 7 — Batch 25
+
+- Added ten ZIP, multipart, checksum-manifest, metadata and file-format workflow tools.
+- Added local ZIP creation, inspection and single-entry extraction plus file splitting and restoration.
+- Expanded the catalogue to 570 tools and regenerated all public pages and sitemap entries.
+
 ## Sprint 7 — Batch 24
 
 - Added ten local file utilities for hashing, Base64, text-file workflows, GZIP and hexadecimal conversion.
