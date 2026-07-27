@@ -44,9 +44,10 @@ const [
 ]);
 
 assert.match(indexHtml, /<html lang="ar" dir="rtl" data-language="ar">/);
-assert.match(indexHtml, /Sprint 7 · Batch 7/);
+assert.match(indexHtml, /Sprint 7 · Batch 8/);
 assert.match(indexHtml, /\.\/src\/css\/main\.css/);
-assert.match(indexHtml, /\.\/src\/pages\/home\.js/);
+assert.match(indexHtml, /\.\/src\/pages\/home\.js\?v=s7b8/);
+assert.match(indexHtml, /http-equiv="Cache-Control" content="no-cache"/);
 assert.match(indexHtml, /\.\/tools\/bmi-calculator\//);
 assert.match(indexHtml, /\.\/tools\/percentage-calculator\//);
 assert.match(indexHtml, /\.\/tools\/age-calculator\//);
@@ -66,9 +67,12 @@ assert.match(workflow, /actions\/deploy-pages@v4/);
 assert.match(workflow, /branches:\s*\n\s*- main/);
 
 assert.match(homeScript, /applyLanguage\(getInitialLanguage\(\)\)/);
+assert.match(homeScript, /adawaty-language/);
+assert.match(homeScript, /adawaty-preview-language/);
 assert.match(stylesheet, /@media \(max-width: 600px\)/);
 assert.match(catalogueHtml, /data-catalogue-page/);
-assert.match(catalogueHtml, /catalogue-page\.js/);
+assert.match(catalogueHtml, /catalogue-page\.js\?v=s7b8/);
+assert.match(catalogueHtml, /http-equiv="Cache-Control" content="no-cache"/);
 assert.match(catalogueHtml, /"@type":"CollectionPage"/);
 assert.match(healthCategoryHtml, /data-category="health"/);
 assert.match(converterCategoryHtml, /data-category="converter"/);
@@ -122,7 +126,15 @@ assert.match(catalogueScript, /data-category/);
 assert.match(catalogueScript, /Processing tools/);
 assert.match(catalogueScript, /Calculators & generators/);
 assert.match(catalogueScript, /typeof tool\.process/);
+assert.match(catalogueScript, /adawaty-language/);
 
-console.log('Sprint 7 Batch 7 catalogue navigation verification passed.');
+const bmiToolHtml = await readFile(
+    new URL('../../tools/bmi-calculator/index.html', import.meta.url),
+    'utf8',
+);
+assert.match(bmiToolHtml, /tool-page\.js\?v=s7b8/);
+assert.match(bmiToolHtml, /http-equiv="Cache-Control" content="no-cache"/);
+
+console.log('Sprint 7 Batch 8 catalogue navigation verification passed.');
 
 // END OF FILE

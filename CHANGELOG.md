@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 7 — Batch 8
+
+- Unified language persistence across the home, catalogue and tool pages.
+- Migrated the legacy preview-language preference without losing the user's choice.
+- Added versioned JavaScript entry points to prevent stale catalogues after GitHub Pages deployments.
+- Added a browser cache-revalidation hint to the home page.
+
 ## Sprint 7 — Batch 7
 
 - Added PDF page removal and text watermark tools.

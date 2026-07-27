@@ -2027,6 +2027,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 7 Batch 7 product tools verification passed.');
+console.log('Sprint 7 Batch 8 product tools verification passed.');
 
 // END OF FILE

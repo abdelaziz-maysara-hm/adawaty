@@ -6,6 +6,7 @@ import { listToolDefinitions } from '../src/product/tool-definitions.js';
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const baseUrl = 'https://abdelaziz-maysara-hm.github.io/adawaty';
+const assetVersion = 's7b8';
 const tools = listToolDefinitions();
 const categories = Object.freeze({
     health: Object.freeze({ ar: 'أدوات الصحة', en: 'Health Tools' }),
@@ -66,6 +67,7 @@ function createToolPage(tool) {
 <html lang="ar" dir="rtl" data-language="ar">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#07111f">
     <meta name="description" content="${description}">
@@ -78,7 +80,7 @@ function createToolPage(tool) {
     <script type="application/ld+json">${structuredData}</script>
     <link rel="stylesheet" href="../../src/css/main.css">
     <link rel="stylesheet" href="../../src/css/product.css">
-    <script type="module" src="../../src/product/tool-page.js"></script>
+    <script type="module" src="../../src/product/tool-page.js?v=${assetVersion}"></script>
 </head>
 <body>
     <header class="site-header">
@@ -168,6 +170,7 @@ function createCataloguePage({
 <html lang="ar" dir="rtl" data-language="ar">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#07111f">
     <meta name="description" content="${escapeHtml(description)}">
@@ -176,7 +179,7 @@ function createCataloguePage({
     <script type="application/ld+json">${structuredData}</script>
     <link rel="stylesheet" href="${basePath}src/css/main.css">
     <link rel="stylesheet" href="${basePath}src/css/product.css">
-    <script type="module" src="${basePath}src/product/catalogue-page.js"></script>
+    <script type="module" src="${basePath}src/product/catalogue-page.js?v=${assetVersion}"></script>
 </head>
 <body>
     <header class="site-header">
