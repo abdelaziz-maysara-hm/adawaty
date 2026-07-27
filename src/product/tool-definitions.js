@@ -56,6 +56,7 @@ import { videoFileToolDefinitions } from './definitions/video-file-tools.js';
 import { videoProcessingToolDefinitions } from './definitions/video-processing-tools.js';
 import { listDataToolDefinitions } from './definitions/list-data-tools.js';
 import { dataFormatToolDefinitions } from './definitions/data-format-tools.js';
+import { fileUtilityToolDefinitions } from './definitions/file-utility-tools.js';
 import { financeDefinitions } from './definitions/finance.js';
 import { healthDefinitions } from './definitions/health.js';
 import { mathDefinitions } from './definitions/math.js';
@@ -1081,6 +1082,7 @@ const toolDefinitions = Object.freeze({
     ...videoProcessingToolDefinitions,
     ...listDataToolDefinitions,
     ...dataFormatToolDefinitions,
+    ...fileUtilityToolDefinitions,
 });
 
 function getToolDefinition(id) {

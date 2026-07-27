@@ -18,9 +18,13 @@ import {
     jsonToXml,
     resolvePath,
 } from '../../src/product/definitions/data-format-tools.js';
+import {
+    base64ToBytes,
+    bytesToBase64,
+} from '../../src/product/definitions/file-utility-tools.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 550);
+assert.equal(tools.length, 560);
 assert.deepEqual(
     [...new Set(tools.map((tool) => tool.category))]
         .filter((category) => !categoryLabels[category]),
@@ -580,6 +584,16 @@ assert.deepEqual(
         'json-path-extractor',
         'json-to-xml-converter',
         'ndjson-to-json-converter',
+        'file-sha256-checksum',
+        'file-sha1-checksum',
+        'file-to-base64-converter',
+        'base64-to-file-converter',
+        'text-file-merger',
+        'text-file-line-sorter',
+        'text-file-duplicate-line-remover',
+        'gzip-file-compressor',
+        'gzip-file-decompressor',
+        'binary-file-to-hex-converter',
     ],
 );
 
@@ -2189,6 +2203,24 @@ assert.equal(
 );
 assert.equal(resolvePath({ users: [{ name: 'Ahmed' }] }, 'users[0].name'), 'Ahmed');
 assert.match(jsonToXml({ name: 'Ahmed & Sara' }, 'people'), /Ahmed &amp; Sara/);
+assert.equal(bytesToBase64(new TextEncoder().encode('Adawaty')), 'QWRhd2F0eQ==');
+assert.equal(new TextDecoder().decode(base64ToBytes('QWRhd2F0eQ==')), 'Adawaty');
+
+for (const id of [
+    'file-sha256-checksum',
+    'file-sha1-checksum',
+    'file-to-base64-converter',
+    'text-file-merger',
+    'text-file-line-sorter',
+    'text-file-duplicate-line-remover',
+    'gzip-file-compressor',
+    'gzip-file-decompressor',
+    'binary-file-to-hex-converter',
+]) {
+    const fileTool = getToolDefinition(id);
+    assert.equal(typeof fileTool.process, 'function');
+    assert.equal(fileTool.inputs[0].type, 'file');
+}
 
 for (const id of [
     'audio-trimmer',
@@ -2258,6 +2290,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 7 Batch 23 product tools verification passed.');
+console.log('Sprint 7 Batch 24 product tools verification passed.');
 
 // END OF FILE
