@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 7 — Batch 19
+
+- Added local video trimming with configurable start and end times.
+- Added MP4 compression with selectable quality and output resolution.
+- Added fast audio removal without re-encoding the video stream.
+- Expanded the catalogue to 517 tools and regenerated all public pages and sitemap entries.
+
 ## Sprint 7 — Batch 18
 
 - Added Arabic, English and bilingual OCR for scanned PDF documents.
