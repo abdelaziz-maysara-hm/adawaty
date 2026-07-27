@@ -1,5 +1,11 @@
 # Changelog
 
+## Sprint 7 — Batch 22
+
+- Added ten list and CSV workflow tools for merging, reversing, numbering, frequency analysis, transposing, filtering, sorting and cleanup.
+- Added reusable CSV workflows that preserve quoted values and run entirely in the browser.
+- Expanded the catalogue to 540 tools and regenerated all public pages and sitemap entries.
+
 ## Sprint 7 — Batch 21
 
 - Added ten high-utility list, text extraction and CSV transformation tools.

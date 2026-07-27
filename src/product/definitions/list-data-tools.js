@@ -53,6 +53,19 @@ function delimiterInput(id, ar, en) {
     });
 }
 
+function selectInput(id, ar, en, options) {
+    return Object.freeze({
+        id,
+        type: 'select',
+        label: Object.freeze({ ar, en }),
+        unit: Object.freeze({ ar: '', en: '' }),
+        options: Object.freeze(options.map((option) => Object.freeze({
+            value: option.value,
+            label: Object.freeze(option.label),
+        }))),
+    });
+}
+
 function resolveDelimiter(value) {
     return {
         comma: ',',
@@ -324,6 +337,237 @@ const csvColumnExtractor = Object.freeze({
     },
 });
 
+const listUnion = listTool({
+    id: 'list-union',
+    icon: '∪',
+    title: { ar: 'دمج قائمتين بدون تكرار', en: 'List Union' },
+    description: { ar: 'ادمج عناصر قائمتين في قائمة واحدة مرتبة دون تكرارات.', en: 'Merge two lists into one ordered list without duplicates.' },
+    note: { ar: 'يُحفظ ترتيب أول ظهور لكل عنصر.', en: 'The first-seen order of every item is preserved.' },
+    inputs: [
+        textareaInput('first', 'القائمة الأولى', 'First list', 'Apple\nOrange'),
+        textareaInput('second', 'القائمة الثانية', 'Second list', 'Orange\nBanana'),
+    ],
+    transform: (values) => [...new Set([...nonEmptyLines(values.first), ...nonEmptyLines(values.second)])].join('\n'),
+    filename: 'adawaty-list-union.txt',
+});
+
+const listReverser = listTool({
+    id: 'list-reverser',
+    icon: '⇅',
+    title: { ar: 'عكس ترتيب القائمة', en: 'List Reverser' },
+    description: { ar: 'اعكس ترتيب عناصر قائمة طويلة بضغطة واحدة.', en: 'Reverse the order of a long list in one click.' },
+    note: { ar: 'تُهمل الأسطر الفارغة فقط.', en: 'Only empty lines are ignored.' },
+    inputs: [textareaInput('items', 'عناصر القائمة', 'List items', 'First\nSecond\nThird')],
+    transform: (values) => nonEmptyLines(values.items).reverse().join('\n'),
+    filename: 'adawaty-reversed-list.txt',
+});
+
+const listNumberer = listTool({
+    id: 'list-numberer',
+    icon: '1.',
+    title: { ar: 'ترقيم عناصر القائمة', en: 'List Numberer' },
+    description: { ar: 'حوّل الأسطر إلى قائمة مرقمة مع اختيار رقم البداية.', en: 'Turn lines into a numbered list with a custom starting number.' },
+    note: { ar: 'يمكن تنزيل القائمة المرقمة كنص.', en: 'The numbered list can be downloaded as text.' },
+    inputs: [
+        textareaInput('items', 'عناصر القائمة', 'List items', 'Plan\nBuild\nLaunch'),
+        numberInput('start', 'رقم البداية', 'Starting number', 1, -100000, 100000),
+    ],
+    transform(values) {
+        const start = Math.floor(Number(values.start));
+        return nonEmptyLines(values.items).map((item, index) => `${start + index}. ${item}`).join('\n');
+    },
+    filename: 'adawaty-numbered-list.txt',
+});
+
+const listFrequencyTable = listTool({
+    id: 'list-frequency-table',
+    icon: '#',
+    title: { ar: 'جدول تكرار عناصر القائمة', en: 'List Frequency Table' },
+    description: { ar: 'احسب مرات ظهور كل عنصر ورتّب النتيجة من الأكثر تكرارًا.', en: 'Count item occurrences and rank results by frequency.' },
+    note: { ar: 'المقارنة حساسة لحالة الأحرف.', en: 'Comparison is case-sensitive.' },
+    inputs: [textareaInput('items', 'عناصر القائمة', 'List items', 'Apple\nBanana\nApple\nOrange\nApple')],
+    transform(values) {
+        const counts = new Map();
+        nonEmptyLines(values.items).forEach((item) => counts.set(item, (counts.get(item) ?? 0) + 1));
+        return [...counts.entries()]
+            .sort((first, second) => second[1] - first[1] || first[0].localeCompare(second[0]))
+            .map(([item, count]) => `${count}\t${item}`)
+            .join('\n');
+    },
+    filename: 'adawaty-list-frequency.tsv',
+});
+
+function csvTool({ id, icon, title, description, note, inputs, transform, filename }) {
+    return Object.freeze({
+        id,
+        category: 'developer',
+        icon,
+        action: Object.freeze({ ar: 'معالجة CSV', en: 'Process CSV' }),
+        title: Object.freeze(title),
+        description: Object.freeze(description),
+        note: Object.freeze(note),
+        inputs: Object.freeze(inputs),
+        async process(values, language) {
+            const text = transform(values);
+            return downloadableText(text, filename, language, 'تمت معالجة البيانات', 'Data processed');
+        },
+    });
+}
+
+const csvTransposer = csvTool({
+    id: 'csv-transposer',
+    icon: '↘',
+    title: { ar: 'تبديل صفوف وأعمدة CSV', en: 'CSV Transposer' },
+    description: { ar: 'حوّل صفوف CSV إلى أعمدة والأعمدة إلى صفوف.', en: 'Turn CSV rows into columns and columns into rows.' },
+    note: { ar: 'تُملأ الخلايا الناقصة بقيم فارغة.', en: 'Missing cells are filled with empty values.' },
+    inputs: [
+        textareaInput('csv', 'بيانات CSV', 'CSV data', 'name,Ahmed,Sara\ncity,Cairo,Alexandria', 12),
+        delimiterInput('delimiter', 'فاصل البيانات', 'Data delimiter'),
+    ],
+    transform(values) {
+        const delimiter = resolveDelimiter(values.delimiter);
+        const rows = parseDelimited(String(values.csv), delimiter);
+        const width = Math.max(0, ...rows.map((row) => row.length));
+        const transposed = Array.from({ length: width }, (_, column) => rows.map((row) => row[column] ?? ''));
+        return stringifyDelimited(transposed, delimiter);
+    },
+    filename: 'adawaty-transposed.csv',
+});
+
+const csvColumnRemover = csvTool({
+    id: 'csv-column-remover',
+    icon: '−C',
+    title: { ar: 'حذف عمود من CSV', en: 'CSV Column Remover' },
+    description: { ar: 'احذف عمودًا كاملًا من بيانات CSV مع الحفاظ على بقية الجدول.', en: 'Remove one complete CSV column while preserving the remaining table.' },
+    note: { ar: 'ترقيم الأعمدة يبدأ من 1.', en: 'Column numbering starts at 1.' },
+    inputs: [
+        textareaInput('csv', 'بيانات CSV', 'CSV data', 'name,email,city\nAhmed,a@example.com,Cairo', 12),
+        delimiterInput('delimiter', 'فاصل البيانات', 'Data delimiter'),
+        numberInput('column', 'رقم العمود المراد حذفه', 'Column to remove', 2, 1, 10000),
+    ],
+    transform(values) {
+        const delimiter = resolveDelimiter(values.delimiter);
+        const column = Math.max(0, Math.floor(Number(values.column)) - 1);
+        const rows = parseDelimited(String(values.csv), delimiter).map((row) => row.filter((_, index) => index !== column));
+        return stringifyDelimited(rows, delimiter);
+    },
+    filename: 'adawaty-column-removed.csv',
+});
+
+const csvHeaderRenamer = csvTool({
+    id: 'csv-header-renamer',
+    icon: 'HDR',
+    title: { ar: 'تغيير اسم عمود CSV', en: 'CSV Header Renamer' },
+    description: { ar: 'غيّر اسم رأس عمود محدد دون تعديل بيانات الصفوف.', en: 'Rename a selected CSV header without changing row data.' },
+    note: { ar: 'يجب أن يحتوي الصف الأول على أسماء الأعمدة.', en: 'The first row must contain column names.' },
+    inputs: [
+        textareaInput('csv', 'بيانات CSV', 'CSV data', 'name,city\nAhmed,Cairo', 12),
+        delimiterInput('delimiter', 'فاصل البيانات', 'Data delimiter'),
+        numberInput('column', 'رقم العمود', 'Column number', 1, 1, 10000),
+        textInput('header', 'الاسم الجديد', 'New header', 'full_name'),
+    ],
+    transform(values) {
+        const delimiter = resolveDelimiter(values.delimiter);
+        const rows = parseDelimited(String(values.csv), delimiter);
+        const column = Math.max(0, Math.floor(Number(values.column)) - 1);
+        if (rows[0]) {
+            rows[0][column] = String(values.header);
+        }
+        return stringifyDelimited(rows, delimiter);
+    },
+    filename: 'adawaty-renamed-header.csv',
+});
+
+const csvRowFilter = csvTool({
+    id: 'csv-row-filter',
+    icon: 'FLT',
+    title: { ar: 'تصفية صفوف CSV', en: 'CSV Row Filter' },
+    description: { ar: 'احتفظ بالصفوف التي يساوي عمودها قيمة معينة أو يحتوي عليها.', en: 'Keep rows whose selected column equals or contains a value.' },
+    note: { ar: 'يُحفظ صف العناوين دائمًا.', en: 'The header row is always preserved.' },
+    inputs: [
+        textareaInput('csv', 'بيانات CSV', 'CSV data', 'name,city\nAhmed,Cairo\nSara,Alexandria', 12),
+        delimiterInput('delimiter', 'فاصل البيانات', 'Data delimiter'),
+        numberInput('column', 'رقم العمود', 'Column number', 2, 1, 10000),
+        textInput('query', 'القيمة المطلوبة', 'Filter value', 'Cairo'),
+        selectInput('mode', 'طريقة المطابقة', 'Match mode', [
+            { value: 'contains', label: { ar: 'يحتوي على', en: 'Contains' } },
+            { value: 'equals', label: { ar: 'يساوي', en: 'Equals' } },
+        ]),
+    ],
+    transform(values) {
+        const delimiter = resolveDelimiter(values.delimiter);
+        const rows = parseDelimited(String(values.csv), delimiter);
+        const column = Math.max(0, Math.floor(Number(values.column)) - 1);
+        const query = String(values.query).toLocaleLowerCase();
+        const matches = (value) => values.mode === 'equals'
+            ? String(value).toLocaleLowerCase() === query
+            : String(value).toLocaleLowerCase().includes(query);
+        return stringifyDelimited([rows[0] ?? [], ...rows.slice(1).filter((row) => matches(row[column] ?? ''))], delimiter);
+    },
+    filename: 'adawaty-filtered-rows.csv',
+});
+
+const csvRowSorter = csvTool({
+    id: 'csv-row-sorter',
+    icon: 'A↓',
+    title: { ar: 'ترتيب صفوف CSV', en: 'CSV Row Sorter' },
+    description: { ar: 'رتّب صفوف CSV حسب عمود محدد تصاعديًا أو تنازليًا.', en: 'Sort CSV rows by a selected column in ascending or descending order.' },
+    note: { ar: 'يتعرف الترتيب تلقائيًا على القيم الرقمية.', en: 'Numeric values are detected automatically.' },
+    inputs: [
+        textareaInput('csv', 'بيانات CSV', 'CSV data', 'name,score\nAhmed,85\nSara,92', 12),
+        delimiterInput('delimiter', 'فاصل البيانات', 'Data delimiter'),
+        numberInput('column', 'رقم عمود الترتيب', 'Sort column', 2, 1, 10000),
+        selectInput('direction', 'اتجاه الترتيب', 'Sort direction', [
+            { value: 'ascending', label: { ar: 'تصاعدي', en: 'Ascending' } },
+            { value: 'descending', label: { ar: 'تنازلي', en: 'Descending' } },
+        ]),
+    ],
+    transform(values) {
+        const delimiter = resolveDelimiter(values.delimiter);
+        const rows = parseDelimited(String(values.csv), delimiter);
+        const column = Math.max(0, Math.floor(Number(values.column)) - 1);
+        const direction = values.direction === 'descending' ? -1 : 1;
+        const data = rows.slice(1).sort((first, second) => {
+            const left = first[column] ?? '';
+            const right = second[column] ?? '';
+            const numeric = Number(left);
+            const otherNumeric = Number(right);
+            return direction * (
+                Number.isFinite(numeric) && Number.isFinite(otherNumeric)
+                    ? numeric - otherNumeric
+                    : String(left).localeCompare(String(right))
+            );
+        });
+        return stringifyDelimited([rows[0] ?? [], ...data], delimiter);
+    },
+    filename: 'adawaty-sorted-rows.csv',
+});
+
+const csvDeduplicator = csvTool({
+    id: 'csv-deduplicator',
+    icon: '1×',
+    title: { ar: 'حذف صفوف CSV المكررة', en: 'CSV Deduplicator' },
+    description: { ar: 'احذف الصفوف المتطابقة مع الاحتفاظ بأول نسخة وصف العناوين.', en: 'Remove identical CSV rows while keeping the first copy and header.' },
+    note: { ar: 'تتم مقارنة جميع خلايا الصف.', en: 'Every cell in each row is compared.' },
+    inputs: [
+        textareaInput('csv', 'بيانات CSV', 'CSV data', 'name,city\nAhmed,Cairo\nAhmed,Cairo\nSara,Alexandria', 12),
+        delimiterInput('delimiter', 'فاصل البيانات', 'Data delimiter'),
+    ],
+    transform(values) {
+        const delimiter = resolveDelimiter(values.delimiter);
+        const rows = parseDelimited(String(values.csv), delimiter);
+        const seen = new Set();
+        const unique = rows.slice(1).filter((row) => {
+            const key = JSON.stringify(row);
+            if (seen.has(key)) return false;
+            seen.add(key);
+            return true;
+        });
+        return stringifyDelimited([rows[0] ?? [], ...unique], delimiter);
+    },
+    filename: 'adawaty-deduplicated.csv',
+});
+
 const listDataToolDefinitions = Object.freeze(Object.fromEntries([
     listRandomizer,
     listIntersection,
@@ -335,6 +579,16 @@ const listDataToolDefinitions = Object.freeze(Object.fromEntries([
     urlExtractor,
     csvDelimiterConverter,
     csvColumnExtractor,
+    listUnion,
+    listReverser,
+    listNumberer,
+    listFrequencyTable,
+    csvTransposer,
+    csvColumnRemover,
+    csvHeaderRenamer,
+    csvRowFilter,
+    csvRowSorter,
+    csvDeduplicator,
 ].map((tool) => [tool.id, tool])));
 
 export {
