@@ -154,6 +154,8 @@ async function inspectImage(file) {
 }
 
 export {
+    canvasToBlob,
+    decodeImage,
     inspectImage,
     outputName,
     renderImage,

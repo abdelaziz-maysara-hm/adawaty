@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 7 — Batch 10
+
+- Added a social-media image pack generator that exports multiple publishing sizes in one ZIP.
+- Added a responsive collage maker for combining up to 12 images in one downloadable layout.
+- Kept both workflows private by processing images entirely inside the browser.
+- Added the new processing tools to the image-first catalogue and regression coverage.
+
 ## Sprint 7 — Batch 9
 
 - Fixed the empty all-tools catalogue caused by an unmapped `student-study` category.
