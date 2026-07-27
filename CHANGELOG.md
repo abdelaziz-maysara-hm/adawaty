@@ -1,5 +1,14 @@
 # Changelog
 
+## Sprint 7 — Batch 1
+
+- Added the first browser-native file-processing foundation.
+- Added working image compression, resizing and JPG/PNG/WebP conversion tools.
+- Added local-only processing, image previews and downloadable results.
+- Fixed every tool-page “All tools” link to open the searchable catalogue.
+- Improved file controls, progress feedback and mobile download actions.
+- Expanded the generated catalogue to 474 working tools.
+
 ## Sprint 6 — Batch 51
 
 - Added 10 bilingual pet-care, feeding and aquarium tools.
