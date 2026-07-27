@@ -1,5 +1,11 @@
 # Changelog
 
+## Sprint 7 — Batch 23
+
+- Added ten practical CSV, JSON, JSON Lines, Markdown, HTML, SQL and XML conversion tools.
+- Added safe escaping, quoted CSV handling and nested JSON workflows that run locally.
+- Expanded the catalogue to 550 tools and regenerated all public pages and sitemap entries.
+
 ## Sprint 7 — Batch 22
 
 - Added ten list and CSV workflow tools for merging, reversing, numbering, frequency analysis, transposing, filtering, sorting and cleanup.
