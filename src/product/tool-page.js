@@ -1,4 +1,4 @@
-import { getToolDefinition } from './tool-definitions.js?v=s7b8';
+import { getToolDefinition } from './tool-definitions.js?v=s7b9';
 
 const root = document.documentElement;
 const page = document.querySelector('[data-tool-page]');

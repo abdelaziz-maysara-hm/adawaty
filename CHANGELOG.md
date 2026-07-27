@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 7 — Batch 9
+
+- Fixed the empty all-tools catalogue caused by an unmapped `student-study` category.
+- Centralized catalogue category labels and added a safe fallback for future categories.
+- Added coverage that requires every published tool category to have a localized label.
+- Bumped public entry-point versions so the repair bypasses stale GitHub Pages assets.
+
 ## Sprint 7 — Batch 8
 
 - Unified language persistence across the home, catalogue and tool pages.

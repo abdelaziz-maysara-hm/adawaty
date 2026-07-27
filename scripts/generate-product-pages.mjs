@@ -6,12 +6,13 @@ import { listToolDefinitions } from '../src/product/tool-definitions.js';
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const baseUrl = 'https://abdelaziz-maysara-hm.github.io/adawaty';
-const assetVersion = 's7b8';
+const assetVersion = 's7b9';
 const tools = listToolDefinitions();
 const categories = Object.freeze({
     health: Object.freeze({ ar: 'أدوات الصحة', en: 'Health Tools' }),
     finance: Object.freeze({ ar: 'الأدوات المالية', en: 'Finance Tools' }),
     student: Object.freeze({ ar: 'أدوات الطلاب', en: 'Student Tools' }),
+    'student-study': Object.freeze({ ar: 'أدوات الدراسة والعمل', en: 'Study & Work Tools' }),
     math: Object.freeze({ ar: 'أدوات الرياضيات', en: 'Math Tools' }),
     'date-time': Object.freeze({ ar: 'أدوات التاريخ والوقت', en: 'Date & Time Tools' }),
     converter: Object.freeze({ ar: 'أدوات التحويل', en: 'Converters' }),

@@ -5,9 +5,16 @@ import {
     getToolDefinition,
     listToolDefinitions,
 } from '../../src/product/tool-definitions.js';
+import { categoryLabels } from '../../src/product/category-labels.js';
 
 const tools = listToolDefinitions();
 assert.equal(tools.length, 490);
+assert.deepEqual(
+    [...new Set(tools.map((tool) => tool.category))]
+        .filter((category) => !categoryLabels[category]),
+    [],
+    'Every published tool category must have localized catalogue labels.',
+);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -2027,6 +2034,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 7 Batch 8 product tools verification passed.');
+console.log('Sprint 7 Batch 9 product tools verification passed.');
 
 // END OF FILE
