@@ -1,5 +1,13 @@
 # Changelog
 
+## Sprint 6 — Batch 46
+
+- Added 10 bilingual solar-energy, battery and DC electrical tools.
+- Added solar panel count, array output and payback calculators.
+- Added battery-bank capacity, runtime, charging and storage-duration tools.
+- Added inverter sizing, DC current and voltage-drop calculators.
+- Expanded the generated catalogue to 421 working tools.
+
 ## Sprint 6 — Batch 45
 
 - Added 10 bilingual project-management and freelance tools.
