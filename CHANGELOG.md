@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 7 — Batch 2
+
+- Added working image crop, rotate/flip and metadata-removal tools.
+- Added reusable crop and transform support to the browser image-processing engine.
+- Kept every operation private and local with immediate preview and download.
+- Expanded the generated catalogue to 477 working tools.
+
 ## Sprint 7 — Batch 1
 
 - Added the first browser-native file-processing foundation.

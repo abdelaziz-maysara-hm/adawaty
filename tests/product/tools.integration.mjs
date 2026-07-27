@@ -7,7 +7,7 @@ import {
 } from '../../src/product/tool-definitions.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 474);
+assert.equal(tools.length, 477);
 assert.deepEqual(
     tools.map((tool) => tool.id),
     [
@@ -485,6 +485,9 @@ assert.deepEqual(
         'image-compressor',
         'image-resizer',
         'image-format-converter',
+        'image-cropper',
+        'image-rotate-flip',
+        'image-metadata-remover',
     ],
 );
 
@@ -1958,6 +1961,9 @@ for (const id of [
     'image-compressor',
     'image-resizer',
     'image-format-converter',
+    'image-cropper',
+    'image-rotate-flip',
+    'image-metadata-remover',
 ]) {
     const fileTool = getToolDefinition(id);
     assert.equal(typeof fileTool.process, 'function');
@@ -1985,6 +1991,6 @@ for (const [index, page] of toolPages.entries()) {
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log('Sprint 7 Batch 1 product tools verification passed.');
+console.log('Sprint 7 Batch 2 product tools verification passed.');
 
 // END OF FILE
