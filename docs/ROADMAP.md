@@ -1,0 +1,68 @@
+# خارطة طريق الأدوات (Tools Roadmap)
+
+هدف المشروع: أشمل موقع أدوات مجانية بيدعم العربي بالكامل. الملف ده قائمة عمل مبنية على تحليل فعلي لأكبر مواقع الأدوات العالمية (iLovePDF, CloudConvert, TinyPNG, DevToys Web, Smallpdf, remove.bg...) مقارنة بالأدوات الـ 508 الموجودة عندنا دلوقتي، عشان كل جلسة شغل جاية تكمل من هنا مباشرة من غير ما نعيد البحث.
+
+**قاعدة الاختيار:** أداة تتضاف هنا لو (أ) عليها طلب بحث حقيقي، و(ب) ممكن تتنفذ بجودة حقيقية 100% داخل المتصفح (زي باقي الموقع، بدون سيرفر). أدوات محتاجة سيرفر/AI models تقيلة (زي إزالة خلفية بجودة احترافية، أو تحويل PDF إلى Word بحفاظ كامل على التنسيق) اتحطت في قسم منفصل آخر الملف لأنها محتاجة قرار معماري مختلف.
+
+آخر تحديث: بعد وصول عدد الأدوات لـ 508 (يوليو 2026).
+
+---
+
+## المرحلة 1 — سهلة التنفيذ، طلب بحث عالي، بدون مكتبات جديدة أو بمكتبة CDN بسيطة
+
+### Developer / Website tools
+- [ ] `md5-hash-generator`, `sha1-hash-generator`, `sha256-hash-generator` (أو أداة واحدة `hash-generator` باختيار الخوارزمية) — Web Crypto API مدمجة في المتصفح، بدون أي مكتبة
+- [ ] `cron-expression-parser` — شرح تعبير cron بالعربي والإنجليزي
+- [ ] `iban-validator` — تحقق من صحة IBAN بالخوارزمية القياسية (MOD-97)
+- [ ] `json-schema-validator`
+- [ ] `xml-xsd-validator`
+- [ ] `semver-calculator` / `semver-comparator`
+- [ ] `ulid-generator` (زي uuid-generator الموجود بالظبط)
+- [ ] `base58-encoder-decoder`
+- [ ] `curl-command-generator` (من method/headers/body لأمر curl جاهز)
+- [ ] `color-blindness-simulator` — canvas فلاتر (Protanopia/Deuteranopia/Tritanopia)
+- [ ] `css-beautifier` (عندنا css-minifier بس مفيش beautifier، نفس منطق frontend-developer.js بالعكس)
+
+### PDF
+- [ ] `pdf-password-protector` / `pdf-password-remover` — pdf-lib بيدعم encrypt، والفك عن طريق فتح الملف بالباسورد المُدخل (لو pdf-lib مش داعم decryption بالكامل، نستخدم pdfjs-dist اللي بيدعم فتح ملفات محمية بباسورد)
+- [ ] `pdf-page-crop` — نفس منطق pdf-page-rotator الموجود، بس بـ cropBox
+- [ ] `pdf-blank-page-remover`
+
+### Image
+- [ ] `svg-to-png-converter` — canvas rendering مباشر لأي SVG
+- [ ] `webp-to-png-converter` / `png-to-webp-converter` (غالبًا مغطاة جزئيًا عن طريق image-format-converter الموجود، نتأكد ونكمل الناقص)
+- [ ] `image-average-color-picker` — أخذ متوسط لون الصورة كلها (مفيد للـ placeholders)
+
+---
+
+## المرحلة 2 — طلب بحث عالي جدًا، محتاجة مكتبة CDN إضافية (زي qrcode/heic2any اللي ضفناها)
+
+- [ ] `audio-format-converter` (MP3 ↔ WAV ↔ OGG) — ffmpeg.wasm الموجود أصلاً، إضافة بسيطة نسبيًا
+- [ ] `word-to-pdf-converter` — محتاج مكتبة تحويل docx→pdf حقيقية داخل المتصفح (مثل docx-preview + print-to-pdf، أو mammoth.js لعرض ثم طباعة كـ PDF). جودة التنسيق هتكون محدودة مقارنة بمنتج مدفوع، لازم نوضح ده في note الأداة
+- [ ] `pdf-to-word-converter` تحسين: الموجود حاليًا (لو بيطلع نص فقط) ممكن يتحسن ليحافظ على تنسيق أبسط
+- [ ] `csv-to-excel-converter` / `excel-to-csv-converter` — SheetJS (xlsx) المتاحة أصلاً في بيئة الـ artifacts، تحتاج فحص إمكانية استخدامها هنا في المنتج الفعلي (CDN import)
+- [ ] `image-svg-tracer` (bitmap → SVG تقريبي) — مكتبة زي imagetracerjs
+
+---
+
+## المرحلة 3 — طلب عالي لكن محتاجة قرار معماري (سيرفر/نموذج ذكاء اصطناعي)
+
+الأدوات دي **مستحيل تتعمل بجودة حقيقية 100% في المتصفح** بدون نموذج ML ثقيل (يبطّئ التحميل جدًا) أو خدمة سيرفر خارجية (يكسر مبدأ "كل حاجة محليًا" اللي الموقع مبني عليه):
+
+- إزالة خلفية الصورة بجودة احترافية (background remover) — ممكن نسخة "بدائية" بخوارزمية color-key بسيطة، لكن مش هتنافس remove.bg
+- تكبير/تحسين جودة الصورة بالذكاء الاصطناعي (AI image upscaler)
+- تحويل PDF → Word/PowerPoint بحفاظ كامل على التنسيق المعقد (جداول، أعمدة، خطوط)
+- تفريغ صوتي/نص من فيديو أو صوت (speech-to-text) دقيق — Tesseract عندنا للـ OCR بس مفيش نموذج speech-to-text خفيف كفاية للمتصفح حاليًا
+
+**قرار مطلوب منك:** لو حبيت نتوسع في القسم ده لاحقًا، هنحتاج نتكلم في هل نضيف backend بسيط (يغيّر معمارية الموقع الحالية بالكامل) ولا نسيبها برة نطاق الموقع.
+
+---
+
+## أفكار مؤجلة (طلب متوسط، مش أولوية حاليًا)
+- المزيد من محولات صيغ CAD/vector المتخصصة (طلب بحث منخفض نسبيًا لغير المصممين المحترفين)
+- أدوات e-signature (توقيع PDF) — معقدة قانونيًا وتقنيًا، تحتاج بحث منفصل
+
+---
+
+## طريقة العمل مع الملف ده
+كل جلسة شغل جاية: نختار بنود من "المرحلة 1" الأول (الأسرع تنفيذ + الأعلى قيمة)، ننفذها بنفس الأسلوب المتبع (ملف تعريفات جديد أو إضافة لملف موجود، إعادة توليد الصفحات، تحديث الاختبارات، commit + push)، ونعلّم عليها ✅ هنا.
