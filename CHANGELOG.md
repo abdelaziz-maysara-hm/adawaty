@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 7 — Batch 28
+
+- Removed unused empty placeholder files across components, CSS, data, locales, templates and utils.
+- Homepage prioritizes high-traffic tools: PDF merge/split/convert, image compress/resize/OCR, video trim/compress, audio, JSON, Base64 and developer utilities.
+- Featured sections and CTAs lead with PDF, Image, Video, Audio and Developer categories for better discovery and SEO.
+- Niche calculators remain available in the full catalogue but are no longer the primary homepage focus.
+
 ## Sprint 7 — Batch 27
 
 - Added ten browser-local HTML cleanup, inspection and content-conversion tools.
