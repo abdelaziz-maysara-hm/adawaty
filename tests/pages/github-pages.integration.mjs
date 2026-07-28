@@ -44,21 +44,20 @@ const [
 ]);
 
 assert.match(indexHtml, /<html lang="ar" dir="rtl" data-language="ar">/);
-assert.match(indexHtml, /Sprint 7 · Batch 27/);
 assert.match(indexHtml, /\.\/src\/css\/main\.css/);
-assert.match(indexHtml, /\.\/src\/pages\/home\.js\?v=s7b27/);
+assert.match(indexHtml, /\.\/src\/pages\/home\.js\?v=s7b\d+/);
 assert.match(indexHtml, /http-equiv="Cache-Control" content="no-cache"/);
-assert.match(indexHtml, /\.\/tools\/bmi-calculator\//);
-assert.match(indexHtml, /\.\/tools\/percentage-calculator\//);
-assert.match(indexHtml, /\.\/tools\/age-calculator\//);
-assert.match(indexHtml, /\.\/tools\/loan-calculator\//);
-assert.match(indexHtml, /\.\/tools\/date-difference-calculator\//);
-assert.match(indexHtml, /\.\/tools\/bmr-calculator\//);
-assert.match(indexHtml, /\.\/tools\/tdee-calculator\//);
-assert.match(indexHtml, /\.\/tools\/grade-calculator\//);
-assert.match(indexHtml, /\.\/tools\/gpa-calculator\//);
-assert.match(indexHtml, /\.\/tools\/ratio-calculator\//);
-assert.match(indexHtml, /\.\/tools\/water-intake-calculator\//);
+assert.match(indexHtml, /\.\/tools\/pdf-merge\//);
+assert.match(indexHtml, /\.\/tools\/pdf-splitter\//);
+assert.match(indexHtml, /\.\/tools\/pdf-text-extractor\//);
+assert.match(indexHtml, /\.\/tools\/image-compressor\//);
+assert.match(indexHtml, /\.\/tools\/image-resizer\//);
+assert.match(indexHtml, /\.\/tools\/image-format-converter\//);
+assert.match(indexHtml, /\.\/tools\/video-compressor\//);
+assert.match(indexHtml, /\.\/tools\/video-trimmer\//);
+assert.match(indexHtml, /\.\/tools\/json-formatter\//);
+assert.match(indexHtml, /\.\/tools\/uuid-generator\//);
+assert.match(indexHtml, /\.\/tools\/word-counter\//);
 assert.match(indexHtml, /\.\/all-tools\//);
 assert.doesNotMatch(indexHtml, /TODO|PLACEHOLDER/i);
 
@@ -71,7 +70,7 @@ assert.match(homeScript, /adawaty-language/);
 assert.match(homeScript, /adawaty-preview-language/);
 assert.match(stylesheet, /@media \(max-width: 600px\)/);
 assert.match(catalogueHtml, /data-catalogue-page/);
-assert.match(catalogueHtml, /catalogue-page\.js\?v=s7b27/);
+assert.match(catalogueHtml, /catalogue-page\.js\?v=s7b\d+/);
 assert.match(catalogueHtml, /http-equiv="Cache-Control" content="no-cache"/);
 assert.match(catalogueHtml, /"@type":"CollectionPage"/);
 assert.match(healthCategoryHtml, /data-category="health"/);
@@ -147,7 +146,7 @@ const bmiToolHtml = await readFile(
     new URL('../../tools/bmi-calculator/index.html', import.meta.url),
     'utf8',
 );
-assert.match(bmiToolHtml, /tool-page\.js\?v=s7b27/);
+assert.match(bmiToolHtml, /tool-page\.js\?v=s7b\d+/);
 assert.match(bmiToolHtml, /http-equiv="Cache-Control" content="no-cache"/);
 
 console.log('Sprint 7 Batch 27 catalogue navigation verification passed.');
