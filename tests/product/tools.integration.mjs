@@ -24,7 +24,7 @@ import {
 } from '../../src/product/definitions/file-utility-tools.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 504);
+assert.equal(tools.length, 508);
 assert.deepEqual(
     [...new Set(tools.map((tool) => tool.category))]
         .filter((category) => !categoryLabels[category]),
@@ -538,6 +538,10 @@ assert.deepEqual(
         'text-diff-checker',
         'javascript-minifier',
         'qr-code-generator',
+        'pdf-compressor',
+        'heic-to-jpg-converter',
+        'favicon-generator',
+        'video-to-gif-converter',
     ],
 );
 

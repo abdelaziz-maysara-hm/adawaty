@@ -2625,4 +2625,24 @@
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/pdf-compressor/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/heic-to-jpg-converter/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/favicon-generator/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/video-to-gif-converter/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
 </urlset>
