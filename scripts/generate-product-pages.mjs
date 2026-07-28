@@ -254,7 +254,7 @@ for (const [category, categoryCopy] of Object.entries(categories)) {
 }
 
 await writeFile(
-    path.join(projectRoot, 'public', 'sitemap.xml'),
+    path.join(projectRoot, 'sitemap.xml'),
     createSitemap(),
     'utf8',
 );
