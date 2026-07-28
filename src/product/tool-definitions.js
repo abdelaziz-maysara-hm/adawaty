@@ -25,21 +25,12 @@ import { algebraSequenceDefinitions } from './definitions/algebra-sequences.js';
 import { trigonometryDefinitions } from './definitions/trigonometry.js';
 import { coordinateGeometryDefinitions } from './definitions/coordinate-geometry.js';
 import { calculusDefinitions } from './definitions/calculus.js';
-import { constructionDefinitions } from './definitions/construction.js';
 import { ecommerceBusinessDefinitions } from './definitions/ecommerce-business.js';
 import { marketingMetricDefinitions } from './definitions/marketing-metrics.js';
 import { creatorVideoDefinitions } from './definitions/creator-video.js';
 import { audioPodcastDefinitions } from './definitions/audio-podcast.js';
 import { audioFileToolDefinitions } from './definitions/audio-file-tools.js';
-import { photographyDefinitions } from './definitions/photography.js';
-import { foodRecipeDefinitions } from './definitions/food-recipe.js';
 import { projectManagementDefinitions } from './definitions/project-management.js';
-import { solarBatteryDefinitions } from './definitions/solar-battery.js';
-import { automotiveEvDefinitions } from './definitions/automotive-ev.js';
-import { realEstateDefinitions } from './definitions/real-estate.js';
-import { travelPlanningDefinitions } from './definitions/travel-planning.js';
-import { gardenLandscapeDefinitions } from './definitions/garden-landscape.js';
-import { petCareDefinitions } from './definitions/pet-care.js';
 import { imageFileToolDefinitions } from './definitions/image-file-tools.js';
 import { imageEditingToolDefinitions } from './definitions/image-editing-tools.js';
 import { imageEnhancementToolDefinitions } from './definitions/image-enhancement-tools.js';
@@ -60,6 +51,7 @@ import { fileUtilityToolDefinitions } from './definitions/file-utility-tools.js'
 import { archiveFileToolDefinitions } from './definitions/archive-file-tools.js';
 import { webContentToolDefinitions } from './definitions/web-content-tools.js';
 import { webTransformToolDefinitions } from './definitions/web-transform-tools.js';
+import { webUtilityDefinitions } from './definitions/web-utility-tools.js';
 import { financeDefinitions } from './definitions/finance.js';
 import { healthDefinitions } from './definitions/health.js';
 import { mathDefinitions } from './definitions/math.js';
@@ -1054,21 +1046,12 @@ const toolDefinitions = Object.freeze({
     ...trigonometryDefinitions,
     ...coordinateGeometryDefinitions,
     ...calculusDefinitions,
-    ...constructionDefinitions,
     ...ecommerceBusinessDefinitions,
     ...marketingMetricDefinitions,
     ...creatorVideoDefinitions,
     ...audioPodcastDefinitions,
     ...audioFileToolDefinitions,
-    ...photographyDefinitions,
-    ...foodRecipeDefinitions,
     ...projectManagementDefinitions,
-    ...solarBatteryDefinitions,
-    ...automotiveEvDefinitions,
-    ...realEstateDefinitions,
-    ...travelPlanningDefinitions,
-    ...gardenLandscapeDefinitions,
-    ...petCareDefinitions,
     ...imageFileToolDefinitions,
     ...imageEditingToolDefinitions,
     ...imageEnhancementToolDefinitions,
@@ -1089,6 +1072,7 @@ const toolDefinitions = Object.freeze({
     ...archiveFileToolDefinitions,
     ...webContentToolDefinitions,
     ...webTransformToolDefinitions,
+    ...webUtilityDefinitions,
 });
 
 function getToolDefinition(id) {

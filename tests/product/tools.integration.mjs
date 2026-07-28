@@ -24,7 +24,7 @@ import {
 } from '../../src/product/definitions/file-utility-tools.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 590);
+assert.equal(tools.length, 504);
 assert.deepEqual(
     [...new Set(tools.map((tool) => tool.category))]
         .filter((category) => !categoryLabels[category]),
@@ -365,16 +365,6 @@ assert.deepEqual(
         'exponential-function-derivative-calculator',
         'numerical-derivative-calculator',
         'quadratic-partial-derivative-calculator',
-        'brick-quantity-calculator',
-        'mortar-volume-calculator',
-        'cement-bag-calculator',
-        'flooring-material-calculator',
-        'drywall-sheet-calculator',
-        'roofing-area-calculator',
-        'gravel-quantity-calculator',
-        'topsoil-volume-calculator',
-        'staircase-dimensions-calculator',
-        'room-air-conditioner-size-calculator',
         'customer-acquisition-cost-calculator',
         'customer-lifetime-value-calculator',
         'return-on-ad-spend-calculator',
@@ -419,26 +409,6 @@ assert.deepEqual(
         'audio-volume-changer',
         'audio-fade-in-out-editor',
         'stereo-to-mono-converter',
-        'depth-of-field-calculator',
-        'camera-exposure-value-calculator',
-        'shutter-angle-calculator',
-        'hyperfocal-distance-calculator',
-        'crop-factor-focal-length-calculator',
-        'image-megapixel-calculator',
-        'photo-print-size-calculator',
-        'photo-storage-capacity-calculator',
-        'timelapse-duration-calculator',
-        'nd-filter-exposure-calculator',
-        'bakers-percentage-calculator',
-        'dough-hydration-calculator',
-        'pizza-dough-ball-calculator',
-        'brine-salt-calculator',
-        'food-cost-per-serving-calculator',
-        'menu-price-food-cost-calculator',
-        'recipe-calories-per-serving-calculator',
-        'caffeine-intake-calculator',
-        'coffee-brew-ratio-calculator',
-        'cooking-yield-percentage-calculator',
         'pert-estimate-calculator',
         'billable-utilization-rate-calculator',
         'billable-hours-target-calculator',
@@ -449,66 +419,6 @@ assert.deepEqual(
         'meeting-cost-calculator',
         'freelance-hourly-rate-calculator',
         'project-duration-throughput-calculator',
-        'solar-panel-count-calculator',
-        'solar-array-daily-output-calculator',
-        'battery-bank-capacity-calculator',
-        'battery-runtime-calculator',
-        'battery-charge-time-calculator',
-        'solar-inverter-size-calculator',
-        'solar-payback-period-calculator',
-        'energy-storage-duration-calculator',
-        'dc-power-current-calculator',
-        'dc-voltage-drop-calculator',
-        'tire-size-diameter-calculator',
-        'tire-size-comparison-calculator',
-        'speedometer-tire-error-calculator',
-        'engine-displacement-calculator',
-        'vehicle-power-to-weight-calculator',
-        'vehicle-depreciation-calculator',
-        'ev-charging-time-calculator',
-        'ev-charging-cost-calculator',
-        'ev-range-calculator',
-        'vehicle-braking-distance-calculator',
-        'rental-yield-calculator',
-        'real-estate-cap-rate-calculator',
-        'cash-on-cash-return-calculator',
-        'property-price-per-square-meter-calculator',
-        'property-appreciation-calculator',
-        'property-down-payment-calculator',
-        'property-closing-cost-calculator',
-        'rental-vacancy-loss-calculator',
-        'property-tax-calculator',
-        'gross-rent-multiplier-calculator',
-        'travel-budget-calculator',
-        'daily-travel-budget-calculator',
-        'hotel-stay-cost-calculator',
-        'flight-time-estimator',
-        'flight-arrival-time-calculator',
-        'airline-luggage-fee-calculator',
-        'travel-currency-exchange-fee-calculator',
-        'vacation-savings-calculator',
-        'travel-points-value-calculator',
-        'group-trip-cost-split-calculator',
-        'lawn-seed-quantity-calculator',
-        'sod-roll-count-calculator',
-        'garden-mulch-calculator',
-        'garden-fertilizer-application-calculator',
-        'garden-irrigation-water-calculator',
-        'sprinkler-runtime-calculator',
-        'garden-plant-spacing-calculator',
-        'hedge-plant-count-calculator',
-        'compost-blend-calculator',
-        'rainwater-harvesting-calculator',
-        'dog-age-in-human-years-calculator',
-        'cat-age-in-human-years-calculator',
-        'dog-daily-calorie-calculator',
-        'cat-daily-calorie-calculator',
-        'pet-food-portion-calculator',
-        'pet-water-intake-calculator',
-        'pet-weight-change-calculator',
-        'pet-food-monthly-cost-calculator',
-        'aquarium-volume-calculator',
-        'aquarium-water-change-calculator',
         'image-compressor',
         'image-resizer',
         'image-format-converter',
@@ -624,6 +534,10 @@ assert.deepEqual(
         'html-list-to-text-converter',
         'html-to-markdown-converter',
         'html-data-attribute-extractor',
+        'regex-tester',
+        'text-diff-checker',
+        'javascript-minifier',
+        'qr-code-generator',
     ],
 );
 
@@ -1939,16 +1853,6 @@ assert.equal(getToolDefinition('exponential-function-derivative-calculator').cal
 assert.equal(getToolDefinition('numerical-derivative-calculator').calculate({ coefficients: '1, 0, 0', x: 2, step: 0.0001 }, 'en').value, '4');
 assert.equal(getToolDefinition('quadratic-partial-derivative-calculator').calculate({ a: 1, b: 2, c: 3, x: 2, y: 4 }, 'en').value, '∂f/∂x = 12\n∂f/∂y = 28');
 
-assert.equal(getToolDefinition('brick-quantity-calculator').calculate({ wallLength: 5, wallHeight: 3, brickLength: 0.2, brickHeight: 0.1, mortar: 0.01, waste: 5 }, 'en').value, '682');
-assert.equal(getToolDefinition('mortar-volume-calculator').calculate({ length: 5, height: 3, thickness: 0.2, mortarPercent: 25, waste: 10 }, 'en').value, '0.825 m³');
-assert.equal(getToolDefinition('cement-bag-calculator').calculate({ volume: 1, cementPercent: 20, density: 1440, bagWeight: 50, waste: 5 }, 'en').value, '7');
-assert.equal(getToolDefinition('flooring-material-calculator').calculate({ length: 5, width: 4, coverage: 2.2, waste: 10 }, 'en').value, '10');
-assert.equal(getToolDefinition('drywall-sheet-calculator').calculate({ surfaceLength: 6, surfaceHeight: 3, sheetLength: 2.4, sheetWidth: 1.2, waste: 10 }, 'en').value, '7');
-assert.match(getToolDefinition('roofing-area-calculator').calculate({ length: 10, width: 8, rise: 2, waste: 10 }, 'en').value, /^98\.387 m²$/);
-assert.equal(getToolDefinition('gravel-quantity-calculator').calculate({ length: 5, width: 4, depth: 0.08, density: 1680, waste: 5 }, 'en').value, '2,822.4 kg');
-assert.equal(getToolDefinition('topsoil-volume-calculator').calculate({ length: 6, width: 3, depth: 0.2, allowance: 10 }, 'en').value, '3.96 m³');
-assert.equal(getToolDefinition('staircase-dimensions-calculator').calculate({ totalRise: 3, targetRiser: 0.175, treadDepth: 0.28 }, 'en').value, '17');
-assert.equal(getToolDefinition('room-air-conditioner-size-calculator').calculate({ length: 5, width: 4, height: 2.8, people: 2, sunFactor: 1 }, 'en').value, '12,000 BTU/h');
 
 assert.equal(getToolDefinition('customer-acquisition-cost-calculator').calculate({ marketing: 10000, sales: 5000, customers: 100 }, 'en').value, '150');
 assert.equal(getToolDefinition('customer-lifetime-value-calculator').calculate({ orderValue: 50, frequency: 6, margin: 40, years: 3 }, 'en').value, '360');
@@ -1994,27 +1898,7 @@ assert.equal(getToolDefinition('decibel-amplitude-ratio-calculator').calculate({
 assert.equal(getToolDefinition('podcast-ad-revenue-calculator').calculate({ downloads: 20000, cpm: 25, slots: 2, fillRate: 100 }, 'en').value, '1,000');
 assert.equal(getToolDefinition('audio-transcription-time-calculator').calculate({ audioMinutes: 60, workFactor: 4 }, 'en').value, '4 hours');
 
-assert.match(getToolDefinition('depth-of-field-calculator').calculate({ focalLength: 50, aperture: 2.8, circle: 0.03, distance: 5 }, 'en').value, /^Near:/);
-assert.equal(getToolDefinition('camera-exposure-value-calculator').calculate({ aperture: 8, shutter: 0.008 }, 'en').value, '12.966 EV');
-assert.equal(getToolDefinition('shutter-angle-calculator').calculate({ shutter: 0.020833, fps: 24 }, 'en').value, '179.997 °');
-assert.equal(getToolDefinition('hyperfocal-distance-calculator').calculate({ focalLength: 35, aperture: 8, circle: 0.03 }, 'en').value, '5.139 m');
-assert.equal(getToolDefinition('crop-factor-focal-length-calculator').calculate({ focalLength: 35, cropFactor: 1.5 }, 'en').value, '52.5 mm');
-assert.equal(getToolDefinition('image-megapixel-calculator').calculate({ width: 6000, height: 4000 }, 'en').value, '24 MP');
-assert.equal(getToolDefinition('photo-print-size-calculator').calculate({ width: 6000, height: 4000, dpi: 300 }, 'en').value, '20 × 13.333 in');
-assert.equal(getToolDefinition('photo-storage-capacity-calculator').calculate({ storage: 64, photoSize: 25 }, 'en').value, '2560');
-assert.equal(getToolDefinition('timelapse-duration-calculator').calculate({ shootMinutes: 60, interval: 5, fps: 30 }, 'en').value, '24.033 seconds');
-assert.equal(getToolDefinition('nd-filter-exposure-calculator').calculate({ baseExposure: 0.008, stops: 10 }, 'en').value, '8.192 seconds');
 
-assert.equal(getToolDefinition('bakers-percentage-calculator').calculate({ flour: 1000, ingredient: 20 }, 'en').value, '2%');
-assert.equal(getToolDefinition('dough-hydration-calculator').calculate({ flour: 1000, water: 650 }, 'en').value, '65%');
-assert.equal(getToolDefinition('pizza-dough-ball-calculator').calculate({ balls: 6, ballWeight: 250, hydration: 65, salt: 2.5, yeast: 0.2 }, 'en').value, '1,500 g');
-assert.equal(getToolDefinition('brine-salt-calculator').calculate({ water: 2000, percentage: 3 }, 'en').value, '60 g');
-assert.equal(getToolDefinition('food-cost-per-serving-calculator').calculate({ ingredientCost: 120, servings: 8, waste: 5 }, 'en').value, '15.75');
-assert.equal(getToolDefinition('menu-price-food-cost-calculator').calculate({ cost: 30, targetPercent: 30 }, 'en').value, '100');
-assert.equal(getToolDefinition('recipe-calories-per-serving-calculator').calculate({ totalCalories: 2400, servings: 8 }, 'en').value, '300 kcal');
-assert.equal(getToolDefinition('caffeine-intake-calculator').calculate({ servings: 3, perServing: 95 }, 'en').value, '285 mg');
-assert.equal(getToolDefinition('coffee-brew-ratio-calculator').calculate({ coffee: 30, ratio: 16 }, 'en').value, '480 g');
-assert.equal(getToolDefinition('cooking-yield-percentage-calculator').calculate({ original: 1000, final: 750 }, 'en').value, '75%');
 
 assert.equal(getToolDefinition('pert-estimate-calculator').calculate({ optimistic: 4, likely: 7, pessimistic: 16 }, 'en').value, '8');
 assert.equal(getToolDefinition('billable-utilization-rate-calculator').calculate({ billable: 120, available: 160 }, 'en').value, '75%');
@@ -2027,71 +1911,11 @@ assert.equal(getToolDefinition('meeting-cost-calculator').calculate({ attendees:
 assert.equal(getToolDefinition('freelance-hourly-rate-calculator').calculate({ income: 60000, expenses: 10000, weeks: 46, hours: 25, taxReserve: 20 }, 'en').value, '76.087');
 assert.equal(getToolDefinition('project-duration-throughput-calculator').calculate({ remaining: 240, throughput: 30 }, 'en').value, '8 periods');
 
-assert.equal(getToolDefinition('solar-panel-count-calculator').calculate({ dailyEnergy: 20, panelPower: 550, sunHours: 5, efficiency: 80 }, 'en').value, '10');
-assert.equal(getToolDefinition('solar-array-daily-output-calculator').calculate({ panels: 10, panelPower: 550, sunHours: 5, efficiency: 80 }, 'en').value, '22 kWh/day');
-assert.equal(getToolDefinition('battery-bank-capacity-calculator').calculate({ dailyEnergy: 5000, days: 2, voltage: 48, depth: 80, efficiency: 90 }, 'en').value, '289.352 Ah');
-assert.equal(getToolDefinition('battery-runtime-calculator').calculate({ voltage: 12, ampHours: 200, load: 500, depth: 80, efficiency: 90 }, 'en').value, '3.456 hours');
-assert.equal(getToolDefinition('battery-charge-time-calculator').calculate({ capacity: 100, state: 20, current: 20, lossFactor: 15 }, 'en').value, '4.6 hours');
-assert.equal(getToolDefinition('solar-inverter-size-calculator').calculate({ continuousLoad: 3000, headroom: 25 }, 'en').value, '3,750 W');
-assert.equal(getToolDefinition('solar-payback-period-calculator').calculate({ systemCost: 12000, annualSavings: 1800 }, 'en').value, '6.667 years');
-assert.equal(getToolDefinition('energy-storage-duration-calculator').calculate({ capacity: 10, load: 2, depth: 90, efficiency: 90 }, 'en').value, '4.05 hours');
-assert.equal(getToolDefinition('dc-power-current-calculator').calculate({ power: 1200, voltage: 48 }, 'en').value, '25 A');
-assert.equal(getToolDefinition('dc-voltage-drop-calculator').calculate({ current: 20, length: 15, resistance: 0.0033, voltage: 48 }, 'en').value, '1.98 V');
 
-assert.equal(getToolDefinition('tire-size-diameter-calculator').calculate({ width: 225, aspect: 45, rim: 17 }, 'en').value, '634.3 mm');
-assert.equal(getToolDefinition('tire-size-comparison-calculator').calculate({ oldWidth: 225, oldAspect: 45, oldRim: 17, newWidth: 235, newAspect: 45, newRim: 17 }, 'en').value, '1.419 %');
-assert.equal(getToolDefinition('speedometer-tire-error-calculator').calculate({ indicated: 100, oldDiameter: 634.3, newDiameter: 643.3 }, 'en').value, '101.419 km/h');
-assert.equal(getToolDefinition('engine-displacement-calculator').calculate({ cylinders: 4, bore: 86, stroke: 86 }, 'en').value, '1.998 L');
-assert.equal(getToolDefinition('vehicle-power-to-weight-calculator').calculate({ power: 200, weight: 1500 }, 'en').value, '133.333 hp/tonne');
-assert.equal(getToolDefinition('vehicle-depreciation-calculator').calculate({ price: 30000, rate: 15, years: 5 }, 'en').value, '13,311.159');
-assert.equal(getToolDefinition('ev-charging-time-calculator').calculate({ capacity: 75, start: 20, target: 80, power: 11, efficiency: 90 }, 'en').value, '4.545 hours');
-assert.equal(getToolDefinition('ev-charging-cost-calculator').calculate({ capacity: 75, start: 20, target: 80, price: 0.2, efficiency: 90 }, 'en').value, '10');
-assert.equal(getToolDefinition('ev-range-calculator').calculate({ capacity: 75, usable: 90, consumption: 18 }, 'en').value, '375 km');
-assert.equal(getToolDefinition('vehicle-braking-distance-calculator').calculate({ speed: 100, reaction: 1.5, friction: 0.7 }, 'en').value, '97.868 m');
 
-assert.equal(getToolDefinition('rental-yield-calculator').calculate({ price: 200000, monthlyRent: 1500 }, 'en').value, '9 %');
-assert.equal(getToolDefinition('real-estate-cap-rate-calculator').calculate({ noi: 18000, value: 250000 }, 'en').value, '7.2 %');
-assert.equal(getToolDefinition('cash-on-cash-return-calculator').calculate({ cashFlow: 12000, cashInvested: 80000 }, 'en').value, '15 %');
-assert.equal(getToolDefinition('property-price-per-square-meter-calculator').calculate({ price: 200000, area: 120 }, 'en').value, '1,666.667 per m²');
-assert.equal(getToolDefinition('property-appreciation-calculator').calculate({ currentValue: 250000, rate: 5, years: 10 }, 'en').value, '407,223.657');
-assert.equal(getToolDefinition('property-down-payment-calculator').calculate({ price: 300000, percent: 20 }, 'en').value, '60,000');
-assert.equal(getToolDefinition('property-closing-cost-calculator').calculate({ price: 300000, rate: 4 }, 'en').value, '12,000');
-assert.equal(getToolDefinition('rental-vacancy-loss-calculator').calculate({ monthlyRent: 1500, units: 4, vacancy: 5 }, 'en').value, '3,600');
-assert.equal(getToolDefinition('property-tax-calculator').calculate({ taxableValue: 250000, rate: 1.2 }, 'en').value, '3,000');
-assert.equal(getToolDefinition('gross-rent-multiplier-calculator').calculate({ price: 240000, monthlyRent: 2000 }, 'en').value, '10 x');
 
-assert.equal(getToolDefinition('travel-budget-calculator').calculate({ transport: 800, lodging: 700, food: 350, activities: 250, reserve: 10 }, 'en').value, '2,310');
-assert.equal(getToolDefinition('daily-travel-budget-calculator').calculate({ budget: 1200, days: 8, travelers: 2 }, 'en').value, '75');
-assert.equal(getToolDefinition('hotel-stay-cost-calculator').calculate({ nightlyRate: 120, nights: 5, rooms: 1, tax: 12, fees: 50 }, 'en').value, '722');
-assert.equal(getToolDefinition('flight-time-estimator').calculate({ distance: 3000, speed: 850, overhead: 30 }, 'en').value, '4.029 hours');
-assert.equal(getToolDefinition('flight-arrival-time-calculator').calculate({ departure: 14.5, duration: 6.75, zoneDifference: 2 }, 'en').value, '23:15');
-assert.equal(getToolDefinition('airline-luggage-fee-calculator').calculate({ weight: 28, allowance: 23, rate: 15 }, 'en').value, '75');
-assert.equal(getToolDefinition('travel-currency-exchange-fee-calculator').calculate({ amount: 1000, rate: 0.92, markup: 3, fixedFee: 5 }, 'en').value, '887.938');
-assert.equal(getToolDefinition('vacation-savings-calculator').calculate({ target: 5000, saved: 1000, months: 10 }, 'en').value, '400');
-assert.equal(getToolDefinition('travel-points-value-calculator').calculate({ cashPrice: 750, cashFees: 50, points: 50000 }, 'en').value, '1.4 cents/point');
-assert.equal(getToolDefinition('group-trip-cost-split-calculator').calculate({ sharedCost: 2400, travelers: 6, individualCost: 150 }, 'en').value, '550');
 
-assert.equal(getToolDefinition('lawn-seed-quantity-calculator').calculate({ area: 250, rate: 35, waste: 5 }, 'en').value, '9.188 kg');
-assert.equal(getToolDefinition('sod-roll-count-calculator').calculate({ area: 120, rollArea: 1, waste: 8 }, 'en').value, '130');
-assert.equal(getToolDefinition('garden-mulch-calculator').calculate({ area: 40, depth: 7.5, waste: 10 }, 'en').value, '3.3 m³');
-assert.equal(getToolDefinition('garden-fertilizer-application-calculator').calculate({ area: 150, rate: 3 }, 'en').value, '4.5 kg');
-assert.equal(getToolDefinition('garden-irrigation-water-calculator').calculate({ area: 200, depth: 15, efficiency: 80 }, 'en').value, '3,750 L');
-assert.equal(getToolDefinition('sprinkler-runtime-calculator').calculate({ depth: 12, precipitationRate: 20 }, 'en').value, '36 minutes');
-assert.equal(getToolDefinition('garden-plant-spacing-calculator').calculate({ length: 10, width: 4, rowSpacing: 50, plantSpacing: 40 }, 'en').value, '200');
-assert.equal(getToolDefinition('hedge-plant-count-calculator').calculate({ length: 25, spacing: 60, rows: 1 }, 'en').value, '43');
-assert.equal(getToolDefinition('compost-blend-calculator').calculate({ totalVolume: 500, compostPercent: 30 }, 'en').value, '150 L');
-assert.equal(getToolDefinition('rainwater-harvesting-calculator').calculate({ roofArea: 120, rainfall: 25, efficiency: 85 }, 'en').value, '2,550 L');
 
-assert.equal(getToolDefinition('dog-age-in-human-years-calculator').calculate({ age: 5 }, 'en').value, '39 years');
-assert.equal(getToolDefinition('cat-age-in-human-years-calculator').calculate({ age: 5 }, 'en').value, '36 years');
-assert.equal(getToolDefinition('dog-daily-calorie-calculator').calculate({ weight: 20, factor: 1.6 }, 'en').value, '1,059.231 kcal/day');
-assert.equal(getToolDefinition('cat-daily-calorie-calculator').calculate({ weight: 4.5, factor: 1.2 }, 'en').value, '259.531 kcal/day');
-assert.equal(getToolDefinition('pet-food-portion-calculator').calculate({ dailyCalories: 600, caloriesPer100g: 380, meals: 2 }, 'en').value, '157.895 g/day');
-assert.equal(getToolDefinition('pet-water-intake-calculator').calculate({ weight: 10, rate: 60 }, 'en').value, '600 mL/day');
-assert.equal(getToolDefinition('pet-weight-change-calculator').calculate({ previous: 12, current: 11.4 }, 'en').value, '-5 %');
-assert.equal(getToolDefinition('pet-food-monthly-cost-calculator').calculate({ dailyGrams: 300, packageWeight: 10, packagePrice: 45 }, 'en').value, '40.5');
-assert.equal(getToolDefinition('aquarium-volume-calculator').calculate({ length: 100, width: 40, height: 45 }, 'en').value, '180 L');
-assert.equal(getToolDefinition('aquarium-water-change-calculator').calculate({ volume: 160, percent: 25 }, 'en').value, '40 L');
 
 for (const id of [
     'image-compressor',
