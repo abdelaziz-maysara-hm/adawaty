@@ -7,12 +7,12 @@ const legacyLanguageStorageKey = 'adawaty-preview-language';
 const languageSettings = Object.freeze({
     ar: Object.freeze({
         direction: 'rtl',
-        title: 'أدواتي | منصة الأدوات العربية والإنجليزية',
+        title: 'أدواتي | أدوات PDF وصور وفيديو ومطورين مجانية',
         navigationLabel: 'التنقل الرئيسي',
     }),
     en: Object.freeze({
         direction: 'ltr',
-        title: 'Adawaty | Arabic and English Tools Platform',
+        title: 'Adawaty | Free PDF, Image, Video & Developer Tools',
         navigationLabel: 'Primary navigation',
     }),
 });

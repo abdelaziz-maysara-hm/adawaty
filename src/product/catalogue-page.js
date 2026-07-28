@@ -76,7 +76,8 @@ function renderFilters() {
         filters.hidden = true;
         return;
     }
-    const categoryPriority = ['image', 'pdf'];
+    // High-traffic categories first for better user attraction
+    const categoryPriority = ['pdf', 'image', 'video', 'audio', 'developer', 'text', 'seo', 'color-css'];
     const availableCategories = [...new Set(tools.map((tool) => tool.category))]
         .sort((first, second) => {
             const firstPriority = categoryPriority.indexOf(first);
