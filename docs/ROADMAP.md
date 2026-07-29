@@ -1,68 +1,120 @@
 # خارطة طريق الأدوات (Tools Roadmap)
 
-هدف المشروع: أشمل موقع أدوات مجانية بيدعم العربي بالكامل. الملف ده قائمة عمل مبنية على تحليل فعلي لأكبر مواقع الأدوات العالمية (iLovePDF, CloudConvert, TinyPNG, DevToys Web, Smallpdf, remove.bg...) مقارنة بالأدوات الـ 508 الموجودة عندنا دلوقتي، عشان كل جلسة شغل جاية تكمل من هنا مباشرة من غير ما نعيد البحث.
+هدف المشروع: أشمل موقع أدوات مجانية بيدعم العربي بالكامل. الملف ده قائمة عمل مبنية على تحليل فعلي لأكبر مواقع الأدوات العالمية (iLovePDF, CloudConvert, TinyPNG, DevToys Web, Smallpdf, remove.bg...) مقارنة بالأدوات الموجودة عندنا دلوقتي، عشان كل جلسة شغل جاية تكمل من هنا مباشرة من غير ما نعيد البحث.
 
-**قاعدة الاختيار:** أداة تتضاف هنا لو (أ) عليها طلب بحث حقيقي، و(ب) ممكن تتنفذ بجودة حقيقية 100% داخل المتصفح (زي باقي الموقع، بدون سيرفر). أدوات محتاجة سيرفر/AI models تقيلة (زي إزالة خلفية بجودة احترافية، أو تحويل PDF إلى Word بحفاظ كامل على التنسيق) اتحطت في قسم منفصل آخر الملف لأنها محتاجة قرار معماري مختلف.
+**قاعدة الاختيار:** أداة تتضاف هنا لو (أ) عليها طلب بحث حقيقي، و(ب) ممكن تتنفذ بجودة حقيقية 100% داخل المتصفح (زي باقي الموقع، بدون سيرفر). أدوات محتاجة سيرفر/AI models تقيلة اتحطت في قسم منفصل آخر الملف.
 
-آخر تحديث: بعد وصول عدد الأدوات لـ 508 (يوليو 2026).
+آخر تحديث: Batch 29 — مصفوفة التحويل الشاملة (يوليو 2026).
+
+---
+
+## مصفوفة التحويل الشاملة (Conversion Matrix) — الأولوية الحالية
+
+هدف المنافسة مع CloudConvert / iLovePDF / Zamzar على مستوى الصيغ الشائعة:
+
+### Audio — all-to-all (محلي عبر ffmpeg.wasm)
+| المدخلات | المخرجات |
+|----------|----------|
+| MP3, WAV, OGG, M4A, AAC, FLAC, Opus, WebM | MP3, WAV, OGG, M4A, AAC, FLAC, Opus, WebM |
+
+- [x] `audio-format-converter` — منفّذة ✅ (Batch 29)
+- [x] قص / مستوى صوت / fade / stereo→mono — موجودة ✅
+
+### Video — all-to-all الشائع (محلي عبر ffmpeg.wasm)
+| المدخلات | المخرجات |
+|----------|----------|
+| MP4, WebM, MOV, AVI, MKV | MP4, WebM, MKV, AVI, MOV, GIF |
+
+- [x] `video-format-converter` موسّع ✅ (Batch 29)
+- [x] trim / compress / mute / resize / speed / to-GIF — موجودة ✅
+
+### Image — all-to-all الشائع (canvas + heic2any)
+| المدخلات | المخرجات |
+|----------|----------|
+| JPG, PNG, WebP, GIF, BMP, HEIC | JPG, PNG, WebP, GIF, BMP |
+
+- [x] `image-format-converter` موسّع ✅ (Batch 29)
+- [x] HEIC→JPG — موجودة ✅
+- [ ] AVIF (إدخال/إخراج) — دعم المتصفح محدود؛ مؤجل
+- [ ] SVG→PNG (موجود كأداة منفصلة) / PNG→SVG tracer
+
+### PDF ↔ Documents
+| التحويل | الحالة | ملاحظات |
+|---------|--------|---------|
+| PDF → Word (محلي) | ✅ | فقرات + عناوين |
+| PDF → Word Pro (سيرفر pdf2docx) | ✅ | جداول/صور أفضل |
+| PDF → صور / صور → PDF | ✅ | |
+| PDF merge / split / rotate / compress | ✅ | |
+| Word → PDF | [ ] | يحتاج مكتبة docx→pdf أو طباعة؛ جودة محدودة |
+| PDF → PowerPoint / Excel | [ ] | سيرفر غالبًا |
+| Excel ↔ CSV | [ ] | SheetJS CDN |
+
+### Documents / Data
+- [ ] `csv-to-excel-converter` / `excel-to-csv-converter`
+- [ ] `word-to-pdf-converter` (عميل أو سيرفر)
+- [x] JSON/CSV/XML/Markdown conversions — موجودة جزئيًا في data-format tools
 
 ---
 
 ## المرحلة 1 — سهلة التنفيذ، طلب بحث عالي، بدون مكتبات جديدة أو بمكتبة CDN بسيطة
 
 ### Developer / Website tools
-- [x] `hash-generator` (MD5/SHA-1/SHA-256/SHA-384/SHA-512 في أداة واحدة باختيار الخوارزمية) — منفّذة ✅
-- [ ] `cron-expression-parser` — شرح تعبير cron بالعربي والإنجليزي
-- [x] `iban-validator` — تحقق من صحة IBAN بالخوارزمية القياسية (MOD-97)
+- [x] `hash-generator`
+- [ ] `cron-expression-parser`
+- [x] `iban-validator`
 - [ ] `json-schema-validator`
 - [ ] `xml-xsd-validator`
 - [x] `semver-calculator` / `semver-comparator`
-- [x] `ulid-generator` (زي uuid-generator الموجود بالظبط)
+- [x] `ulid-generator`
 - [x] `base58-encoder-decoder`
-- [x] `curl-command-generator` (من method/headers/body لأمر curl جاهز)
-- [x] `color-blindness-simulator` — canvas فلاتر (Protanopia/Deuteranopia/Tritanopia)
-- [x] `css-beautifier` (عندنا css-minifier بس مفيش beautifier، نفس منطق frontend-developer.js بالعكس)
+- [x] `curl-command-generator`
+- [x] `color-blindness-simulator`
+- [x] `css-beautifier`
 
 ### PDF
-- [ ] `pdf-password-protector` / `pdf-password-remover` — ⚠️ **بحث إضافي لقى إن pdf-lib مش بيدعم التشفير (encryption) خالص حتى الآن** (مؤكد رسميًا من توثيق المكتبة). التنفيذ محتاج مكتبة تانية أو حل بديل (مثل قراءة الملف عبر pdfjs-dist لو محمي بباسورد معروف، مع عدم القدرة على *إضافة* حماية جديدة بنفس الطريقة). مؤجلة لحد ما نلاقي مكتبة مناسبة — راجع القسم "أفكار مؤجلة" تحت.
-- [ ] `pdf-page-crop` — نفس منطق pdf-page-rotator الموجود، بس بـ cropBox
+- [ ] `pdf-password-protector` / `pdf-password-remover` — pdf-lib لا يدعم encryption حاليًا
+- [ ] `pdf-page-crop`
 - [ ] `pdf-blank-page-remover`
 
 ### Image
-- [x] `svg-to-png-converter` — canvas rendering مباشر لأي SVG
-- [ ] `webp-to-png-converter` / `png-to-webp-converter` (غالبًا مغطاة جزئيًا عن طريق image-format-converter الموجود، نتأكد ونكمل الناقص)
-- [ ] `image-average-color-picker` — أخذ متوسط لون الصورة كلها (مفيد للـ placeholders)
+- [x] `svg-to-png-converter`
+- [x] `webp` / `png` / `jpg` / `gif` / `bmp` عبر `image-format-converter`
+- [ ] `image-average-color-picker`
 
 ---
 
-## المرحلة 2 — طلب بحث عالي جدًا، محتاجة مكتبة CDN إضافية (زي qrcode/heic2any اللي ضفناها)
+## المرحلة 2 — طلب بحث عالي جدًا، محتاجة مكتبة CDN إضافية
 
-- [ ] `audio-format-converter` (MP3 ↔ WAV ↔ OGG) — ffmpeg.wasm الموجود أصلاً، إضافة بسيطة نسبيًا
-- [ ] `word-to-pdf-converter` — محتاج مكتبة تحويل docx→pdf حقيقية داخل المتصفح (مثل docx-preview + print-to-pdf، أو mammoth.js لعرض ثم طباعة كـ PDF). جودة التنسيق هتكون محدودة مقارنة بمنتج مدفوع، لازم نوضح ده في note الأداة
-- [x] `pdf-to-word-converter` تحسين: تم — الأداة دلوقتي بتحلل موضع وحجم كل عنصر نصي، بتجمّعه في أسطر ثم فقرات حقيقية (مش فقرة واحدة ضخمة لكل صفحة)، وبتكتشف العناوين تلقائيًا حسب حجم الخط النسبي (H1/H2). لسه مفيش استخراج جداول أو صور أو أعمدة متعددة — ده محتاج خوارزمية layout أعقد بكتير (زي اللي في iLovePDF)، هيتحط في نسخة تانية لو الطلب استمر.
-- [ ] `csv-to-excel-converter` / `excel-to-csv-converter` — SheetJS (xlsx) المتاحة أصلاً في بيئة الـ artifacts، تحتاج فحص إمكانية استخدامها هنا في المنتج الفعلي (CDN import)
-- [ ] `image-svg-tracer` (bitmap → SVG تقريبي) — مكتبة زي imagetracerjs
-
----
-
-## المرحلة 3 — طلب عالي لكن محتاجة قرار معماري (سيرفر/نموذج ذكاء اصطناعي)
-
-الأدوات دي **مستحيل تتعمل بجودة حقيقية 100% في المتصفح** بدون نموذج ML ثقيل (يبطّئ التحميل جدًا) أو خدمة سيرفر خارجية (يكسر مبدأ "كل حاجة محليًا" اللي الموقع مبني عليه):
-
-- إزالة خلفية الصورة بجودة احترافية (background remover) — ممكن نسخة "بدائية" بخوارزمية color-key بسيطة، لكن مش هتنافس remove.bg
-- تكبير/تحسين جودة الصورة بالذكاء الاصطناعي (AI image upscaler)
-- تحويل PDF → Word/PowerPoint بحفاظ كامل على التنسيق المعقد (جداول، أعمدة، خطوط)
-- تفريغ صوتي/نص من فيديو أو صوت (speech-to-text) دقيق — Tesseract عندنا للـ OCR بس مفيش نموذج speech-to-text خفيف كفاية للمتصفح حاليًا
-
-**قرار مطلوب منك:** لو حبيت نتوسع في القسم ده لاحقًا، هنحتاج نتكلم في هل نضيف backend بسيط (يغيّر معمارية الموقع الحالية بالكامل) ولا نسيبها برة نطاق الموقع.
+- [x] `audio-format-converter` ✅
+- [ ] `word-to-pdf-converter`
+- [x] `pdf-to-word-converter` (محلي + Pro سيرفر)
+- [ ] `csv-to-excel-converter` / `excel-to-csv-converter`
+- [ ] `image-svg-tracer`
 
 ---
 
-## أفكار مؤجلة (طلب متوسط، مش أولوية حاليًا)
-- المزيد من محولات صيغ CAD/vector المتخصصة (طلب بحث منخفض نسبيًا لغير المصممين المحترفين)
-- أدوات e-signature (توقيع PDF) — معقدة قانونيًا وتقنيًا، تحتاج بحث منفصل
+## المرحلة 3 — سيرفر / نموذج ذكاء اصطناعي
+
+موجود حاليًا على Vercel:
+- [x] `pdf-to-word-pro-converter` (pdf2docx)
+
+مرشّح لاحقًا (بعد الدومين الحقيقي):
+- Word → PDF عالي الدقة
+- PDF → PPTX / XLSX
+- Background remover احترافي
+- AI image upscaler
+- Speech-to-text
+
+**قرار:** السيرفر معزول في `server-tools.js` فقط مع disclosure واضح. باقي الأدوات تبقى client-side.
+
+---
+
+## أفكار مؤجلة
+- CAD/vector متخصص
+- e-signature قانوني
+- AVIF واسع الدعم
 
 ---
 
 ## طريقة العمل مع الملف ده
-كل جلسة شغل جاية: نختار بنود من "المرحلة 1" الأول (الأسرع تنفيذ + الأعلى قيمة)، ننفذها بنفس الأسلوب المتبع (ملف تعريفات جديد أو إضافة لملف موجود، إعادة توليد الصفحات، تحديث الاختبارات، commit + push)، ونعلّم عليها ✅ هنا.
+كل جلسة: نختار من مصفوفة التحويل أو المرحلة 1، ننفّذ، نحدّث ✅ هنا، commit + push.

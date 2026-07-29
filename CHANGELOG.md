@@ -1,5 +1,13 @@
 # Changelog
 
+## Sprint 7 — Batch 29
+
+- Extended the shared ffmpeg media engine to process audio as well as video.
+- Added a universal `audio-format-converter` (MP3, WAV, OGG, M4A, AAC, FLAC, Opus, WebM) running fully in-browser.
+- Expanded `video-format-converter` to MP4, WebM, MKV, AVI, MOV and animated GIF.
+- Expanded `image-format-converter` to JPG, PNG, WebP, GIF and BMP with matching engine extensions.
+- Updated the conversion matrix in ROADMAP for audio, video, image and PDF/document paths.
+
 ## Sprint 7 — Batch 28
 
 - Removed unused empty placeholder files across components, CSS, data, locales, templates and utils.

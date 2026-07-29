@@ -31,6 +31,8 @@ function extensionFor(type) {
         'image/jpeg': 'jpg',
         'image/png': 'png',
         'image/webp': 'webp',
+        'image/gif': 'gif',
+        'image/bmp': 'bmp',
     }[type] ?? 'png';
 }
 
@@ -71,7 +73,7 @@ async function renderImage({
     const canvas = document.createElement('canvas');
     canvas.width = swapsDimensions ? targetHeight : targetWidth;
     canvas.height = swapsDimensions ? targetWidth : targetHeight;
-    const context = canvas.getContext('2d', { alpha: type !== 'image/jpeg' });
+    const context = canvas.getContext('2d', { alpha: type !== 'image/jpeg' && type !== 'image/bmp' });
 
     if (!context) {
         throw new Error('Image processing is unavailable in this browser.');
