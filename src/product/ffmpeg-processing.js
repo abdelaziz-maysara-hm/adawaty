@@ -20,7 +20,7 @@ async function createRuntime() {
 function getRuntime() {
     runtimePromise ??= createRuntime().catch((error) => {
         runtimePromise = undefined;
-        throw new Error(`Unable to load the video engine: ${error.message}`);
+        throw new Error(`Unable to load the media engine: ${error.message}`);
     });
     return runtimePromise;
 }
@@ -31,13 +31,31 @@ function assertVideoFile(file) {
     }
 }
 
-function extension(file) {
-    const match = file.name.toLowerCase().match(/\.([a-z0-9]+)$/);
-    return match?.[1] ?? 'mp4';
+function assertAudioFile(file) {
+    if (!(file instanceof File)) {
+        throw new Error('Please choose a valid audio file.');
+    }
+    const name = file.name.toLowerCase();
+    const isAudio = file.type.startsWith('audio/')
+        || /\.(mp3|wav|ogg|oga|m4a|aac|flac|opus|wma|aiff|aif|webm)$/i.test(name);
+    if (!isAudio) {
+        throw new Error('Please choose a valid audio file.');
+    }
 }
 
-async function processVideo(file, args, outputFilename, mimeType = 'video/mp4') {
-    assertVideoFile(file);
+function assertMediaFile(file) {
+    if (!(file instanceof File)) {
+        throw new Error('Please choose a valid media file.');
+    }
+}
+
+function extension(file) {
+    const match = file.name.toLowerCase().match(/\.([a-z0-9]+)$/);
+    return match?.[1] ?? 'bin';
+}
+
+async function processMedia(file, args, outputFilename, mimeType = 'application/octet-stream') {
+    assertMediaFile(file);
     const { ffmpeg, fetchFile } = await getRuntime();
     const inputFilename = `input-${crypto.randomUUID()}.${extension(file)}`;
     const outputPath = `output-${crypto.randomUUID()}-${outputFilename}`;
@@ -50,7 +68,7 @@ async function processVideo(file, args, outputFilename, mimeType = 'video/mp4') 
             outputPath,
         ]);
         if (exitCode !== 0) {
-            throw new Error('Video processing failed for this codec or file.');
+            throw new Error('Media processing failed for this codec or file.');
         }
         const bytes = await ffmpeg.readFile(outputPath);
         return new Blob([bytes], { type: mimeType });
@@ -62,8 +80,22 @@ async function processVideo(file, args, outputFilename, mimeType = 'video/mp4') 
     }
 }
 
+async function processVideo(file, args, outputFilename, mimeType = 'video/mp4') {
+    assertVideoFile(file);
+    return processMedia(file, args, outputFilename, mimeType);
+}
+
+async function processAudio(file, args, outputFilename, mimeType = 'audio/mpeg') {
+    assertAudioFile(file);
+    return processMedia(file, args, outputFilename, mimeType);
+}
+
 export {
+    assertAudioFile,
+    assertMediaFile,
     assertVideoFile,
+    processAudio,
+    processMedia,
     processVideo,
 };
 
