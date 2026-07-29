@@ -11,7 +11,7 @@ function fileInput() {
     return Object.freeze({
         id: 'image',
         type: 'file',
-        accept: 'image/jpeg,image/png,image/webp',
+        accept: 'image/jpeg,image/png,image/webp,image/gif,image/bmp,.jpg,.jpeg,.png,.webp,.gif,.bmp',
         label: Object.freeze({ ar: 'اختر صورة', en: 'Choose an image' }),
         unit: Object.freeze({ ar: '', en: '' }),
     });
@@ -127,23 +127,32 @@ const converter = Object.freeze({
     icon: '↔',
     action: Object.freeze({ ar: 'حوّل الصورة', en: 'Convert image' }),
     title: Object.freeze({ ar: 'تحويل صيغ الصور', en: 'Image Format Converter' }),
-    description: Object.freeze({ ar: 'حوّل الصور بين JPG وPNG وWebP داخل المتصفح.', en: 'Convert images between JPG, PNG and WebP directly in your browser.' }),
-    note: Object.freeze({ ar: 'عند التحويل إلى JPG تُضاف خلفية بيضاء للمناطق الشفافة.', en: 'Transparent areas receive a white background when converting to JPG.' }),
+    description: Object.freeze({
+        ar: 'حوّل الصور بين JPG وPNG وWebP وGIF وBMP داخل المتصفح.',
+        en: 'Convert images between JPG, PNG, WebP, GIF and BMP directly in your browser.',
+    }),
+    note: Object.freeze({
+        ar: 'عند التحويل إلى JPG تُضاف خلفية بيضاء للمناطق الشفافة. GIF وBMP يُحفظان كإطار واحد (بدون حركة).',
+        en: 'Transparent areas receive a white background when converting to JPG. GIF and BMP are saved as a single frame (no animation).',
+    }),
     inputs: Object.freeze([
         fileInput(),
         selectInput('type', 'صيغة الإخراج', 'Output format', [
             { value: 'image/webp', label: { ar: 'WebP', en: 'WebP' } },
             { value: 'image/jpeg', label: { ar: 'JPG', en: 'JPG' } },
             { value: 'image/png', label: { ar: 'PNG', en: 'PNG' } },
+            { value: 'image/gif', label: { ar: 'GIF', en: 'GIF' } },
+            { value: 'image/bmp', label: { ar: 'BMP', en: 'BMP' } },
         ]),
         numberInput('quality', 'جودة الإخراج', 'Output quality', 90, { min: 1, max: 100, unit: { ar: '%', en: '%' } }),
     ]),
     async process(values, language) {
+        const needsWhiteBg = values.type === 'image/jpeg' || values.type === 'image/bmp';
         const processed = await renderImage({
             file: values.image,
             type: values.type,
             quality: values.quality / 100,
-            background: values.type === 'image/jpeg' ? '#ffffff' : '',
+            background: needsWhiteBg ? '#ffffff' : '',
         });
         return processedResult(
             processed.blob,

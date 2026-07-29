@@ -8,7 +8,7 @@ function videoInput() {
     return Object.freeze({
         id: 'video',
         type: 'file',
-        accept: 'video/mp4,video/webm,video/quicktime,.mp4,.webm,.mov',
+        accept: 'video/mp4,video/webm,video/quicktime,video/x-msvideo,video/x-matroska,.mp4,.webm,.mov,.avi,.mkv',
         label: Object.freeze({ ar: 'اختر فيديو', en: 'Choose a video' }),
         unit: Object.freeze({ ar: '', en: '' }),
     });
@@ -39,6 +39,45 @@ function output(blob, filename, language, ar, en) {
         download: { blob, filename },
     };
 }
+
+const VIDEO_FORMATS = Object.freeze({
+    mp4: {
+        ext: 'mp4',
+        mime: 'video/mp4',
+        args: ['-c:v', 'libx264', '-preset', 'veryfast', '-crf', '24', '-c:a', 'aac', '-movflags', '+faststart'],
+        label: { ar: 'MP4 (H.264)', en: 'MP4 (H.264)' },
+    },
+    webm: {
+        ext: 'webm',
+        mime: 'video/webm',
+        args: ['-c:v', 'libvpx-vp9', '-crf', '32', '-b:v', '0', '-c:a', 'libopus'],
+        label: { ar: 'WebM (VP9)', en: 'WebM (VP9)' },
+    },
+    mkv: {
+        ext: 'mkv',
+        mime: 'video/x-matroska',
+        args: ['-c:v', 'libx264', '-preset', 'veryfast', '-crf', '24', '-c:a', 'aac'],
+        label: { ar: 'MKV', en: 'MKV' },
+    },
+    avi: {
+        ext: 'avi',
+        mime: 'video/x-msvideo',
+        args: ['-c:v', 'libx264', '-preset', 'veryfast', '-crf', '24', '-c:a', 'aac'],
+        label: { ar: 'AVI', en: 'AVI' },
+    },
+    mov: {
+        ext: 'mov',
+        mime: 'video/quicktime',
+        args: ['-c:v', 'libx264', '-preset', 'veryfast', '-crf', '24', '-c:a', 'aac', '-movflags', '+faststart'],
+        label: { ar: 'MOV', en: 'MOV' },
+    },
+    gif: {
+        ext: 'gif',
+        mime: 'image/gif',
+        args: ['-vf', 'fps=12,scale=480:-1:flags=lanczos', '-loop', '0'],
+        label: { ar: 'GIF متحرك', en: 'Animated GIF' },
+    },
+});
 
 const videoTrimmer = Object.freeze({
     id: 'video-trimmer',
@@ -160,14 +199,14 @@ const videoConverter = Object.freeze({
     category: 'video',
     icon: 'MP4↔WEBM',
     action: Object.freeze({ ar: 'حوّل الفيديو', en: 'Convert video' }),
-    title: Object.freeze({ ar: 'تحويل صيغة الفيديو MP4 وWebM', en: 'MP4 and WebM Video Converter' }),
+    title: Object.freeze({ ar: 'تحويل صيغ الفيديو', en: 'Video Format Converter' }),
     description: Object.freeze({
-        ar: 'حوّل ملفات الفيديو إلى MP4 المتوافق على نطاق واسع أو WebM المناسب للويب.',
-        en: 'Convert videos to widely compatible MP4 or web-optimized WebM.',
+        ar: 'حوّل الفيديو إلى MP4 أو WebM أو MKV أو AVI أو MOV أو GIF متحرك — كل شيء داخل المتصفح.',
+        en: 'Convert video to MP4, WebM, MKV, AVI, MOV or animated GIF — entirely in your browser.',
     }),
     note: Object.freeze({
-        ar: 'يُعاد ترميز الفيديو محليًا؛ الملفات الطويلة تحتاج وقتًا وذاكرة أكبر.',
-        en: 'The video is re-encoded locally; long files require more time and memory.',
+        ar: 'يُعاد ترميز الفيديو محليًا؛ الملفات الطويلة تحتاج وقتًا وذاكرة أكبر. GIF مناسب للمقاطع القصيرة فقط.',
+        en: 'The video is re-encoded locally; long files require more time and memory. GIF works best for short clips.',
     }),
     inputs: Object.freeze([
         videoInput(),
@@ -176,26 +215,23 @@ const videoConverter = Object.freeze({
             type: 'select',
             label: Object.freeze({ ar: 'صيغة الإخراج', en: 'Output format' }),
             unit: Object.freeze({ ar: '', en: '' }),
-            options: Object.freeze([
-                Object.freeze({ value: 'mp4', label: Object.freeze({ ar: 'MP4', en: 'MP4' }) }),
-                Object.freeze({ value: 'webm', label: Object.freeze({ ar: 'WebM', en: 'WebM' }) }),
-            ]),
+            options: Object.freeze(Object.entries(VIDEO_FORMATS).map(([value, format]) => Object.freeze({
+                value,
+                label: Object.freeze(format.label),
+            }))),
         }),
     ]),
     async process(values, language) {
-        const webm = values.format === 'webm';
-        const args = webm
-            ? ['-c:v', 'libvpx-vp9', '-crf', '32', '-b:v', '0', '-c:a', 'libopus']
-            : ['-c:v', 'libx264', '-preset', 'veryfast', '-crf', '24', '-c:a', 'aac', '-movflags', '+faststart'];
+        const format = VIDEO_FORMATS[values.format] ?? VIDEO_FORMATS.mp4;
         const blob = await processVideo(
             values.video,
-            args,
-            `converted.${webm ? 'webm' : 'mp4'}`,
-            webm ? 'video/webm' : 'video/mp4',
+            format.args,
+            `converted.${format.ext}`,
+            format.mime,
         );
         return output(
             blob,
-            `adawaty-converted-video.${webm ? 'webm' : 'mp4'}`,
+            `adawaty-converted-video.${format.ext}`,
             language,
             'الفيديو المحوّل جاهز',
             'Converted video is ready',
