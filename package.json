@@ -1,11 +1,12 @@
 {
   "name": "adawaty",
-  "version": "0.5.32",
+  "version": "0.5.33",
   "private": true,
   "type": "module",
   "description": "A bilingual, extensible platform for free online tools.",
   "scripts": {
     "generate:product": "node scripts/generate-product-pages.mjs",
+    "prepare:media-runtime": "node scripts/prepare-media-runtime.mjs",
     "test": "node scripts/run-tests.mjs",
     "test:journeys": "node tests/product/tool-user-journeys.integration.mjs",
     "check": "node scripts/check-syntax.mjs",
@@ -13,5 +14,9 @@
   },
   "engines": {
     "node": ">=20"
+  },
+  "dependencies": {
+    "@ffmpeg/ffmpeg": "0.12.10",
+    "@ffmpeg/util": "0.12.1"
   }
 }

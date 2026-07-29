@@ -1,11 +1,17 @@
 # Changelog
 
+## Sprint 7 — Batch 33
+
+- Fixed video and advanced audio tools failing on GitHub Pages because the FFmpeg class worker was imported cross-origin from a CDN.
+- Added a pinned, same-origin FFmpeg browser runtime prepared during deployment.
+- Added an automated deployment contract and completed a real browser video-conversion journey with a downloadable MP4 result.
 ## Sprint 7 ? Batch 32
 
 - Added permanent user-journey quality gates for all 521 registered tools and their bilingual input contracts.
 - Execute 427 non-file tools with realistic sample values on every validation run.
 - Added exact-result journeys for core calculators, text, JSON, Base64 and URL tools.
-- Separated the 16 browser-dependent tools and 78 file-processing tools for dedicated browser fixture coverage.
+- Verified all 16 browser-dependent tools with live DOM journeys and added file-processing contracts for image, PDF, audio and video inputs.
+- Reserved the 78 file-processing tools for expanding binary fixture and download-integrity coverage.
 ## Sprint 7 â€” Batch 31
 
 - Replaced the development-status homepage with a public, task-first launch experience.
