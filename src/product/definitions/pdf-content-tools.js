@@ -67,6 +67,98 @@ async function extractTextPages(file) {
     return pages;
 }
 
+function groupTextItemsIntoBlocks(items) {
+    // Group text items into lines using their baseline Y position.
+    const lines = [];
+    let currentLine = null;
+    for (const item of items) {
+        if (!('str' in item) || item.str === '') continue;
+        const fontSize = Math.hypot(item.transform[2], item.transform[3]) || 1;
+        const y = item.transform[5];
+        const x = item.transform[4];
+        if (currentLine && Math.abs(currentLine.y - y) < fontSize * 0.4) {
+            currentLine.text += ` ${item.str}`;
+            currentLine.fontSizes.push(fontSize);
+            currentLine.maxX = Math.max(currentLine.maxX, x);
+        } else {
+            currentLine = {
+                y, minX: x, maxX: x, text: item.str, fontSizes: [fontSize],
+            };
+            lines.push(currentLine);
+        }
+        if (item.hasEOL) currentLine = null;
+    }
+
+    // Compute each line's dominant font size and the page's typical body size.
+    for (const line of lines) {
+        line.fontSize = line.fontSizes.reduce((a, b) => a + b, 0) / line.fontSizes.length;
+    }
+    const sizeCounts = new Map();
+    for (const line of lines) {
+        const rounded = Math.round(line.fontSize);
+        sizeCounts.set(rounded, (sizeCounts.get(rounded) ?? 0) + line.text.length);
+    }
+    let bodySize = 12;
+    let bestWeight = -1;
+    for (const [size, weight] of sizeCounts) {
+        if (weight > bestWeight) { bestWeight = weight; bodySize = size; }
+    }
+
+    // Group consecutive lines into paragraphs based on vertical gaps.
+    const blocks = [];
+    let paragraphLines = [];
+    let previousY = null;
+    const flush = () => {
+        if (paragraphLines.length === 0) return;
+        const text = paragraphLines.map((line) => line.text).join(' ').replace(/\s{2,}/g, ' ').trim();
+        if (text) {
+            const avgSize = paragraphLines.reduce((sum, line) => sum + line.fontSize, 0) / paragraphLines.length;
+            blocks.push({ text, fontSize: avgSize });
+        }
+        paragraphLines = [];
+    };
+    for (const line of lines) {
+        const gap = previousY === null ? 0 : Math.abs(previousY - line.y);
+        if (previousY !== null && gap > line.fontSize * 1.6) {
+            flush();
+        }
+        paragraphLines.push({ text: line.text.trim(), fontSize: line.fontSize });
+        previousY = line.y;
+    }
+    flush();
+
+    return blocks.map((block) => {
+        const ratio = block.fontSize / bodySize;
+        const wordCount = block.text.split(/\s+/).length;
+        const level = ratio >= 1.6 && wordCount <= 18 ? 1
+            : ratio >= 1.25 && wordCount <= 20 ? 2
+                : 0;
+        return { text: block.text, headingLevel: level, fontSize: block.fontSize };
+    });
+}
+
+async function extractStructuredPages(file) {
+    assertPdfFile(file);
+    const pdfjs = await loadPdfJs();
+    const loadingTask = pdfjs.getDocument({
+        data: new Uint8Array(await file.arrayBuffer()),
+    });
+    const document = await loadingTask.promise;
+    const pages = [];
+
+    try {
+        for (let pageNumber = 1; pageNumber <= document.numPages; pageNumber += 1) {
+            const page = await document.getPage(pageNumber);
+            const content = await page.getTextContent();
+            pages.push(groupTextItemsIntoBlocks(content.items));
+            page.cleanup();
+        }
+    } finally {
+        await document.destroy();
+    }
+    return pages;
+}
+
 function xmlEscape(value) {
     return String(value)
         .replaceAll('&', '&amp;')
@@ -103,6 +195,51 @@ async function createDocx(pages) {
             ? ''
             : '<w:p><w:r><w:br w:type="page"/></w:r></w:p>';
         return `${wordParagraph(page)}${pageBreak}`;
+    }).join('');
+    zip.folder('word').file('document.xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:body>${body}<w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="1440" w:right="1440" w:bottom="1440" w:left="1440"/></w:sectPr></w:body>
+</w:document>`);
+    return zip.generateAsync({
+        type: 'blob',
+        mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        compression: 'DEFLATE',
+        compressionOptions: { level: 6 },
+    });
+}
+
+function structuredWordParagraph(block) {
+    const escaped = xmlEscape(block.text);
+    if (block.headingLevel === 1) {
+        return `<w:p><w:pPr><w:spacing w:before="240" w:after="120"/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val="32"/></w:rPr><w:t xml:space="preserve">${escaped}</w:t></w:r></w:p>`;
+    }
+    if (block.headingLevel === 2) {
+        return `<w:p><w:pPr><w:spacing w:before="200" w:after="100"/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val="26"/></w:rPr><w:t xml:space="preserve">${escaped}</w:t></w:r></w:p>`;
+    }
+    return `<w:p><w:pPr><w:spacing w:after="160"/></w:pPr><w:r><w:t xml:space="preserve">${escaped}</w:t></w:r></w:p>`;
+}
+
+async function createStructuredDocx(pages) {
+    const JSZip = await loadZip();
+    const zip = new JSZip();
+    zip.file('[Content_Types].xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
+  <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
+  <Default Extension="xml" ContentType="application/xml"/>
+  <Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>
+</Types>`);
+    zip.folder('_rels').file('.rels', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+  <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/>
+</Relationships>`);
+    const body = pages.map((blocks, index) => {
+        const pageBreak = index === pages.length - 1
+            ? ''
+            : '<w:p><w:r><w:br w:type="page"/></w:r></w:p>';
+        const paragraphs = blocks.length > 0
+            ? blocks.map(structuredWordParagraph).join('')
+            : '<w:p><w:r><w:t></w:t></w:r></w:p>';
+        return `${paragraphs}${pageBreak}`;
     }).join('');
     zip.folder('word').file('document.xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
@@ -156,17 +293,17 @@ const pdfToWord = Object.freeze({
     action: Object.freeze({ ar: 'حوّل إلى Word', en: 'Convert to Word' }),
     title: Object.freeze({ ar: 'تحويل PDF إلى Word', en: 'PDF to Word Converter' }),
     description: Object.freeze({
-        ar: 'حوّل النص القابل للتحديد داخل PDF إلى مستند Word قابل للتحرير مع فصل محتوى كل صفحة.',
-        en: 'Convert selectable PDF text into an editable Word document while preserving page separation.',
+        ar: 'حوّل النص القابل للتحديد داخل PDF إلى مستند Word قابل للتحرير، مع تقسيم حقيقي للفقرات واكتشاف العناوين تلقائيًا حسب حجم الخط.',
+        en: 'Convert selectable PDF text into an editable Word document, with real paragraph breaks and automatic heading detection based on font size.',
     }),
     note: Object.freeze({
-        ar: 'يركز التحويل المحلي على النص وسيفقد بعض تنسيق الصفحة المعقد. الملفات المصورة تحتاج إلى OCR.',
-        en: 'Local conversion focuses on text and may not preserve complex layouts. Scanned images require OCR.',
+        ar: 'يحافظ التحويل على الفقرات والعناوين بناءً على تحليل موضع وحجم النص، لكنه لا يستخرج الجداول أو الصور أو الأعمدة المتعددة حاليًا. الملفات المصورة تحتاج إلى OCR.',
+        en: 'Conversion preserves paragraphs and headings based on text position/size analysis, but does not currently extract tables, images, or multi-column layouts. Scanned images require OCR.',
     }),
     inputs: Object.freeze([pdfInput()]),
     async process(values, language) {
-        const pages = await extractTextPages(values.pdf);
-        const blob = await createDocx(pages);
+        const pages = await extractStructuredPages(values.pdf);
+        const blob = await createStructuredDocx(pages);
         const base = values.pdf.name.replace(/\.pdf$/i, '') || 'document';
         return result(
             blob,
