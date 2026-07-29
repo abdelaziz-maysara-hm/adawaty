@@ -24,6 +24,15 @@ function pdfInput(id = 'pdf', multiple = false) {
     });
 }
 
+function selectInput(id, label, options) {
+    return Object.freeze({
+        id, type: 'select',
+        label: Object.freeze(label),
+        unit: Object.freeze({ ar: '', en: '' }),
+        options: Object.freeze(options.map((option) => Object.freeze(option))),
+    });
+}
+
 function result(blob, filename, pageCount, language, ar, en) {
     return {
         value: localized(language, `${pageCount} صفحة`, `${pageCount} pages`),
@@ -31,6 +40,18 @@ function result(blob, filename, pageCount, language, ar, en) {
         details: `${(blob.size / 1024).toFixed(1)} KB`,
         download: { blob, filename },
     };
+}
+
+const PAGE_SIZES = {
+    a4: [595.28, 841.89],
+    letter: [612, 792],
+};
+
+function orientedSize([width, height], sourceWidth, sourceHeight) {
+    const isLandscape = sourceWidth > sourceHeight;
+    const long = Math.max(width, height);
+    const short = Math.min(width, height);
+    return isLandscape ? [long, short] : [short, long];
 }
 
 const mergePdf = Object.freeze({
@@ -44,10 +65,18 @@ const mergePdf = Object.freeze({
         en: 'Combine multiple PDF files into one document in your selected order.',
     }),
     note: Object.freeze({
-        ar: 'تتم المعالجة داخل متصفحك ولا تُرفع ملفاتك. يلزم الإنترنت أول مرة لتحميل محرك PDF.',
-        en: 'Files are processed in your browser and never uploaded. Internet is needed once to load the PDF engine.',
+        ar: 'تتم المعالجة داخل متصفحك ولا تُرفع ملفاتك. يلزم الإنترنت أول مرة لتحميل محرك PDF. اختر "الحجم الأصلي" إذا كانت كل ملفاتك بنفس المقاس أصلًا لتفادي أي تكبير أو تصغير غير ضروري.',
+        en: 'Files are processed in your browser and never uploaded. Internet is needed once to load the PDF engine. Choose "Original size" if all your files already share the same page size, to avoid any unnecessary scaling.',
     }),
-    inputs: Object.freeze([pdfInput('pdfs', true)]),
+    inputs: Object.freeze([
+        pdfInput('pdfs', true),
+        selectInput('pageSize', { ar: 'مقاس صفحات الناتج', en: 'Output page size' }, [
+            { value: 'original', label: { ar: 'الحجم الأصلي لكل صفحة (قد يختلف بين الملفات)', en: 'Original size per page (may vary between files)' } },
+            { value: 'a4', label: { ar: 'توحيد الكل على A4', en: 'Unify all pages to A4' } },
+            { value: 'letter', label: { ar: 'توحيد الكل على Letter', en: 'Unify all pages to Letter' } },
+            { value: 'first-page', label: { ar: 'توحيد الكل حسب مقاس أول صفحة', en: 'Unify all pages to the first page\'s size' } },
+        ]),
+    ]),
     async process(values, language) {
         const files = values.pdfs;
         if (!Array.isArray(files) || files.length < 2) {
@@ -57,11 +86,56 @@ const mergePdf = Object.freeze({
 
         const { PDFDocument } = await loadPdfLib();
         const merged = await PDFDocument.create();
-        for (const file of files) {
-            const source = await PDFDocument.load(await file.arrayBuffer());
-            const pages = await merged.copyPages(source, source.getPageIndices());
-            pages.forEach((page) => merged.addPage(page));
+
+        if (values.pageSize === 'original') {
+            for (const file of files) {
+                const source = await PDFDocument.load(await file.arrayBuffer());
+                const pages = await merged.copyPages(source, source.getPageIndices());
+                pages.forEach((page) => merged.addPage(page));
+            }
+            const blob = createPdfBlob(await merged.save());
+            return result(blob, 'merged-document.pdf', merged.getPageCount(), language, 'تم دمج ملفات PDF', 'Merged PDF is ready');
         }
+
+        // Normalized modes: embed every source page as an XObject and draw it
+        // centered onto a uniform-size page, so mismatched page sizes across
+        // files no longer produce a merged PDF with jarring size jumps.
+        const sourceDocuments = await Promise.all(
+            files.map(async (file) => PDFDocument.load(await file.arrayBuffer())),
+        );
+
+        let fixedTarget = null;
+        if (values.pageSize === 'first-page') {
+            const firstPage = sourceDocuments[0].getPage(0);
+            fixedTarget = [firstPage.getWidth(), firstPage.getHeight()];
+        } else {
+            fixedTarget = PAGE_SIZES[values.pageSize] ?? PAGE_SIZES.a4;
+        }
+
+        for (const source of sourceDocuments) {
+            for (const pageIndex of source.getPageIndices()) {
+                const sourcePage = source.getPage(pageIndex);
+                const sourceWidth = sourcePage.getWidth();
+                const sourceHeight = sourcePage.getHeight();
+                const [targetWidth, targetHeight] = values.pageSize === 'first-page'
+                    ? fixedTarget
+                    : orientedSize(fixedTarget, sourceWidth, sourceHeight);
+
+                const embedded = await merged.embedPage(sourcePage);
+                const scale = Math.min(targetWidth / sourceWidth, targetHeight / sourceHeight);
+                const drawWidth = sourceWidth * scale;
+                const drawHeight = sourceHeight * scale;
+
+                const newPage = merged.addPage([targetWidth, targetHeight]);
+                newPage.drawPage(embedded, {
+                    x: (targetWidth - drawWidth) / 2,
+                    y: (targetHeight - drawHeight) / 2,
+                    width: drawWidth,
+                    height: drawHeight,
+                });
+            }
+        }
+
         const blob = createPdfBlob(await merged.save());
         return result(blob, 'merged-document.pdf', merged.getPageCount(), language, 'تم دمج ملفات PDF', 'Merged PDF is ready');
     },
