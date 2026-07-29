@@ -44,20 +44,16 @@ const [
 ]);
 
 assert.match(indexHtml, /<html lang="ar" dir="rtl" data-language="ar">/);
-assert.match(indexHtml, /\.\/src\/css\/main\.css/);
-assert.match(indexHtml, /\.\/src\/pages\/home\.js\?v=s7b\d+/);
-assert.match(indexHtml, /http-equiv="Cache-Control" content="no-cache"/);
-assert.match(indexHtml, /\.\/tools\/pdf-merge\//);
-assert.match(indexHtml, /\.\/tools\/pdf-splitter\//);
-assert.match(indexHtml, /\.\/tools\/pdf-text-extractor\//);
-assert.match(indexHtml, /\.\/tools\/image-compressor\//);
-assert.match(indexHtml, /\.\/tools\/image-resizer\//);
-assert.match(indexHtml, /\.\/tools\/image-format-converter\//);
+assert.match(indexHtml, /500\+ أداة مجانية/);
+assert.match(indexHtml, /id="home-search"/);
+assert.match(indexHtml, /\.\/tools\/image-batch-processor\//);
+assert.match(indexHtml, /\.\/tools\/pdf-to-word-converter\//);
 assert.match(indexHtml, /\.\/tools\/video-compressor\//);
-assert.match(indexHtml, /\.\/tools\/video-trimmer\//);
-assert.match(indexHtml, /\.\/tools\/json-formatter\//);
-assert.match(indexHtml, /\.\/tools\/uuid-generator\//);
-assert.match(indexHtml, /\.\/tools\/word-counter\//);
+assert.match(indexHtml, /\.\/tools\/audio-trimmer\//);
+assert.doesNotMatch(indexHtml, /Sprint 7|development preview|اختبارات التكامل/i);
+assert.match(indexHtml, /\.\/src\/css\/main\.css/);
+assert.match(indexHtml, /\.\/src\/pages\/home\.js\?v=s7b31/);
+assert.match(indexHtml, /http-equiv="Cache-Control" content="no-cache"/);
 assert.match(indexHtml, /\.\/all-tools\//);
 assert.doesNotMatch(indexHtml, /TODO|PLACEHOLDER/i);
 
@@ -68,9 +64,10 @@ assert.match(workflow, /branches:\s*\n\s*- main/);
 assert.match(homeScript, /applyLanguage\(getInitialLanguage\(\)\)/);
 assert.match(homeScript, /adawaty-language/);
 assert.match(homeScript, /adawaty-preview-language/);
-assert.match(stylesheet, /@media \(max-width: 600px\)/);
+assert.match(homeScript, /searchParams\.set\('q'/);
+assert.match(stylesheet, /@media \(max-width: 700px\)/);
 assert.match(catalogueHtml, /data-catalogue-page/);
-assert.match(catalogueHtml, /catalogue-page\.js\?v=s7b\d+/);
+assert.match(catalogueHtml, /catalogue-page\.js\?v=s7b31/);
 assert.match(catalogueHtml, /http-equiv="Cache-Control" content="no-cache"/);
 assert.match(catalogueHtml, /"@type":"CollectionPage"/);
 assert.match(healthCategoryHtml, /data-category="health"/);
@@ -141,14 +138,15 @@ assert.match(catalogueScript, /Processing tools/);
 assert.match(catalogueScript, /Calculators & generators/);
 assert.match(catalogueScript, /typeof tool\.process/);
 assert.match(catalogueScript, /adawaty-language/);
+assert.match(catalogueScript, /URLSearchParams/);
 
 const bmiToolHtml = await readFile(
     new URL('../../tools/bmi-calculator/index.html', import.meta.url),
     'utf8',
 );
-assert.match(bmiToolHtml, /tool-page\.js\?v=s7b\d+/);
+assert.match(bmiToolHtml, /tool-page\.js\?v=s7b31/);
 assert.match(bmiToolHtml, /http-equiv="Cache-Control" content="no-cache"/);
 
-console.log('Sprint 7 Batch 27 catalogue navigation verification passed.');
+console.log('Sprint 7 Batch 28 public homepage verification passed.');
 
 // END OF FILE

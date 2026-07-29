@@ -37,6 +37,10 @@ const fixedCategory = root?.dataset.category ?? '';
 const tools = listToolDefinitions();
 let activeCategory = fixedCategory;
 let language = localStorage.getItem('adawaty-language') === 'en' ? 'en' : 'ar';
+const initialQuery = new URLSearchParams(window.location.search).get('q')?.trim() ?? '';
+if (initialQuery) {
+    search.value = initialQuery;
+}
 
 function escapeHtml(value) {
     return String(value)
