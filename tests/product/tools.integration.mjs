@@ -24,7 +24,7 @@ import {
 } from '../../src/product/definitions/file-utility-tools.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 517);
+assert.equal(tools.length, 518);
 assert.deepEqual(
     [...new Set(tools.map((tool) => tool.category))]
         .filter((category) => !categoryLabels[category]),
@@ -551,6 +551,7 @@ assert.deepEqual(
         'css-beautifier',
         'svg-to-png-converter',
         'color-blindness-simulator',
+        'pdf-to-word-pro-converter',
     ],
 );
 
