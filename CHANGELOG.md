@@ -1,5 +1,10 @@
 # Changelog
 
+## Sprint 7 — Batch 33
+
+- Fixed video and advanced audio tools failing on GitHub Pages because the FFmpeg class worker was imported cross-origin from a CDN.
+- Added a pinned, same-origin FFmpeg browser runtime prepared during deployment.
+- Added an automated deployment contract and completed a real browser video-conversion journey with a downloadable MP4 result.
 ## Sprint 7 ? Batch 32
 
 - Added permanent user-journey quality gates for all 521 registered tools and their bilingual input contracts.

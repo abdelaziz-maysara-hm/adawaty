@@ -27,6 +27,12 @@ jobs:
         with:
           node-version: 20
 
+      - name: Install pinned media runtime
+        run: npm ci --ignore-scripts
+
+      - name: Prepare browser media runtime
+        run: npm run prepare:media-runtime
+
       - name: Validate source and integration tests
         run: npm run validate
 
@@ -40,6 +46,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Prepare browser media runtime
+        run: |
+          npm ci --ignore-scripts
+          npm run prepare:media-runtime
+          rm -rf node_modules
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 

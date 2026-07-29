@@ -1,4 +1,7 @@
 node_modules/
+.npm-cache/
+src/vendor/ffmpeg/
+src/vendor/ffmpeg-util/
 *.log
 .DS_Store
 .env

@@ -1,5 +1,5 @@
-const FFMPEG_URL = 'https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/+esm';
-const UTIL_URL = 'https://cdn.jsdelivr.net/npm/@ffmpeg/util@0.12.1/+esm';
+const FFMPEG_URL = new URL('../vendor/ffmpeg/index.js', import.meta.url).href;
+const UTIL_URL = new URL('../vendor/ffmpeg-util/index.js', import.meta.url).href;
 const CORE_BASE = 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.6/dist/esm';
 
 let runtimePromise;
