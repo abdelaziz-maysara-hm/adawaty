@@ -66,6 +66,58 @@ function createInput(input, language) {
     }
 
     control.append(element);
+
+    let chipList = null;
+    if (input.type === 'file' && input.multiple) {
+        chipList = document.createElement('ul');
+        chipList.className = 'product-file-chips';
+
+        const sameFile = (a, b) => a.name === b.name && a.size === b.size && a.lastModified === b.lastModified;
+
+        const applyFiles = (files) => {
+            element._accumulatedFiles = files;
+            const transfer = new DataTransfer();
+            for (const file of files) transfer.items.add(file);
+            element.files = transfer.files;
+            renderChips();
+        };
+
+        const renderChips = () => {
+            const files = element._accumulatedFiles ?? [];
+            chipList.replaceChildren(
+                ...files.map((file, index) => {
+                    const item = document.createElement('li');
+                    item.className = 'product-file-chip';
+                    const name = document.createElement('span');
+                    name.textContent = `${index + 1}. ${file.name}`;
+                    item.append(name);
+                    const remove = document.createElement('button');
+                    remove.type = 'button';
+                    remove.className = 'product-file-chip-remove';
+                    remove.setAttribute('aria-label', `Remove ${file.name}`);
+                    remove.textContent = '×';
+                    remove.addEventListener('click', () => {
+                        applyFiles(files.filter((_, i) => i !== index));
+                    });
+                    item.append(remove);
+                    return item;
+                }),
+            );
+        };
+
+        element.addEventListener('change', () => {
+            const previous = element._accumulatedFiles ?? [];
+            const incoming = Array.from(element.files ?? []);
+            const merged = [...previous];
+            for (const file of incoming) {
+                if (!merged.some((existing) => sameFile(existing, file))) {
+                    merged.push(file);
+                }
+            }
+            applyFiles(merged);
+        });
+    }
+
     const unit = translate(input.unit, language);
 
     if (unit) {
@@ -76,6 +128,7 @@ function createInput(input, language) {
     }
 
     group.append(control);
+    if (chipList) group.append(chipList);
     return group;
 }
 
