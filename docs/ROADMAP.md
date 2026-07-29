@@ -4,7 +4,7 @@
 
 **قاعدة الاختيار:** أداة تتضاف هنا لو (أ) عليها طلب بحث حقيقي، و(ب) ممكن تتنفذ بجودة حقيقية 100% داخل المتصفح (زي باقي الموقع، بدون سيرفر). أدوات محتاجة سيرفر/AI models تقيلة اتحطت في قسم منفصل آخر الملف.
 
-آخر تحديث: Batch 29 — مصفوفة التحويل الشاملة (يوليو 2026).
+آخر تحديث: Batch 30 — Excel ↔ CSV + صفحة محوّل الصوت (يوليو 2026).
 
 ---
 
@@ -17,7 +17,7 @@
 |----------|----------|
 | MP3, WAV, OGG, M4A, AAC, FLAC, Opus, WebM | MP3, WAV, OGG, M4A, AAC, FLAC, Opus, WebM |
 
-- [x] `audio-format-converter` — منفّذة ✅ (Batch 29)
+- [x] `audio-format-converter` — منفّذة ✅ (Batch 29) + صفحة منشورة (Batch 30)
 - [x] قص / مستوى صوت / fade / stereo→mono — موجودة ✅
 
 ### Video — all-to-all الشائع (محلي عبر ffmpeg.wasm)
@@ -47,12 +47,13 @@
 | PDF merge / split / rotate / compress | ✅ | |
 | Word → PDF | [ ] | يحتاج مكتبة docx→pdf أو طباعة؛ جودة محدودة |
 | PDF → PowerPoint / Excel | [ ] | سيرفر غالبًا |
-| Excel ↔ CSV | [ ] | SheetJS CDN |
+| Excel ↔ CSV | ✅ | SheetJS CDN — Batch 30 |
 
 ### Documents / Data
-- [ ] `csv-to-excel-converter` / `excel-to-csv-converter`
+- [x] `csv-to-excel-converter` ✅ (Batch 30)
+- [x] `excel-to-csv-converter` ✅ (Batch 30)
 - [ ] `word-to-pdf-converter` (عميل أو سيرفر)
-- [x] JSON/CSV/XML/Markdown conversions — موجودة جزئيًا في data-format tools
+- [x] JSON/CSV/XML/Markdown conversions — موجودة في data-format tools
 
 ---
 
@@ -88,7 +89,7 @@
 - [x] `audio-format-converter` ✅
 - [ ] `word-to-pdf-converter`
 - [x] `pdf-to-word-converter` (محلي + Pro سيرفر)
-- [ ] `csv-to-excel-converter` / `excel-to-csv-converter`
+- [x] `csv-to-excel-converter` / `excel-to-csv-converter` ✅
 - [ ] `image-svg-tracer`
 
 ---
