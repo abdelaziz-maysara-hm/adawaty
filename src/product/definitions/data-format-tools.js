@@ -3,6 +3,18 @@ import {
     stringifyDelimited,
 } from './list-data-tools.js';
 
+const SHEETJS_URL = 'https://cdn.sheetjs.com/xlsx-0.20.3/package/xlsx.mjs';
+
+let sheetJsPromise;
+
+function loadSheetJs() {
+    sheetJsPromise ??= import(SHEETJS_URL).catch((error) => {
+        sheetJsPromise = undefined;
+        throw new Error(`Unable to load the spreadsheet engine: ${error.message}`);
+    });
+    return sheetJsPromise;
+}
+
 function localized(language, ar, en) {
     return language === 'ar' ? ar : en;
 }
@@ -41,6 +53,16 @@ function selectInput(id, ar, en, options) {
     });
 }
 
+function fileInput(id, ar, en, accept) {
+    return Object.freeze({
+        id,
+        type: 'file',
+        accept,
+        label: Object.freeze({ ar, en }),
+        unit: Object.freeze({ ar: '', en: '' }),
+    });
+}
+
 const delimiterOptions = [
     { value: 'comma', label: { ar: 'فاصلة (,)', en: 'Comma (,)' } },
     { value: 'tab', label: { ar: 'علامة تبويب', en: 'Tab' } },
@@ -67,6 +89,15 @@ function result(text, filename, language, arLabel, enLabel, type = 'text/plain;c
         value: localized(language, `${blob.size} بايت`, `${blob.size} bytes`),
         label: localized(language, arLabel, enLabel),
         details: localized(language, 'النتيجة جاهزة للتنزيل.', 'The result is ready to download.'),
+        download: { blob, filename },
+    };
+}
+
+function downloadable(blob, filename, language, arLabel, enLabel, details) {
+    return {
+        value: localized(language, `${(blob.size / 1024).toFixed(1)} كيلوبايت`, `${(blob.size / 1024).toFixed(1)} KB`),
+        label: localized(language, arLabel, enLabel),
+        details: details ?? localized(language, 'تمت المعالجة محليًا داخل المتصفح.', 'Processed locally in your browser.'),
         download: { blob, filename },
     };
 }
@@ -159,6 +190,10 @@ function jsonToXml(value, name = 'root', depth = 0) {
     }
     const content = value === null ? '' : escapeHtml(value);
     return `${indent}<${tag}>${content}</${tag}>`;
+}
+
+function safeBaseName(name) {
+    return String(name || 'data').replace(/\.[^.]+$/, '').replace(/[^\p{L}\p{N}_.-]+/gu, '_') || 'data';
 }
 
 const csvToMarkdownTable = tool({
@@ -377,6 +412,115 @@ const ndjsonToJsonConverter = tool({
     type: 'application/json;charset=utf-8',
 });
 
+const csvToExcelConverter = Object.freeze({
+    id: 'csv-to-excel-converter',
+    category: 'developer',
+    icon: 'XLSX',
+    action: Object.freeze({ ar: 'حوّل إلى Excel', en: 'Convert to Excel' }),
+    title: Object.freeze({ ar: 'تحويل CSV إلى Excel', en: 'CSV to Excel Converter' }),
+    description: Object.freeze({
+        ar: 'حوّل ملف CSV إلى ورقة Excel (XLSX) جاهزة للتنزيل داخل المتصفح.',
+        en: 'Convert a CSV file into a downloadable Excel (XLSX) workbook in your browser.',
+    }),
+    note: Object.freeze({
+        ar: 'المعالجة محلية بالكامل عبر محرك SheetJS. لا يُرفع الملف إلى أي خادم.',
+        en: 'Processing is fully local via the SheetJS engine. The file is never uploaded.',
+    }),
+    inputs: Object.freeze([
+        fileInput('file', 'اختر ملف CSV', 'Choose CSV file', 'text/csv,.csv,text/plain'),
+        delimiterInput(),
+    ]),
+    async process(values, language) {
+        if (!(values.file instanceof File)) {
+            throw new Error(localized(language, 'اختر ملف CSV صالح.', 'Please choose a valid CSV file.'));
+        }
+        const XLSX = await loadSheetJs();
+        const text = await values.file.text();
+        const rows = parseDelimited(text, resolveDelimiter(values.delimiter));
+        if (!rows.length) {
+            throw new Error(localized(language, 'الملف فارغ أو غير صالح.', 'The file is empty or invalid.'));
+        }
+        const worksheet = XLSX.utils.aoa_to_sheet(rows);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+        const output = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+        const blob = new Blob([output], {
+            type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        });
+        const base = safeBaseName(values.file.name);
+        return downloadable(
+            blob,
+            `adawaty-${base}.xlsx`,
+            language,
+            'ملف Excel جاهز',
+            'Excel file is ready',
+            localized(
+                language,
+                `${rows.length} صف · ${rows[0]?.length ?? 0} عمود · معالجة محلية`,
+                `${rows.length} rows · ${rows[0]?.length ?? 0} columns · local processing`,
+            ),
+        );
+    },
+});
+
+const excelToCsvConverter = Object.freeze({
+    id: 'excel-to-csv-converter',
+    category: 'developer',
+    icon: 'CSV',
+    action: Object.freeze({ ar: 'حوّل إلى CSV', en: 'Convert to CSV' }),
+    title: Object.freeze({ ar: 'تحويل Excel إلى CSV', en: 'Excel to CSV Converter' }),
+    description: Object.freeze({
+        ar: 'حوّل ملف Excel (XLSX أو XLS) إلى CSV نصي جاهز للتنزيل داخل المتصفح.',
+        en: 'Convert an Excel file (XLSX or XLS) into a downloadable CSV text file in your browser.',
+    }),
+    note: Object.freeze({
+        ar: 'يُستخدم أول ورقة عمل في المصنف. المعالجة محلية بالكامل.',
+        en: 'Uses the first worksheet in the workbook. Processing stays fully local.',
+    }),
+    inputs: Object.freeze([
+        fileInput(
+            'file',
+            'اختر ملف Excel',
+            'Choose Excel file',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel,.xlsx,.xls',
+        ),
+        selectInput('delimiter', 'فاصل الإخراج', 'Output delimiter', delimiterOptions),
+    ]),
+    async process(values, language) {
+        if (!(values.file instanceof File)) {
+            throw new Error(localized(language, 'اختر ملف Excel صالح.', 'Please choose a valid Excel file.'));
+        }
+        const XLSX = await loadSheetJs();
+        const buffer = await values.file.arrayBuffer();
+        const workbook = XLSX.read(buffer, { type: 'array' });
+        const sheetName = workbook.SheetNames[0];
+        if (!sheetName) {
+            throw new Error(localized(language, 'المصنف لا يحتوي على أوراق عمل.', 'The workbook has no worksheets.'));
+        }
+        const rows = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], {
+            header: 1,
+            defval: '',
+            raw: false,
+        });
+        const delimiter = resolveDelimiter(values.delimiter);
+        const csv = stringifyDelimited(rows, delimiter);
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+        const base = safeBaseName(values.file.name);
+        return downloadable(
+            blob,
+            `adawaty-${base}.csv`,
+            language,
+            'ملف CSV جاهز',
+            'CSV file is ready',
+            localized(
+                language,
+                `الورقة: ${sheetName} · ${rows.length} صف · معالجة محلية`,
+                `Sheet: ${sheetName} · ${rows.length} rows · local processing`,
+            ),
+        );
+    },
+});
+
 const dataFormatToolDefinitions = Object.freeze(Object.fromEntries([
     csvToMarkdownTable,
     csvToHtmlTable,
@@ -388,6 +532,8 @@ const dataFormatToolDefinitions = Object.freeze(Object.fromEntries([
     jsonPathExtractor,
     jsonToXmlConverter,
     ndjsonToJsonConverter,
+    csvToExcelConverter,
+    excelToCsvConverter,
 ].map((definition) => [definition.id, definition])));
 
 export {
