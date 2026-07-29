@@ -11,25 +11,25 @@
 ## المرحلة 1 — سهلة التنفيذ، طلب بحث عالي، بدون مكتبات جديدة أو بمكتبة CDN بسيطة
 
 ### Developer / Website tools
-- [ ] `md5-hash-generator`, `sha1-hash-generator`, `sha256-hash-generator` (أو أداة واحدة `hash-generator` باختيار الخوارزمية) — Web Crypto API مدمجة في المتصفح، بدون أي مكتبة
+- [x] `hash-generator` (MD5/SHA-1/SHA-256/SHA-384/SHA-512 في أداة واحدة باختيار الخوارزمية) — منفّذة ✅
 - [ ] `cron-expression-parser` — شرح تعبير cron بالعربي والإنجليزي
-- [ ] `iban-validator` — تحقق من صحة IBAN بالخوارزمية القياسية (MOD-97)
+- [x] `iban-validator` — تحقق من صحة IBAN بالخوارزمية القياسية (MOD-97)
 - [ ] `json-schema-validator`
 - [ ] `xml-xsd-validator`
-- [ ] `semver-calculator` / `semver-comparator`
-- [ ] `ulid-generator` (زي uuid-generator الموجود بالظبط)
-- [ ] `base58-encoder-decoder`
-- [ ] `curl-command-generator` (من method/headers/body لأمر curl جاهز)
-- [ ] `color-blindness-simulator` — canvas فلاتر (Protanopia/Deuteranopia/Tritanopia)
-- [ ] `css-beautifier` (عندنا css-minifier بس مفيش beautifier، نفس منطق frontend-developer.js بالعكس)
+- [x] `semver-calculator` / `semver-comparator`
+- [x] `ulid-generator` (زي uuid-generator الموجود بالظبط)
+- [x] `base58-encoder-decoder`
+- [x] `curl-command-generator` (من method/headers/body لأمر curl جاهز)
+- [x] `color-blindness-simulator` — canvas فلاتر (Protanopia/Deuteranopia/Tritanopia)
+- [x] `css-beautifier` (عندنا css-minifier بس مفيش beautifier، نفس منطق frontend-developer.js بالعكس)
 
 ### PDF
-- [ ] `pdf-password-protector` / `pdf-password-remover` — pdf-lib بيدعم encrypt، والفك عن طريق فتح الملف بالباسورد المُدخل (لو pdf-lib مش داعم decryption بالكامل، نستخدم pdfjs-dist اللي بيدعم فتح ملفات محمية بباسورد)
+- [ ] `pdf-password-protector` / `pdf-password-remover` — ⚠️ **بحث إضافي لقى إن pdf-lib مش بيدعم التشفير (encryption) خالص حتى الآن** (مؤكد رسميًا من توثيق المكتبة). التنفيذ محتاج مكتبة تانية أو حل بديل (مثل قراءة الملف عبر pdfjs-dist لو محمي بباسورد معروف، مع عدم القدرة على *إضافة* حماية جديدة بنفس الطريقة). مؤجلة لحد ما نلاقي مكتبة مناسبة — راجع القسم "أفكار مؤجلة" تحت.
 - [ ] `pdf-page-crop` — نفس منطق pdf-page-rotator الموجود، بس بـ cropBox
 - [ ] `pdf-blank-page-remover`
 
 ### Image
-- [ ] `svg-to-png-converter` — canvas rendering مباشر لأي SVG
+- [x] `svg-to-png-converter` — canvas rendering مباشر لأي SVG
 - [ ] `webp-to-png-converter` / `png-to-webp-converter` (غالبًا مغطاة جزئيًا عن طريق image-format-converter الموجود، نتأكد ونكمل الناقص)
 - [ ] `image-average-color-picker` — أخذ متوسط لون الصورة كلها (مفيد للـ placeholders)
 

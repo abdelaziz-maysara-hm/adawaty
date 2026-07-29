@@ -24,7 +24,7 @@ import {
 } from '../../src/product/definitions/file-utility-tools.js';
 
 const tools = listToolDefinitions();
-assert.equal(tools.length, 508);
+assert.equal(tools.length, 517);
 assert.deepEqual(
     [...new Set(tools.map((tool) => tool.category))]
         .filter((category) => !categoryLabels[category]),
@@ -542,6 +542,15 @@ assert.deepEqual(
         'heic-to-jpg-converter',
         'favicon-generator',
         'video-to-gif-converter',
+        'hash-generator',
+        'iban-validator',
+        'ulid-generator',
+        'base58-encoder-decoder',
+        'semver-calculator',
+        'curl-command-generator',
+        'css-beautifier',
+        'svg-to-png-converter',
+        'color-blindness-simulator',
     ],
 );
 

@@ -53,6 +53,7 @@ import { webContentToolDefinitions } from './definitions/web-content-tools.js';
 import { webTransformToolDefinitions } from './definitions/web-transform-tools.js';
 import { webUtilityDefinitions } from './definitions/web-utility-tools.js';
 import { documentMediaDefinitions } from './definitions/document-media-tools.js';
+import { webUtility2Definitions } from './definitions/web-utility-tools-2.js';
 import { financeDefinitions } from './definitions/finance.js';
 import { healthDefinitions } from './definitions/health.js';
 import { mathDefinitions } from './definitions/math.js';
@@ -1075,6 +1076,7 @@ const toolDefinitions = Object.freeze({
     ...webTransformToolDefinitions,
     ...webUtilityDefinitions,
     ...documentMediaDefinitions,
+    ...webUtility2Definitions,
 });
 
 function getToolDefinition(id) {
