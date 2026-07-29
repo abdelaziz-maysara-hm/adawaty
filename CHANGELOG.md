@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 7 — Batch 31
+
+- Replaced the development-status homepage with a public, task-first launch experience.
+- Added homepage search handoff, clearer navigation and mobile-first discovery for file-processing tools.
+- Prioritized image, PDF, video, audio, text and data workflows while keeping calculators in the full catalogue.
+- Removed the stale orphan tool page and aligned the published catalogue with 521 registered tools.
+
 ## Sprint 7 — Batch 30
 
 - Published the missing `audio-format-converter` tool page and wired it into the public catalogue.
