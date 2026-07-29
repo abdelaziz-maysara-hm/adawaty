@@ -16,6 +16,7 @@ import {
 import {
     assertImageFile,
 } from '../../src/product/ocr-processing.js';
+import { assertOverlayImage } from '../../src/product/definitions/pdf-editor-tools.js';
 import {
     assertPdfFile,
     createPdfBlob,
@@ -66,12 +67,15 @@ assert.equal(pdfBlob.type, 'application/pdf');
 assert.equal(pdfBlob.size, 4);
 
 assert.doesNotThrow(() => assertPdfFile(pdf));
+assert.doesNotThrow(() => assertOverlayImage(png));
+assert.doesNotThrow(() => assertOverlayImage(undefined));
 assert.doesNotThrow(() => assertImageFile(png));
 assert.doesNotThrow(() => assertAudioFile(wav));
 assert.doesNotThrow(() => assertVideoFile(mp4));
 assert.doesNotThrow(() => assertMediaFile(text));
 
 assert.throws(() => assertPdfFile(text), /valid PDF/);
+assert.throws(() => assertOverlayImage(text), /PNG or JPG/);
 assert.throws(() => assertImageFile(text), /valid image/);
 assert.throws(() => assertAudioFile(text), /valid audio/);
 assert.throws(() => assertVideoFile(text), /valid video/);

@@ -1,4 +1,4 @@
-import { getToolDefinition } from './tool-definitions.js?v=s7b26';
+import { getToolDefinition } from './tool-definitions.js?v=s7b34';
 
 const root = document.documentElement;
 const page = document.querySelector('[data-tool-page]');
@@ -42,7 +42,7 @@ function createInput(input, language) {
     const element = document.createElement(tagName);
     element.id = input.id;
     element.name = input.id;
-    element.required = true;
+    element.required = input.required !== false;
 
     if (input.type === 'select') {
         for (const option of input.options) {
@@ -58,7 +58,7 @@ function createInput(input, language) {
         element.type = input.type;
         element.inputMode = input.type === 'number' ? 'decimal' : '';
 
-        for (const attribute of ['min', 'max', 'step', 'placeholder', 'accept', 'multiple']) {
+        for (const attribute of ['min', 'max', 'step', 'placeholder', 'accept', 'multiple', 'value']) {
             if (input[attribute] !== undefined) {
                 element.setAttribute(attribute, String(input[attribute]));
             }

@@ -1,6 +1,13 @@
 # Changelog
 
-## Sprint 7 — Batch 33
+## Sprint 7 â€” Batch 34
+
+- Added the first browser-local PDF Editor for placing Arabic or English text, images and signatures on any PDF page.
+- Added optional file and text fields plus reusable default input values to the shared tool renderer.
+- Published the editor in the bilingual PDF catalogue and sitemap, bringing the verified catalogue to 522 tools.
+- Switched GitHub Pages from the failing legacy Jekyll build to the verified Actions deployment workflow.
+
+## Sprint 7 ï¿½ Batch 33
 
 - Fixed video and advanced audio tools failing on GitHub Pages because the FFmpeg class worker was imported cross-origin from a CDN.
 - Added a pinned, same-origin FFmpeg browser runtime prepared during deployment.

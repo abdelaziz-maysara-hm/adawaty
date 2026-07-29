@@ -2196,6 +2196,11 @@
         <priority>0.9</priority>
     </url>
     <url>
+        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/pdf-editor/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
         <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/scanned-pdf-ocr/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
