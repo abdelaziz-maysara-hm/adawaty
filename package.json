@@ -1,9 +1,10 @@
 {
   "name": "adawaty",
-  "version": "0.5.37",
+  "version": "0.5.38",
   "private": true,
   "type": "module",
   "description": "A bilingual, extensible platform for free online tools.",
+  "license": "MIT",
   "scripts": {
     "generate:product": "node scripts/generate-product-pages.mjs",
     "prepare:media-runtime": "node scripts/prepare-media-runtime.mjs",
