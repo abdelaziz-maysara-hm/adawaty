@@ -164,25 +164,15 @@ assert.deepEqual(
         .join('\n')}`,
 );
 
-assert.equal(nonFileTools.length, 443);
+assert.equal(nonFileTools.length, 357);
 assert.equal(browserOnlyTools.size, 16);
-assert.equal(executableWithoutBrowser.length, 427);
+assert.equal(executableWithoutBrowser.length, 341);
 
 const journeys = [
     {
         id: 'bmi-calculator',
         input: { height: 170, weight: 70 },
         expectedValue: '24.2',
-    },
-    {
-        id: 'percentage-calculator',
-        input: { percentage: 20, number: 250 },
-        expectedValue: '50',
-    },
-    {
-        id: 'discount-calculator',
-        input: { price: 1000, discount: 20 },
-        expectedValue: '800',
     },
     {
         id: 'word-counter',

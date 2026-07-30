@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.5.36 ? Navigation and catalogue quality
+
+- Added persistent category navigation to every catalogue and tool page, including a mobile-friendly horizontal navigation row.
+- Retired 86 low-value arithmetic, direct-formula, and media-metadata calculators while preserving scientific, health, finance, conversion, and processing tools.
+- Reduced the bright homepage call-to-action contrast with a calmer dark gradient and accessible brand action.
+- Regenerated the public catalogue, category pages, tool pages, and sitemap from the curated 437-tool registry.
+
+
 ## Sprint 7 — Batch 35
 
 - Added a separate visual PDF editor while preserving the quick coordinate-based editor.

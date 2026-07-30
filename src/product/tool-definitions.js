@@ -1,3 +1,4 @@
+import { retiredToolIds } from './retired-tool-ids.js';
 import { converterDefinitions } from './definitions/converters.js';
 import { dateTimeDefinitions } from './definitions/date-time.js';
 import { engineeringDefinitions } from './definitions/engineering.js';
@@ -491,7 +492,7 @@ const activityOptions = Object.freeze([
     }),
 ]);
 
-const toolDefinitions = Object.freeze({
+const allToolDefinitions = Object.freeze({
     'bmi-calculator': Object.freeze({
         id: 'bmi-calculator',
         category: 'health',
@@ -1084,6 +1085,11 @@ const toolDefinitions = Object.freeze({
     ...webUtility2Definitions,
     ...serverToolDefinitions,
 });
+
+const retiredToolIdSet = new Set(retiredToolIds);
+const toolDefinitions = Object.freeze(Object.fromEntries(
+    Object.entries(allToolDefinitions).filter(([id]) => !retiredToolIdSet.has(id)),
+));
 
 function getToolDefinition(id) {
     return toolDefinitions[id] ?? null;
