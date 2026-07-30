@@ -121,7 +121,7 @@ for (const tool of tools) {
     assertLocalizedText(tool.title, `${tool.id} title`);
     assertLocalizedText(tool.description, `${tool.id} description`);
     assert.equal(
-        typeof tool.process === 'function' || typeof tool.calculate === 'function',
+        typeof tool.process === 'function' || typeof tool.calculate === 'function' || tool.interactive === true,
         true,
         `${tool.id} needs an executable handler`,
     );

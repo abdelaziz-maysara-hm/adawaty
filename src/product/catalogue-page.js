@@ -1,15 +1,15 @@
-import { listToolDefinitions } from './tool-definitions.js?v=s7b34';
-import { categoryLabels as categories } from './category-labels.js?v=s7b34';
+import { listToolDefinitions } from './tool-definitions.js?v=s7b35';
+import { categoryLabels as categories } from './category-labels.js?v=s7b35';
 
 const copy = Object.freeze({
     ar: Object.freeze({
-        all: 'كل الأدوات',
-        processing: 'أدوات المعالجة',
-        calculators: 'الحاسبات والمولدات',
-        search: 'ابحث باسم الأداة أو وصفها',
-        count: 'أداة متاحة',
-        empty: 'لا توجد أدوات مطابقة لبحثك.',
-        open: 'افتح الأداة',
+        all: 'ÙƒÙ„ Ø§Ù„Ø£Ø¯ÙˆØ§Øª',
+        processing: 'Ø£Ø¯ÙˆØ§Øª Ø§Ù„Ù…Ø¹Ø§Ù„Ø¬Ø©',
+        calculators: 'Ø§Ù„Ø­Ø§Ø³Ø¨Ø§Øª ÙˆØ§Ù„Ù…ÙˆÙ„Ø¯Ø§Øª',
+        search: 'Ø§Ø¨Ø­Ø« Ø¨Ø§Ø³Ù… Ø§Ù„Ø£Ø¯Ø§Ø© Ø£Ùˆ ÙˆØµÙÙ‡Ø§',
+        count: 'Ø£Ø¯Ø§Ø© Ù…ØªØ§Ø­Ø©',
+        empty: 'Ù„Ø§ ØªÙˆØ¬Ø¯ Ø£Ø¯ÙˆØ§Øª Ù…Ø·Ø§Ø¨Ù‚Ø© Ù„Ø¨Ø­Ø«Ùƒ.',
+        open: 'Ø§ÙØªØ­ Ø§Ù„Ø£Ø¯Ø§Ø©',
         language: 'English',
     }),
     en: Object.freeze({
@@ -20,7 +20,7 @@ const copy = Object.freeze({
         count: 'tools available',
         empty: 'No tools match your search.',
         open: 'Open tool',
-        language: 'العربية',
+        language: 'Ø§Ù„Ø¹Ø±Ø¨ÙŠØ©',
     }),
 });
 
@@ -35,6 +35,7 @@ const currentYear = document.querySelector('#current-year');
 const basePath = root?.dataset.basePath ?? '../';
 const fixedCategory = root?.dataset.category ?? '';
 const tools = listToolDefinitions();
+const isProcessingTool = (tool) => typeof tool.process === 'function' || tool.interactive === true;
 let activeCategory = fixedCategory;
 let language = localStorage.getItem('adawaty-language') === 'en' ? 'en' : 'ar';
 const initialQuery = new URLSearchParams(window.location.search).get('q')?.trim() ?? '';
@@ -55,8 +56,8 @@ function getVisibleTools() {
     const query = search.value.trim().toLocaleLowerCase(language);
     return tools.filter((tool) => {
         const matchesCategory = !activeCategory
-            || (activeCategory === 'processing' && typeof tool.process === 'function')
-            || (activeCategory === 'calculators' && typeof tool.process !== 'function')
+            || (activeCategory === 'processing' && isProcessingTool(tool))
+            || (activeCategory === 'calculators' && !isProcessingTool(tool))
             || tool.category === activeCategory;
         const searchable = [
             tool.title.ar,
@@ -66,8 +67,8 @@ function getVisibleTools() {
         ].join(' ').toLocaleLowerCase(language);
         return matchesCategory && (!query || searchable.includes(query));
     }).sort((first, second) => {
-        const processingOrder = Number(typeof second.process === 'function')
-            - Number(typeof first.process === 'function');
+        const processingOrder = Number(isProcessingTool(second))
+            - Number(isProcessingTool(first));
         return processingOrder || first.title[language].localeCompare(
             second.title[language],
             language,
@@ -115,7 +116,7 @@ function renderTools() {
             <span class="catalogue-card-category">${escapeHtml(categories[tool.category]?.[language] ?? tool.category)}</span>
             <h2>${escapeHtml(tool.title[language])}</h2>
             <p>${escapeHtml(tool.description[language])}</p>
-            <strong>${copy[language].open} <span aria-hidden="true">←</span></strong>
+            <strong>${copy[language].open} <span aria-hidden="true">â†</span></strong>
         </a>
     `).join('');
 }

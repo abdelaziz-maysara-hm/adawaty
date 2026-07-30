@@ -67,7 +67,7 @@ assert.match(homeScript, /adawaty-preview-language/);
 assert.match(homeScript, /searchParams\.set\('q'/);
 assert.match(stylesheet, /@media \(max-width: 700px\)/);
 assert.match(catalogueHtml, /data-catalogue-page/);
-assert.match(catalogueHtml, /catalogue-page\.js\?v=s7b34/);
+assert.match(catalogueHtml, /catalogue-page\.js\?v=s7b35/);
 assert.match(catalogueHtml, /http-equiv="Cache-Control" content="no-cache"/);
 assert.match(catalogueHtml, /"@type":"CollectionPage"/);
 assert.match(healthCategoryHtml, /data-category="health"/);
