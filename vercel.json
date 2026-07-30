@@ -3,6 +3,16 @@
   "buildCommand": "npm ci --ignore-scripts && npm run prepare:media-runtime",
   "outputDirectory": ".",
   "functions": {
+    "api/**": {
+      "excludeFiles": [
+        "src/vendor/**",
+        "node_modules/**",
+        "tools/**",
+        "all-tools/**",
+        "*.map",
+        "dist/**"
+      ]
+    },
     "api/pdf-to-word.py": {
       "maxDuration": 10
     }
