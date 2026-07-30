@@ -1,5 +1,5 @@
 import './site-navigation.js?v=s7b36';
-import { getToolDefinition } from './tool-definitions.js?v=s7b34';
+import { getToolDefinition } from './tool-definitions.js?v=s7b39';
 
 const root = document.documentElement;
 const page = document.querySelector('[data-tool-page]');
