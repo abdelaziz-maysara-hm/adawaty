@@ -1,20 +1,39 @@
-const FFMPEG_URL = new URL('../vendor/ffmpeg/index.js', import.meta.url).href;
-const UTIL_URL = new URL('../vendor/ffmpeg-util/index.js', import.meta.url).href;
+const FFMPEG_LOCAL = new URL('../vendor/ffmpeg/index.js', import.meta.url).href;
+const UTIL_LOCAL = new URL('../vendor/ffmpeg-util/index.js', import.meta.url).href;
+const FFMPEG_CDN = 'https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/esm/index.js';
+const UTIL_CDN = 'https://cdn.jsdelivr.net/npm/@ffmpeg/util@0.12.1/dist/esm/index.js';
 const CORE_BASE = 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.6/dist/esm';
 
 let runtimePromise;
 
 async function createRuntime() {
-    const [{ FFmpeg }, { fetchFile, toBlobURL }] = await Promise.all([
-        import(FFMPEG_URL),
-        import(UTIL_URL),
-    ]);
-    const ffmpeg = new FFmpeg();
-    await ffmpeg.load({
-        coreURL: await toBlobURL(`${CORE_BASE}/ffmpeg-core.js`, 'text/javascript'),
-        wasmURL: await toBlobURL(`${CORE_BASE}/ffmpeg-core.wasm`, 'application/wasm'),
-    });
-    return { ffmpeg, fetchFile };
+    // Try to load a same-origin (local) vendor copy first (best for local dev).
+    // If that fails (e.g., not present in production builds), fall back to CDN modules.
+    try {
+        const [{ FFmpeg }, { fetchFile, toBlobURL }] = await Promise.all([
+            import(FFMPEG_LOCAL),
+            import(UTIL_LOCAL),
+        ]);
+        const ffmpeg = new FFmpeg();
+        await ffmpeg.load({
+            coreURL: await toBlobURL(`${CORE_BASE}/ffmpeg-core.js`, 'text/javascript'),
+            wasmURL: await toBlobURL(`${CORE_BASE}/ffmpeg-core.wasm`, 'application/wasm'),
+        });
+        return { ffmpeg, fetchFile };
+    } catch (localErr) {
+        // Fallback to CDN modules (no local vendor required in production)
+        // Use CDN-hosted core URLs directly.
+        const [{ FFmpeg }, { fetchFile }] = await Promise.all([
+            import(FFMPEG_CDN),
+            import(UTIL_CDN),
+        ]);
+        const ffmpeg = new FFmpeg();
+        await ffmpeg.load({
+            coreURL: `${CORE_BASE}/ffmpeg-core.js`,
+            wasmURL: `${CORE_BASE}/ffmpeg-core.wasm`,
+        });
+        return { ffmpeg, fetchFile };
+    }
 }
 
 function getRuntime() {
@@ -98,5 +117,3 @@ export {
     processMedia,
     processVideo,
 };
-
-// END OF FILE

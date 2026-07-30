@@ -1,3 +1,12 @@
-node_modules
-.github
-tests
+# Files and directories to exclude from Vercel function bundles and local deploys
+
+src/vendor/
+tools/
+all-tools/
+node_modules/
+dist/
+*.map
+
+# Ignore local large artifacts
+.sass-cache/
+.cache/
