@@ -38,6 +38,6 @@ npm run validate           # check + test معاً (نفس ما يشغّله Git
 
 النشر تلقائي على GitHub Pages عبر `.github/workflows/` عند كل push على `main`، بعد نجاح `npm run validate`.
 
-## الترخيص
+## الترخيص.
 
 لا يوجد ترخيص محدد بعد.
