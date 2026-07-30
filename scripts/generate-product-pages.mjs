@@ -7,7 +7,7 @@ import { retiredToolIds } from '../src/product/retired-tool-ids.js';
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const baseUrl = 'https://abdelaziz-maysara-hm.github.io/adawaty';
-const assetVersion = 's7b36';
+const assetVersion = 's7b38';
 const catalogueAssetVersion = 's7b37';
 const tools = listToolDefinitions();
 const categories = Object.freeze({

@@ -117,7 +117,7 @@ function renderTools() {
             <span class="catalogue-card-category">${escapeHtml(categories[tool.category]?.[language] ?? tool.category)}</span>
             <h2>${escapeHtml(tool.title[language])}</h2>
             <p>${escapeHtml(tool.description[language])}</p>
-            <strong>${copy[language].open} <span aria-hidden="true">â†</span></strong>
+            <strong>${copy[language].open} <span aria-hidden="true">\u2190</span></strong>
         </a>
     `).join('');
 }
