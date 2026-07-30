@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.5.39 — Pure client-side policy; retire server tools (July 2026)
+
+### Policy
+- Product catalogue is **browser-only** until a stable, disclosed server stack exists.
+- Server-side PDF→Word Pro (`pdf2docx` / Vercel API path) is **retired from the public product** (page was already 404; residual bytecode cache removed).
+- ROADMAP stage-3 (server/AI) tools stay deferred and must not ship in the main catalogue without explicit disclosure.
+
+### Documentation
+- Expanded `docs/ROADMAP.md` with competitive parity targets inspired by all-in-one toolboxes (10015.io, iLovePDF-style gaps) that remain feasible fully in-browser.
+- Cleared outdated «Pro server ✅» matrix rows; marked Pro path as removed.
+- Bumped package version to `0.5.39`.
+
+### Cleanup
+- Removed leftover `api/__pycache__/pdf-to-word.cpython-312.pyc`.
+
+### Next recommended work (from ROADMAP)
+- UX: richer `/all-tools/` search/filters; unified progress UI for heavy tools.
+- Tools: `pdf-page-crop`, `pdf-blank-page-remover`, `image-average-color-picker`, `cron-expression-parser`, CSS generators gap-fill.
+
+---
+
 ## 0.5.38 — Documentation, license & contribution foundation (July 2026)
 
 ### Done in this release
