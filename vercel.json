@@ -1,6 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "NPM_CONFIG_PRODUCTION=true npm ci --ignore-scripts && du -sch node_modules/* src vendor tools all-tools 2>/dev/null | sort -h || true && npm run prepare:media-runtime",
+  "buildCommand": "node --version && npm --version && NPM_CONFIG_PRODUCTION=true npm install --ignore-scripts --no-audit --no-fund && du -sch node_modules/* src vendor tools all-tools 2>/dev/null | sort -h || true && npm run prepare:media-runtime",
   "outputDirectory": ".",
   "functions": {
     "api/pdf-to-word.py": {
