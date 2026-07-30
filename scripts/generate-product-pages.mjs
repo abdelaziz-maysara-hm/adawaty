@@ -6,7 +6,7 @@ import { listToolDefinitions } from '../src/product/tool-definitions.js';
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const baseUrl = 'https://abdelaziz-maysara-hm.github.io/adawaty';
-const assetVersion = 's7b34';
+const assetVersion = 's7b35';
 const tools = listToolDefinitions();
 const categories = Object.freeze({
     health: Object.freeze({ ar: 'أدوات الصحة', en: 'Health Tools' }),
@@ -215,6 +215,7 @@ function createCataloguePage({
 }
 
 for (const tool of tools) {
+    if (tool.interactive) continue;
     const directory = path.join(projectRoot, 'tools', tool.id);
     await mkdir(directory, { recursive: true });
     await writeFile(

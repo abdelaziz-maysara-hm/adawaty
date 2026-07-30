@@ -1,5 +1,12 @@
 # Changelog
 
+## Sprint 7 — Batch 35
+
+- Added a separate visual PDF editor while preserving the quick coordinate-based editor.
+- Added real page previews, click-to-place text boxes, direct editing, dragging, resizing, color, size, bold, opacity and cover-original controls.
+- Added private browser-local PDF export with Arabic and English text rendering and a responsive mobile workspace.
+- Expanded the verified catalogue to 523 tools.
+
 ## Sprint 7 — Batch 34
 
 - Added the first browser-local PDF Editor for placing Arabic or English text, images and signatures on any PDF page.
