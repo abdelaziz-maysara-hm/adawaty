@@ -1,3 +1,4 @@
+import './site-navigation.js?v=s7b36';
 import { getToolDefinition } from './tool-definitions.js?v=s7b34';
 
 const root = document.documentElement;

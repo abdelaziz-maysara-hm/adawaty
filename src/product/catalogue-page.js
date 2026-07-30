@@ -1,3 +1,4 @@
+import './site-navigation.js?v=s7b36';
 import { listToolDefinitions } from './tool-definitions.js?v=s7b35';
 import { categoryLabels as categories } from './category-labels.js?v=s7b35';
 

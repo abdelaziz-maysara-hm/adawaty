@@ -44,7 +44,7 @@ const [
 ]);
 
 assert.match(indexHtml, /<html lang="ar" dir="rtl" data-language="ar">/);
-assert.match(indexHtml, /500\+ أداة مجانية/);
+assert.match(indexHtml, /400\+ أداة مجانية/);
 assert.match(indexHtml, /id="home-search"/);
 assert.match(indexHtml, /\.\/tools\/image-batch-processor\//);
 assert.match(indexHtml, /\.\/tools\/pdf-to-word-converter\//);
@@ -67,7 +67,7 @@ assert.match(homeScript, /adawaty-preview-language/);
 assert.match(homeScript, /searchParams\.set\('q'/);
 assert.match(stylesheet, /@media \(max-width: 700px\)/);
 assert.match(catalogueHtml, /data-catalogue-page/);
-assert.match(catalogueHtml, /catalogue-page\.js\?v=s7b35/);
+assert.match(catalogueHtml, /catalogue-page\.js\?v=s7b36/);
 assert.match(catalogueHtml, /http-equiv="Cache-Control" content="no-cache"/);
 assert.match(catalogueHtml, /"@type":"CollectionPage"/);
 assert.match(healthCategoryHtml, /data-category="health"/);
@@ -144,7 +144,7 @@ const bmiToolHtml = await readFile(
     new URL('../../tools/bmi-calculator/index.html', import.meta.url),
     'utf8',
 );
-assert.match(bmiToolHtml, /tool-page\.js\?v=s7b31/);
+assert.match(bmiToolHtml, /tool-page\.js\?v=s7b36/);
 assert.match(bmiToolHtml, /http-equiv="Cache-Control" content="no-cache"/);
 
 console.log('Sprint 7 Batch 28 public homepage verification passed.');

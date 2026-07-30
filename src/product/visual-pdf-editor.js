@@ -1,3 +1,4 @@
+import './site-navigation.js?v=s7b36';
 import {
     assertPdfFile,
     createPdfBlob,

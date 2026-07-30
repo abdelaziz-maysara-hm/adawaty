@@ -27,7 +27,7 @@ const tools = listToolDefinitions();
 const toolIds = tools.map((tool) => tool.id);
 const toolIdSet = new Set(toolIds);
 
-assert.ok(tools.length >= 521, `Expected at least 521 tools, got ${tools.length}`);
+assert.ok(tools.length >= 430, `Expected at least 430 curated tools, got ${tools.length}`);
 assert.equal(toolIds.length, new Set(toolIds).size, 'Tool IDs must be unique');
 assert.deepEqual(
     [...new Set(tools.map((tool) => tool.category))]
@@ -55,21 +55,8 @@ const bmiResult = bmi.calculate({ height: 175, weight: 70 }, 'en');
 assert.equal(bmiResult.value, '22.9');
 assert.equal(bmiResult.label, 'Healthy weight');
 
-assert.equal(
-    getToolDefinition('percentage-calculator').calculate(
-        { percentage: 20, number: 250 },
-        'en',
-    ).value,
-    '50',
-);
-
-assert.equal(
-    getToolDefinition('discount-calculator').calculate(
-        { price: 1000, discount: 20 },
-        'en',
-    ).value,
-    '800',
-);
+assert.equal(getToolDefinition('percentage-calculator'), null);
+assert.equal(getToolDefinition('discount-calculator'), null);
 
 assert.equal(
     getToolDefinition('json-formatter').calculate({ text: '{"ready":true}' }, 'en').value,
@@ -177,6 +164,6 @@ assert.match(visualEditorPage, /visual-pdf-editor\.css/);
 
 assert.equal(getToolDefinition('missing-tool'), null);
 
-console.log(`Sprint 7 Batch 30 product tools verification passed (${tools.length} tools).`);
+console.log(`Curated product tools verification passed (${tools.length} tools).`);
 
 // END OF FILE

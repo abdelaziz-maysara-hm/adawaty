@@ -733,8 +733,11 @@ h1 em {
     position: relative;
     overflow: hidden;
     padding-block: 88px;
-    color: #071924;
-    background: linear-gradient(135deg, #79ead3, #a2f2df 48%, #a8a0ff);
+    color: var(--text);
+    background:
+        radial-gradient(circle at 15% 20%, rgba(92, 225, 197, 0.16), transparent 24rem),
+        radial-gradient(circle at 88% 70%, rgba(154, 140, 255, 0.14), transparent 26rem),
+        linear-gradient(135deg, #0b1b2d, #10233a 54%, #151f39);
     text-align: center;
 }
 
@@ -751,14 +754,14 @@ h1 em {
 .final-cta p {
     max-width: 620px;
     margin: 0 auto 25px;
-    color: rgba(7, 25, 36, 0.72);
+    color: var(--muted);
     line-height: 1.7;
 }
 
 .button-light {
     border: 0;
-    color: var(--text);
-    background: #08192a;
+    color: #06221d;
+    background: var(--brand);
 }
 
 .cta-orb {
@@ -1004,3 +1007,49 @@ h1 em {
 }
 
 /* END OF FILE */
+
+/* Persistent navigation for catalogue and tool pages. */
+.navigation.has-site-nav .site-nav-links {
+    min-width: 0;
+    flex: 1 1 auto;
+    justify-content: center;
+}
+
+@media (max-width: 980px) {
+    .navigation.has-site-nav {
+        flex-wrap: wrap;
+        gap: 8px 12px;
+        padding-block: 9px;
+    }
+
+    .navigation.has-site-nav .site-nav-links {
+        display: flex;
+        order: 3;
+        flex: 1 0 100%;
+        justify-content: flex-start;
+        overflow-x: auto;
+        padding: 2px 0 3px;
+        scrollbar-width: none;
+    }
+
+    .navigation.has-site-nav .site-nav-links::-webkit-scrollbar {
+        display: none;
+    }
+
+    .navigation.has-site-nav .site-nav-links a {
+        flex: 0 0 auto;
+        white-space: nowrap;
+    }
+}
+
+@media (max-width: 700px) {
+    .navigation.has-site-nav .brand-copy strong {
+        font-size: 0.96rem;
+    }
+
+    .navigation.has-site-nav .button {
+        min-height: 38px;
+        padding-inline: 10px;
+        font-size: 0.82rem;
+    }
+}
