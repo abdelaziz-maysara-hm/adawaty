@@ -1,16 +1,16 @@
-import './site-navigation.js?v=s7b36';
-import { listToolDefinitions } from './tool-definitions.js?v=s7b35';
-import { categoryLabels as categories } from './category-labels.js?v=s7b35';
+import './site-navigation.js?v=s7b37';
+import { listToolDefinitions } from './tool-definitions.js?v=s7b37';
+import { categoryLabels as categories } from './category-labels.js?v=s7b37';
 
 const copy = Object.freeze({
     ar: Object.freeze({
-        all: 'ÙƒÙ„ Ø§Ù„Ø£Ø¯ÙˆØ§Øª',
-        processing: 'Ø£Ø¯ÙˆØ§Øª Ø§Ù„Ù…Ø¹Ø§Ù„Ø¬Ø©',
-        calculators: 'Ø§Ù„Ø­Ø§Ø³Ø¨Ø§Øª ÙˆØ§Ù„Ù…ÙˆÙ„Ø¯Ø§Øª',
-        search: 'Ø§Ø¨Ø­Ø« Ø¨Ø§Ø³Ù… Ø§Ù„Ø£Ø¯Ø§Ø© Ø£Ùˆ ÙˆØµÙÙ‡Ø§',
-        count: 'Ø£Ø¯Ø§Ø© Ù…ØªØ§Ø­Ø©',
-        empty: 'Ù„Ø§ ØªÙˆØ¬Ø¯ Ø£Ø¯ÙˆØ§Øª Ù…Ø·Ø§Ø¨Ù‚Ø© Ù„Ø¨Ø­Ø«Ùƒ.',
-        open: 'Ø§ÙØªØ­ Ø§Ù„Ø£Ø¯Ø§Ø©',
+        all: '\u0643\u0644 \u0627\u0644\u0623\u062f\u0648\u0627\u062a',
+        processing: '\u0623\u062f\u0648\u0627\u062a \u0627\u0644\u0645\u0639\u0627\u0644\u062c\u0629',
+        calculators: '\u0627\u0644\u062d\u0627\u0633\u0628\u0627\u062a \u0648\u0627\u0644\u0645\u0648\u0644\u062f\u0627\u062a',
+        search: '\u0627\u0628\u062d\u062b \u0628\u0627\u0633\u0645 \u0627\u0644\u0623\u062f\u0627\u0629 \u0623\u0648 \u0648\u0635\u0641\u0647\u0627',
+        count: '\u0623\u062f\u0627\u0629 \u0645\u062a\u0627\u062d\u0629',
+        empty: '\u0644\u0627 \u062a\u0648\u062c\u062f \u0623\u062f\u0648\u0627\u062a \u0645\u0637\u0627\u0628\u0642\u0629 \u0644\u0628\u062d\u062b\u0643.',
+        open: '\u0627\u0641\u062a\u062d \u0627\u0644\u0623\u062f\u0627\u0629',
         language: 'English',
     }),
     en: Object.freeze({
@@ -21,7 +21,7 @@ const copy = Object.freeze({
         count: 'tools available',
         empty: 'No tools match your search.',
         open: 'Open tool',
-        language: 'Ø§Ù„Ø¹Ø±Ø¨ÙŠØ©',
+        language: '\u0627\u0644\u0639\u0631\u0628\u064a\u0629',
     }),
 });
 

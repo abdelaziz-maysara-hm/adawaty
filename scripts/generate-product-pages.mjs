@@ -8,6 +8,7 @@ import { retiredToolIds } from '../src/product/retired-tool-ids.js';
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const baseUrl = 'https://abdelaziz-maysara-hm.github.io/adawaty';
 const assetVersion = 's7b36';
+const catalogueAssetVersion = 's7b37';
 const tools = listToolDefinitions();
 const categories = Object.freeze({
     health: Object.freeze({ ar: 'أدوات الصحة', en: 'Health Tools' }),
@@ -183,7 +184,7 @@ function createCataloguePage({
     <script type="application/ld+json">${structuredData}</script>
     <link rel="stylesheet" href="${basePath}src/css/main.css">
     <link rel="stylesheet" href="${basePath}src/css/product.css">
-    <script type="module" src="${basePath}src/product/catalogue-page.js?v=${assetVersion}"></script>
+    <script type="module" src="${basePath}src/product/catalogue-page.js?v=${catalogueAssetVersion}"></script>
 </head>
 <body>
     <header class="site-header">

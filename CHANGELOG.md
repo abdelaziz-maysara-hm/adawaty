@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.37 ? Arabic catalogue encoding fix
+
+- Replaced corrupted dynamic Arabic catalogue copy with encoding-safe Unicode strings.
+- Bumped catalogue asset URLs to invalidate cached scripts after deployment.
+
+
 ## 0.5.36 ? Navigation and catalogue quality
 
 - Added persistent category navigation to every catalogue and tool page, including a mobile-friendly horizontal navigation row.
