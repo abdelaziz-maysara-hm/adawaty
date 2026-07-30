@@ -43,7 +43,6 @@ for (const id of [
     'video-format-converter',
     'image-format-converter',
     'pdf-to-word-converter',
-    'pdf-to-word-pro-converter',
     'bmi-calculator',
     'pdf-merge',
 ]) {
