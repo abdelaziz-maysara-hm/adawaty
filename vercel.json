@@ -1,5 +1,7 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "npm ci --ignore-scripts && npm run prepare:media-runtime",
+  "outputDirectory": ".",
   "functions": {
     "api/pdf-to-word.py": {
       "maxDuration": 10
