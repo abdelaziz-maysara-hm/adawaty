@@ -6,7 +6,7 @@
 
 **سياسة المنتج (0.5.39+):** لا أدوات backend في الكتالوج العام. أي مسار سيرفر سابق (مثل PDF→Word Pro / pdf2docx) **متوقف ومُزال** إلى أن يتوفر stack مستقر + disclosure واضح. الهدف الحالي = ثقة المستخدم وخصوصية كاملة.
 
-آخر تحديث: **0.5.39** — إيقاف أدوات السيرفر + توسيع قائمة المنافسة (يوليو 2026).
+آخر تحديث: **0.5.40** — `image-average-color-picker` (يوليو 2026).
 
 ---
 
@@ -69,9 +69,9 @@
 - [ ] `pdf-password-protector` / `pdf-password-remover` — مؤجل (pdf-lib لا يدعم encryption حاليًا)
 
 ### Image (فجوات 10015-style)
-- [ ] `image-average-color-picker` / dominant color
-- [ ] `image-color-extractor` (لوحة ألوان من صورة)
-- [ ] `image-color-picker` (eyedropper)
+- [x] `image-average-color-picker` / dominant color ✅ (0.5.40)
+- [ ] `image-color-extractor` (لوحة ألوان أغنى / تصدير CSS)
+- [ ] `image-color-picker` (eyedropper تفاعلي)
 - [ ] `photo-censor` (blur / pixelate / bar)
 - [ ] `svg-blob-generator`
 - [ ] `svg-pattern-generator`
@@ -84,12 +84,12 @@
 ### Developer / CSS generators (طلب عالي جدًا على 10015)
 - [ ] `cron-expression-parser`
 - [ ] `json-schema-validator`
-- [ ] `jwt-decoder` (decode فقط بدون verify مفاتيح خاصة إن لزم)
+- [ ] `jwt-decoder` (decode فقط — موجود جزئيًا في الكتالوج؛ مراجعة تغطية)
 - [ ] `css-loader-generator`
 - [ ] `css-glassmorphism-generator`
 - [ ] `css-clip-path-generator`
-- [ ] `css-box-shadow-generator` (إن لم يغطِ الموجود)
-- [ ] `css-gradient-generator` (مراجعة تغطية الموجود)
+- [ ] `css-box-shadow-generator` (موجود أساسيًا)
+- [ ] `css-gradient-generator` (موجود أساسيًا)
 - [ ] `code-to-image` (snippet → PNG)
 - [ ] `url-slug-generator`
 
