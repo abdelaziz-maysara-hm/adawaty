@@ -252,12 +252,20 @@ form.addEventListener('submit', async (event) => {
             resultPreview.hidden = false;
         }
 
+        result.classList.remove('is-error');
         result.hidden = false;
         result.focus();
     } catch (error) {
-        document.querySelector('#result-value').textContent = '—';
-        document.querySelector('#result-label').textContent = error.message;
-        document.querySelector('#result-details').textContent = '';
+        const message = error.message || '';
+        const hasArabicScript = /[\u0600-\u06FF]/.test(message);
+        const looksUnlocalized = language === 'ar' && !hasArabicScript && message.length > 0;
+
+        document.querySelector('#result-value').textContent = language === 'ar' ? 'خطأ' : 'Error';
+        document.querySelector('#result-label').textContent = looksUnlocalized
+            ? (language === 'ar' ? 'حدث خطأ غير متوقع أثناء المعالجة' : 'An unexpected error occurred')
+            : (message || (language === 'ar' ? 'حدث خطأ غير متوقع أثناء المعالجة' : 'An unexpected error occurred'));
+        document.querySelector('#result-details').textContent = looksUnlocalized ? message : '';
+        result.classList.add('is-error');
         result.hidden = false;
         result.focus();
     } finally {
