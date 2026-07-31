@@ -1,4 +1,5 @@
 import {
+    decodeImage,
     inspectImage,
     outputName,
     renderImage,
@@ -12,7 +13,7 @@ function fileInput() {
     return Object.freeze({
         id: 'image',
         type: 'file',
-        accept: 'image/jpeg,image/png,image/webp',
+        accept: 'image/jpeg,image/png,image/webp,image/gif,image/bmp',
         label: Object.freeze({ ar: 'اختر صورة', en: 'Choose an image' }),
         unit: Object.freeze({ ar: '', en: '' }),
     });
@@ -55,6 +56,99 @@ function result(blob, filename, width, height, language, label) {
         download: { blob, filename },
         preview: blob,
     };
+}
+
+function toHex(red, green, blue) {
+    return `#${[red, green, blue]
+        .map((channel) => Math.round(channel).toString(16).padStart(2, '0'))
+        .join('')
+        .toUpperCase()}`;
+}
+
+async function extractPalette(file, paletteSize) {
+    if (!(file instanceof File) || !file.type.startsWith('image/')) {
+        throw new Error('Please select a valid image file.');
+    }
+
+    const image = await decodeImage(file);
+    const maxSide = 160;
+    const scale = Math.min(
+        1,
+        maxSide / Math.max(image.naturalWidth, image.naturalHeight),
+    );
+    const width = Math.max(1, Math.round(image.naturalWidth * scale));
+    const height = Math.max(1, Math.round(image.naturalHeight * scale));
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    const context = canvas.getContext('2d', { willReadFrequently: true });
+
+    if (!context) {
+        throw new Error('Image processing is unavailable in this browser.');
+    }
+
+    context.drawImage(image, 0, 0, width, height);
+    const { data } = context.getImageData(0, 0, width, height);
+
+    let sumR = 0;
+    let sumG = 0;
+    let sumB = 0;
+    let opaque = 0;
+    const buckets = new Map();
+    const step = 24;
+
+    for (let index = 0; index < data.length; index += 4) {
+        if (data[index + 3] < 128) {
+            continue;
+        }
+
+        const red = data[index];
+        const green = data[index + 1];
+        const blue = data[index + 2];
+        sumR += red;
+        sumG += green;
+        sumB += blue;
+        opaque += 1;
+
+        const key = `${Math.round(red / step) * step},${Math.round(green / step) * step},${Math.round(blue / step) * step}`;
+        buckets.set(key, (buckets.get(key) ?? 0) + 1);
+    }
+
+    if (opaque === 0) {
+        throw new Error('No opaque pixels found in this image.');
+    }
+
+    const average = Object.freeze({
+        red: Math.round(sumR / opaque),
+        green: Math.round(sumG / opaque),
+        blue: Math.round(sumB / opaque),
+    });
+
+    const dominant = [...buckets.entries()]
+        .sort((left, right) => right[1] - left[1])
+        .slice(0, Math.max(1, Math.min(12, paletteSize)))
+        .map(([key, count]) => {
+            const [red, green, blue] = key.split(',').map(Number);
+            return Object.freeze({
+                red,
+                green,
+                blue,
+                hex: toHex(red, green, blue),
+                share: Math.round((count / opaque) * 1000) / 10,
+            });
+        });
+
+    return Object.freeze({
+        average: Object.freeze({
+            ...average,
+            hex: toHex(average.red, average.green, average.blue),
+        }),
+        dominant,
+        sampleWidth: width,
+        sampleHeight: height,
+        sourceWidth: image.naturalWidth,
+        sourceHeight: image.naturalHeight,
+    });
 }
 
 const cropper = Object.freeze({
@@ -198,10 +292,86 @@ const metadataRemover = Object.freeze({
     },
 });
 
+const averageColorPicker = Object.freeze({
+    id: 'image-average-color-picker',
+    category: 'image',
+    icon: '◉',
+    action: Object.freeze({ ar: 'استخرج الألوان', en: 'Extract colors' }),
+    title: Object.freeze({
+        ar: 'استخراج اللون المتوسط والسائد من الصورة',
+        en: 'Image Average & Dominant Color Picker',
+    }),
+    description: Object.freeze({
+        ar: 'احسب اللون المتوسط ولوحة الألوان السائدة من أي صورة، مع نسب HEX وRGB جاهزة للنسخ.',
+        en: 'Compute the average color and a dominant palette from any image, with ready HEX and RGB values.',
+    }),
+    note: Object.freeze({
+        ar: 'التحليل يتم داخل المتصفح بعد تصغير عيّنة سريعة. لا تُرفع الصورة إلى أي سيرفر.',
+        en: 'Analysis runs in your browser on a fast downscaled sample. The image is never uploaded.',
+    }),
+    inputs: Object.freeze([
+        fileInput(),
+        numberInput('paletteSize', 'عدد الألوان السائدة', 'Dominant colors', 6, {
+            min: 1,
+            max: 12,
+            unit: { ar: '', en: '' },
+        }),
+    ]),
+    async process(values, language) {
+        const paletteSize = Number.isFinite(values.paletteSize)
+            ? values.paletteSize
+            : 6;
+
+        try {
+            const palette = await extractPalette(values.image, paletteSize);
+            const { average, dominant } = palette;
+            const paletteText = dominant
+                .map((color, index) => `${index + 1}. ${color.hex} (${color.share}%)`)
+                .join(language === 'ar' ? ' · ' : ' · ');
+
+            return {
+                value: average.hex,
+                label: localized(
+                    language,
+                    `متوسط RGB ${average.red}, ${average.green}, ${average.blue}`,
+                    `Average RGB ${average.red}, ${average.green}, ${average.blue}`,
+                ),
+                details: localized(
+                    language,
+                    `السائدة: ${paletteText}`,
+                    `Dominant: ${paletteText}`,
+                ),
+            };
+        } catch (error) {
+            const message = error?.message ?? '';
+            if (message.includes('opaque')) {
+                throw new Error(localized(
+                    language,
+                    'لم يُعثر على بكسلات معتمة في هذه الصورة.',
+                    'No opaque pixels found in this image.',
+                ));
+            }
+            if (message.includes('valid image') || message.includes('decode')) {
+                throw new Error(localized(
+                    language,
+                    'اختر ملف صورة صالحًا.',
+                    'Please select a valid image file.',
+                ));
+            }
+            throw new Error(localized(
+                language,
+                'تعذّر تحليل الصورة في هذا المتصفح.',
+                'Unable to analyze this image in the current browser.',
+            ));
+        }
+    },
+});
+
 const imageEditingToolDefinitions = Object.freeze({
     [cropper.id]: cropper,
     [rotator.id]: rotator,
     [metadataRemover.id]: metadataRemover,
+    [averageColorPicker.id]: averageColorPicker,
 });
 
 export { imageEditingToolDefinitions };
