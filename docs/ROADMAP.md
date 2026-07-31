@@ -70,28 +70,28 @@
 
 ### Image (فجوات 10015-style)
 - [ ] `image-average-color-picker` / dominant color
-- [ ] `image-color-extractor` (لوحة ألوان من صورة)
+- [x] `image-color-extractor` (لوحة ألوان من صورة)
 - [ ] `image-color-picker` (eyedropper)
 - [ ] `photo-censor` (blur / pixelate / bar)
 - [ ] `svg-blob-generator`
 - [ ] `svg-pattern-generator`
 
 ### Text & productivity
-- [ ] `bionic-reading-converter`
+- [x] `bionic-reading-converter`
 - [ ] `text-to-handwriting` (رسم على canvas → PDF/PNG)
-- [ ] `multiple-whitespace-remover` (إن لم يكن موجودًا بقوة كافية)
+- [x] مغطاة بالفعل عبر `whitespace-cleaner`
 
 ### Developer / CSS generators (طلب عالي جدًا على 10015)
-- [ ] `cron-expression-parser`
-- [ ] `json-schema-validator`
+- [x] `cron-expression-parser`
+- [x] `json-schema-validator`
 - [ ] `jwt-decoder` (decode فقط بدون verify مفاتيح خاصة إن لزم)
-- [ ] `css-loader-generator`
-- [ ] `css-glassmorphism-generator`
-- [ ] `css-clip-path-generator`
+- [x] `css-loader-generator`
+- [x] `css-glassmorphism-generator`
+- [x] `css-clip-path-generator`
 - [ ] `css-box-shadow-generator` (إن لم يغطِ الموجود)
-- [ ] `css-gradient-generator` (مراجعة تغطية الموجود)
-- [ ] `code-to-image` (snippet → PNG)
-- [ ] `url-slug-generator`
+- [x] مغطاة بالفعل عبر `css-linear-gradient-generator`
+- [x] `code-to-image` (snippet → PNG)
+- [x] `url-slug-generator`
 
 ### Data
 - [ ] `xml-xsd-validator`

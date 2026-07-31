@@ -27,6 +27,7 @@ const browserOnlyTools = new Set([
     'html-table-to-csv-converter',
     'html-to-markdown-converter',
     'qr-code-generator',
+    'code-to-image',
 ]);
 
 const inputOverrides = Object.freeze({
@@ -164,9 +165,9 @@ assert.deepEqual(
         .join('\n')}`,
 );
 
-assert.equal(nonFileTools.length, 357);
-assert.equal(browserOnlyTools.size, 16);
-assert.equal(executableWithoutBrowser.length, 341);
+assert.equal(nonFileTools.length, 365);
+assert.equal(browserOnlyTools.size, 17);
+assert.equal(executableWithoutBrowser.length, 348);
 
 const journeys = [
     {
