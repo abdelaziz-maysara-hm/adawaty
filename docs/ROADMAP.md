@@ -12,7 +12,7 @@
 
 ## أولويات البنية وتجربة المستخدم
 
-- [ ] إثراء صفحة `/all-tools/` ببحث فوري + فلاتر تصنيفات + tags (processing / calculator)
+- [x] إثراء صفحة `/all-tools/` ببحث فوري + فلاتر تصنيفات + tags (processing / calculator) — موجودة بالفعل في catalogue-page.js
 - [ ] واجهة تقدم (progress) موحدة لأدوات FFmpeg و OCR و PDF/صور الكبيرة
 - [ ] رسائل خطأ و empty states ثنائية اللغة أوضح
 - [ ] Service Worker بسيط / PWA للأدوات الشائعة
@@ -100,9 +100,9 @@
 
 ## المرحلة 2 — مفيدة، قد تحتاج CDN إضافية خفيفة
 
-- [ ] `word-to-pdf-converter` (جودة محدودة مقبولة مع إفصاح)
+- [x] `word-to-pdf-converter` — يدعم النص اللاتيني فقط حاليًا (mammoth.js + pdf-lib)؛ العربي مؤجل لحد ما نلاقي حل خط Unicode موثوق
 - [ ] `image-svg-tracer`
-- [ ] `json-tree-viewer` تفاعلي أقوى
+- [x] `json-tree-viewer` (نسخة أساسية: عرض شجري نصي، بدون طي/فرد تفاعلي)
 
 ---
 
