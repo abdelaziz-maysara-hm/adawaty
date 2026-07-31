@@ -59,6 +59,7 @@ import { documentMediaDefinitions } from './definitions/document-media-tools.js'
 import { webUtility2Definitions } from './definitions/web-utility-tools-2.js';
 import { roadmapBatch1Definitions } from './definitions/roadmap-batch-1.js';
 import { roadmapBatch2Definitions } from './definitions/roadmap-batch-2.js';
+import { jsonTreeViewerDefinitions } from './definitions/json-tree-viewer.js';
 import { financeDefinitions } from './definitions/finance.js';
 import { healthDefinitions } from './definitions/health.js';
 import { mathDefinitions } from './definitions/math.js';
@@ -1086,6 +1087,7 @@ const allToolDefinitions = Object.freeze({
     ...webUtility2Definitions,
     ...roadmapBatch1Definitions,
     ...roadmapBatch2Definitions,
+    ...jsonTreeViewerDefinitions,
 });
 
 const retiredToolIdSet = new Set(retiredToolIds);
