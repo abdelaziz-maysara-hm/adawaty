@@ -63,22 +63,22 @@
 ## المرحلة 1 — سهلة، طلب عالي، client-side فقط
 
 ### PDF (فجوات iLovePDF-style)
-- [ ] `pdf-page-crop`
-- [ ] `pdf-blank-page-remover`
-- [ ] `pdf-scanned-look` (محاكاة مسح ضوئي — شائع على 10015)
+- [x] `pdf-page-crop`
+- [x] `pdf-blank-page-remover`
+- [x] `pdf-scanned-look` (محاكاة مسح ضوئي — شائع على 10015)
 - [ ] `pdf-password-protector` / `pdf-password-remover` — مؤجل (pdf-lib لا يدعم encryption حاليًا)
 
 ### Image (فجوات 10015-style)
 - [x] `image-average-color-picker` / dominant color ✅ (0.5.40)
 - [x] `image-color-extractor` (لوحة ألوان من صورة)
 - [ ] `image-color-picker` (eyedropper تفاعلي)
-- [ ] `photo-censor` (blur / pixelate / bar)
-- [ ] `svg-blob-generator`
-- [ ] `svg-pattern-generator`
+- [x] `photo-censor` (blur / pixelate على كامل الصورة؛ منطقة محددة مؤجلة)
+- [x] `svg-blob-generator`
+- [x] `svg-pattern-generator`
 
 ### Text & productivity
 - [x] `bionic-reading-converter`
-- [ ] `text-to-handwriting` (رسم على canvas → PDF/PNG)
+- [x] `text-to-handwriting` (رسم على canvas → PDF/PNG)
 - [x] مغطاة بالفعل عبر `whitespace-cleaner`
 
 ### Developer / CSS generators (طلب عالي جدًا على 10015)

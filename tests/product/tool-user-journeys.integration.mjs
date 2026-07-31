@@ -28,6 +28,7 @@ const browserOnlyTools = new Set([
     'html-to-markdown-converter',
     'qr-code-generator',
     'code-to-image',
+    'text-to-handwriting',
 ]);
 
 const inputOverrides = Object.freeze({
@@ -165,9 +166,9 @@ assert.deepEqual(
         .join('\n')}`,
 );
 
-assert.equal(nonFileTools.length, 365);
-assert.equal(browserOnlyTools.size, 17);
-assert.equal(executableWithoutBrowser.length, 348);
+assert.equal(nonFileTools.length, 368);
+assert.equal(browserOnlyTools.size, 18);
+assert.equal(executableWithoutBrowser.length, 350);
 
 const journeys = [
     {
