@@ -7,7 +7,7 @@ import { retiredToolIds } from '../src/product/retired-tool-ids.js';
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const baseUrl = 'https://abdelaziz-maysara-hm.github.io/adawaty';
-const assetVersion = 's7b39';
+const assetVersion = 's7b40';
 const catalogueAssetVersion = 's7b37';
 const tools = listToolDefinitions();
 const categories = Object.freeze({
@@ -108,6 +108,10 @@ function createToolPage(tool) {
             </section>
             <section class="product-calculator" aria-label="Calculator">
                 <form class="product-form" id="tool-form"></form>
+                <div class="product-progress" id="tool-progress" role="status" aria-live="polite" hidden>
+                    <div class="product-progress-bar"></div>
+                    <span class="product-progress-label" id="tool-progress-label"></span>
+                </div>
                 <output class="product-result" id="tool-result" tabindex="-1" hidden>
                     <strong class="product-result-value" id="result-value"></strong>
                     <span class="product-result-label" id="result-label"></span>

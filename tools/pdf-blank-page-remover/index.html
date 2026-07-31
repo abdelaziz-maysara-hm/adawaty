@@ -15,7 +15,7 @@
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Remove Blank Pages from PDF","alternateName":"حذف الصفحات الفارغة من PDF","description":"Automatically detect and remove blank or near-blank pages from a PDF.","url":"https://abdelaziz-maysara-hm.github.io/adawaty/tools/pdf-blank-page-remover/","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true,"inLanguage":["ar","en"]}</script>
     <link rel="stylesheet" href="../../src/css/main.css">
     <link rel="stylesheet" href="../../src/css/product.css">
-    <script type="module" src="../../src/product/tool-page.js?v=s7b39"></script>
+    <script type="module" src="../../src/product/tool-page.js?v=s7b40"></script>
 </head>
 <body>
     <header class="site-header">
@@ -38,6 +38,10 @@
             </section>
             <section class="product-calculator" aria-label="Calculator">
                 <form class="product-form" id="tool-form"></form>
+                <div class="product-progress" id="tool-progress" role="status" aria-live="polite" hidden>
+                    <div class="product-progress-bar"></div>
+                    <span class="product-progress-label" id="tool-progress-label"></span>
+                </div>
                 <output class="product-result" id="tool-result" tabindex="-1" hidden>
                     <strong class="product-result-value" id="result-value"></strong>
                     <span class="product-result-label" id="result-label"></span>

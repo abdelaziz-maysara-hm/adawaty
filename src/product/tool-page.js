@@ -11,6 +11,8 @@ const languageButton = document.querySelector('#tool-language-toggle');
 const currentYear = document.querySelector('#current-year');
 const resultPreview = document.querySelector('#result-preview');
 const resultDownload = document.querySelector('#result-download');
+const progress = document.querySelector('#tool-progress');
+const progressLabel = document.querySelector('#tool-progress-label');
 let resultObjectUrl = '';
 
 if (!tool || !form || !result) {
@@ -227,6 +229,13 @@ form.addEventListener('submit', async (event) => {
     submit.textContent = language === 'ar' ? 'جارٍ المعالجة…' : 'Processing…';
     clearProcessedOutput();
 
+    let progressTimer;
+    if (progress) {
+        progressLabel.textContent = language === 'ar' ? 'جارٍ المعالجة، برجاء الانتظار…' : 'Processing, please wait…';
+        // Delay the reveal slightly so fast operations (most tools) never flash a progress bar.
+        progressTimer = setTimeout(() => { progress.hidden = false; }, 400);
+    }
+
     try {
         const handler = tool.process ?? tool.calculate;
         const output = await handler(readValues(), language);
@@ -269,6 +278,8 @@ form.addEventListener('submit', async (event) => {
         result.hidden = false;
         result.focus();
     } finally {
+        clearTimeout(progressTimer);
+        if (progress) progress.hidden = true;
         submit.disabled = false;
         submit.textContent = originalCopy;
     }

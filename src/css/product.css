@@ -220,6 +220,48 @@
     background: rgba(85, 216, 193, 0.08);
 }
 
+.product-progress {
+    margin-top: 18px;
+    padding: 14px 16px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: rgba(4, 14, 26, 0.4);
+    overflow: hidden;
+}
+
+.product-progress[hidden] {
+    display: none;
+}
+
+.product-progress-bar {
+    position: relative;
+    height: 6px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.product-progress-bar::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    width: 40%;
+    border-radius: 999px;
+    background: var(--brand, #55d8c1);
+    animation: product-progress-slide 1.2s ease-in-out infinite;
+}
+
+.product-progress-label {
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+
+@keyframes product-progress-slide {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(350%); }
+}
+
 .product-result[hidden] {
     display: none;
 }
