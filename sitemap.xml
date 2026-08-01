@@ -1,2382 +1,2382 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/</loc>
+        <loc>https://www.adawaty.tools/</loc>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/all-tools/</loc>
+        <loc>https://www.adawaty.tools/all-tools/</loc>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/categories/health/</loc>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/categories/finance/</loc>
+        <loc>https://www.adawaty.tools/categories/health/</loc>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/categories/student/</loc>
+        <loc>https://www.adawaty.tools/categories/finance/</loc>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/categories/student-study/</loc>
+        <loc>https://www.adawaty.tools/categories/student/</loc>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/categories/math/</loc>
+        <loc>https://www.adawaty.tools/categories/student-study/</loc>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/categories/date-time/</loc>
+        <loc>https://www.adawaty.tools/categories/math/</loc>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/categories/converter/</loc>
+        <loc>https://www.adawaty.tools/categories/date-time/</loc>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/categories/developer/</loc>
+        <loc>https://www.adawaty.tools/categories/converter/</loc>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/categories/text/</loc>
+        <loc>https://www.adawaty.tools/categories/developer/</loc>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/categories/engineering/</loc>
+        <loc>https://www.adawaty.tools/categories/text/</loc>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/categories/security-network/</loc>
+        <loc>https://www.adawaty.tools/categories/engineering/</loc>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/categories/seo/</loc>
+        <loc>https://www.adawaty.tools/categories/security-network/</loc>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/categories/color-css/</loc>
+        <loc>https://www.adawaty.tools/categories/seo/</loc>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/categories/home-lifestyle/</loc>
+        <loc>https://www.adawaty.tools/categories/color-css/</loc>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/categories/islamic/</loc>
+        <loc>https://www.adawaty.tools/categories/home-lifestyle/</loc>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/categories/image/</loc>
+        <loc>https://www.adawaty.tools/categories/islamic/</loc>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/categories/video/</loc>
+        <loc>https://www.adawaty.tools/categories/image/</loc>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/categories/audio/</loc>
+        <loc>https://www.adawaty.tools/categories/video/</loc>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/categories/pdf/</loc>
+        <loc>https://www.adawaty.tools/categories/audio/</loc>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/bmi-calculator/</loc>
+        <loc>https://www.adawaty.tools/categories/pdf/</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.adawaty.tools/tools/bmi-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/age-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/age-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/vat-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/vat-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/loan-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/loan-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/compound-interest-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/compound-interest-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/date-difference-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/date-difference-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/bmr-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/bmr-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/tdee-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/tdee-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/ideal-weight-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/ideal-weight-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/water-intake-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/water-intake-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/grade-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/grade-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/gpa-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/gpa-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/weighted-average-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/weighted-average-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/attendance-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/attendance-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/length-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/length-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/weight-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/weight-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/temperature-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/temperature-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/area-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/area-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/volume-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/volume-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/speed-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/speed-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/data-storage-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/data-storage-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/time-unit-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/time-unit-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/angle-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/angle-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/pressure-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/pressure-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/energy-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/energy-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/json-formatter/</loc>
+        <loc>https://www.adawaty.tools/tools/json-formatter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/base64-encoder-decoder/</loc>
+        <loc>https://www.adawaty.tools/tools/base64-encoder-decoder/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/url-encoder-decoder/</loc>
+        <loc>https://www.adawaty.tools/tools/url-encoder-decoder/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/html-entity-encoder-decoder/</loc>
+        <loc>https://www.adawaty.tools/tools/html-entity-encoder-decoder/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/text-case-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/text-case-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/word-counter/</loc>
+        <loc>https://www.adawaty.tools/tools/word-counter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/character-counter/</loc>
+        <loc>https://www.adawaty.tools/tools/character-counter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/slug-generator/</loc>
+        <loc>https://www.adawaty.tools/tools/slug-generator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/jwt-decoder/</loc>
+        <loc>https://www.adawaty.tools/tools/jwt-decoder/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/unix-timestamp-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/unix-timestamp-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/mortgage-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/mortgage-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/savings-goal-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/savings-goal-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/roi-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/roi-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/profit-margin-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/profit-margin-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/break-even-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/break-even-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/hourly-salary-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/hourly-salary-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/inflation-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/inflation-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/calorie-deficit-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/calorie-deficit-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/macro-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/macro-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/protein-intake-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/protein-intake-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/body-fat-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/body-fat-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/lean-body-mass-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/lean-body-mass-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/waist-to-height-ratio-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/waist-to-height-ratio-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/target-heart-rate-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/target-heart-rate-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/running-pace-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/running-pace-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/sleep-cycle-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/sleep-cycle-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/pregnancy-due-date-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/pregnancy-due-date-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/quadratic-equation-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/quadratic-equation-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/pythagorean-theorem-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/pythagorean-theorem-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/standard-deviation-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/standard-deviation-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/probability-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/probability-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/days-until-date-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/days-until-date-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/business-days-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/business-days-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/date-add-subtract-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/date-add-subtract-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/week-number-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/week-number-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/time-duration-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/time-duration-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/birthday-countdown-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/birthday-countdown-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/work-hours-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/work-hours-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/timezone-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/timezone-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/ohms-law-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/ohms-law-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/electrical-power-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/electrical-power-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/resistor-combination-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/resistor-combination-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/voltage-divider-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/voltage-divider-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/wavelength-frequency-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/wavelength-frequency-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/password-generator/</loc>
+        <loc>https://www.adawaty.tools/tools/password-generator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/password-strength-checker/</loc>
+        <loc>https://www.adawaty.tools/tools/password-strength-checker/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/password-entropy-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/password-entropy-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/ipv4-subnet-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/ipv4-subnet-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/cidr-range-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/cidr-range-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/ip-address-to-binary/</loc>
+        <loc>https://www.adawaty.tools/tools/ip-address-to-binary/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/binary-to-ip-address/</loc>
+        <loc>https://www.adawaty.tools/tools/binary-to-ip-address/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/mac-address-formatter/</loc>
+        <loc>https://www.adawaty.tools/tools/mac-address-formatter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/network-port-lookup/</loc>
+        <loc>https://www.adawaty.tools/tools/network-port-lookup/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/data-transfer-time-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/data-transfer-time-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/meta-tag-generator/</loc>
+        <loc>https://www.adawaty.tools/tools/meta-tag-generator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/open-graph-generator/</loc>
+        <loc>https://www.adawaty.tools/tools/open-graph-generator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/twitter-card-generator/</loc>
+        <loc>https://www.adawaty.tools/tools/twitter-card-generator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/utm-link-builder/</loc>
+        <loc>https://www.adawaty.tools/tools/utm-link-builder/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/robots-txt-generator/</loc>
+        <loc>https://www.adawaty.tools/tools/robots-txt-generator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/canonical-tag-generator/</loc>
+        <loc>https://www.adawaty.tools/tools/canonical-tag-generator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/hreflang-tag-generator/</loc>
+        <loc>https://www.adawaty.tools/tools/hreflang-tag-generator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/sitemap-entry-generator/</loc>
+        <loc>https://www.adawaty.tools/tools/sitemap-entry-generator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/keyword-density-checker/</loc>
+        <loc>https://www.adawaty.tools/tools/keyword-density-checker/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/serp-snippet-preview/</loc>
+        <loc>https://www.adawaty.tools/tools/serp-snippet-preview/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/hex-to-rgb-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/hex-to-rgb-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/rgb-to-hex-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/rgb-to-hex-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/rgb-to-hsl-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/rgb-to-hsl-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/wcag-contrast-checker/</loc>
+        <loc>https://www.adawaty.tools/tools/wcag-contrast-checker/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/color-blender/</loc>
+        <loc>https://www.adawaty.tools/tools/color-blender/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/color-tint-shade-generator/</loc>
+        <loc>https://www.adawaty.tools/tools/color-tint-shade-generator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/css-linear-gradient-generator/</loc>
+        <loc>https://www.adawaty.tools/tools/css-linear-gradient-generator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/css-box-shadow-generator/</loc>
+        <loc>https://www.adawaty.tools/tools/css-box-shadow-generator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/css-border-radius-generator/</loc>
+        <loc>https://www.adawaty.tools/tools/css-border-radius-generator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/css-clamp-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/css-clamp-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/fuel-cost-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/fuel-cost-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/fuel-economy-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/fuel-economy-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/road-trip-cost-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/road-trip-cost-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/electricity-cost-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/electricity-cost-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/paint-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/paint-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/tile-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/tile-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/concrete-volume-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/concrete-volume-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/wallpaper-roll-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/wallpaper-roll-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/recipe-scaler/</loc>
+        <loc>https://www.adawaty.tools/tools/recipe-scaler/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/rent-affordability-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/rent-affordability-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/acceleration-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/acceleration-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/force-unit-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/force-unit-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/power-unit-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/power-unit-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/torque-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/torque-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/frequency-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/frequency-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/density-unit-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/density-unit-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/flow-rate-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/flow-rate-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/cooking-volume-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/cooking-volume-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/data-transfer-rate-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/data-transfer-rate-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/illuminance-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/illuminance-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/cash-zakat-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/cash-zakat-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/gold-zakat-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/gold-zakat-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/silver-zakat-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/silver-zakat-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/business-zakat-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/business-zakat-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/quran-reading-plan-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/quran-reading-plan-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/quran-khatma-plan-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/quran-khatma-plan-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/quran-memorization-plan-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/quran-memorization-plan-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/tasbeeh-progress-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/tasbeeh-progress-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/fasting-days-tracker/</loc>
+        <loc>https://www.adawaty.tools/tools/fasting-days-tracker/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/qibla-direction-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/qibla-direction-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/line-counter/</loc>
+        <loc>https://www.adawaty.tools/tools/line-counter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/sentence-counter/</loc>
+        <loc>https://www.adawaty.tools/tools/sentence-counter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/paragraph-counter/</loc>
+        <loc>https://www.adawaty.tools/tools/paragraph-counter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/reading-time-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/reading-time-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/duplicate-line-remover/</loc>
+        <loc>https://www.adawaty.tools/tools/duplicate-line-remover/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/line-sorter/</loc>
+        <loc>https://www.adawaty.tools/tools/line-sorter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/text-reverser/</loc>
+        <loc>https://www.adawaty.tools/tools/text-reverser/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/whitespace-cleaner/</loc>
+        <loc>https://www.adawaty.tools/tools/whitespace-cleaner/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/find-and-replace-tool/</loc>
+        <loc>https://www.adawaty.tools/tools/find-and-replace-tool/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/lorem-ipsum-generator/</loc>
+        <loc>https://www.adawaty.tools/tools/lorem-ipsum-generator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/csv-to-json-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/csv-to-json-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/json-to-csv-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/json-to-csv-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/json-minifier/</loc>
+        <loc>https://www.adawaty.tools/tools/json-minifier/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/json-validator/</loc>
+        <loc>https://www.adawaty.tools/tools/json-validator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/xml-formatter/</loc>
+        <loc>https://www.adawaty.tools/tools/xml-formatter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/sql-formatter/</loc>
+        <loc>https://www.adawaty.tools/tools/sql-formatter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/query-string-parser/</loc>
+        <loc>https://www.adawaty.tools/tools/query-string-parser/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/query-string-builder/</loc>
+        <loc>https://www.adawaty.tools/tools/query-string-builder/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/uuid-generator/</loc>
+        <loc>https://www.adawaty.tools/tools/uuid-generator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/random-string-generator/</loc>
+        <loc>https://www.adawaty.tools/tools/random-string-generator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/permutation-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/permutation-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/combination-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/combination-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/logarithm-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/logarithm-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/percentage-error-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/percentage-error-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/scientific-notation-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/scientific-notation-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/number-base-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/number-base-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/cagr-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/cagr-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/debt-to-income-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/debt-to-income-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/net-worth-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/net-worth-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/emergency-fund-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/emergency-fund-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/dividend-yield-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/dividend-yield-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/payback-period-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/payback-period-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/credit-card-payoff-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/credit-card-payoff-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/loan-affordability-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/loan-affordability-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/investment-fee-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/investment-fee-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/waist-to-hip-ratio-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/waist-to-hip-ratio-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/met-calorie-burn-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/met-calorie-burn-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/one-rep-max-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/one-rep-max-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/race-time-predictor/</loc>
+        <loc>https://www.adawaty.tools/tools/race-time-predictor/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/cooper-test-vo2-max-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/cooper-test-vo2-max-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/weighted-course-grade-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/weighted-course-grade-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/required-final-grade-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/required-final-grade-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/cumulative-gpa-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/cumulative-gpa-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/percentage-to-gpa-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/percentage-to-gpa-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/attendance-goal-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/attendance-goal-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/allowable-absences-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/allowable-absences-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/study-plan-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/study-plan-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/pomodoro-session-planner/</loc>
+        <loc>https://www.adawaty.tools/tools/pomodoro-session-planner/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/quiz-average-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/quiz-average-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/class-rank-percentile-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/class-rank-percentile-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/morse-code-translator/</loc>
+        <loc>https://www.adawaty.tools/tools/morse-code-translator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/binary-text-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/binary-text-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/rot13-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/rot13-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/nato-phonetic-alphabet-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/nato-phonetic-alphabet-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/unicode-code-point-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/unicode-code-point-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/palindrome-checker/</loc>
+        <loc>https://www.adawaty.tools/tools/palindrome-checker/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/anagram-checker/</loc>
+        <loc>https://www.adawaty.tools/tools/anagram-checker/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/initials-generator/</loc>
+        <loc>https://www.adawaty.tools/tools/initials-generator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/vowel-consonant-counter/</loc>
+        <loc>https://www.adawaty.tools/tools/vowel-consonant-counter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/word-frequency-analyzer/</loc>
+        <loc>https://www.adawaty.tools/tools/word-frequency-analyzer/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/age-at-date-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/age-at-date-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/inclusive-date-range-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/inclusive-date-range-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/months-between-dates-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/months-between-dates-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/time-addition-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/time-addition-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/decimal-hours-to-time-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/decimal-hours-to-time-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/weekend-days-between-dates-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/weekend-days-between-dates-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/julian-day-number-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/julian-day-number-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/ideal-gas-pressure-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/ideal-gas-pressure-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/regular-polygon-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/regular-polygon-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/json-key-sorter/</loc>
+        <loc>https://www.adawaty.tools/tools/json-key-sorter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/json-flattener/</loc>
+        <loc>https://www.adawaty.tools/tools/json-flattener/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/json-unflattener/</loc>
+        <loc>https://www.adawaty.tools/tools/json-unflattener/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/url-parser/</loc>
+        <loc>https://www.adawaty.tools/tools/url-parser/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/url-normalizer/</loc>
+        <loc>https://www.adawaty.tools/tools/url-normalizer/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/regex-escape-tool/</loc>
+        <loc>https://www.adawaty.tools/tools/regex-escape-tool/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/javascript-string-escape-tool/</loc>
+        <loc>https://www.adawaty.tools/tools/javascript-string-escape-tool/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/http-status-code-lookup/</loc>
+        <loc>https://www.adawaty.tools/tools/http-status-code-lookup/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/mime-type-lookup/</loc>
+        <loc>https://www.adawaty.tools/tools/mime-type-lookup/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/cron-expression-builder/</loc>
+        <loc>https://www.adawaty.tools/tools/cron-expression-builder/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/html-minifier/</loc>
+        <loc>https://www.adawaty.tools/tools/html-minifier/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/html-beautifier/</loc>
+        <loc>https://www.adawaty.tools/tools/html-beautifier/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/html-to-text-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/html-to-text-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/html-tag-counter/</loc>
+        <loc>https://www.adawaty.tools/tools/html-tag-counter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/markdown-to-html-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/markdown-to-html-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/css-minifier/</loc>
+        <loc>https://www.adawaty.tools/tools/css-minifier/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/css-specificity-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/css-specificity-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/css-px-rem-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/css-px-rem-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/data-uri-encoder/</loc>
+        <loc>https://www.adawaty.tools/tools/data-uri-encoder/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/data-uri-decoder/</loc>
+        <loc>https://www.adawaty.tools/tools/data-uri-decoder/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/variance-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/variance-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/quartile-iqr-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/quartile-iqr-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/percentile-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/percentile-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/z-score-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/z-score-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/coefficient-of-variation-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/coefficient-of-variation-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/covariance-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/covariance-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/pearson-correlation-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/pearson-correlation-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/linear-regression-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/linear-regression-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/geometric-mean-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/geometric-mean-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/harmonic-mean-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/harmonic-mean-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/mean-absolute-deviation-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/mean-absolute-deviation-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/standard-error-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/standard-error-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/confidence-interval-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/confidence-interval-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/sample-size-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/sample-size-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/binomial-probability-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/binomial-probability-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/odds-probability-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/odds-probability-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/expected-value-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/expected-value-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/linear-equation-solver/</loc>
+        <loc>https://www.adawaty.tools/tools/linear-equation-solver/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/two-variable-equation-solver/</loc>
+        <loc>https://www.adawaty.tools/tools/two-variable-equation-solver/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/arithmetic-sequence-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/arithmetic-sequence-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/geometric-sequence-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/geometric-sequence-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/arithmetic-series-sum-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/arithmetic-series-sum-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/geometric-series-sum-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/geometric-series-sum-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/polynomial-evaluator/</loc>
+        <loc>https://www.adawaty.tools/tools/polynomial-evaluator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/two-by-two-matrix-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/two-by-two-matrix-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/trigonometric-functions-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/trigonometric-functions-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/inverse-trigonometric-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/inverse-trigonometric-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/law-of-cosines-side-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/law-of-cosines-side-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/law-of-cosines-angle-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/law-of-cosines-angle-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/law-of-sines-side-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/law-of-sines-side-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/arc-length-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/arc-length-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/sector-area-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/sector-area-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/chord-length-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/chord-length-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/circular-segment-area-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/circular-segment-area-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/decimal-degrees-dms-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/decimal-degrees-dms-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/line-equation-two-points-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/line-equation-two-points-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/point-to-line-distance-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/point-to-line-distance-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/three-dimensional-distance-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/three-dimensional-distance-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/triangle-centroid-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/triangle-centroid-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/triangle-area-coordinates-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/triangle-area-coordinates-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/herons-formula-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/herons-formula-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/triangle-inradius-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/triangle-inradius-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/triangle-circumradius-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/triangle-circumradius-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/power-rule-derivative-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/power-rule-derivative-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/polynomial-derivative-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/polynomial-derivative-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/polynomial-definite-integral-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/polynomial-definite-integral-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/average-rate-of-change-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/average-rate-of-change-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/polynomial-tangent-line-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/polynomial-tangent-line-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/polynomial-limit-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/polynomial-limit-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/riemann-sum-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/riemann-sum-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/exponential-function-derivative-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/exponential-function-derivative-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/numerical-derivative-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/numerical-derivative-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/quadratic-partial-derivative-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/quadratic-partial-derivative-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/customer-acquisition-cost-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/customer-acquisition-cost-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/customer-lifetime-value-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/customer-lifetime-value-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/return-on-ad-spend-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/return-on-ad-spend-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/ecommerce-conversion-rate-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/ecommerce-conversion-rate-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/cart-abandonment-rate-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/cart-abandonment-rate-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/inventory-turnover-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/inventory-turnover-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/inventory-reorder-point-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/inventory-reorder-point-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/shipping-dimensional-weight-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/shipping-dimensional-weight-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/marketplace-fee-profit-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/marketplace-fee-profit-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/customer-retention-rate-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/customer-retention-rate-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/cost-per-click-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/cost-per-click-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/cost-per-thousand-impressions-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/cost-per-thousand-impressions-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/click-through-rate-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/click-through-rate-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/social-media-engagement-rate-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/social-media-engagement-rate-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/email-open-rate-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/email-open-rate-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/email-click-rate-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/email-click-rate-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/email-unsubscribe-rate-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/email-unsubscribe-rate-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/lead-conversion-rate-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/lead-conversion-rate-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/break-even-roas-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/break-even-roas-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/advertising-frequency-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/advertising-frequency-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/audio-trimmer/</loc>
+        <loc>https://www.adawaty.tools/tools/audio-trimmer/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/audio-volume-changer/</loc>
+        <loc>https://www.adawaty.tools/tools/audio-volume-changer/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/audio-fade-in-out-editor/</loc>
+        <loc>https://www.adawaty.tools/tools/audio-fade-in-out-editor/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/stereo-to-mono-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/stereo-to-mono-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/audio-format-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/audio-format-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/pert-estimate-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/pert-estimate-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/earned-value-management-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/earned-value-management-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/meeting-cost-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/meeting-cost-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/freelance-hourly-rate-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/freelance-hourly-rate-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/image-compressor/</loc>
+        <loc>https://www.adawaty.tools/tools/image-compressor/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/image-resizer/</loc>
+        <loc>https://www.adawaty.tools/tools/image-resizer/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/image-format-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/image-format-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/image-cropper/</loc>
+        <loc>https://www.adawaty.tools/tools/image-cropper/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/image-rotate-flip/</loc>
+        <loc>https://www.adawaty.tools/tools/image-rotate-flip/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/image-metadata-remover/</loc>
+        <loc>https://www.adawaty.tools/tools/image-metadata-remover/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/image-average-color-picker/</loc>
+        <loc>https://www.adawaty.tools/tools/image-average-color-picker/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/image-grayscale-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/image-grayscale-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/image-blur-tool/</loc>
+        <loc>https://www.adawaty.tools/tools/image-blur-tool/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/image-watermark-tool/</loc>
+        <loc>https://www.adawaty.tools/tools/image-watermark-tool/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/image-color-adjuster/</loc>
+        <loc>https://www.adawaty.tools/tools/image-color-adjuster/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/image-sepia-filter/</loc>
+        <loc>https://www.adawaty.tools/tools/image-sepia-filter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/image-color-inverter/</loc>
+        <loc>https://www.adawaty.tools/tools/image-color-inverter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/image-batch-processor/</loc>
+        <loc>https://www.adawaty.tools/tools/image-batch-processor/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/social-media-image-pack/</loc>
+        <loc>https://www.adawaty.tools/tools/social-media-image-pack/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/image-collage-maker/</loc>
+        <loc>https://www.adawaty.tools/tools/image-collage-maker/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/pdf-merge/</loc>
+        <loc>https://www.adawaty.tools/tools/pdf-merge/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/pdf-page-extractor/</loc>
+        <loc>https://www.adawaty.tools/tools/pdf-page-extractor/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/pdf-page-rotator/</loc>
+        <loc>https://www.adawaty.tools/tools/pdf-page-rotator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/pdf-page-remover/</loc>
+        <loc>https://www.adawaty.tools/tools/pdf-page-remover/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/pdf-watermark/</loc>
+        <loc>https://www.adawaty.tools/tools/pdf-watermark/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/pdf-workflow/</loc>
+        <loc>https://www.adawaty.tools/tools/pdf-workflow/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/images-to-pdf-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/images-to-pdf-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/pdf-to-images-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/pdf-to-images-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/pdf-splitter/</loc>
+        <loc>https://www.adawaty.tools/tools/pdf-splitter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/pdf-metadata-cleaner/</loc>
+        <loc>https://www.adawaty.tools/tools/pdf-metadata-cleaner/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/pdf-page-number-adder/</loc>
+        <loc>https://www.adawaty.tools/tools/pdf-page-number-adder/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/pdf-page-reorderer/</loc>
+        <loc>https://www.adawaty.tools/tools/pdf-page-reorderer/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/pdf-page-reverser/</loc>
+        <loc>https://www.adawaty.tools/tools/pdf-page-reverser/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/pdf-page-interleaver/</loc>
+        <loc>https://www.adawaty.tools/tools/pdf-page-interleaver/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/pdf-text-extractor/</loc>
+        <loc>https://www.adawaty.tools/tools/pdf-text-extractor/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/pdf-to-word-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/pdf-to-word-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/pdf-page-size-normalizer/</loc>
+        <loc>https://www.adawaty.tools/tools/pdf-page-size-normalizer/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/pdf-editor/</loc>
+        <loc>https://www.adawaty.tools/tools/pdf-editor/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/visual-pdf-editor/</loc>
+        <loc>https://www.adawaty.tools/tools/visual-pdf-editor/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/scanned-pdf-ocr/</loc>
+        <loc>https://www.adawaty.tools/tools/scanned-pdf-ocr/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/scanned-pdf-to-word-ocr/</loc>
+        <loc>https://www.adawaty.tools/tools/scanned-pdf-to-word-ocr/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/image-to-text-ocr/</loc>
+        <loc>https://www.adawaty.tools/tools/image-to-text-ocr/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/video-thumbnail-extractor/</loc>
+        <loc>https://www.adawaty.tools/tools/video-thumbnail-extractor/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/video-contact-sheet-generator/</loc>
+        <loc>https://www.adawaty.tools/tools/video-contact-sheet-generator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/video-frame-sequence-extractor/</loc>
+        <loc>https://www.adawaty.tools/tools/video-frame-sequence-extractor/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/video-audio-extractor/</loc>
+        <loc>https://www.adawaty.tools/tools/video-audio-extractor/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/video-trimmer/</loc>
+        <loc>https://www.adawaty.tools/tools/video-trimmer/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/video-compressor/</loc>
+        <loc>https://www.adawaty.tools/tools/video-compressor/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/video-audio-remover/</loc>
+        <loc>https://www.adawaty.tools/tools/video-audio-remover/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/video-format-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/video-format-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/video-resizer/</loc>
+        <loc>https://www.adawaty.tools/tools/video-resizer/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/video-speed-changer/</loc>
+        <loc>https://www.adawaty.tools/tools/video-speed-changer/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/list-randomizer/</loc>
+        <loc>https://www.adawaty.tools/tools/list-randomizer/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/list-intersection/</loc>
+        <loc>https://www.adawaty.tools/tools/list-intersection/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/list-difference/</loc>
+        <loc>https://www.adawaty.tools/tools/list-difference/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/list-chunker/</loc>
+        <loc>https://www.adawaty.tools/tools/list-chunker/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/line-prefix-adder/</loc>
+        <loc>https://www.adawaty.tools/tools/line-prefix-adder/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/line-suffix-adder/</loc>
+        <loc>https://www.adawaty.tools/tools/line-suffix-adder/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/email-address-extractor/</loc>
+        <loc>https://www.adawaty.tools/tools/email-address-extractor/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/url-extractor/</loc>
+        <loc>https://www.adawaty.tools/tools/url-extractor/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/csv-delimiter-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/csv-delimiter-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/csv-column-extractor/</loc>
+        <loc>https://www.adawaty.tools/tools/csv-column-extractor/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/list-union/</loc>
+        <loc>https://www.adawaty.tools/tools/list-union/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/list-reverser/</loc>
+        <loc>https://www.adawaty.tools/tools/list-reverser/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/list-numberer/</loc>
+        <loc>https://www.adawaty.tools/tools/list-numberer/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/list-frequency-table/</loc>
+        <loc>https://www.adawaty.tools/tools/list-frequency-table/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/csv-transposer/</loc>
+        <loc>https://www.adawaty.tools/tools/csv-transposer/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/csv-column-remover/</loc>
+        <loc>https://www.adawaty.tools/tools/csv-column-remover/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/csv-header-renamer/</loc>
+        <loc>https://www.adawaty.tools/tools/csv-header-renamer/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/csv-row-filter/</loc>
+        <loc>https://www.adawaty.tools/tools/csv-row-filter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/csv-row-sorter/</loc>
+        <loc>https://www.adawaty.tools/tools/csv-row-sorter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/csv-deduplicator/</loc>
+        <loc>https://www.adawaty.tools/tools/csv-deduplicator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/csv-to-markdown-table/</loc>
+        <loc>https://www.adawaty.tools/tools/csv-to-markdown-table/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/csv-to-html-table/</loc>
+        <loc>https://www.adawaty.tools/tools/csv-to-html-table/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/csv-to-sql-insert/</loc>
+        <loc>https://www.adawaty.tools/tools/csv-to-sql-insert/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/csv-to-json-lines/</loc>
+        <loc>https://www.adawaty.tools/tools/csv-to-json-lines/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/json-array-deduplicator/</loc>
+        <loc>https://www.adawaty.tools/tools/json-array-deduplicator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/json-property-remover/</loc>
+        <loc>https://www.adawaty.tools/tools/json-property-remover/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/json-array-sorter/</loc>
+        <loc>https://www.adawaty.tools/tools/json-array-sorter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/json-path-extractor/</loc>
+        <loc>https://www.adawaty.tools/tools/json-path-extractor/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/json-to-xml-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/json-to-xml-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/ndjson-to-json-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/ndjson-to-json-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/csv-to-excel-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/csv-to-excel-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/excel-to-csv-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/excel-to-csv-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/file-sha256-checksum/</loc>
+        <loc>https://www.adawaty.tools/tools/file-sha256-checksum/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/file-sha1-checksum/</loc>
+        <loc>https://www.adawaty.tools/tools/file-sha1-checksum/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/file-to-base64-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/file-to-base64-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/base64-to-file-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/base64-to-file-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/text-file-merger/</loc>
+        <loc>https://www.adawaty.tools/tools/text-file-merger/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/text-file-line-sorter/</loc>
+        <loc>https://www.adawaty.tools/tools/text-file-line-sorter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/text-file-duplicate-line-remover/</loc>
+        <loc>https://www.adawaty.tools/tools/text-file-duplicate-line-remover/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/gzip-file-compressor/</loc>
+        <loc>https://www.adawaty.tools/tools/gzip-file-compressor/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/gzip-file-decompressor/</loc>
+        <loc>https://www.adawaty.tools/tools/gzip-file-decompressor/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/binary-file-to-hex-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/binary-file-to-hex-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/zip-files-creator/</loc>
+        <loc>https://www.adawaty.tools/tools/zip-files-creator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/zip-entry-list/</loc>
+        <loc>https://www.adawaty.tools/tools/zip-entry-list/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/zip-single-file-extractor/</loc>
+        <loc>https://www.adawaty.tools/tools/zip-single-file-extractor/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/file-splitter-to-zip/</loc>
+        <loc>https://www.adawaty.tools/tools/file-splitter-to-zip/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/file-parts-merger/</loc>
+        <loc>https://www.adawaty.tools/tools/file-parts-merger/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/multi-file-sha256-manifest/</loc>
+        <loc>https://www.adawaty.tools/tools/multi-file-sha256-manifest/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/file-metadata-exporter/</loc>
+        <loc>https://www.adawaty.tools/tools/file-metadata-exporter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/text-file-encoding-normalizer/</loc>
+        <loc>https://www.adawaty.tools/tools/text-file-encoding-normalizer/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/csv-file-to-json-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/csv-file-to-json-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/json-file-to-csv-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/json-file-to-csv-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/html-link-extractor/</loc>
+        <loc>https://www.adawaty.tools/tools/html-link-extractor/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/html-image-source-extractor/</loc>
+        <loc>https://www.adawaty.tools/tools/html-image-source-extractor/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/html-heading-extractor/</loc>
+        <loc>https://www.adawaty.tools/tools/html-heading-extractor/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/html-table-to-csv-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/html-table-to-csv-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/html-meta-tag-extractor/</loc>
+        <loc>https://www.adawaty.tools/tools/html-meta-tag-extractor/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/markdown-link-extractor/</loc>
+        <loc>https://www.adawaty.tools/tools/markdown-link-extractor/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/markdown-image-extractor/</loc>
+        <loc>https://www.adawaty.tools/tools/markdown-image-extractor/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/url-domain-extractor/</loc>
+        <loc>https://www.adawaty.tools/tools/url-domain-extractor/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/url-query-parameter-remover/</loc>
+        <loc>https://www.adawaty.tools/tools/url-query-parameter-remover/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/url-list-deduplicator/</loc>
+        <loc>https://www.adawaty.tools/tools/url-list-deduplicator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/html-script-remover/</loc>
+        <loc>https://www.adawaty.tools/tools/html-script-remover/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/html-style-remover/</loc>
+        <loc>https://www.adawaty.tools/tools/html-style-remover/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/html-comment-remover/</loc>
+        <loc>https://www.adawaty.tools/tools/html-comment-remover/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/html-inline-event-remover/</loc>
+        <loc>https://www.adawaty.tools/tools/html-inline-event-remover/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/html-class-extractor/</loc>
+        <loc>https://www.adawaty.tools/tools/html-class-extractor/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/html-id-extractor/</loc>
+        <loc>https://www.adawaty.tools/tools/html-id-extractor/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/html-form-field-extractor/</loc>
+        <loc>https://www.adawaty.tools/tools/html-form-field-extractor/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/html-list-to-text-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/html-list-to-text-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/html-to-markdown-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/html-to-markdown-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/html-data-attribute-extractor/</loc>
+        <loc>https://www.adawaty.tools/tools/html-data-attribute-extractor/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/regex-tester/</loc>
+        <loc>https://www.adawaty.tools/tools/regex-tester/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/text-diff-checker/</loc>
+        <loc>https://www.adawaty.tools/tools/text-diff-checker/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/javascript-minifier/</loc>
+        <loc>https://www.adawaty.tools/tools/javascript-minifier/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/qr-code-generator/</loc>
+        <loc>https://www.adawaty.tools/tools/qr-code-generator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/pdf-compressor/</loc>
+        <loc>https://www.adawaty.tools/tools/pdf-compressor/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/heic-to-jpg-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/heic-to-jpg-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/favicon-generator/</loc>
+        <loc>https://www.adawaty.tools/tools/favicon-generator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/video-to-gif-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/video-to-gif-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/hash-generator/</loc>
+        <loc>https://www.adawaty.tools/tools/hash-generator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/iban-validator/</loc>
+        <loc>https://www.adawaty.tools/tools/iban-validator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/ulid-generator/</loc>
+        <loc>https://www.adawaty.tools/tools/ulid-generator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/base58-encoder-decoder/</loc>
+        <loc>https://www.adawaty.tools/tools/base58-encoder-decoder/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/semver-calculator/</loc>
+        <loc>https://www.adawaty.tools/tools/semver-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/curl-command-generator/</loc>
+        <loc>https://www.adawaty.tools/tools/curl-command-generator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/css-beautifier/</loc>
+        <loc>https://www.adawaty.tools/tools/css-beautifier/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/svg-to-png-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/svg-to-png-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/color-blindness-simulator/</loc>
+        <loc>https://www.adawaty.tools/tools/color-blindness-simulator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/cron-expression-parser/</loc>
+        <loc>https://www.adawaty.tools/tools/cron-expression-parser/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/json-schema-validator/</loc>
+        <loc>https://www.adawaty.tools/tools/json-schema-validator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/url-slug-generator/</loc>
+        <loc>https://www.adawaty.tools/tools/url-slug-generator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/bionic-reading-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/bionic-reading-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/css-loader-generator/</loc>
+        <loc>https://www.adawaty.tools/tools/css-loader-generator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/css-glassmorphism-generator/</loc>
+        <loc>https://www.adawaty.tools/tools/css-glassmorphism-generator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/css-clip-path-generator/</loc>
+        <loc>https://www.adawaty.tools/tools/css-clip-path-generator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/image-color-extractor/</loc>
+        <loc>https://www.adawaty.tools/tools/image-color-extractor/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/code-to-image/</loc>
+        <loc>https://www.adawaty.tools/tools/code-to-image/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/pdf-page-crop/</loc>
+        <loc>https://www.adawaty.tools/tools/pdf-page-crop/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/pdf-blank-page-remover/</loc>
+        <loc>https://www.adawaty.tools/tools/pdf-blank-page-remover/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/pdf-scanned-look/</loc>
+        <loc>https://www.adawaty.tools/tools/pdf-scanned-look/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/svg-blob-generator/</loc>
+        <loc>https://www.adawaty.tools/tools/svg-blob-generator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/svg-pattern-generator/</loc>
+        <loc>https://www.adawaty.tools/tools/svg-pattern-generator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/text-to-handwriting/</loc>
+        <loc>https://www.adawaty.tools/tools/text-to-handwriting/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/photo-censor/</loc>
+        <loc>https://www.adawaty.tools/tools/photo-censor/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/json-tree-viewer/</loc>
+        <loc>https://www.adawaty.tools/tools/json-tree-viewer/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://abdelaziz-maysara-hm.github.io/adawaty/tools/word-to-pdf-converter/</loc>
+        <loc>https://www.adawaty.tools/tools/word-to-pdf-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
