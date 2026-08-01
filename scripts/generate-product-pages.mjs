@@ -49,9 +49,11 @@ function createToolPage(tool) {
     const title = escapeHtml(tool.title.ar);
     const description = escapeHtml(tool.description.ar);
     const canonical = `${baseUrl}/tools/${tool.id}/`;
+    const categoryLabel = categories[tool.category]?.ar ?? tool.category;
+    const categoryUrl = `${baseUrl}/categories/${tool.category}/`;
     const structuredData = safeJson({
         '@context': 'https://schema.org',
-        '@type': 'WebApplication',
+        '@type': 'SoftwareApplication',
         name: tool.title.en,
         alternateName: tool.title.ar,
         description: tool.description.en,
@@ -67,6 +69,15 @@ function createToolPage(tool) {
         isAccessibleForFree: true,
         inLanguage: ['ar', 'en'],
     });
+    const breadcrumbData = safeJson({
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'أدواتي', item: `${baseUrl}/` },
+            { '@type': 'ListItem', position: 2, name: categoryLabel, item: categoryUrl },
+            { '@type': 'ListItem', position: 3, name: tool.title.ar, item: canonical },
+        ],
+    });
 
     return `<!doctype html>
 <html lang="ar" dir="rtl" data-language="ar">
@@ -78,11 +89,20 @@ function createToolPage(tool) {
     <meta name="description" content="${description}">
     <title>${title} | أدواتي</title>
     <link rel="canonical" href="${canonical}">
+    <link rel="alternate" hreflang="ar" href="${canonical}">
+    <link rel="alternate" hreflang="en" href="${canonical}">
+    <link rel="alternate" hreflang="x-default" href="${canonical}">
     <meta property="og:type" content="website">
     <meta property="og:title" content="${title}">
     <meta property="og:description" content="${description}">
     <meta property="og:url" content="${canonical}">
+    <meta property="og:locale" content="ar_AR">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="${title}">
+    <meta name="twitter:description" content="${description}">
     <script type="application/ld+json">${structuredData}</script>
+    <script type="application/ld+json">${breadcrumbData}</script>
     <link rel="stylesheet" href="../../src/css/main.css">
     <link rel="stylesheet" href="../../src/css/product.css">
     <script type="module" src="../../src/product/tool-page.js?v=${assetVersion}"></script>
@@ -176,6 +196,15 @@ function createCataloguePage({
         },
         inLanguage: ['ar', 'en'],
     });
+    const breadcrumbItems = [
+        { '@type': 'ListItem', position: 1, name: 'أدواتي', item: `${baseUrl}/` },
+        { '@type': 'ListItem', position: 2, name: title, item: canonical },
+    ];
+    const breadcrumbData = safeJson({
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: breadcrumbItems,
+    });
     return `<!doctype html>
 <html lang="ar" dir="rtl" data-language="ar">
 <head>
@@ -186,7 +215,20 @@ function createCataloguePage({
     <meta name="description" content="${escapeHtml(description)}">
     <title>${escapeHtml(title)} | أدواتي</title>
     <link rel="canonical" href="${canonical}">
+    <link rel="alternate" hreflang="ar" href="${canonical}">
+    <link rel="alternate" hreflang="en" href="${canonical}">
+    <link rel="alternate" hreflang="x-default" href="${canonical}">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="${escapeHtml(title)}">
+    <meta property="og:description" content="${escapeHtml(description)}">
+    <meta property="og:url" content="${canonical}">
+    <meta property="og:locale" content="ar_AR">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="${escapeHtml(title)}">
+    <meta name="twitter:description" content="${escapeHtml(description)}">
     <script type="application/ld+json">${structuredData}</script>
+    <script type="application/ld+json">${breadcrumbData}</script>
     <link rel="stylesheet" href="${basePath}src/css/main.css">
     <link rel="stylesheet" href="${basePath}src/css/product.css">
     <script type="module" src="${basePath}src/product/catalogue-page.js?v=${catalogueAssetVersion}"></script>

@@ -150,7 +150,7 @@ for (const [index, page] of toolPages.entries()) {
         assert.match(page, /src\/product\/tool-page\.js/);
     }
     assert.match(page, /rel="canonical"/);
-    assert.match(page, /"@type":"WebApplication"/);
+    assert.match(page, /"@type":"SoftwareApplication"/);
     assert.match(page, /"isAccessibleForFree":true/);
     assert.match(page, /href="\.\.\/\.\.\/all-tools\/"/);
     assert.doesNotMatch(page, /TODO|PLACEHOLDER/i);
