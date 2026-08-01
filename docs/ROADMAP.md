@@ -141,3 +141,21 @@ npm run generate:product && npm run validate
 ```
 
 راجع [CONTRIBUTING.md](../CONTRIBUTING.md).
+
+## إعلانات Google AdSense (1 أغسطس 2026)
+
+كود AdSense مضاف في `<head>` كل صفحة في الموقع، عبر مصدرين:
+1. **الصفحات المولَّدة تلقائيًا** (كل أدوات/فئات/all-tools): الكود مضاف داخل `scripts/generate-product-pages.mjs` نفسه (في القالبين)، فأي صفحة جديدة تتولّد بـ `npm run generate:product` هتاخده تلقائيًا — مفيش داعي تتذكره يدويًا.
+2. **الصفحات اليدوية** (`index.html`, `404.html`, `tools/visual-pdf-editor/index.html`): مضاف يدويًا، ولازم يتضاف يدويًا لأي صفحة يدوية جديدة تتعمل مستقبلًا (أي صفحة برة نظام التوليد).
+
+```html
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7919896989773628" crossorigin="anonymous"></script>
+```
+
+للتحقق السريع:
+```bash
+find . -name "*.html" -not -path "./node_modules/*" | xargs grep -L "adsbygoogle.js"
+```
+لو رجّع أي أسماء ملفات، دي صفحات ناقصة الكود.
+
+**⚠️ لو ضفت أداة جديدة تمامًا برة نظام `generate-product-pages.mjs` (صفحة يدوية مخصصة زي visual-pdf-editor)، لازم تضيف الكود ده يدويًا في `<head>`.**

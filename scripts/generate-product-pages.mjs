@@ -86,6 +86,7 @@ function createToolPage(tool) {
     <link rel="stylesheet" href="../../src/css/main.css">
     <link rel="stylesheet" href="../../src/css/product.css">
     <script type="module" src="../../src/product/tool-page.js?v=${assetVersion}"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7919896989773628" crossorigin="anonymous"></script>
 </head>
 <body>
     <header class="site-header">
@@ -189,6 +190,7 @@ function createCataloguePage({
     <link rel="stylesheet" href="${basePath}src/css/main.css">
     <link rel="stylesheet" href="${basePath}src/css/product.css">
     <script type="module" src="${basePath}src/product/catalogue-page.js?v=${catalogueAssetVersion}"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7919896989773628" crossorigin="anonymous"></script>
 </head>
 <body>
     <header class="site-header">
