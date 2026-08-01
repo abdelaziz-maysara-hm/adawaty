@@ -176,8 +176,11 @@ const textFileLineSorter = tool({
     inputs: [fileInput('file', 'اختر ملفًا نصيًا', 'Choose a text file', 'text/*,.txt,.csv,.md,.log')],
     async process(values, language) {
         const lines = (await values.file.text()).replace(/\r\n?/g, '\n').split('\n');
-        lines.sort((first, second) => first.localeCompare(second, language === 'ar' ? 'ar' : 'en'));
-        return textResult(lines.join('\n'), `sorted-${safeName(values.file.name)}`, language, 'تم ترتيب الأسطر', 'Lines sorted');
+        const nonEmpty = lines.filter((line) => line !== '');
+        const emptyCount = lines.length - nonEmpty.length;
+        nonEmpty.sort((first, second) => first.localeCompare(second, language === 'ar' ? 'ar' : 'en'));
+        const sorted = [...nonEmpty, ...Array(emptyCount).fill('')];
+        return textResult(sorted.join('\n'), `sorted-${safeName(values.file.name)}`, language, 'تم ترتيب الأسطر', 'Lines sorted');
     },
 });
 
