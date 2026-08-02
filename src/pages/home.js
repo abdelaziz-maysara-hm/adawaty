@@ -1,3 +1,38 @@
+import { getRecentToolIds } from '../product/usage-tracking.js?v=s7b41';
+
+async function renderRecentTools() {
+    const section = document.querySelector('#recent-tools');
+    const list = document.querySelector('#recent-tools-list');
+    if (!section || !list) return;
+
+    const recent = getRecentToolIds(6);
+    if (recent.length === 0) return;
+
+    let index;
+    try {
+        const response = await fetch('./src/data/tool-index.json');
+        index = await response.json();
+    } catch {
+        return; // Fail silently -- this is a nice-to-have, not critical content.
+    }
+
+    const cards = recent
+        .map((entry) => ({ id: entry.id, tool: index[entry.id] }))
+        .filter((pair) => Boolean(pair.tool))
+        .map(({ id, tool }) => {
+            const link = document.createElement('a');
+            link.href = `./tools/${id}/`;
+            link.innerHTML = `<span class="featured-icon">${tool.icon ?? ''}</span>`
+                + `<h3><span data-copy="ar">${tool.ar}</span><span data-copy="en">${tool.en}</span></h3>`
+                + '<strong><span data-copy="ar">افتح الأداة</span><span data-copy="en">Open tool</span> <i>\u2190</i></strong>';
+            return link;
+        });
+
+    if (cards.length === 0) return;
+    list.replaceChildren(...cards);
+    section.hidden = false;
+}
+
 const root = document.documentElement;
 const languageToggle = document.querySelector('#language-toggle');
 const currentYear = document.querySelector('#current-year');
@@ -75,5 +110,6 @@ if (currentYear) {
 }
 
 applyLanguage(getInitialLanguage());
+renderRecentTools();
 
 // END OF FILE

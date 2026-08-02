@@ -7,7 +7,7 @@ import { retiredToolIds } from '../src/product/retired-tool-ids.js';
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const baseUrl = 'https://www.adawaty.tools';
-const assetVersion = 's7b40';
+const assetVersion = 's7b41';
 const catalogueAssetVersion = 's7b37';
 const tools = listToolDefinitions();
 const categories = Object.freeze({
@@ -314,6 +314,21 @@ for (const [category, categoryCopy] of Object.entries(categories)) {
 await writeFile(
     path.join(projectRoot, 'sitemap.xml'),
     createSitemap(),
+    'utf8',
+);
+
+// Lightweight metadata-only index (id/title/icon/category, no calculate/process
+// code) for client-side features like the homepage's "recently used" section,
+// which would otherwise have to import the full ~1MB tool-definitions.js
+// engine just to look up a handful of titles.
+await writeFile(
+    path.join(projectRoot, 'src', 'data', 'tool-index.json'),
+    JSON.stringify(
+        Object.fromEntries(tools.map((tool) => [
+            tool.id,
+            { ar: tool.title.ar, en: tool.title.en, icon: tool.icon, category: tool.category },
+        ])),
+    ),
     'utf8',
 );
 

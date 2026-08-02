@@ -1,5 +1,6 @@
 import './site-navigation.js?v=s7b36';
-import { getToolDefinition } from './tool-definitions.js?v=s7b39';
+import { getToolDefinition } from './tool-definitions.js?v=s7b41';
+import { recordToolVisit } from './usage-tracking.js?v=s7b41';
 
 const root = document.documentElement;
 const page = document.querySelector('[data-tool-page]');
@@ -305,5 +306,6 @@ try {
 }
 
 updateCopy(initialLanguage === 'en' ? 'en' : 'ar');
+recordToolVisit(toolId);
 
 // END OF FILE
