@@ -1,4 +1,4 @@
-import './site-navigation.js?v=s7b36';
+import './site-navigation.js?v=s7b42';
 import { getToolDefinition } from './tool-definitions.js?v=s7b41';
 import { recordToolVisit } from './usage-tracking.js?v=s7b41';
 

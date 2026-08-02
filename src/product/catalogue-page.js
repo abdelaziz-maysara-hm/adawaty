@@ -1,4 +1,4 @@
-import './site-navigation.js?v=s7b37';
+import './site-navigation.js?v=s7b42';
 import { listToolDefinitions } from './tool-definitions.js?v=s7b37';
 import { categoryLabels as categories } from './category-labels.js?v=s7b37';
 
@@ -38,7 +38,7 @@ const fixedCategory = root?.dataset.category ?? '';
 const tools = listToolDefinitions();
 const isProcessingTool = (tool) => typeof tool.process === 'function' || tool.interactive === true;
 let activeCategory = fixedCategory;
-let language = localStorage.getItem('adawaty-language') === 'en' ? 'en' : 'ar';
+let language = document.documentElement.dataset.language === 'en' ? 'en' : 'ar';
 const initialQuery = new URLSearchParams(window.location.search).get('q')?.trim() ?? '';
 if (initialQuery) {
     search.value = initialQuery;
@@ -125,6 +125,7 @@ function renderTools() {
 function applyLanguage() {
     document.documentElement.lang = language;
     document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.dataset.language = language;
     localStorage.setItem('adawaty-language', language);
     search.placeholder = copy[language].search;
     languageToggle.textContent = copy[language].language;

@@ -57,6 +57,12 @@ function initializeSiteNavigation() {
         for (const link of links.querySelectorAll('[data-nav-label]')) {
             link.textContent = labels[language][link.dataset.navLabel];
         }
+        navigation.setAttribute('aria-label', language === 'ar'
+            ? '\u0627\u0644\u062a\u0646\u0642\u0644 \u0627\u0644\u0631\u0626\u064a\u0633\u064a'
+            : 'Primary navigation');
+        brand.setAttribute('aria-label', language === 'ar'
+            ? '\u0623\u062f\u0648\u0627\u062a\u064a \u2014 \u0627\u0644\u0631\u0626\u064a\u0633\u064a\u0629'
+            : 'Adawaty home');
         links.setAttribute('aria-label', language === 'ar'
             ? '\u062a\u0635\u0646\u064a\u0641\u0627\u062a \u0627\u0644\u0623\u062f\u0648\u0627\u062a'
             : 'Tool categories');

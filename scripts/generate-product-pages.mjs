@@ -7,8 +7,8 @@ import { retiredToolIds } from '../src/product/retired-tool-ids.js';
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const baseUrl = 'https://www.adawaty.tools';
-const assetVersion = 's7b41';
-const catalogueAssetVersion = 's7b37';
+const assetVersion = 's7b42';
+const catalogueAssetVersion = 's7b42';
 const tools = listToolDefinitions();
 const categories = Object.freeze({
     health: Object.freeze({ ar: 'أدوات الصحة', en: 'Health Tools' }),
@@ -83,6 +83,8 @@ function createToolPage(tool) {
 <html lang="ar" dir="rtl" data-language="ar">
 <head>
     <meta charset="UTF-8">
+    <script src="../../src/product/language-bootstrap.js?v=s7b42"></script>
+    <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
     <meta http-equiv="Cache-Control" content="no-cache">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=()">
@@ -117,7 +119,7 @@ function createToolPage(tool) {
         <nav class="navigation shell" aria-label="التنقل الرئيسي">
             <a class="brand" href="../../">
                 <span class="brand-mark">أ</span>
-                <span class="brand-copy"><strong>أدواتي</strong><span>Adawaty Platform</span></span>
+                <span class="brand-copy"><strong><span data-copy="ar">&#1571;&#1583;&#1608;&#1575;&#1578;&#1610;</span><span data-copy="en">Adawaty</span></strong><span><span data-copy="ar">Adawaty</span><span data-copy="en">Tools Platform</span></span></span>
             </a>
             <button class="button" id="tool-language-toggle" type="button">English</button>
         </nav>
@@ -213,6 +215,8 @@ function createCataloguePage({
 <html lang="ar" dir="rtl" data-language="ar">
 <head>
     <meta charset="UTF-8">
+    <script src="${basePath}src/product/language-bootstrap.js?v=s7b42"></script>
+    <link rel="icon" href="${basePath}favicon.svg" type="image/svg+xml">
     <meta http-equiv="Cache-Control" content="no-cache">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=()">
@@ -247,7 +251,7 @@ function createCataloguePage({
         <nav class="navigation shell" aria-label="التنقل الرئيسي">
             <a class="brand" href="${basePath}">
                 <span class="brand-mark">أ</span>
-                <span class="brand-copy"><strong>أدواتي</strong><span>Adawaty Platform</span></span>
+                <span class="brand-copy"><strong><span data-copy="ar">&#1571;&#1583;&#1608;&#1575;&#1578;&#1610;</span><span data-copy="en">Adawaty</span></strong><span><span data-copy="ar">Adawaty</span><span data-copy="en">Tools Platform</span></span></span>
             </a>
             <button class="button" id="catalogue-language-toggle" type="button">English</button>
         </nav>

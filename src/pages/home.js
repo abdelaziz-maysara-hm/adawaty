@@ -61,6 +61,10 @@ function applyLanguage(language) {
     root.dir = settings.direction;
     root.dataset.language = selectedLanguage;
     document.title = settings.title;
+    document.querySelector('.brand')?.setAttribute(
+        'aria-label',
+        selectedLanguage === 'ar' ? '\u0623\u062f\u0648\u0627\u062a\u064a \u2014 \u0627\u0644\u0631\u0626\u064a\u0633\u064a\u0629' : 'Adawaty home',
+    );
     document.querySelector('.navigation')?.setAttribute(
         'aria-label',
         settings.navigationLabel,
