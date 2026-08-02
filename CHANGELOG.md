@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.5.41 — Localized navigation and site identity (August 2026)
+
+- Fixed the shared navigation so its labels immediately follow the selected Arabic or English language on every catalogue and tool page.
+- Added a parser-blocking language bootstrap before styles to prevent Arabic content flashing during English navigation.
+- Localized the visible brand and accessible home label.
+- Added a dedicated lightweight Adawaty SVG favicon across the home, catalogue, categories, tools and 404 page.
+- Added regression coverage for language bootstrapping, navigation state and favicon paths.
+
+---
 ## 0.5.40 — Image average & dominant color picker (July 2026)
 
 - Added browser-local `image-average-color-picker`:

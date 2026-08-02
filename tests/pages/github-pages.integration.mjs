@@ -147,6 +147,30 @@ const bmiToolHtml = await readFile(
 assert.match(bmiToolHtml, /tool-page\.js\?v=s7b\d+/);
 assert.match(bmiToolHtml, /http-equiv="Cache-Control" content="no-cache"/);
 
-console.log('Sprint 7 Batch 28 public homepage verification passed.');
+const languageBootstrap = await readFile(
+    new URL('../../src/product/language-bootstrap.js', import.meta.url),
+    'utf8',
+);
+const favicon = await readFile(
+    new URL('../../favicon.svg', import.meta.url),
+    'utf8',
+);
+assert.match(languageBootstrap, /adawaty-language/);
+assert.match(languageBootstrap, /root\.dataset\.language = language/);
+assert.ok(
+    indexHtml.indexOf('language-bootstrap.js') < indexHtml.indexOf('src/css/main.css'),
+    'Home language bootstrap must run before styles are applied.',
+);
+assert.ok(
+    catalogueHtml.indexOf('language-bootstrap.js') < catalogueHtml.indexOf('src/css/main.css'),
+    'Catalogue language bootstrap must run before styles are applied.',
+);
+assert.match(indexHtml, /rel="icon" href="\.\/favicon\.svg"/);
+assert.match(catalogueHtml, /rel="icon" href="\.\.\/favicon\.svg"/);
+assert.match(bmiToolHtml, /rel="icon" href="\.\.\/\.\.\/favicon\.svg"/);
+assert.match(catalogueScript, /document\.documentElement\.dataset\.language = language/);
+assert.match(favicon, /<svg[\s\S]+Adawaty[\s\S]+#5ce1c5/);
+
+console.log('Localized navigation, no-flash bootstrap and favicon verification passed.');
 
 // END OF FILE
