@@ -1,6 +1,7 @@
 import './site-navigation.js?v=s7b36';
 import {
     assertPdfFile,
+    inspectPdfFile,
     createPdfBlob,
     loadPdfJs,
     loadPdfLib,
@@ -63,6 +64,7 @@ function applyLanguage() {
 async function openPdf(file) {
     try {
         assertPdfFile(file);
+        await inspectPdfFile(file);
         elements.status.textContent = t('loading');
         const bytes = await file.arrayBuffer();
         const pdfjs = await loadPdfJs();

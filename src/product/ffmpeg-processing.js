@@ -26,11 +26,25 @@ function getRuntime() {
 }
 
 function assertVideoFile(file) {
-    if (!(file instanceof File) || !file.type.startsWith('video/')) {
-        throw new Error('Please choose a valid video file.');
-    }
+    if (!(file instanceof File)) throw new Error('Please choose a valid video file.');
+    const name = file.name.toLowerCase();
+    const isVideo = file.type.startsWith('video/') || /\.(mp4|m4v|mov|webm|ogv|avi|mkv|mpeg|mpg)$/i.test(name);
+    if (!isVideo) throw new Error('Please choose a valid video file.');
 }
 
+async function inspectVideoFile(file) {
+    assertVideoFile(file);
+    if (file.size < 12) throw new Error('The selected file is not a readable video.');
+    const bytes = new Uint8Array(await file.slice(0, 64).arrayBuffer());
+    const ascii = new TextDecoder('latin1').decode(bytes);
+    const isIsoMedia = ascii.slice(4, 12).includes('ftyp');
+    const isWebM = bytes[0] === 0x1a && bytes[1] === 0x45 && bytes[2] === 0xdf && bytes[3] === 0xa3;
+    const isAvi = ascii.startsWith('RIFF') && ascii.slice(8, 12) === 'AVI ';
+    const isOgg = ascii.startsWith('OggS');
+    const isMpeg = bytes[0] === 0 && bytes[1] === 0 && bytes[2] === 1 && (bytes[3] === 0xba || bytes[3] === 0xb3);
+    if (!isIsoMedia && !isWebM && !isAvi && !isOgg && !isMpeg) throw new Error('The selected file is not a readable video.');
+    return Object.freeze({ size: file.size, container: isIsoMedia ? 'iso-media' : isWebM ? 'webm' : isAvi ? 'avi' : isOgg ? 'ogg' : 'mpeg' });
+}
 function assertAudioFile(file) {
     if (!(file instanceof File)) {
         throw new Error('Please choose a valid audio file.');
@@ -81,7 +95,7 @@ async function processMedia(file, args, outputFilename, mimeType = 'application/
 }
 
 async function processVideo(file, args, outputFilename, mimeType = 'video/mp4') {
-    assertVideoFile(file);
+    await inspectVideoFile(file);
     return processMedia(file, args, outputFilename, mimeType);
 }
 
@@ -94,6 +108,7 @@ export {
     assertAudioFile,
     assertMediaFile,
     assertVideoFile,
+    inspectVideoFile,
     processAudio,
     processMedia,
     processVideo,
