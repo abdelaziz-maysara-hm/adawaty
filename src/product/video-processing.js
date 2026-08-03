@@ -1,16 +1,22 @@
 import { canvasToBlob } from './image-processing.js';
+import { inspectVideoFile } from './ffmpeg-processing.js';
 
-function loadVideo(file) {
-    if (!(file instanceof File) || !file.type.startsWith('video/')) {
-        return Promise.reject(new Error('Please select a valid video file.'));
-    }
+async function loadVideo(file) {
+    await inspectVideoFile(file);
     return new Promise((resolve, reject) => {
         const url = URL.createObjectURL(file);
         const video = document.createElement('video');
         video.preload = 'auto';
         video.muted = true;
         video.playsInline = true;
-        video.onloadeddata = () => resolve({ video, url });
+        video.onloadedmetadata = () => {
+            if (!video.videoWidth || !video.videoHeight || !Number.isFinite(video.duration)) {
+                URL.revokeObjectURL(url);
+                reject(new Error('This video has invalid dimensions or duration.'));
+                return;
+            }
+            resolve({ video, url });
+        };
         video.onerror = () => {
             URL.revokeObjectURL(url);
             reject(new Error('This browser cannot decode the selected video.'));
@@ -63,6 +69,7 @@ async function captureVideoFrame(video, {
     type = 'image/jpeg',
     quality = 0.92,
 } = {}) {
+    if (!video.videoWidth || !video.videoHeight) throw new Error('Video metadata is not ready yet.');
     const targetWidth = Math.max(1, Math.round(width));
     const targetHeight = Math.max(
         1,

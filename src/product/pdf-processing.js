@@ -32,6 +32,15 @@ function assertPdfFile(file) {
     }
 }
 
+async function inspectPdfFile(file) {
+    assertPdfFile(file);
+    if (file.size < 8) throw new Error('The selected file is not a readable PDF document.');
+    const header = new Uint8Array(await file.slice(0, Math.min(file.size, 1024)).arrayBuffer());
+    const trailer = new Uint8Array(await file.slice(Math.max(0, file.size - 2048)).arrayBuffer());
+    const decode = (bytes) => new TextDecoder('latin1').decode(bytes);
+    if (!decode(header).includes('%PDF-') || !decode(trailer).includes('%%EOF')) throw new Error('The selected file is not a readable PDF document.');
+    return Object.freeze({ size: file.size, version: decode(header).match(/%PDF-(\d\.\d)/)?.[1] ?? null });
+}
 function parsePageSelection(value, pageCount) {
     const selection = String(value ?? '').trim().toLowerCase();
     if (!selection || selection === 'all') {
@@ -75,6 +84,7 @@ function outputName(file, suffix) {
 export {
     assertPdfFile,
     createPdfBlob,
+    inspectPdfFile,
     loadPdfLib,
     loadPdfJs,
     outputName,
