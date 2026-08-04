@@ -103,4 +103,63 @@ export const ROUNDUP_CONTENT = [
     toolIds: ['json-formatter', 'jwt-decoder', 'hash-generator', 'regex-tester', 'uuid-generator', 'url-slug-generator', 'curl-command-generator', 'css-beautifier'],
     category: 'developer',
   },
-];
+  {
+    slug: 'best-free-audio-tools',
+    titleAr: 'أفضل أدوات تحرير وتحويل الصوت مجانًا أونلاين',
+    titleEn: 'Best Free Online Audio Editing & Conversion Tools',
+    introAr: [
+      'قص مقطع صوتي، تغيير الصيغة، أو ضبط مستوى الصوت غالبًا مواقف بسيطة، ومش لازم تحمّل برنامج تحرير صوت كامل عشانها.',
+      'أدوات الصوت في أدواتي بتغطي الاحتياجات الشائعة دي مباشرة من المتصفح، من غير رفع الملف لأي سيرفر خارجي — مفيد خصوصًا لو الملف فيه محتوى شخصي أو حساس.',
+    ],
+    introEn: [
+      'Trimming an audio clip, changing its format, or adjusting volume are often simple, one-off needs that don\'t require downloading a full audio editor.',
+      'Adawaty\'s audio tools cover these common needs directly in the browser, without uploading the file to any external server -- especially useful if the file has personal or sensitive content.',
+    ],
+    toolIds: ['audio-trimmer', 'audio-format-converter', 'audio-volume-changer', 'audio-fade-in-out-editor', 'stereo-to-mono-converter'],
+    category: 'audio',
+  },
+  {
+    slug: 'free-text-tools-online',
+    titleAr: 'أدوات تنظيف وتنسيق النصوص مجانًا أونلاين',
+    titleEn: 'Free Online Text Cleaning & Formatting Tools',
+    introAr: [
+      'عد كلمات، حذف مسافات زيادة، أو ترتيب أسطر ملف نصي مهام بسيطة لكن بتتكرر كتير، خصوصًا لو بتشتغل في كتابة أو تدقيق محتوى.',
+      'مجموعة أدوات النصوص في أدواتي بتجمّع الاحتياجات الشائعة دي في مكان واحد، وكل أداة بتشتغل فورًا من غير أي انتظار أو رفع ملفات.',
+    ],
+    introEn: [
+      'Counting words, removing extra whitespace, or sorting lines in a text file are simple but frequently repeated tasks, especially if you write or edit content regularly.',
+      'Adawaty\'s text tools collection gathers these common needs in one place, and every tool works instantly with no waiting or file uploads.',
+    ],
+    toolIds: ['word-counter', 'character-counter', 'whitespace-cleaner', 'duplicate-line-remover', 'line-sorter', 'text-case-converter', 'reading-time-calculator', 'slug-generator'],
+    category: 'text',
+  },
+  {
+    slug: 'free-css-generator-tools',
+    titleAr: 'أفضل مولّدات CSS مجانية للمصممين والمطورين',
+    titleEn: 'Best Free CSS Generator Tools for Designers & Developers',
+    introAr: [
+      'كتابة كود CSS لتأثيرات زي التدرجات (Gradients) أو الظلال (Box Shadow) أو Clip-Path يدويًا بياخد وقت وتجربة وخطأ، خصوصًا لو مش بتستخدمهم كل يوم.',
+      'مولّدات CSS في أدواتي بتديك تحكم بصري مباشر (تحرك قيمة، تشوف النتيجة فورًا) وبعدين تاخد الكود الجاهز للصق مباشرة في مشروعك.',
+    ],
+    introEn: [
+      'Hand-writing CSS for effects like gradients, box shadows, or clip-path takes time and trial and error, especially if you don\'t use them daily.',
+      'Adawaty\'s CSS generators give you direct visual control (move a value, see the result instantly) then hand you ready-to-paste code for your project.',
+    ],
+    toolIds: ['css-linear-gradient-generator', 'css-box-shadow-generator', 'css-border-radius-generator', 'css-glassmorphism-generator', 'css-clip-path-generator', 'css-loader-generator', 'svg-pattern-generator'],
+    category: 'color-css',
+  },
+  {
+    slug: 'free-health-calculators-online',
+    titleAr: 'أفضل حاسبات صحية مجانية أونلاين (BMI، السعرات، الماكروز)',
+    titleEn: 'Best Free Online Health Calculators (BMI, Calories, Macros)',
+    introAr: [
+      'حاسبات زي مؤشر كتلة الجسم (BMI) أو الاحتياج اليومي من السعرات (TDEE) بتساعدك تحدد أهداف واقعية لو بتتابع وزنك أو لياقتك — بس النتيجة بتفضل تقديرية، مش بديل عن استشارة طبيب أو أخصائي تغذية.',
+      'مجموعة الحاسبات الصحية في أدواتي بتغطي أكتر الاحتياجات شيوعًا، كل واحدة بصفحة بسيطة وشرح واضح للنتيجة.',
+    ],
+    introEn: [
+      'Calculators like BMI or daily calorie needs (TDEE) help set realistic goals if you\'re tracking weight or fitness -- but the result stays an estimate, not a substitute for consulting a doctor or nutritionist.',
+      'Adawaty\'s health calculator collection covers the most common needs, each with a simple page and a clear explanation of the result.',
+    ],
+    toolIds: ['bmi-calculator', 'bmr-calculator', 'tdee-calculator', 'calorie-deficit-calculator', 'macro-calculator', 'ideal-weight-calculator', 'water-intake-calculator', 'body-fat-calculator'],
+    category: 'health',
+  }];
