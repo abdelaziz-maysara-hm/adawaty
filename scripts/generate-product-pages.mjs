@@ -7,7 +7,7 @@ import { retiredToolIds } from '../src/product/retired-tool-ids.js';
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const baseUrl = 'https://www.adawaty.tools';
-const assetVersion = 's7b42';
+const assetVersion = 's7b43';
 const catalogueAssetVersion = 's7b42';
 const tools = listToolDefinitions();
 const categories = Object.freeze({
@@ -51,6 +51,9 @@ function createToolPage(tool) {
     const canonical = `${baseUrl}/tools/${tool.id}/`;
     const categoryLabel = categories[tool.category]?.ar ?? tool.category;
     const categoryUrl = `${baseUrl}/categories/${tool.category}/`;
+    const relatedTools = tools
+        .filter((candidate) => candidate.category === tool.category && candidate.id !== tool.id)
+        .slice(0, 6);
     const structuredData = safeJson({
         '@context': 'https://schema.org',
         '@type': 'SoftwareApplication',
@@ -78,6 +81,16 @@ function createToolPage(tool) {
             { '@type': 'ListItem', position: 3, name: tool.title.ar, item: canonical },
         ],
     });
+    const relatedData = relatedTools.length ? safeJson({
+        '@context': 'https://schema.org',
+        '@type': 'ItemList',
+        itemListElement: relatedTools.map((related, index) => ({
+            '@type': 'ListItem',
+            position: index + 1,
+            url: `${baseUrl}/tools/${related.id}/`,
+            name: related.title.ar,
+        })),
+    }) : '';
 
     return `<!doctype html>
 <html lang="ar" dir="rtl" data-language="ar">
@@ -109,6 +122,7 @@ function createToolPage(tool) {
     <meta name="twitter:description" content="${description}">
     <script type="application/ld+json">${structuredData}</script>
     <script type="application/ld+json">${breadcrumbData}</script>
+    ${relatedData ? `<script type="application/ld+json">${relatedData}</script>` : ''}
     <link rel="stylesheet" href="../../src/css/main.css">
     <link rel="stylesheet" href="../../src/css/product.css">
     <script type="module" src="../../src/product/tool-page.js?v=${assetVersion}"></script>
@@ -148,6 +162,15 @@ function createToolPage(tool) {
                 </output>
             </section>
         </div>
+        ${relatedTools.length ? `<section class="product-related">
+            <h2>أدوات ذات صلة</h2>
+            <div class="product-related-grid">
+                ${relatedTools.map((related) => `<a class="product-related-card" href="../../tools/${related.id}/">
+                    <span class="product-related-icon" aria-hidden="true">${escapeHtml(related.icon ?? '')}</span>
+                    <span class="product-related-title">${escapeHtml(related.title.ar)}</span>
+                </a>`).join('\n                ')}
+            </div>
+        </section>` : ''}
     </main>
     <footer class="site-footer"><div class="footer-row shell"><p>Adawaty</p><p>© <span id="current-year"></span></p></div></footer>
 </body>

@@ -24,6 +24,50 @@
     grid-template-columns: minmax(0, 0.9fr) minmax(340px, 1.1fr);
 }
 
+.product-related {
+    margin-top: 40px;
+}
+
+.product-related h2 {
+    font-size: 1.3rem;
+    margin-bottom: 16px;
+}
+
+.product-related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 14px;
+}
+
+.product-related-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 16px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.02);
+    color: inherit;
+    text-decoration: none;
+    transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.product-related-card:hover {
+    border-color: var(--brand, #55d8c1);
+    background: rgba(85, 216, 193, 0.06);
+}
+
+.product-related-icon {
+    font-size: 1.1rem;
+    opacity: 0.85;
+    flex-shrink: 0;
+}
+
+.product-related-title {
+    font-size: 0.92rem;
+    line-height: 1.4;
+}
+
 .product-intro {
     padding: 10px 10px 10px 0;
 }
