@@ -27,6 +27,38 @@ function numberInput(id, ar, en, placeholder, min, max, unit) {
     });
 }
 
+function timeInput(id, ar, en, placeholder) {
+    return Object.freeze({
+        id,
+        type: 'text',
+        placeholder,
+        label: Object.freeze({ ar, en }),
+        unit: Object.freeze({ ar: 'دقيقة:ثانية', en: 'min:sec' }),
+    });
+}
+
+/** Accepts "SS", "M:SS", or "H:MM:SS" and returns total seconds. */
+function parseTimeToSeconds(input, language) {
+    const text = String(input ?? '').trim();
+    if (!text) {
+        throw new Error(localized(language, 'اكتب الوقت بصيغة دقيقة:ثانية، مثلًا 1:30', 'Enter the time as minutes:seconds, e.g. 1:30'));
+    }
+    const parts = text.split(':').map((part) => part.trim());
+    if (parts.some((part) => part !== '' && !/^\d+(\.\d+)?$/.test(part))) {
+        throw new Error(localized(language, 'صيغة الوقت غير صحيحة. استخدم دقيقة:ثانية، مثلًا 1:30', 'Invalid time format. Use minutes:seconds, e.g. 1:30'));
+    }
+    const numbers = parts.map((part) => Number(part || 0));
+    let seconds = 0;
+    if (numbers.length === 1) [seconds] = numbers;
+    else if (numbers.length === 2) seconds = numbers[0] * 60 + numbers[1];
+    else if (numbers.length === 3) seconds = numbers[0] * 3600 + numbers[1] * 60 + numbers[2];
+    else throw new Error(localized(language, 'صيغة الوقت غير صحيحة.', 'Invalid time format.'));
+    if (!Number.isFinite(seconds) || seconds < 0) {
+        throw new Error(localized(language, 'الوقت غير صالح.', 'Invalid time.'));
+    }
+    return seconds;
+}
+
 function output(blob, filename, language, ar, en) {
     return {
         value: `${(blob.size / 1024 / 1024).toFixed(1)} MB`,
@@ -90,22 +122,24 @@ const videoTrimmer = Object.freeze({
         en: 'Extract a selected section from an MP4, WebM or MOV video using start and end times.',
     }),
     note: Object.freeze({
-        ar: 'المعالجة لا ترفع الفيديو، وقد يستغرق تحميل محرك الفيديو أول مرة بعض الوقت.',
-        en: 'The video is not uploaded. Loading the video engine for the first time may take a moment.',
+        ar: 'اكتب الوقت بصيغة دقيقة:ثانية (مثلًا 1:30 لدقيقة ونص)، أو ثواني بس (مثلًا 90). المعالجة لا ترفع الفيديو، وقد يستغرق تحميل محرك الفيديو أول مرة بعض الوقت.',
+        en: 'Enter time as minutes:seconds (e.g. 1:30), or just seconds (e.g. 90). The video is not uploaded. Loading the video engine for the first time may take a moment.',
     }),
     inputs: Object.freeze([
         videoInput(),
-        numberInput('start', 'وقت البداية', 'Start time', 0, 0, 86400, 'ث'),
-        numberInput('end', 'وقت النهاية', 'End time', 10, 0.1, 86400, 'ث'),
+        timeInput('start', 'وقت البداية', 'Start time', '0:00'),
+        timeInput('end', 'وقت النهاية', 'End time', '0:10'),
     ]),
     async process(values, language) {
-        if (values.end <= values.start) {
+        const start = parseTimeToSeconds(values.start, language);
+        const end = parseTimeToSeconds(values.end, language);
+        if (end <= start) {
             throw new Error(localized(language, 'وقت النهاية يجب أن يكون بعد البداية.', 'End time must be after start time.'));
         }
-        const duration = values.end - values.start;
+        const duration = end - start;
         const blob = await processVideo(
             values.video,
-            ['-ss', String(values.start), '-t', String(duration), '-c', 'copy'],
+            ['-ss', String(start), '-t', String(duration), '-c', 'copy'],
             'trimmed.mp4',
         );
         return output(blob, 'adawaty-trimmed-video.mp4', language, 'الفيديو المقصوص جاهز', 'Trimmed video is ready');
@@ -246,12 +280,12 @@ const videoResizer = Object.freeze({
     action: Object.freeze({ ar: 'غيّر الأبعاد', en: 'Resize video' }),
     title: Object.freeze({ ar: 'تغيير أبعاد ودقة الفيديو', en: 'Resize Video Resolution' }),
     description: Object.freeze({
-        ar: 'غيّر عرض الفيديو إلى دقة مناسبة للموبايل أو الويب مع الحفاظ على نسبة الأبعاد.',
-        en: 'Resize video width for mobile or web while preserving its aspect ratio.',
+        ar: 'غيّر عرض وطول الفيديو لدقة مناسبة للموبايل أو الويب، مع خيار الحفاظ التلقائي على نسبة الأبعاد.',
+        en: 'Resize video width and height for mobile or web, with an option to auto-preserve the aspect ratio.',
     }),
     note: Object.freeze({
-        ar: 'لن يتم تكبير الفيديو إذا كان عرضه الأصلي أقل من القيمة المختارة.',
-        en: 'The video will not be enlarged when its original width is below the selected value.',
+        ar: 'اختر "تلقائي" للطول للحفاظ على نسبة الأبعاد الأصلية بدون تشويه. تحديد طول مخصص مع العرض قد يغيّر شكل الفيديو (تمديد). لن يتم تكبير الفيديو إذا كان عرضه الأصلي أقل من القيمة المختارة.',
+        en: 'Choose "Auto" for height to preserve the original aspect ratio without distortion. Setting a custom height alongside width may stretch the video. The video will not be enlarged if its original width is below the selected value.',
     }),
     inputs: Object.freeze([
         videoInput(),
@@ -267,12 +301,28 @@ const videoResizer = Object.freeze({
                 Object.freeze({ value: '640', label: Object.freeze({ ar: '640 بكسل', en: '640 px' }) }),
             ]),
         }),
+        Object.freeze({
+            id: 'height',
+            type: 'select',
+            label: Object.freeze({ ar: 'الطول الجديد', en: 'New height' }),
+            unit: Object.freeze({ ar: '', en: '' }),
+            options: Object.freeze([
+                Object.freeze({ value: 'auto', label: Object.freeze({ ar: 'تلقائي (حفاظ على النسبة)', en: 'Auto (keep aspect ratio)' }) }),
+                Object.freeze({ value: '1080', label: Object.freeze({ ar: '1080 بكسل', en: '1080 px' }) }),
+                Object.freeze({ value: '720', label: Object.freeze({ ar: '720 بكسل', en: '720 px' }) }),
+                Object.freeze({ value: '480', label: Object.freeze({ ar: '480 بكسل', en: '480 px' }) }),
+                Object.freeze({ value: '360', label: Object.freeze({ ar: '360 بكسل', en: '360 px' }) }),
+            ]),
+        }),
     ]),
     async process(values, language) {
+        const scaleFilter = values.height === 'auto'
+            ? `scale='min(${values.width},iw)':-2`
+            : `scale=${values.width}:${values.height}`;
         const blob = await processVideo(
             values.video,
             [
-                '-vf', `scale='min(${values.width},iw)':-2`,
+                '-vf', scaleFilter,
                 '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '24',
                 '-c:a', 'aac', '-movflags', '+faststart',
             ],

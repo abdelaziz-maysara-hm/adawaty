@@ -59,6 +59,19 @@ function angleInput() {
     });
 }
 
+function selectInput(id, ar, en, options) {
+    return Object.freeze({
+        id,
+        type: 'select',
+        label: Object.freeze({ ar, en }),
+        unit: Object.freeze({ ar: '', en: '' }),
+        options: Object.freeze(options.map(([value, optAr, optEn]) => Object.freeze({
+            value,
+            label: Object.freeze({ ar: optAr, en: optEn }),
+        }))),
+    });
+}
+
 function result(blob, filename, pageCount, language, ar, en) {
     return {
         value: localized(language, `${pageCount} صفحة`, `${pageCount} pages`),
@@ -75,7 +88,7 @@ function parseOptionalPages(value, pageCount) {
         : parsePageSelection(normalized, pageCount);
 }
 
-function drawWatermark(document, pages, text, fontSize, opacity, pdfLib) {
+function drawWatermark(document, pages, text, fontSize, opacity, pdfLib, angleDegrees = -35) {
     if (!text || text === '-') {
         return Promise.resolve();
     }
@@ -91,7 +104,7 @@ function drawWatermark(document, pages, text, fontSize, opacity, pdfLib) {
                     font,
                     color: pdfLib.rgb(0.35, 0.35, 0.35),
                     opacity,
-                    rotate: pdfLib.degrees(-35),
+                    rotate: pdfLib.degrees(angleDegrees),
                 });
             });
         });
@@ -139,8 +152,8 @@ const watermark = Object.freeze({
     action: Object.freeze({ ar: 'أضف العلامة المائية', en: 'Add watermark' }),
     title: Object.freeze({ ar: 'إضافة علامة مائية إلى PDF', en: 'Add PDF Watermark' }),
     description: Object.freeze({
-        ar: 'أضف نصًا شفافًا قطريًا إلى جميع صفحات ملف PDF.',
-        en: 'Add diagonal transparent text to every page of a PDF.',
+        ar: 'أضف نصًا شفافًا إلى جميع صفحات ملف PDF، باتجاه قطري أو أفقي أو رأسي حسب اختيارك.',
+        en: 'Add transparent text to every page of a PDF, diagonal, horizontal, or vertical as you choose.',
     }),
     note: Object.freeze({
         ar: 'تُطبق العلامة داخل متصفحك ولا يغادر المستند جهازك.',
@@ -151,11 +164,17 @@ const watermark = Object.freeze({
         textInput('watermark', 'نص العلامة المائية', 'Watermark text', 'CONFIDENTIAL'),
         numberInput('fontSize', 'حجم النص', 'Text size', 48, 12, 160),
         numberInput('opacity', 'الشفافية', 'Opacity', 25, 5, 100),
+        selectInput('orientation', 'الاتجاه', 'Orientation', [
+            ['diagonal', 'قطري', 'Diagonal'],
+            ['horizontal', 'أفقي', 'Horizontal'],
+            ['vertical', 'رأسي', 'Vertical'],
+        ]),
     ]),
     async process(values, language) {
         assertPdfFile(values.pdf);
         const pdfLib = await loadPdfLib();
         const document = await pdfLib.PDFDocument.load(await values.pdf.arrayBuffer());
+        const angleByOrientation = { diagonal: -35, horizontal: 0, vertical: 90 };
         await drawWatermark(
             document,
             document.getPages(),
@@ -163,6 +182,7 @@ const watermark = Object.freeze({
             values.fontSize,
             values.opacity / 100,
             pdfLib,
+            angleByOrientation[values.orientation] ?? -35,
         );
         const blob = createPdfBlob(await document.save());
         return result(blob, outputName(values.pdf, 'watermarked'), document.getPageCount(), language, 'تمت إضافة العلامة المائية', 'Watermarked PDF is ready');

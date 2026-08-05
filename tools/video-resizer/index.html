@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://cdn.sheetjs.com" crossorigin>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#07111f">
-    <meta name="description" content="غيّر عرض الفيديو إلى دقة مناسبة للموبايل أو الويب مع الحفاظ على نسبة الأبعاد.">
+    <meta name="description" content="غيّر عرض وطول الفيديو لدقة مناسبة للموبايل أو الويب، مع خيار الحفاظ التلقائي على نسبة الأبعاد.">
     <title>تغيير أبعاد ودقة الفيديو | أدواتي</title>
     <link rel="canonical" href="https://www.adawaty.tools/tools/video-resizer/">
     <link rel="alternate" hreflang="ar" href="https://www.adawaty.tools/tools/video-resizer/">
@@ -19,14 +19,14 @@
     <link rel="alternate" hreflang="x-default" href="https://www.adawaty.tools/tools/video-resizer/">
     <meta property="og:type" content="website">
     <meta property="og:title" content="تغيير أبعاد ودقة الفيديو">
-    <meta property="og:description" content="غيّر عرض الفيديو إلى دقة مناسبة للموبايل أو الويب مع الحفاظ على نسبة الأبعاد.">
+    <meta property="og:description" content="غيّر عرض وطول الفيديو لدقة مناسبة للموبايل أو الويب، مع خيار الحفاظ التلقائي على نسبة الأبعاد.">
     <meta property="og:url" content="https://www.adawaty.tools/tools/video-resizer/">
     <meta property="og:locale" content="ar_AR">
     <meta property="og:locale:alternate" content="en_US">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="تغيير أبعاد ودقة الفيديو">
-    <meta name="twitter:description" content="غيّر عرض الفيديو إلى دقة مناسبة للموبايل أو الويب مع الحفاظ على نسبة الأبعاد.">
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Resize Video Resolution","alternateName":"تغيير أبعاد ودقة الفيديو","description":"Resize video width for mobile or web while preserving its aspect ratio.","url":"https://www.adawaty.tools/tools/video-resizer/","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true,"inLanguage":["ar","en"]}</script>
+    <meta name="twitter:description" content="غيّر عرض وطول الفيديو لدقة مناسبة للموبايل أو الويب، مع خيار الحفاظ التلقائي على نسبة الأبعاد.">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Resize Video Resolution","alternateName":"تغيير أبعاد ودقة الفيديو","description":"Resize video width and height for mobile or web, with an option to auto-preserve the aspect ratio.","url":"https://www.adawaty.tools/tools/video-resizer/","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true,"inLanguage":["ar","en"]}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"أدواتي","item":"https://www.adawaty.tools/"},{"@type":"ListItem","position":2,"name":"أدوات الفيديو","item":"https://www.adawaty.tools/categories/video/"},{"@type":"ListItem","position":3,"name":"تغيير أبعاد ودقة الفيديو","item":"https://www.adawaty.tools/tools/video-resizer/"}]}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"url":"https://www.adawaty.tools/tools/video-thumbnail-extractor/","name":"استخراج صورة مصغرة من الفيديو"},{"@type":"ListItem","position":2,"url":"https://www.adawaty.tools/tools/video-contact-sheet-generator/","name":"مولّد لوحة لقطات الفيديو"},{"@type":"ListItem","position":3,"url":"https://www.adawaty.tools/tools/video-frame-sequence-extractor/","name":"استخراج لقطات الفيديو إلى ZIP"},{"@type":"ListItem","position":4,"url":"https://www.adawaty.tools/tools/video-audio-extractor/","name":"استخراج الصوت من الفيديو"},{"@type":"ListItem","position":5,"url":"https://www.adawaty.tools/tools/video-trimmer/","name":"قص الفيديو أونلاين"},{"@type":"ListItem","position":6,"url":"https://www.adawaty.tools/tools/video-compressor/","name":"ضغط الفيديو وتقليل حجمه"}]}</script>
     <link rel="stylesheet" href="../../src/css/main.css">
@@ -50,8 +50,8 @@
             <section class="product-intro">
                 <span class="product-icon" id="tool-icon" aria-hidden="true"></span>
                 <h1 id="tool-title">تغيير أبعاد ودقة الفيديو</h1>
-                <p class="product-description" id="tool-description">غيّر عرض الفيديو إلى دقة مناسبة للموبايل أو الويب مع الحفاظ على نسبة الأبعاد.</p>
-                <p class="product-note" id="tool-note">لن يتم تكبير الفيديو إذا كان عرضه الأصلي أقل من القيمة المختارة.</p>
+                <p class="product-description" id="tool-description">غيّر عرض وطول الفيديو لدقة مناسبة للموبايل أو الويب، مع خيار الحفاظ التلقائي على نسبة الأبعاد.</p>
+                <p class="product-note" id="tool-note">اختر &quot;تلقائي&quot; للطول للحفاظ على نسبة الأبعاد الأصلية بدون تشويه. تحديد طول مخصص مع العرض قد يغيّر شكل الفيديو (تمديد). لن يتم تكبير الفيديو إذا كان عرضه الأصلي أقل من القيمة المختارة.</p>
             </section>
             <section class="product-calculator" aria-label="Calculator">
                 <form class="product-form" id="tool-form"></form>
