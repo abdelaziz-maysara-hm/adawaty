@@ -94,6 +94,20 @@ async function processMedia(file, args, outputFilename, mimeType = 'application/
     }
 }
 
+async function processMediaFiles(files, buildArgs, outputFilename, mimeType = 'application/octet-stream') {
+    files.forEach(assertMediaFile);
+    const { ffmpeg, fetchFile } = await getRuntime();
+    const inputFilenames = files.map((file) => `input-${crypto.randomUUID()}.${extension(file)}`);
+    const outputPath = `output-${crypto.randomUUID()}-${outputFilename}`;
+    try {
+        for (let index = 0; index < files.length; index += 1) await ffmpeg.writeFile(inputFilenames[index], await fetchFile(files[index]));
+        const exitCode = await ffmpeg.exec([...buildArgs(inputFilenames), outputPath]);
+        if (exitCode !== 0) throw new Error('Media processing failed for this codec or file.');
+        return new Blob([await ffmpeg.readFile(outputPath)], { type: mimeType });
+    } finally {
+        await Promise.allSettled([...inputFilenames, outputPath].map((path) => ffmpeg.deleteFile(path)));
+    }
+}
 async function processVideo(file, args, outputFilename, mimeType = 'video/mp4') {
     await inspectVideoFile(file);
     return processMedia(file, args, outputFilename, mimeType);
@@ -111,6 +125,7 @@ export {
     inspectVideoFile,
     processAudio,
     processMedia,
+    processMediaFiles,
     processVideo,
 };
 

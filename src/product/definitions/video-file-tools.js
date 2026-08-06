@@ -1,9 +1,5 @@
 import { canvasToBlob } from '../image-processing.js';
-import {
-    audioBufferToWavBlob,
-    decodeAudioFile,
-    formatAudioDuration,
-} from '../audio-processing.js';
+import { processVideo } from '../ffmpeg-processing.js';
 import {
     captureVideoFrame,
     drawVideoFrame,
@@ -285,28 +281,31 @@ const videoAudioExtractor = videoBase({
         ar: 'تتم العملية بالكامل داخل المتصفح. قد تحتاج الملفات الطويلة إلى ذاكرة كبيرة، ويجب أن يدعم المتصفح ترميز الصوت المستخدم.',
         en: 'Processing stays in the browser. Long files may need substantial memory, and the audio codec must be browser-supported.',
     }),
-    inputs: Object.freeze([videoInput()]),
+    inputs: Object.freeze([videoInput(), Object.freeze({
+        id: 'format', type: 'select',
+        label: Object.freeze({ ar: 'صيغة الصوت', en: 'Audio format' }), unit: Object.freeze({ ar: '', en: '' }),
+        options: Object.freeze([
+            Object.freeze({ value: 'wav', label: Object.freeze({ ar: 'WAV', en: 'WAV' }) }),
+            Object.freeze({ value: 'mp3', label: Object.freeze({ ar: 'MP3', en: 'MP3' }) }),
+            Object.freeze({ value: 'aac', label: Object.freeze({ ar: 'AAC', en: 'AAC' }) }),
+            Object.freeze({ value: 'ogg', label: Object.freeze({ ar: 'OGG', en: 'OGG' }) }),
+        ]),
+    })]),
     async process(values, language) {
-        const audioBuffer = await decodeAudioFile(values.video);
-        const blob = audioBufferToWavBlob(audioBuffer);
-        const channels = Math.min(audioBuffer.numberOfChannels, 2);
-
+        const formats = {
+            wav: { args: ['-vn', '-c:a', 'pcm_s16le'], mime: 'audio/wav' },
+            mp3: { args: ['-vn', '-c:a', 'libmp3lame', '-q:a', '2'], mime: 'audio/mpeg' },
+            aac: { args: ['-vn', '-c:a', 'aac', '-b:a', '192k'], mime: 'audio/aac' },
+            ogg: { args: ['-vn', '-c:a', 'libopus', '-b:a', '160k'], mime: 'audio/ogg' },
+        };
+        const selected = values.format || 'wav';
+        const format = formats[selected] ?? formats.wav;
+        const blob = await processVideo(values.video, format.args, `audio.${selected}`, format.mime);
         return {
-            value: formatAudioDuration(audioBuffer.duration),
-            label: localized(
-                language,
-                'ملف الصوت WAV جاهز',
-                'WAV audio file is ready',
-            ),
-            details: localized(
-                language,
-                `${audioBuffer.sampleRate} هرتز · ${channels === 1 ? 'أحادي' : 'ستيريو'} · ${(blob.size / 1024 / 1024).toFixed(1)} ميجابايت`,
-                `${audioBuffer.sampleRate} Hz · ${channels === 1 ? 'Mono' : 'Stereo'} · ${(blob.size / 1024 / 1024).toFixed(1)} MB`,
-            ),
-            download: {
-                blob,
-                filename: 'adawaty-extracted-audio.wav',
-            },
+            value: `${(blob.size / 1024 / 1024).toFixed(1)} MB`,
+            label: localized(language, 'ملف الصوت جاهز', 'Audio file is ready'),
+            details: localized(language, 'تم الاستخراج محليًا داخل المتصفح.', 'Extracted locally in your browser.'),
+            download: { blob, filename: `adawaty-extracted-audio.${selected}` },
         };
     },
 });

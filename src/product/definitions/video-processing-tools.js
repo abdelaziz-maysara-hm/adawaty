@@ -1,4 +1,11 @@
-import { processVideo } from '../ffmpeg-processing.js';
+import { processMediaFiles, processVideo } from '../ffmpeg-processing.js';
+
+const JSZIP_URL = 'https://cdn.jsdelivr.net/npm/jszip@3.10.1/+esm';
+let zipPromise;
+function loadZip() {
+    zipPromise ??= import(JSZIP_URL).then((module) => module.default);
+    return zipPromise;
+}
 
 function localized(language, ar, en) {
     return language === 'ar' ? ar : en;
@@ -14,6 +21,13 @@ function videoInput() {
     });
 }
 
+function audioInput() {
+    return Object.freeze({
+        id: 'audio', type: 'file', accept: 'audio/*,.mp3,.wav,.m4a,.aac,.ogg,.opus,.flac',
+        label: Object.freeze({ ar: 'اختر ملف الصوت', en: 'Choose audio file' }),
+        unit: Object.freeze({ ar: '', en: '' }),
+    });
+}
 function numberInput(id, ar, en, placeholder, min, max, unit) {
     return Object.freeze({
         id,
@@ -25,38 +39,6 @@ function numberInput(id, ar, en, placeholder, min, max, unit) {
         label: Object.freeze({ ar, en }),
         unit: Object.freeze({ ar: unit, en: unit }),
     });
-}
-
-function timeInput(id, ar, en, placeholder) {
-    return Object.freeze({
-        id,
-        type: 'text',
-        placeholder,
-        label: Object.freeze({ ar, en }),
-        unit: Object.freeze({ ar: 'دقيقة:ثانية', en: 'min:sec' }),
-    });
-}
-
-/** Accepts "SS", "M:SS", or "H:MM:SS" and returns total seconds. */
-function parseTimeToSeconds(input, language) {
-    const text = String(input ?? '').trim();
-    if (!text) {
-        throw new Error(localized(language, 'اكتب الوقت بصيغة دقيقة:ثانية، مثلًا 1:30', 'Enter the time as minutes:seconds, e.g. 1:30'));
-    }
-    const parts = text.split(':').map((part) => part.trim());
-    if (parts.some((part) => part !== '' && !/^\d+(\.\d+)?$/.test(part))) {
-        throw new Error(localized(language, 'صيغة الوقت غير صحيحة. استخدم دقيقة:ثانية، مثلًا 1:30', 'Invalid time format. Use minutes:seconds, e.g. 1:30'));
-    }
-    const numbers = parts.map((part) => Number(part || 0));
-    let seconds = 0;
-    if (numbers.length === 1) [seconds] = numbers;
-    else if (numbers.length === 2) seconds = numbers[0] * 60 + numbers[1];
-    else if (numbers.length === 3) seconds = numbers[0] * 3600 + numbers[1] * 60 + numbers[2];
-    else throw new Error(localized(language, 'صيغة الوقت غير صحيحة.', 'Invalid time format.'));
-    if (!Number.isFinite(seconds) || seconds < 0) {
-        throw new Error(localized(language, 'الوقت غير صالح.', 'Invalid time.'));
-    }
-    return seconds;
 }
 
 function output(blob, filename, language, ar, en) {
@@ -76,7 +58,7 @@ const VIDEO_FORMATS = Object.freeze({
     mp4: {
         ext: 'mp4',
         mime: 'video/mp4',
-        args: ['-c:v', 'libx264', '-preset', 'veryfast', '-crf', '24', '-c:a', 'aac', '-movflags', '+faststart'],
+        args: ['-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '24', '-c:a', 'aac', '-movflags', '+faststart'],
         label: { ar: 'MP4 (H.264)', en: 'MP4 (H.264)' },
     },
     webm: {
@@ -88,19 +70,19 @@ const VIDEO_FORMATS = Object.freeze({
     mkv: {
         ext: 'mkv',
         mime: 'video/x-matroska',
-        args: ['-c:v', 'libx264', '-preset', 'veryfast', '-crf', '24', '-c:a', 'aac'],
+        args: ['-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '24', '-c:a', 'aac'],
         label: { ar: 'MKV', en: 'MKV' },
     },
     avi: {
         ext: 'avi',
         mime: 'video/x-msvideo',
-        args: ['-c:v', 'libx264', '-preset', 'veryfast', '-crf', '24', '-c:a', 'aac'],
+        args: ['-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '24', '-c:a', 'aac'],
         label: { ar: 'AVI', en: 'AVI' },
     },
     mov: {
         ext: 'mov',
         mime: 'video/quicktime',
-        args: ['-c:v', 'libx264', '-preset', 'veryfast', '-crf', '24', '-c:a', 'aac', '-movflags', '+faststart'],
+        args: ['-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '24', '-c:a', 'aac', '-movflags', '+faststart'],
         label: { ar: 'MOV', en: 'MOV' },
     },
     gif: {
@@ -122,24 +104,22 @@ const videoTrimmer = Object.freeze({
         en: 'Extract a selected section from an MP4, WebM or MOV video using start and end times.',
     }),
     note: Object.freeze({
-        ar: 'اكتب الوقت بصيغة دقيقة:ثانية (مثلًا 1:30 لدقيقة ونص)، أو ثواني بس (مثلًا 90). المعالجة لا ترفع الفيديو، وقد يستغرق تحميل محرك الفيديو أول مرة بعض الوقت.',
-        en: 'Enter time as minutes:seconds (e.g. 1:30), or just seconds (e.g. 90). The video is not uploaded. Loading the video engine for the first time may take a moment.',
+        ar: 'المعالجة لا ترفع الفيديو، وقد يستغرق تحميل محرك الفيديو أول مرة بعض الوقت.',
+        en: 'The video is not uploaded. Loading the video engine for the first time may take a moment.',
     }),
     inputs: Object.freeze([
         videoInput(),
-        timeInput('start', 'وقت البداية', 'Start time', '0:00'),
-        timeInput('end', 'وقت النهاية', 'End time', '0:10'),
+        numberInput('start', 'وقت البداية', 'Start time', 0, 0, 86400, 'ث'),
+        numberInput('end', 'وقت النهاية', 'End time', 10, 0.1, 86400, 'ث'),
     ]),
     async process(values, language) {
-        const start = parseTimeToSeconds(values.start, language);
-        const end = parseTimeToSeconds(values.end, language);
-        if (end <= start) {
+        if (values.end <= values.start) {
             throw new Error(localized(language, 'وقت النهاية يجب أن يكون بعد البداية.', 'End time must be after start time.'));
         }
-        const duration = end - start;
+        const duration = values.end - values.start;
         const blob = await processVideo(
             values.video,
-            ['-ss', String(start), '-t', String(duration), '-c', 'copy'],
+            ['-ss', String(values.start), '-t', String(duration), '-c', 'copy'],
             'trimmed.mp4',
         );
         return output(blob, 'adawaty-trimmed-video.mp4', language, 'الفيديو المقصوص جاهز', 'Trimmed video is ready');
@@ -191,7 +171,7 @@ const videoCompressor = Object.freeze({
             [
                 '-vf', `scale='min(${values.width},iw)':-2`,
                 '-c:v', 'libx264',
-                '-preset', 'veryfast',
+                '-preset', 'ultrafast',
                 '-crf', values.quality,
                 '-c:a', 'aac',
                 '-b:a', '128k',
@@ -221,7 +201,7 @@ const videoMute = Object.freeze({
     async process(values, language) {
         const blob = await processVideo(
             values.video,
-            ['-c:v', 'copy', '-an'],
+            ['-an', '-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '20', '-pix_fmt', 'yuv420p', '-movflags', '+faststart'],
             'silent.mp4',
         );
         return output(blob, 'adawaty-silent-video.mp4', language, 'الفيديو الصامت جاهز', 'Silent video is ready');
@@ -274,64 +254,31 @@ const videoConverter = Object.freeze({
 });
 
 const videoResizer = Object.freeze({
-    id: 'video-resizer',
-    category: 'video',
-    icon: 'VIDEO↔',
+    id: 'video-resizer', category: 'video', icon: 'VIDEO SIZE',
     action: Object.freeze({ ar: 'غيّر الأبعاد', en: 'Resize video' }),
-    title: Object.freeze({ ar: 'تغيير أبعاد ودقة الفيديو', en: 'Resize Video Resolution' }),
-    description: Object.freeze({
-        ar: 'غيّر عرض وطول الفيديو لدقة مناسبة للموبايل أو الويب، مع خيار الحفاظ التلقائي على نسبة الأبعاد.',
-        en: 'Resize video width and height for mobile or web, with an option to auto-preserve the aspect ratio.',
-    }),
-    note: Object.freeze({
-        ar: 'اختر "تلقائي" للطول للحفاظ على نسبة الأبعاد الأصلية بدون تشويه. تحديد طول مخصص مع العرض قد يغيّر شكل الفيديو (تمديد). لن يتم تكبير الفيديو إذا كان عرضه الأصلي أقل من القيمة المختارة.',
-        en: 'Choose "Auto" for height to preserve the original aspect ratio without distortion. Setting a custom height alongside width may stretch the video. The video will not be enlarged if its original width is below the selected value.',
-    }),
+    title: Object.freeze({ ar: 'تغيير عرض وارتفاع الفيديو', en: 'Resize Video Width and Height' }),
+    description: Object.freeze({ ar: 'حدد العرض والارتفاع مع الحفاظ على النسبة أو استخدام المقاس بالضبط.', en: 'Set both width and height, preserving the aspect ratio or using exact dimensions.' }),
+    note: Object.freeze({ ar: 'Uses a fast encoding preset to reduce processing time.', en: 'Uses a fast encoding preset to reduce processing time.' }),
     inputs: Object.freeze([
         videoInput(),
-        Object.freeze({
-            id: 'width',
-            type: 'select',
-            label: Object.freeze({ ar: 'العرض الجديد', en: 'New width' }),
-            unit: Object.freeze({ ar: '', en: '' }),
-            options: Object.freeze([
-                Object.freeze({ value: '1920', label: Object.freeze({ ar: '1920 بكسل', en: '1920 px' }) }),
-                Object.freeze({ value: '1280', label: Object.freeze({ ar: '1280 بكسل', en: '1280 px' }) }),
-                Object.freeze({ value: '854', label: Object.freeze({ ar: '854 بكسل', en: '854 px' }) }),
-                Object.freeze({ value: '640', label: Object.freeze({ ar: '640 بكسل', en: '640 px' }) }),
-            ]),
-        }),
-        Object.freeze({
-            id: 'height',
-            type: 'select',
-            label: Object.freeze({ ar: 'الطول الجديد', en: 'New height' }),
-            unit: Object.freeze({ ar: '', en: '' }),
-            options: Object.freeze([
-                Object.freeze({ value: 'auto', label: Object.freeze({ ar: 'تلقائي (حفاظ على النسبة)', en: 'Auto (keep aspect ratio)' }) }),
-                Object.freeze({ value: '1080', label: Object.freeze({ ar: '1080 بكسل', en: '1080 px' }) }),
-                Object.freeze({ value: '720', label: Object.freeze({ ar: '720 بكسل', en: '720 px' }) }),
-                Object.freeze({ value: '480', label: Object.freeze({ ar: '480 بكسل', en: '480 px' }) }),
-                Object.freeze({ value: '360', label: Object.freeze({ ar: '360 بكسل', en: '360 px' }) }),
-            ]),
-        }),
+        numberInput('width', 'New width', 'New width', 1280, 2, 7680, 'px'),
+        numberInput('height', 'New height', 'New height', 720, 2, 4320, 'px'),
+        Object.freeze({ id: 'fit', type: 'select', label: Object.freeze({ ar: 'Fit mode', en: 'Fit mode' }), unit: Object.freeze({ ar: '', en: '' }), options: Object.freeze([
+            Object.freeze({ value: 'contain', label: Object.freeze({ ar: 'Preserve ratio with padding', en: 'Preserve ratio with padding' }) }),
+            Object.freeze({ value: 'stretch', label: Object.freeze({ ar: 'Use exact dimensions', en: 'Use exact dimensions' }) }),
+        ]) }),
     ]),
     async process(values, language) {
-        const scaleFilter = values.height === 'auto'
-            ? `scale='min(${values.width},iw)':-2`
-            : `scale=${values.width}:${values.height}`;
-        const blob = await processVideo(
-            values.video,
-            [
-                '-vf', scaleFilter,
-                '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '24',
-                '-c:a', 'aac', '-movflags', '+faststart',
-            ],
-            'resized.mp4',
-        );
-        return output(blob, 'adawaty-resized-video.mp4', language, 'الفيديو بالأبعاد الجديدة جاهز', 'Resized video is ready');
+        const filter = values.fit === 'stretch'
+            ? `scale=${values.width}:${values.height}`
+            : `scale=${values.width}:${values.height}:force_original_aspect_ratio=decrease,pad=${values.width}:${values.height}:(ow-iw)/2:(oh-ih)/2`;
+        const blob = await processVideo(values.video, [
+            '-vf', filter, '-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '24', '-pix_fmt', 'yuv420p',
+            '-c:a', 'aac', '-movflags', '+faststart',
+        ], 'resized.mp4');
+        return output(blob, 'adawaty-resized-video.mp4', language, 'Resized video is ready', 'Resized video is ready');
     },
 });
-
 const videoSpeedChanger = Object.freeze({
     id: 'video-speed-changer',
     category: 'video',
@@ -366,7 +313,7 @@ const videoSpeedChanger = Object.freeze({
             [
                 '-filter_complex', `[0:v]setpts=${1 / speed}*PTS[v];[0:a]atempo=${speed}[a]`,
                 '-map', '[v]', '-map', '[a]',
-                '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '24',
+                '-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '24',
                 '-c:a', 'aac', '-movflags', '+faststart',
             ],
             'speed-changed.mp4',
@@ -375,6 +322,39 @@ const videoSpeedChanger = Object.freeze({
     },
 });
 
+const videoSplitter = Object.freeze({
+    id: 'video-splitter', category: 'video', icon: 'VIDEO CUT',
+    action: Object.freeze({ ar: 'قسّم الفيديو', en: 'Split video' }),
+    title: Object.freeze({ ar: 'تقسيم الفيديو إلى جزأين', en: 'Split Video into Two Parts' }),
+    description: Object.freeze({ ar: 'Split a video at a selected time and download both parts in one ZIP.', en: 'Split a video at a selected time and download both parts in one ZIP.' }),
+    note: Object.freeze({ ar: 'Streams are copied without re-encoding for faster processing.', en: 'Streams are copied without re-encoding for faster processing.' }),
+    inputs: Object.freeze([videoInput(), numberInput('splitAt', 'Split at', 'Split at', 10, 0.1, 86400, 's')]),
+    async process(values, language) {
+        const first = await processVideo(values.video, ['-t', String(values.splitAt), '-c', 'copy'], 'part-1.mp4');
+        const second = await processVideo(values.video, ['-ss', String(values.splitAt), '-c', 'copy'], 'part-2.mp4');
+        const Zip = await loadZip();
+        const zip = new Zip();
+        zip.file('adawaty-video-part-1.mp4', first);
+        zip.file('adawaty-video-part-2.mp4', second);
+        const blob = await zip.generateAsync({ type: 'blob', compression: 'STORE' });
+        return output(blob, 'adawaty-video-parts.zip', language, 'Video parts are ready', 'Video parts are ready');
+    },
+});
+
+const addAudioToVideo = Object.freeze({
+    id: 'add-audio-to-video', category: 'video', icon: 'VIDEO+AUDIO',
+    action: Object.freeze({ ar: 'أضف الصوت', en: 'Add audio' }),
+    title: Object.freeze({ ar: 'إضافة صوت إلى فيديو', en: 'Add Audio to Video' }),
+    description: Object.freeze({ ar: 'Replace a video soundtrack with a new audio file.', en: 'Replace a video soundtrack with a new audio file.' }),
+    note: Object.freeze({ ar: 'The video stream is copied to save processing time.', en: 'The video stream is copied to save processing time.' }),
+    inputs: Object.freeze([videoInput(), audioInput()]),
+    async process(values, language) {
+        const blob = await processMediaFiles([values.video, values.audio], ([video, audio]) => [
+            '-i', video, '-i', audio, '-map', '0:v:0', '-map', '1:a:0', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-shortest', '-movflags', '+faststart',
+        ], 'audio-added.mp4', 'video/mp4');
+        return output(blob, 'adawaty-video-with-audio.mp4', language, 'Video with new audio is ready', 'Video with new audio is ready');
+    },
+});
 const videoProcessingToolDefinitions = Object.freeze({
     [videoTrimmer.id]: videoTrimmer,
     [videoCompressor.id]: videoCompressor,
@@ -382,6 +362,8 @@ const videoProcessingToolDefinitions = Object.freeze({
     [videoConverter.id]: videoConverter,
     [videoResizer.id]: videoResizer,
     [videoSpeedChanger.id]: videoSpeedChanger,
+    [videoSplitter.id]: videoSplitter,
+    [addAudioToVideo.id]: addAudioToVideo,
 });
 
 export { videoProcessingToolDefinitions };
