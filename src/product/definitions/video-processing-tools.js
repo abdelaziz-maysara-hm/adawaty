@@ -1,4 +1,5 @@
-import { processMediaFiles, processVideo } from '../ffmpeg-processing.js';
+import { processMediaFiles, processVideo, splitVideoIntoSegments } from '../ffmpeg-processing.js';
+import { loadVideo } from '../video-processing.js';
 
 const JSZIP_URL = 'https://cdn.jsdelivr.net/npm/jszip@3.10.1/+esm';
 let zipPromise;
@@ -325,22 +326,46 @@ const videoSpeedChanger = Object.freeze({
 const videoSplitter = Object.freeze({
     id: 'video-splitter', category: 'video', icon: 'VIDEO CUT',
     action: Object.freeze({ ar: 'قسّم الفيديو', en: 'Split video' }),
-    title: Object.freeze({ ar: 'تقسيم الفيديو إلى جزأين', en: 'Split Video into Two Parts' }),
-    description: Object.freeze({ ar: 'Split a video at a selected time and download both parts in one ZIP.', en: 'Split a video at a selected time and download both parts in one ZIP.' }),
-    note: Object.freeze({ ar: 'Streams are copied without re-encoding for faster processing.', en: 'Streams are copied without re-encoding for faster processing.' }),
-    inputs: Object.freeze([videoInput(), numberInput('splitAt', 'Split at', 'Split at', 10, 0.1, 86400, 's')]),
+    title: Object.freeze({ ar: 'تقسيم الفيديو إلى أجزاء متعددة', en: 'Split Video into Multiple Parts' }),
+    description: Object.freeze({
+        ar: 'قسّم فيديو طويل حسب مدة كل جزء أو إلى عدد محدد من الأجزاء المتساوية، ثم نزّلها داخل ZIP.',
+        en: 'Split a long video by segment duration or into a selected number of equal parts, then download one ZIP.',
+    }),
+    note: Object.freeze({
+        ar: 'الوضع السريع ينسخ الفيديو دون إعادة ترميز؛ قد تتحرك نقطة الفصل قليلًا إلى أقرب إطار مفتاحي.',
+        en: 'Fast stream-copy mode avoids re-encoding; a split point may move slightly to the nearest keyframe.',
+    }),
+    inputs: Object.freeze([
+        videoInput(),
+        Object.freeze({ id: 'splitMode', type: 'select', label: Object.freeze({ ar: 'طريقة التقسيم', en: 'Split method' }), unit: Object.freeze({ ar: '', en: '' }), options: Object.freeze([
+            Object.freeze({ value: 'duration', label: Object.freeze({ ar: 'مدة كل جزء بالدقائق', en: 'Minutes per part' }) }),
+            Object.freeze({ value: 'count', label: Object.freeze({ ar: 'عدد الأجزاء المتساوية', en: 'Number of equal parts' }) }),
+        ]) }),
+        numberInput('amount', 'المدة أو عدد الأجزاء', 'Minutes or part count', 10, 0.1, 100, ''),
+    ]),
     async process(values, language) {
-        const first = await processVideo(values.video, ['-t', String(values.splitAt), '-c', 'copy'], 'part-1.mp4');
-        const second = await processVideo(values.video, ['-ss', String(values.splitAt), '-c', 'copy'], 'part-2.mp4');
+        const loaded = await loadVideo(values.video);
+        const duration = loaded.video.duration;
+        URL.revokeObjectURL(loaded.url);
+        const requestedCount = Math.max(2, Math.round(values.amount));
+        const segmentSeconds = values.splitMode === 'count' ? duration / requestedCount : values.amount * 60;
+        const expectedCount = Math.ceil(duration / segmentSeconds);
+        if (!Number.isFinite(segmentSeconds) || segmentSeconds <= 0 || expectedCount < 2) {
+            throw new Error(localized(language, 'اختر مدة أقصر من مدة الفيديو أو عدد جزأين فأكثر.', 'Choose a duration shorter than the video or at least two parts.'));
+        }
+        if (expectedCount > 100) {
+            throw new Error(localized(language, 'الحد الأقصى 100 جزء في العملية الواحدة.', 'A maximum of 100 parts is supported per run.'));
+        }
+        const sourceExtension = values.video.name.toLowerCase().match(/\.(mp4|webm|mov|mkv|avi)$/)?.[1] ?? 'mp4';
+        const mimeTypes = { mp4: 'video/mp4', webm: 'video/webm', mov: 'video/quicktime', mkv: 'video/x-matroska', avi: 'video/x-msvideo' };
+        const parts = await splitVideoIntoSegments(values.video, segmentSeconds, sourceExtension, mimeTypes[sourceExtension]);
         const Zip = await loadZip();
         const zip = new Zip();
-        zip.file('adawaty-video-part-1.mp4', first);
-        zip.file('adawaty-video-part-2.mp4', second);
+        parts.forEach((part, index) => zip.file(`adawaty-video-part-${String(index + 1).padStart(2, '0')}.${sourceExtension}`, part));
         const blob = await zip.generateAsync({ type: 'blob', compression: 'STORE' });
-        return output(blob, 'adawaty-video-parts.zip', language, 'Video parts are ready', 'Video parts are ready');
+        return output(blob, 'adawaty-video-parts.zip', language, `${parts.length} أجزاء جاهزة`, `${parts.length} video parts are ready`);
     },
 });
-
 const addAudioToVideo = Object.freeze({
     id: 'add-audio-to-video', category: 'video', icon: 'VIDEO+AUDIO',
     action: Object.freeze({ ar: 'أضف الصوت', en: 'Add audio' }),

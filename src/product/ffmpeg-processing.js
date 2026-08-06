@@ -108,6 +108,32 @@ async function processMediaFiles(files, buildArgs, outputFilename, mimeType = 'a
         await Promise.allSettled([...inputFilenames, outputPath].map((path) => ffmpeg.deleteFile(path)));
     }
 }
+async function splitVideoIntoSegments(file, segmentSeconds, extensionName = 'mp4', mimeType = 'video/mp4') {
+    await inspectVideoFile(file);
+    const { ffmpeg, fetchFile } = await getRuntime();
+    const token = crypto.randomUUID();
+    const inputFilename = `input-${token}.${extension(file)}`;
+    const outputPrefix = `segment-${token}-`;
+    const outputPattern = `${outputPrefix}%03d.${extensionName}`;
+    try {
+        await ffmpeg.writeFile(inputFilename, await fetchFile(file));
+        const exitCode = await ffmpeg.exec([
+            '-i', inputFilename, '-map', '0', '-c', 'copy', '-f', 'segment',
+            '-segment_time', String(segmentSeconds), '-reset_timestamps', '1', outputPattern,
+        ]);
+        if (exitCode !== 0) throw new Error('Unable to split this video format.');
+        const entries = await ffmpeg.listDir('/');
+        const paths = entries.map((entry) => entry.name).filter((name) => name.startsWith(outputPrefix)).sort();
+        if (paths.length < 2) throw new Error('Choose a shorter segment duration or more parts.');
+        const blobs = [];
+        for (const path of paths) blobs.push(new Blob([await ffmpeg.readFile(path)], { type: mimeType }));
+        return blobs;
+    } finally {
+        const entries = await ffmpeg.listDir('/').catch(() => []);
+        const paths = entries.map((entry) => entry.name).filter((name) => name.startsWith(outputPrefix));
+        await Promise.allSettled([inputFilename, ...paths].map((path) => ffmpeg.deleteFile(path)));
+    }
+}
 async function processVideo(file, args, outputFilename, mimeType = 'video/mp4') {
     await inspectVideoFile(file);
     return processMedia(file, args, outputFilename, mimeType);
@@ -126,6 +152,7 @@ export {
     processAudio,
     processMedia,
     processMediaFiles,
+    splitVideoIntoSegments,
     processVideo,
 };
 
