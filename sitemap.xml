@@ -1846,6 +1846,16 @@
         <priority>0.9</priority>
     </url>
     <url>
+        <loc>https://www.adawaty.tools/tools/video-splitter/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://www.adawaty.tools/tools/add-audio-to-video/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
         <loc>https://www.adawaty.tools/tools/list-randomizer/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
@@ -2379,55 +2389,5 @@
         <loc>https://www.adawaty.tools/tools/word-to-pdf-converter/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
-    </url>
-    <url>
-        <loc>https://www.adawaty.tools/best/best-free-pdf-tools/</loc>
-        <changefreq>monthly</changefreq>
-        <priority>0.85</priority>
-    </url>
-    <url>
-        <loc>https://www.adawaty.tools/best/ilovepdf-alternative/</loc>
-        <changefreq>monthly</changefreq>
-        <priority>0.85</priority>
-    </url>
-    <url>
-        <loc>https://www.adawaty.tools/best/smallpdf-alternative/</loc>
-        <changefreq>monthly</changefreq>
-        <priority>0.85</priority>
-    </url>
-    <url>
-        <loc>https://www.adawaty.tools/best/tinypng-alternative/</loc>
-        <changefreq>monthly</changefreq>
-        <priority>0.85</priority>
-    </url>
-    <url>
-        <loc>https://www.adawaty.tools/best/best-free-video-tools/</loc>
-        <changefreq>monthly</changefreq>
-        <priority>0.85</priority>
-    </url>
-    <url>
-        <loc>https://www.adawaty.tools/best/free-developer-tools-online/</loc>
-        <changefreq>monthly</changefreq>
-        <priority>0.85</priority>
-    </url>
-    <url>
-        <loc>https://www.adawaty.tools/best/best-free-audio-tools/</loc>
-        <changefreq>monthly</changefreq>
-        <priority>0.85</priority>
-    </url>
-    <url>
-        <loc>https://www.adawaty.tools/best/free-text-tools-online/</loc>
-        <changefreq>monthly</changefreq>
-        <priority>0.85</priority>
-    </url>
-    <url>
-        <loc>https://www.adawaty.tools/best/free-css-generator-tools/</loc>
-        <changefreq>monthly</changefreq>
-        <priority>0.85</priority>
-    </url>
-    <url>
-        <loc>https://www.adawaty.tools/best/free-health-calculators-online/</loc>
-        <changefreq>monthly</changefreq>
-        <priority>0.85</priority>
     </url>
 </urlset>

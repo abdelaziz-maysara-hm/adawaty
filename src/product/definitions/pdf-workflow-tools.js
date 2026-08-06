@@ -59,19 +59,6 @@ function angleInput() {
     });
 }
 
-function selectInput(id, ar, en, options) {
-    return Object.freeze({
-        id,
-        type: 'select',
-        label: Object.freeze({ ar, en }),
-        unit: Object.freeze({ ar: '', en: '' }),
-        options: Object.freeze(options.map(([value, optAr, optEn]) => Object.freeze({
-            value,
-            label: Object.freeze({ ar: optAr, en: optEn }),
-        }))),
-    });
-}
-
 function result(blob, filename, pageCount, language, ar, en) {
     return {
         value: localized(language, `${pageCount} صفحة`, `${pageCount} pages`),
@@ -88,7 +75,7 @@ function parseOptionalPages(value, pageCount) {
         : parsePageSelection(normalized, pageCount);
 }
 
-function drawWatermark(document, pages, text, fontSize, opacity, pdfLib, angleDegrees = -35) {
+function drawWatermark(document, pages, text, fontSize, opacity, pdfLib, orientation = 'diagonal') {
     if (!text || text === '-') {
         return Promise.resolve();
     }
@@ -97,14 +84,16 @@ function drawWatermark(document, pages, text, fontSize, opacity, pdfLib, angleDe
             pages.forEach((page) => {
                 const { width, height } = page.getSize();
                 const textWidth = font.widthOfTextAtSize(text, fontSize);
+                const x = orientation === 'vertical' ? width / 2 : Math.max(18, (width - textWidth) / 2);
+                const y = orientation === 'vertical' ? Math.max(18, (height - textWidth) / 2) : height / 2;
                 page.drawText(text, {
-                    x: Math.max(18, (width - textWidth) / 2),
-                    y: height / 2,
+                    x,
+                    y,
                     size: fontSize,
                     font,
                     color: pdfLib.rgb(0.35, 0.35, 0.35),
                     opacity,
-                    rotate: pdfLib.degrees(angleDegrees),
+                    rotate: pdfLib.degrees(orientation === 'vertical' ? 90 : orientation === 'horizontal' ? 0 : -35),
                 });
             });
         });
@@ -152,8 +141,8 @@ const watermark = Object.freeze({
     action: Object.freeze({ ar: 'أضف العلامة المائية', en: 'Add watermark' }),
     title: Object.freeze({ ar: 'إضافة علامة مائية إلى PDF', en: 'Add PDF Watermark' }),
     description: Object.freeze({
-        ar: 'أضف نصًا شفافًا إلى جميع صفحات ملف PDF، باتجاه قطري أو أفقي أو رأسي حسب اختيارك.',
-        en: 'Add transparent text to every page of a PDF, diagonal, horizontal, or vertical as you choose.',
+        ar: 'أضف نصًا شفافًا قطريًا إلى جميع صفحات ملف PDF.',
+        en: 'Add diagonal transparent text to every page of a PDF.',
     }),
     note: Object.freeze({
         ar: 'تُطبق العلامة داخل متصفحك ولا يغادر المستند جهازك.',
@@ -164,17 +153,16 @@ const watermark = Object.freeze({
         textInput('watermark', 'نص العلامة المائية', 'Watermark text', 'CONFIDENTIAL'),
         numberInput('fontSize', 'حجم النص', 'Text size', 48, 12, 160),
         numberInput('opacity', 'الشفافية', 'Opacity', 25, 5, 100),
-        selectInput('orientation', 'الاتجاه', 'Orientation', [
-            ['diagonal', 'قطري', 'Diagonal'],
-            ['horizontal', 'أفقي', 'Horizontal'],
-            ['vertical', 'رأسي', 'Vertical'],
-        ]),
+        Object.freeze({ id: 'orientation', type: 'select', label: Object.freeze({ ar: 'اتجاه العلامة', en: 'Watermark orientation' }), unit: Object.freeze({ ar: '', en: '' }), options: Object.freeze([
+            Object.freeze({ value: 'diagonal', label: Object.freeze({ ar: 'قطري', en: 'Diagonal' }) }),
+            Object.freeze({ value: 'horizontal', label: Object.freeze({ ar: 'أفقي', en: 'Horizontal' }) }),
+            Object.freeze({ value: 'vertical', label: Object.freeze({ ar: 'رأسي', en: 'Vertical' }) }),
+        ]) }),
     ]),
     async process(values, language) {
         assertPdfFile(values.pdf);
         const pdfLib = await loadPdfLib();
         const document = await pdfLib.PDFDocument.load(await values.pdf.arrayBuffer());
-        const angleByOrientation = { diagonal: -35, horizontal: 0, vertical: 90 };
         await drawWatermark(
             document,
             document.getPages(),
@@ -182,7 +170,7 @@ const watermark = Object.freeze({
             values.fontSize,
             values.opacity / 100,
             pdfLib,
-            angleByOrientation[values.orientation] ?? -35,
+            values.orientation,
         );
         const blob = createPdfBlob(await document.save());
         return result(blob, outputName(values.pdf, 'watermarked'), document.getPageCount(), language, 'تمت إضافة العلامة المائية', 'Watermarked PDF is ready');
@@ -240,6 +228,7 @@ const workflow = Object.freeze({
             values.fontSize,
             values.opacity / 100,
             pdfLib,
+            values.orientation,
         );
         const blob = createPdfBlob(await document.save());
         return result(blob, outputName(values.pdf, 'processed'), pages.length, language, 'اكتملت عمليات PDF', 'PDF workflow complete');

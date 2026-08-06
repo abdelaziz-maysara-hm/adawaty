@@ -201,10 +201,10 @@ const metadataCleaner = Object.freeze({
 
 function numberPosition(page, textWidth, position) {
     const margin = 28;
-    if (position === 'bottom-left') {
+    if (position.endsWith('-left')) {
         return margin;
     }
-    if (position === 'bottom-right') {
+    if (position.endsWith('-right')) {
         return page.getWidth() - textWidth - margin;
     }
     return (page.getWidth() - textWidth) / 2;
@@ -232,6 +232,9 @@ const pageNumberer = Object.freeze({
             ['bottom-center', 'أسفل المنتصف', 'Bottom center'],
             ['bottom-right', 'أسفل اليمين', 'Bottom right'],
             ['bottom-left', 'أسفل اليسار', 'Bottom left'],
+            ['top-center', 'أعلى المنتصف', 'Top center'],
+            ['top-right', 'أعلى اليمين', 'Top right'],
+            ['top-left', 'أعلى اليسار', 'Top left'],
         ]),
     ]),
     async process(values, language) {
@@ -248,7 +251,7 @@ const pageNumberer = Object.freeze({
             const width = font.widthOfTextAtSize(text, values.fontSize);
             page.drawText(text, {
                 x: numberPosition(page, width, values.position),
-                y: 20,
+                y: values.position.startsWith('top-') ? Math.max(8, page.getHeight() - values.fontSize - 20) : Math.min(20, Math.max(8, page.getHeight() * 0.04)),
                 size: values.fontSize,
                 font,
                 color: pdfLib.rgb(0.18, 0.18, 0.18),

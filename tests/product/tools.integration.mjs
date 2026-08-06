@@ -41,6 +41,8 @@ for (const id of [
     'csv-to-excel-converter',
     'excel-to-csv-converter',
     'video-format-converter',
+    'video-splitter',
+    'add-audio-to-video',
     'image-format-converter',
     'pdf-to-word-converter',
     'bmi-calculator',
@@ -97,6 +99,8 @@ for (const id of [
     'audio-format-converter',
     'audio-trimmer',
     'video-format-converter',
+    'video-splitter',
+    'add-audio-to-video',
     'pdf-merge',
     'pdf-to-word-converter',
 ]) {
