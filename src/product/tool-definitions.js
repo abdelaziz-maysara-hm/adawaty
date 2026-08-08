@@ -57,6 +57,7 @@ import { visualPdfEditorToolDefinitions } from './definitions/visual-pdf-editor-
 import { ocrToolDefinitions } from './definitions/ocr-tools.js';
 import { videoFileToolDefinitions } from './definitions/video-file-tools.js';
 import { videoProcessingToolDefinitions } from './definitions/video-processing-tools.js';
+import { videoExtraToolDefinitions } from './definitions/video-extra-tools.js';
 import { listDataToolDefinitions } from './definitions/list-data-tools.js';
 import { dataFormatToolDefinitions } from './definitions/data-format-tools.js';
 import { fileUtilityToolDefinitions } from './definitions/file-utility-tools.js';
@@ -1095,6 +1096,7 @@ const allToolDefinitions = Object.freeze({
     ...ocrToolDefinitions,
     ...videoFileToolDefinitions,
     ...videoProcessingToolDefinitions,
+    ...videoExtraToolDefinitions,
     ...listDataToolDefinitions,
     ...dataFormatToolDefinitions,
     ...fileUtilityToolDefinitions,

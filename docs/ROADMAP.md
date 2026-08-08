@@ -312,6 +312,23 @@ Data note: the source catalogue's part numbering jumps from Part 5 (Video) to Pa
 Part 6 appears to be a gap (possibly a missing "Video Tools 101–200" section); worth confirming
 if/when Video is revisited.
 
+### Video Tools (Part 5, no fixed count due to the Part 6 numbering gap noted below) — in progress
+
+Checked `npm run list:tools` broadly (both with and without a `video-` prefix, since image/PDF/
+audio equivalents of several common operations already existed) before picking anything.
+
+**Done**: `video-rotate` (90°/180°), `video-crop`, `video-merge` (silent output by design — see
+the CHANGELOG 0.5.55 entry for why: concat fails outright if one input lacks an audio track, a
+realistic case for arbitrary uploads), `video-watermark` (image overlay, 5 position presets).
+Every ffmpeg filter command was run against a real generated test video through the sandbox's
+system ffmpeg binary before being written into a tool, including re-running the *exact* generated
+command strings (not hand-retyped) end-to-end — catching the merge audio-mismatch failure this
+way before it could reach production.
+
+**Still open**: video reverse, loop, brightness/contrast adjustment, subtitle burn-in, and
+anything from the broader catalogue once the Part 6 numbering gap (noted below) is resolved or
+worked around.
+
 ### Audio Tools (Part 7, ~98 tools) — in progress
 
 Product decision: Adawaty's audio tools target **general audio** (voice notes, recordings,

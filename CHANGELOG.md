@@ -1,5 +1,40 @@
 # Changelog
 
+## 0.5.55 — 4 new Video Tools: rotate, crop, merge, watermark (August 2026)
+
+- Checked `npm run list:tools` for rotate/crop/merge/concat/watermark/reverse/loop/brightness/
+  contrast/mute first, both with and without a `video-` prefix (image/PDF/audio equivalents exist
+  for several of these -- e.g. `image-rotate-flip`, `pdf-merge`, `image-watermark-tool` -- but no
+  video-specific version of any of them did).
+- **Verified every ffmpeg filter command against real ffmpeg before writing any tool code**,
+  since ffmpeg.wasm command syntax can't be meaningfully unit-tested any other way and this
+  project doesn't have ffmpeg.wasm available for direct testing in this environment: generated an
+  actual 320x240 test video with audio, then ran each planned command through the sandbox's
+  system `ffmpeg` binary and confirmed the real output dimensions/duration matched expectations
+  (`transpose=1`/`transpose=2` for 90° rotation confirmed the dimensions swap correctly,
+  `hflip,vflip` for 180°, `crop=w:h:x:y` produced exactly the requested crop size, image `overlay`
+  watermarking preserved the base video's dimensions).
+- **Caught a real edge case during this testing, before it could surface in production**: the
+  first concat/merge approach (`[0:v][0:a][1:v][1:a]concat=n=2:v=1:a=1`) failed outright when one
+  test input lacked an audio track -- a realistic scenario for arbitrary user-uploaded clips.
+  Switched `video-merge` to a video-only concat (`[0:v][1:v]concat=n=2:v=1:a=0`, output flagged
+  `-an`), verified this works identically regardless of whether either input has audio, and
+  documented the silent-output behavior clearly in the tool's own description/note rather than
+  risking unpredictable failures for some input combinations.
+- Also ran the *exact* command strings my tool's argument-building code would generate (extracted
+  by running the actual JS logic, not retyped by hand) through real ffmpeg end-to-end for the
+  rotate and watermark cases, confirming the generated commands work exactly as written before
+  registering anything.
+- 4 new tools, using the existing `processMediaFiles` ffmpeg.wasm wrapper (no new dependencies):
+  - `video-rotate` — 90° clockwise, 90° counter-clockwise, or 180°.
+  - `video-crop` — width/height/x/y rectangular crop.
+  - `video-merge` — joins two clips in order; silent output by design (see edge case above).
+  - `video-watermark` — overlays an image at a chosen corner or center.
+- New file: `src/product/definitions/video-extra-tools.js`, registered in `tool-definitions.js`.
+- Verified: `npm run validate` passes all 7 suites (493 tools total, 559 unique tool ids across
+  76 definition files); confirmed all 4 new pages render with correct Arabic titles.
+
+---
 ## 0.5.54 — Audio Wave 3 (Filters): equalizer, compressor, limiter, noise gate (August 2026)
 
 - Continued the Audio Tools build order (Wave 3: Filters, previously "not started" in the
