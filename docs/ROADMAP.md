@@ -433,18 +433,24 @@ images) before anything was pushed -- `npm run validate` failed immediately with
 the duplicate was removed, and the original stayed live. This is the guard working exactly as
 designed.
 
-**Still open** (roughly 50+ catalogue items after the above): JSON viewer/editor + JSON↔Excel
-conversion; the rest of the XML tool set (beautifier/pretty-printer distinct from the existing
-`xml-formatter`, viewer, editor, compare/diff, XPath tester, XSD validator); the full YAML tool
-set (formatter, validator, beautifier, minifier, viewer, compare, merge, diff, YAML↔TOML) --
-still completely untouched, needs a real parser (either a careful hand-written one or a CDN
-import like the JSZip pattern already used elsewhere, worth a dedicated session rather than
-folding into a mixed batch); HTML validator/preview; CSS formatter/validator/unprefixer; the JS
-tool set (formatter, beautifier, minifier, obfuscator/deobfuscator, validator, diff/compare);
-`guid-generator` (note: functionally near-identical to the existing `uuid-generator` — worth
-deciding if it should just be a braces-formatted `{xxxxxxxx-xxxx-...}` variant rather than a
-fully separate tool, not started); and a combined `developer-toolkit` landing page. No
-architecture blockers on any of these — same pattern as what shipped, pick up whenever.
+**Done, sixth batch**: `javascript-formatter` (indentation-based, parens stay inline),
+`guid-generator` (classic braced uppercase format, explicitly distinguished from `uuid-generator`
+in its own copy), `xml-compare` (structural diff reusing the `xml-to-json-converter` parser +
+the `json-diff` algorithm), `css-validator` (basic syntax check). First batch built entirely
+using `npm run list:tools` as the mandatory first step — worked as intended, zero collisions.
+
+**Still open** (roughly 45+ catalogue items after the above): JSON viewer/editor + JSON↔Excel
+conversion; XML beautifier/pretty-printer (distinct from the existing `xml-formatter`), viewer,
+editor, XPath tester, XSD validator (full schema validation is a large spec — worth scoping
+carefully or deferring rather than a partial/misleading implementation); the full YAML tool set
+(formatter, validator, beautifier, minifier, viewer, compare, merge, diff, YAML↔TOML) — still
+completely untouched, needs a real parser (either a careful hand-written one or a CDN import like
+the JSZip pattern already used elsewhere, worth a dedicated session rather than folding into a
+mixed batch); HTML validator/preview; CSS formatter (distinct from the existing `css-beautifier`
+— check whether these would actually differ before building); JS beautifier (distinct from the
+new `javascript-formatter` — likely redundant, skip), JS obfuscator/deobfuscator, JS diff/compare;
+and a combined `developer-toolkit` landing page. No architecture blockers on any of these — same
+pattern as what shipped, pick up whenever, **always starting with `npm run list:tools`**.
 
 ---
 

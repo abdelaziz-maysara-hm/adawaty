@@ -16,6 +16,7 @@ import { xmlAndIdToolDefinitions } from './definitions/xml-and-id-tools.js';
 import { devToolsBatch3Definitions } from './definitions/dev-tools-batch3.js';
 import { dummyDataToolDefinitions } from './definitions/dummy-data-tools.js';
 import { devToolsBatch5Definitions } from './definitions/dev-tools-batch5.js';
+import { devToolsBatch6Definitions } from './definitions/dev-tools-batch6.js';
 import { advancedMathDefinitions } from './definitions/advanced-math.js';
 import { advancedFinanceDefinitions } from './definitions/advanced-finance.js';
 import { advancedHealthDefinitions } from './definitions/advanced-health.js';
@@ -1052,6 +1053,7 @@ const allToolDefinitions = Object.freeze({
     ...devToolsBatch3Definitions,
     ...dummyDataToolDefinitions,
     ...devToolsBatch5Definitions,
+    ...devToolsBatch6Definitions,
     ...advancedMathDefinitions,
     ...advancedFinanceDefinitions,
     ...advancedHealthDefinitions,

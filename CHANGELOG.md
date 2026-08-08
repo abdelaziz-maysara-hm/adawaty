@@ -1,5 +1,36 @@
 # Changelog
 
+## 0.5.53 — Developer Tools batch 6: JS formatter, GUID generator, XML compare, CSS validator (August 2026)
+
+- First batch built using the new `npm run list:tools` as the mandatory first step (0.5.52).
+  Checked "compare", "formatter", "beautif", "obfuscat", "guid", "diff", "javascript", "xpath",
+  "xsd", "validator", and "css" against the real 547-tool list before picking anything -- caught
+  that `sql-formatter` already exists (good to know for later), confirmed `text-diff-checker` is
+  generic line-by-line text diff (not structure-aware, so a dedicated `xml-compare` is genuinely
+  distinct, matching how `json-diff` already coexists with it), and confirmed
+  `javascript-minifier` exists but no JS formatter/beautifier does.
+- 4 new tools, zero new dependencies:
+  - `javascript-formatter` — indentation-based JS formatter. Only breaks lines after `{`, `}`,
+    and `;`, deliberately keeping parentheses inline; a first attempt that also broke on every
+    `(` produced awkward output for function calls and parameter lists, caught and fixed during
+    testing before the tool was written.
+  - `guid-generator` — the classic braced, uppercase `{XXXXXXXX-XXXX-...}` GUID display format,
+    explicitly distinguished in its own description from the existing `uuid-generator` (same
+    underlying standard, different conventional display format) rather than being a silent
+    duplicate of it.
+  - `xml-compare` — structural comparison of two XML documents, reusing the same recursive-descent
+    parser approach as `xml-to-json-converter` (0.5.51) plus the same diff algorithm as
+    `json-diff`, so cosmetic whitespace differences don't get reported as content changes.
+  - `css-validator` — basic CSS syntax check (balanced braces, every declaration has a colon).
+- All 4 algorithms were unit-tested with real cases before being wired into tool definitions,
+  and every tool's `calculate()` was pre-executed with its own real placeholder values (simulating
+  the automated test harness) before touching `tool-definitions.js` at all.
+- New file: `src/product/definitions/dev-tools-batch6.js`, registered in `tool-definitions.js`.
+- Proactively recomputed and updated the tool-count assertions before running validate.
+- Verified: `npm run validate` passes all 7 suites (485 tools total, 551 unique tool ids across
+  74 definition files); confirmed all 4 new pages render with correct Arabic titles.
+
+---
 ## 0.5.52 — New tool: `npm run list:tools`, a reliable pre-check to stop duplicate tools for good (August 2026)
 
 Process infrastructure, no product-facing tool changes.
