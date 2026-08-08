@@ -405,18 +405,24 @@ duplicates, keeping the originals live. Net result across batches 1-3 is 10 new 
 check for an existing one with the same core verb+noun in its description (`sort`/`sorter`,
 `merge`/`combiner`, `-converter` suffix variants), not just a matching id string.
 
-**Still open** (roughly 60+ catalogue items after the above): JSON viewer/editor +
+**Done, fourth batch**: `dummy-json-generator`, `dummy-csv-generator`, `dummy-sql-generator`
+(shared realistic-looking fake-record generator, distinct from the existing `csv-to-sql-insert`
+converter). Also discovered `css-clip-path-generator` and `html-entity-encoder-decoder` already
+exist (likely added by an earlier unrelated PR) — removed from the open list below instead of
+risking a fourth duplicate.
+
+**Still open** (roughly 55+ catalogue items after the above): JSON viewer/editor +
 JSON↔XML/YAML/Excel conversions; the rest of the XML tool set (validator, beautifier, viewer,
 editor, compare/diff, XPath tester, XSD validator — note the validator needs a Node-safe
 well-formedness check, not `DOMParser`, since that's browser-only and the test harness runs in
 Node); the full YAML tool set (formatter, validator, beautifier, minifier, viewer, compare, merge,
-diff, YAML↔TOML); HTML formatter/validator/preview, HTML↔Markdown, HTML entity encode/decode; CSS
-formatter/validator/prefixer/unprefixer plus `clip-path` generator; the JS tool set (formatter,
-beautifier, minifier, obfuscator/deobfuscator, validator, diff/compare); `guid-generator`
-(note: functionally near-identical to the existing `uuid-generator` — worth deciding if it should
-just be a braces-formatted `{xxxxxxxx-xxxx-...}` variant rather than a fully separate tool, not
-started); dummy-data generators (JSON/CSV/XML/SQL); and a combined `developer-toolkit` landing
-page. No architecture blockers on any of these — same pattern as what shipped, pick up whenever.
+diff, YAML↔TOML); HTML formatter/validator/preview, HTML↔Markdown; CSS formatter/validator/
+prefixer/unprefixer; the JS tool set (formatter, beautifier, minifier, obfuscator/deobfuscator,
+validator, diff/compare); `guid-generator` (note: functionally near-identical to the existing
+`uuid-generator` — worth deciding if it should just be a braces-formatted
+`{xxxxxxxx-xxxx-...}` variant rather than a fully separate tool, not started); and a combined
+`developer-toolkit` landing page. No architecture blockers on any of these — same pattern as what
+shipped, pick up whenever.
 
 ---
 

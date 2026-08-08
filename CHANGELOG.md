@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.5.50 — Developer Tools batch 4: dummy-data generators (August 2026)
+
+- Continued Developer Tools (Part 9), applying the expanded lesson from 0.5.49: checked both
+  exact tool ids and description text for functional overlap before starting. Also discovered
+  `css-clip-path-generator` and `html-entity-encoder-decoder` (both previously logged as "still
+  open" in the roadmap) already exist -- likely added by an earlier unrelated PR -- and corrected
+  the roadmap's open-items list accordingly instead of risking a fourth duplicate.
+- 3 new tools, zero new dependencies, sharing one realistic-looking fake-record generator:
+  - `dummy-json-generator` — a JSON array of dummy records (name, email, age, active flag).
+  - `dummy-csv-generator` — the same dummy records as a CSV table.
+  - `dummy-sql-generator` — the same dummy records as ready `INSERT INTO` statements, with table
+    name validated against SQL-identifier rules and a clear warning against running them on a real
+    production database.
+- New file: `src/product/definitions/dummy-data-tools.js`, registered in `tool-definitions.js`.
+  Confirmed distinct from the existing `csv-to-sql-insert` (a converter of *existing* CSV data,
+  not a from-scratch generator like this one).
+- Unit-tested the shared record generator and both CSV/SQL formatters with real output before
+  wiring them into tool definitions (unique ids, valid-looking emails, correct CSV/SQL escaping).
+- Proactively recomputed and updated the tool-count assertions before running validate.
+- Verified: `npm run validate` passes all 7 suites (478 tools total, 544 unique tool ids across
+  72 definition files); confirmed all 3 new pages render with correct Arabic titles.
+
+---
 ## 0.5.49 — Cleanup: removed 3 functionally-duplicate tools found while checking for the next batch (August 2026)
 
 Found while auditing existing coverage before starting a new batch, not a regression from this
