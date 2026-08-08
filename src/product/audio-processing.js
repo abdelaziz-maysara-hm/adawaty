@@ -249,7 +249,143 @@ function cutAudioBuffer(audioBuffer, startSeconds, endSeconds) {
     return concatAudioBuffers([before, after]);
 }
 
+/**
+ * Designs a low-shelf or high-shelf biquad filter using the standard RBJ
+ * Audio EQ Cookbook formulas -- the same math underlying the browser's
+ * native BiquadFilterNode. Implemented manually here (rather than relying
+ * on BiquadFilterNode itself) because Web Audio API objects don't exist in
+ * the Node test environment this project's automated tests run in; a pure
+ * sample-math implementation can be unit-tested directly with real signal
+ * data in both places.
+ */
+function designShelfFilterCoefficients(type, frequencyHz, sampleRate, gainDb, slope = 1) {
+    const gainFactor = 10 ** (gainDb / 40);
+    const omega = (2 * Math.PI * frequencyHz) / sampleRate;
+    const cosOmega = Math.cos(omega);
+    const sinOmega = Math.sin(omega);
+    const alpha = (sinOmega / 2)
+        * Math.sqrt((gainFactor + 1 / gainFactor) * (1 / slope - 1) + 2);
+    const twoSqrtGainAlpha = 2 * Math.sqrt(gainFactor) * alpha;
+
+    let b0;
+    let b1;
+    let b2;
+    let a0;
+    let a1;
+    let a2;
+
+    if (type === 'lowshelf') {
+        b0 = gainFactor * ((gainFactor + 1) - (gainFactor - 1) * cosOmega + twoSqrtGainAlpha);
+        b1 = 2 * gainFactor * ((gainFactor - 1) - (gainFactor + 1) * cosOmega);
+        b2 = gainFactor * ((gainFactor + 1) - (gainFactor - 1) * cosOmega - twoSqrtGainAlpha);
+        a0 = (gainFactor + 1) + (gainFactor - 1) * cosOmega + twoSqrtGainAlpha;
+        a1 = -2 * ((gainFactor - 1) + (gainFactor + 1) * cosOmega);
+        a2 = (gainFactor + 1) + (gainFactor - 1) * cosOmega - twoSqrtGainAlpha;
+    } else {
+        b0 = gainFactor * ((gainFactor + 1) + (gainFactor - 1) * cosOmega + twoSqrtGainAlpha);
+        b1 = -2 * gainFactor * ((gainFactor - 1) + (gainFactor + 1) * cosOmega);
+        b2 = gainFactor * ((gainFactor + 1) + (gainFactor - 1) * cosOmega - twoSqrtGainAlpha);
+        a0 = (gainFactor + 1) - (gainFactor - 1) * cosOmega + twoSqrtGainAlpha;
+        a1 = 2 * ((gainFactor - 1) - (gainFactor + 1) * cosOmega);
+        a2 = (gainFactor + 1) - (gainFactor - 1) * cosOmega - twoSqrtGainAlpha;
+    }
+
+    return {
+        b0: b0 / a0, b1: b1 / a0, b2: b2 / a0, a1: a1 / a0, a2: a2 / a0,
+    };
+}
+
+function applyBiquadFilter(samples, coefficients) {
+    const {
+        b0, b1, b2, a1, a2,
+    } = coefficients;
+    const output = new Float32Array(samples.length);
+    let x1 = 0;
+    let x2 = 0;
+    let y1 = 0;
+    let y2 = 0;
+
+    for (let index = 0; index < samples.length; index += 1) {
+        const x0 = samples[index];
+        const y0 = (b0 * x0) + (b1 * x1) + (b2 * x2) - (a1 * y1) - (a2 * y2);
+        output[index] = y0;
+        x2 = x1;
+        x1 = x0;
+        y2 = y1;
+        y1 = y0;
+    }
+
+    return output;
+}
+
+/** Applies independent bass (low-shelf) and treble (high-shelf) gain to an AudioBuffer. */
+function applyEqualizer(audioBuffer, bassGainDb, trebleGainDb) {
+    const bassCoefficients = designShelfFilterCoefficients('lowshelf', 200, audioBuffer.sampleRate, bassGainDb);
+    const trebleCoefficients = designShelfFilterCoefficients('highshelf', 4000, audioBuffer.sampleRate, trebleGainDb);
+
+    const channels = Array.from({ length: audioBuffer.numberOfChannels }, (_, channelIndex) => {
+        const source = audioBuffer.getChannelData(channelIndex);
+        const afterBass = applyBiquadFilter(source, bassCoefficients);
+        return applyBiquadFilter(afterBass, trebleCoefficients);
+    });
+
+    return bufferLike(channels, audioBuffer.sampleRate);
+}
+
+/**
+ * Reduces gain for samples above thresholdDb by ratio:1, leaving quieter
+ * samples untouched (a standard downward compressor). A limiter is the
+ * same algorithm with a very high ratio, approximating a hard ceiling.
+ */
+function applyDynamicsProcessing(audioBuffer, thresholdDb, ratio, makeupGainDb = 0) {
+    const thresholdLinear = 10 ** (thresholdDb / 20);
+    const makeupGain = 10 ** (makeupGainDb / 20);
+
+    const channels = Array.from({ length: audioBuffer.numberOfChannels }, (_, channelIndex) => {
+        const source = audioBuffer.getChannelData(channelIndex);
+        const output = new Float32Array(source.length);
+
+        for (let index = 0; index < source.length; index += 1) {
+            const sample = source[index];
+            const magnitude = Math.abs(sample);
+
+            if (magnitude <= thresholdLinear || magnitude === 0) {
+                output[index] = sample * makeupGain;
+            } else {
+                const sign = Math.sign(sample);
+                const overshootDb = 20 * Math.log10(magnitude / thresholdLinear);
+                const compressedOvershootDb = overshootDb / ratio;
+                const outputMagnitude = thresholdLinear * (10 ** (compressedOvershootDb / 20));
+                output[index] = sign * outputMagnitude * makeupGain;
+            }
+        }
+
+        return output;
+    });
+
+    return bufferLike(channels, audioBuffer.sampleRate);
+}
+
+/** Silences (mutes) any sample whose magnitude stays below thresholdDb. */
+function applyNoiseGate(audioBuffer, thresholdDb) {
+    const thresholdLinear = 10 ** (thresholdDb / 20);
+
+    const channels = Array.from({ length: audioBuffer.numberOfChannels }, (_, channelIndex) => {
+        const source = audioBuffer.getChannelData(channelIndex);
+        const output = new Float32Array(source.length);
+        for (let index = 0; index < source.length; index += 1) {
+            output[index] = Math.abs(source[index]) < thresholdLinear ? 0 : source[index];
+        }
+        return output;
+    });
+
+    return bufferLike(channels, audioBuffer.sampleRate);
+}
+
 export {
+    applyDynamicsProcessing,
+    applyEqualizer,
+    applyNoiseGate,
     audioBufferToWavBlob,
     changeAudioSpeed,
     concatAudioBuffers,

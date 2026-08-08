@@ -344,7 +344,15 @@ can do, pushing anything needing an external codec/encoder library later:
      `AnalyserNode` frame-stepping, neither of which is worth rushing. Revisit once there's time to
      get it right rather than shipping something subtly wrong.
 3. **Filters** (Equalizer, Bass/Treble Booster, Low/High/Band Pass, Noise Gate, Compressor,
-   Limiter, Expander) — native `BiquadFilterNode`/`DynamicsCompressorNode` graphs. Not started.
+   Limiter, Expander) — **done, core set**: `audio-equalizer` (bass/treble shelf filters),
+   `audio-compressor-dynamics`, `audio-limiter`, `audio-noise-gate`. Implemented as pure
+   sample-math (a manually written biquad filter using the RBJ Audio EQ Cookbook formulas, plus
+   a downward-compressor algorithm) since real Web Audio filter nodes
+   (`BiquadFilterNode`/`DynamicsCompressorNode`) don't exist in the Node test environment.
+   Verified the equalizer is genuinely frequency-selective with real sine-wave signals (a 100Hz
+   tone gets boosted, an 8000Hz tone is unaffected by the same bass-boost setting) before
+   shipping. Still open from this wave: dedicated Low-Pass/High-Pass/Band-Pass filter tools and
+   an Expander (the compressor/limiter/gate above cover the most commonly needed cases first).
 4. **Metadata** (view/edit/remove tags, bitrate/codec/duration/channel/sample-rate viewers) —
    needs a small browser-side ID3/metadata parsing library. Not started.
 5. **Conversion + Compression** (broader format coverage, bitrate reduction, WhatsApp/Telegram-

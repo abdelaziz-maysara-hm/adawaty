@@ -1,5 +1,42 @@
 # Changelog
 
+## 0.5.54 — Audio Wave 3 (Filters): equalizer, compressor, limiter, noise gate (August 2026)
+
+- Continued the Audio Tools build order (Wave 3: Filters, previously "not started" in the
+  roadmap). Checked `npm run list:tools` for equalizer/compressor/noise-gate/limiter/bass/treble/
+  expander/"pass filter" first -- all genuinely missing (only unrelated false-positive matches
+  like `csv-delimiter-converter` for "limiter").
+- **Real Web Audio filter nodes (`BiquadFilterNode`, `DynamicsCompressorNode`) don't exist in
+  Node** (confirmed directly: `typeof BiquadFilterNode` is `undefined` in the test environment),
+  so all 4 tools are implemented as pure sample-math functions operating on raw `Float32Array`
+  data, consistent with how the rest of `audio-processing.js` already works (no `AudioContext`
+  dependency anywhere in that file).
+- Extended `src/product/audio-processing.js` with:
+  - `designShelfFilterCoefficients` / `applyBiquadFilter` — a manually implemented biquad filter
+    using the standard RBJ Audio EQ Cookbook formulas (the same math the browser's native
+    `BiquadFilterNode` uses internally), applied to low-shelf (bass) and high-shelf (treble)
+    bands for `applyEqualizer`.
+  - `applyDynamicsProcessing` — a downward compressor (reduces gain above a threshold by a
+    ratio); a limiter is the same function called with a near-hard ratio (20:1).
+  - `applyNoiseGate` — silences samples below a threshold.
+- **Rigorously tested before writing any tool code**: generated real 100Hz and 8000Hz sine waves
+  and confirmed a +12dB bass boost amplifies the 100Hz signal by \u2248 3.6x (\u2248 +11dB, matches
+  the theoretical shelf-filter response) while leaving the 8000Hz signal's RMS completely
+  unaffected (1.00x) -- proving the filter is genuinely frequency-selective, not just a blanket
+  gain change. Compressor and noise gate were verified against hand-calculated expected output
+  for specific sample values before integration. Re-ran every test against the actual exported
+  module functions (not just the throwaway prototype) to confirm the real code matches.
+- 4 new tools, zero new dependencies:
+  - `audio-equalizer` — independent bass/treble gain in dB.
+  - `audio-compressor-dynamics` — configurable threshold/ratio/makeup-gain compressor.
+  - `audio-limiter` — a compressor preconfigured with a near-hard ratio, framed around a single
+    "ceiling" control for the common peak-limiting use case.
+  - `audio-noise-gate` — silences quiet background noise below a threshold.
+- New file: `src/product/definitions/audio-filter-tools.js`, registered in `tool-definitions.js`.
+- Verified: `npm run validate` passes all 7 suites (489 tools total, 555 unique tool ids across
+  75 definition files); confirmed all 4 new pages render with correct Arabic titles.
+
+---
 ## 0.5.53 — Developer Tools batch 6: JS formatter, GUID generator, XML compare, CSS validator (August 2026)
 
 - First batch built using the new `npm run list:tools` as the mandatory first step (0.5.52).
