@@ -411,18 +411,27 @@ converter). Also discovered `css-clip-path-generator` and `html-entity-encoder-d
 exist (likely added by an earlier unrelated PR) — removed from the open list below instead of
 risking a fourth duplicate.
 
-**Still open** (roughly 55+ catalogue items after the above): JSON viewer/editor +
-JSON↔XML/YAML/Excel conversions; the rest of the XML tool set (validator, beautifier, viewer,
-editor, compare/diff, XPath tester, XSD validator — note the validator needs a Node-safe
-well-formedness check, not `DOMParser`, since that's browser-only and the test harness runs in
-Node); the full YAML tool set (formatter, validator, beautifier, minifier, viewer, compare, merge,
-diff, YAML↔TOML); HTML formatter/validator/preview, HTML↔Markdown; CSS formatter/validator/
-prefixer/unprefixer; the JS tool set (formatter, beautifier, minifier, obfuscator/deobfuscator,
-validator, diff/compare); `guid-generator` (note: functionally near-identical to the existing
-`uuid-generator` — worth deciding if it should just be a braces-formatted
-`{xxxxxxxx-xxxx-...}` variant rather than a fully separate tool, not started); and a combined
-`developer-toolkit` landing page. No architecture blockers on any of these — same pattern as what
-shipped, pick up whenever.
+**Done, fifth batch**: `xml-to-json-converter` (recursive-descent parser, repeated tags become
+arrays), `xml-validator` (Node-safe well-formedness check via tag-matching stack, not
+`DOMParser`), and `css-prefixer` (vendor prefixes for known properties). **Process win**: the
+id-uniqueness guard from 0.5.47 caught a real collision this batch (`html-to-markdown-converter`
+already existed in `web-transform-tools.js`, more complete than mine since it also handles
+images) before anything was pushed -- `npm run validate` failed immediately with a clear message,
+the duplicate was removed, and the original stayed live. This is the guard working exactly as
+designed.
+
+**Still open** (roughly 50+ catalogue items after the above): JSON viewer/editor + JSON↔Excel
+conversion; the rest of the XML tool set (beautifier/pretty-printer distinct from the existing
+`xml-formatter`, viewer, editor, compare/diff, XPath tester, XSD validator); the full YAML tool
+set (formatter, validator, beautifier, minifier, viewer, compare, merge, diff, YAML↔TOML) --
+still completely untouched, needs a real parser (either a careful hand-written one or a CDN
+import like the JSZip pattern already used elsewhere, worth a dedicated session rather than
+folding into a mixed batch); HTML validator/preview; CSS formatter/validator/unprefixer; the JS
+tool set (formatter, beautifier, minifier, obfuscator/deobfuscator, validator, diff/compare);
+`guid-generator` (note: functionally near-identical to the existing `uuid-generator` — worth
+deciding if it should just be a braces-formatted `{xxxxxxxx-xxxx-...}` variant rather than a
+fully separate tool, not started); and a combined `developer-toolkit` landing page. No
+architecture blockers on any of these — same pattern as what shipped, pick up whenever.
 
 ---
 

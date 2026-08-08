@@ -15,6 +15,7 @@ import { cssGeneratorToolDefinitions } from './definitions/css-generator-tools.j
 import { xmlAndIdToolDefinitions } from './definitions/xml-and-id-tools.js';
 import { devToolsBatch3Definitions } from './definitions/dev-tools-batch3.js';
 import { dummyDataToolDefinitions } from './definitions/dummy-data-tools.js';
+import { devToolsBatch5Definitions } from './definitions/dev-tools-batch5.js';
 import { advancedMathDefinitions } from './definitions/advanced-math.js';
 import { advancedFinanceDefinitions } from './definitions/advanced-finance.js';
 import { advancedHealthDefinitions } from './definitions/advanced-health.js';
@@ -1050,6 +1051,7 @@ const allToolDefinitions = Object.freeze({
     ...xmlAndIdToolDefinitions,
     ...devToolsBatch3Definitions,
     ...dummyDataToolDefinitions,
+    ...devToolsBatch5Definitions,
     ...advancedMathDefinitions,
     ...advancedFinanceDefinitions,
     ...advancedHealthDefinitions,

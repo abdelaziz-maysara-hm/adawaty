@@ -1,5 +1,42 @@
 # Changelog
 
+## 0.5.51 — Developer Tools batch 5: XML↔JSON, XML validator, CSS prefixer (August 2026)
+
+- Before writing any code, ran one comprehensive audit pass (not the previous piecemeal
+  per-tool grepping) across every existing tool id in every family being touched this batch --
+  XML, YAML, HTML, CSS, and JS -- checking ids *and* descriptions for functional overlap in a
+  single pass, per the lesson from 0.5.49. Confirmed the YAML tool family is still completely
+  empty (deferred separately, needs a real parser, more involved than a single batch).
+- Also pre-executed each new tool's `calculate()` with its own real placeholder values (simulating
+  what the automated test harness does) before registering anything in `tool-definitions.js`, to
+  catch logic errors before regeneration rather than after.
+- **The id-uniqueness guard (added in 0.5.47) caught a real collision before anything was
+  pushed**: the initially-written `html-to-markdown-converter` turned out to already exist in
+  `web-transform-tools.js` -- and that original version is more complete (also converts images,
+  which mine didn't). `npm run validate` failed immediately with a clear message naming both
+  files, exactly as the guard was designed to do. Removed my duplicate and its exclusive helper
+  function, kept the original as the only live version. This is the guard working as intended,
+  not a new mistake -- it prevented one.
+- 3 new tools that survived the audit and the collision check, zero new dependencies:
+  - `xml-to-json-converter` — a from-scratch recursive-descent XML parser (element structure and
+    text content; attributes intentionally not modeled) converting to a JSON object, with repeated
+    sibling tags automatically becoming arrays. Complements the existing `json-to-xml-converter`
+    (the reverse direction).
+  - `xml-validator` — checks XML well-formedness via a tag-matching stack (open/close pairing,
+    single root element, no unclosed tags) using a Node-safe manual parser, not the browser-only
+    `DOMParser`.
+  - `css-prefixer` — adds vendor prefixes (`-webkit-`, `-moz-`, `-ms-`) for a known set of
+    commonly-prefixed CSS properties.
+- All three algorithms (XML→JSON structural conversion including repeated-tag-as-array behavior,
+  the well-formedness checker across valid/mismatched/unclosed/empty cases, and vendor-prefix
+  generation) were unit-tested with real data before being wired into tool definitions.
+- New file: `src/product/definitions/dev-tools-batch5.js`, registered in `tool-definitions.js`.
+- Proactively recomputed and updated the tool-count assertions before running validate.
+- Verified: `npm run validate` passes all 7 suites (481 tools total, 547 unique tool ids across
+  73 definition files); confirmed all 3 new pages render correctly and the original
+  `html-to-markdown-converter` is unaffected.
+
+---
 ## 0.5.50 — Developer Tools batch 4: dummy-data generators (August 2026)
 
 - Continued Developer Tools (Part 9), applying the expanded lesson from 0.5.49: checked both

@@ -916,6 +916,21 @@
         <priority>0.9</priority>
     </url>
     <url>
+        <loc>https://www.adawaty.tools/tools/xml-to-json-converter/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://www.adawaty.tools/tools/xml-validator/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://www.adawaty.tools/tools/css-prefixer/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
         <loc>https://www.adawaty.tools/tools/permutation-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
