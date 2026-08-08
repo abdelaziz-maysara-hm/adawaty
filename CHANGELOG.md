@@ -1,5 +1,31 @@
 # Changelog
 
+## 0.5.43 — Audio Wave 2 (file-based half): waveform viewer, silence detector (August 2026)
+
+- Added 2 new client-side audio analysis tools, both fitting the existing "upload → process →
+  download/report" tool pattern with no new dependencies or infrastructure:
+  - `audio-waveform-viewer` — renders a file's full waveform as a downloadable PNG image (min/max
+    amplitude per pixel column, drawn to canvas, exported via the existing `canvasToBlob` helper).
+  - `audio-silence-detector` — reports silent or near-silent stretches as timestamped text
+    (adjustable sensitivity threshold and minimum gap duration); detection-only, never modifies
+    the file, no download.
+- Both core algorithms (waveform peak extraction, silence-gap detection with a too-short-gap
+  filter) were unit-tested directly with real synthetic sample data before being wired into tool
+  definitions.
+- New file: `src/product/definitions/audio-analysis-tools.js`, registered into
+  `src/product/tool-definitions.js`.
+- **Scope note for the rest of Wave 2** (Voice Recorder, Mic Test, Level Meter): these need a live
+  microphone UI (`getUserMedia` + `MediaRecorder`/`AnalyserNode` driving a real-time start/stop/
+  meter interface) that the current tool-page renderer does not support at all — it only renders
+  static forms submitted once. Building these needs that interactive-tool infrastructure decided
+  and built first; recorded as an open architecture question in `docs/ROADMAP.md` rather than
+  rushed. Spectrum/Frequency Analyzer deferred separately pending a correctly-implemented offline
+  FFT/spectrogram approach.
+- Audio Tools category now covers **13 tools** total (up from 11).
+- Verified: `npm run validate` passes all 6 suites (465 tools total after regenerating every
+  page); confirmed both new pages render with correct Arabic titles.
+
+---
 ## 0.5.42 — Audio Editing wave 1: reverse, cut, split, merge, loop, speed (August 2026)
 
 - Adopted a **~2,300+ tool master catalogue** (`docs/tools-master-database.txt`, 22 categories) as

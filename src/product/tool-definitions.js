@@ -31,6 +31,7 @@ import { marketingMetricDefinitions } from './definitions/marketing-metrics.js';
 import { creatorVideoDefinitions } from './definitions/creator-video.js';
 import { audioPodcastDefinitions } from './definitions/audio-podcast.js';
 import { audioFileToolDefinitions } from './definitions/audio-file-tools.js';
+import { audioAnalysisToolDefinitions } from './definitions/audio-analysis-tools.js';
 import { projectManagementDefinitions } from './definitions/project-management.js';
 import { imageFileToolDefinitions } from './definitions/image-file-tools.js';
 import { imageEditingToolDefinitions } from './definitions/image-editing-tools.js';
@@ -1060,6 +1061,7 @@ const allToolDefinitions = Object.freeze({
     ...creatorVideoDefinitions,
     ...audioPodcastDefinitions,
     ...audioFileToolDefinitions,
+    ...audioAnalysisToolDefinitions,
     ...projectManagementDefinitions,
     ...imageFileToolDefinitions,
     ...imageEditingToolDefinitions,

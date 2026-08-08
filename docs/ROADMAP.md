@@ -328,7 +328,21 @@ can do, pushing anything needing an external codec/encoder library later:
    Stereo→Mono and a full-format converter (via the existing in-browser ffmpeg engine, since that
    dependency was already shipped for video).
 2. **Recording** (Voice Recorder, Mic Test, Level Meter, Waveform Viewer, Spectrum Analyzer,
-   Silence/Noise Detector) — `MediaRecorder` + `AnalyserNode`, still no external deps. Not started.
+   Silence/Noise Detector) — split by what today's architecture supports:
+   - **Done, file-based** (fits the existing "upload → process → download" tool pattern with zero
+     new infrastructure): Waveform Viewer (renders a PNG of the full waveform) and Silence/Noise
+     Detector (reports silent stretches as text, detection-only, no file modification).
+   - **Needs a live-microphone UI decision before starting**: Voice Recorder, Mic Test, and Level
+     Meter all need `getUserMedia` + `MediaRecorder`/`AnalyserNode` driving a *live, interactive*
+     UI (start/stop button, running timer, real-time meter) — the current tool-page renderer
+     (`src/product/tool-page.js`) only supports static forms (`select`/`textarea`/`text`/`number`/
+     `file`) submitted once to a `process()` call. There is no interactive-tool infrastructure
+     yet anywhere in the product. Building these three needs that infrastructure decided and
+     built first, not just three more tool definitions.
+   - Spectrum/Frequency Analyzer deferred for a related but separate reason: a correct offline
+     spectrogram needs either a manual FFT implementation or careful `OfflineAudioContext` +
+     `AnalyserNode` frame-stepping, neither of which is worth rushing. Revisit once there's time to
+     get it right rather than shipping something subtly wrong.
 3. **Filters** (Equalizer, Bass/Treble Booster, Low/High/Band Pass, Noise Gate, Compressor,
    Limiter, Expander) — native `BiquadFilterNode`/`DynamicsCompressorNode` graphs. Not started.
 4. **Metadata** (view/edit/remove tags, bitrate/codec/duration/channel/sample-rate viewers) —
