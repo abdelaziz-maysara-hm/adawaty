@@ -1,5 +1,38 @@
 # Changelog
 
+## 0.5.45 — Developer Tools: JSON diff/CSV conversion, CSS generators (August 2026)
+
+- Started filling the Developer Tools category (Part 9 of the master catalogue, ~100 tools,
+  previously untouched). Checked existing coverage first (13 of the 100 catalogue slugs already
+  existed, several more under equivalent alternate names like `base64-encoder-decoder` and
+  `url-encoder-decoder`) before picking genuine gaps to fill.
+- Added 6 new client-side developer tools, all pure JS with zero new dependencies:
+  - `json-diff` — recursively compares two JSON texts and lists every value added, removed, or
+    changed, including nested fields and array indices.
+  - `json-to-csv` / `csv-to-json` — convert between a JSON array of objects and a CSV table, with
+    correct handling of quoted values containing commas or embedded quotes.
+  - `css-gradient-generator`, `css-box-shadow-generator`, `css-border-radius-generator` — form-
+    based CSS snippet generators (angle/colors, offset/blur/spread/color/inset, per-corner radii
+    with automatic shorthand collapse when all corners match).
+- New files: `src/product/definitions/json-tools-extra.js`,
+  `src/product/definitions/css-generator-tools.js`, both registered in `tool-definitions.js`.
+- The JSON diff and CSV parsing algorithms, plus the CSS output builders, were unit-tested
+  directly with real cases (nested/array diffs, quoted-comma CSV round-trips, corner-radius
+  shorthand collapse) before being wired into tool definitions.
+- **Caught and fixed a real bug before it shipped**: the first color-validation implementation
+  used a DOM-only trick (`new Option().style.color`), which crashed the automated test suite with
+  `Option is not defined` since that suite runs each tool's logic in Node, not a browser. Replaced
+  it with a dependency-free regex-based validator (hex/rgb/hsl in both comma and modern
+  space-separated syntax, plus named-color keywords), tested against 16 real valid/invalid cases
+  before re-running the suite.
+- Updated three hardcoded tool-count assertions in
+  `tests/product/tool-user-journeys.integration.mjs` to match the new totals. Note: the pre-existing
+  numbers had already drifted slightly from an earlier unrelated change (PR #90) before this batch
+  even started -- not something introduced here, just caught and corrected while touching this file.
+- Verified: `npm run validate` passes all 6 suites (469 tools total); confirmed all 6 new pages
+  render with correct Arabic titles.
+
+---
 ## 0.5.44 — Monetization & cost strategy: "Totally Free," ad-funded (August 2026)
 
 Planning/documentation update, no code changes. Recorded a deliberate product decision in

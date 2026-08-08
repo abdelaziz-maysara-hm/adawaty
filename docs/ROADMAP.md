@@ -354,6 +354,34 @@ can do, pushing anything needing an external codec/encoder library later:
 6. **Utilities** (repair, recover, validate, batch versions) — thin wrappers around the tools
    above; comes last once the underlying single-file tools exist.
 
+### Developer Tools (Part 9, ~100 tools) — in progress
+
+Checked existing coverage before adding anything: **13 of the 100 catalogue slugs already
+existed** (`json-formatter`, `json-validator`, `json-minifier`, `xml-formatter`,
+`html-beautifier`, `html-minifier`, `css-beautifier`, `css-minifier`, `regex-tester`,
+`uuid-generator`, `ulid-generator`, `jwt-decoder`, `password-generator`), plus several more
+catalogue items were already covered under different, arguably clearer slug names elsewhere in
+the product (`base64-encoder-decoder`, `url-encoder-decoder`, `cron-expression-builder` +
+`cron-expression-parser`, `unix-timestamp-converter`, `lorem-ipsum-generator`,
+`regex-escape-tool`) — worth checking existing IDs broadly before assuming a catalogue slug is
+missing, since the master catalogue's exact naming doesn't always match what already shipped.
+
+**Done, first batch**: `json-diff` (recursive comparison, nested/array-aware), `json-to-csv` +
+`csv-to-json` (quoted-value-safe conversion), and three CSS snippet generators
+(`css-gradient-generator`, `css-box-shadow-generator`, `css-border-radius-generator`).
+
+**Still open** (roughly 75+ catalogue items after accounting for the above): JSON
+viewer/editor/merge/sort/escape + JSON↔XML/YAML/Excel conversions; the full XML tool set
+(validator, beautifier, minifier, viewer, editor, compare/diff, XPath tester, XSD validator); the
+full YAML tool set (formatter, validator, beautifier, minifier, viewer, compare, merge, diff,
+YAML↔TOML); HTML formatter/validator/preview, HTML↔Markdown, HTML entity encode/decode; CSS
+formatter/validator/prefixer/unprefixer plus `clip-path` generator; the JS tool set (formatter,
+beautifier, minifier, obfuscator/deobfuscator, validator, diff/compare); `regex-generator`;
+`nanoid-generator`, `jwt-encoder`, `jwt-inspector`, `guid-generator`, `random-string`,
+`api-key-generator`; dummy-data generators (JSON/CSV/XML/SQL); and a combined
+`developer-toolkit` landing page. No architecture blockers on any of these — same pattern as what
+shipped, pick up whenever.
+
 ---
 
 ## Monetization & cost strategy: "Totally Free," ad-funded (August 2026)
