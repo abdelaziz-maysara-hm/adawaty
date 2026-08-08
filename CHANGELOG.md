@@ -1,5 +1,35 @@
 # Changelog
 
+## 0.5.42 — Audio Editing wave 1: reverse, cut, split, merge, loop, speed (August 2026)
+
+- Adopted a **~2,300+ tool master catalogue** (`docs/tools-master-database.txt`, 22 categories) as
+  the long-term product backlog, and recorded a scope decision in `docs/ROADMAP.md`: work proceeds
+  in phases (client-side now / needs review / deferred-backend / deferred-AI / future business
+  suite) to stay aligned with the existing no-backend, no-AI, fully-in-browser positioning.
+- Added 6 new client-side audio tools, all pure Web Audio API (`decodeAudioData` + `AudioBuffer`
+  math, WAV export, zero new dependencies):
+  - `audio-reverser` — plays a recording backwards.
+  - `audio-cutter` — removes a selected segment and joins what remains (the inverse of trimming).
+  - `audio-splitter` — splits a recording into two parts at a chosen point, downloaded as one ZIP.
+  - `audio-merger` — joins two or more files (multi-file input) into one continuous recording, in
+    the order selected.
+  - `audio-looper` — repeats a recording a chosen number of times.
+  - `audio-speed-changer` — speeds up or slows down playback (pitch shifts along with speed, since
+    this uses simple resampling rather than a pitch-preserving time-stretch).
+- Extended `src/product/audio-processing.js` with the underlying sample-level helpers
+  (`reverseAudioBuffer`, `concatAudioBuffers`, `changeAudioSpeed`, `loopAudioBuffer`,
+  `cutAudioBuffer`), unit-tested directly with real numeric cases (reverse order, multi-file
+  concat including mixed mono/stereo channel counts, 2x-speed length halving, 3x loop repetition)
+  before wiring them into tool definitions.
+- Audio Tools category now covers **11 tools** total (up from 5): the 6 above plus the
+  previously-shipped Trim, Volume Adjust, Fade In/Out, Stereo→Mono, and the full Format Converter.
+- This completes Wave 1 (Editing + Volume) of the Audio build order in `docs/ROADMAP.md`; Wave 2
+  (Recording, via `MediaRecorder` + `AnalyserNode`) is next.
+- Verified: `npm run validate` passes all 6 suites (463 tools total after regenerating every
+  page); confirmed each new tool's page renders with the correct Arabic title and correct
+  category/subcategory placement.
+
+---
 ## 0.5.41 — Localized navigation and site identity (August 2026)
 
 - Fixed the shared navigation so its labels immediately follow the selected Arabic or English language on every catalogue and tool page.

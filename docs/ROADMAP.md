@@ -273,3 +273,69 @@ find . -name "*.html" -not -path "./node_modules/*" | xargs grep -L "adsbygoogle
 هنا محتاج صراحة: أدوات الفيديو كلها بتشتغل بتقنية WebAssembly (ffmpeg.wasm) جوه المتصفح — قرار معماري اتخد بدري في المشروع عشان نتجنب رفع الفيديوهات لسيرفر (خصوصية + توفير تكلفة استضافة). **البطء ده جزء متأصل في الطريقة دي، مش bug قابل للإصلاح السريع** — أي حل حقيقي للسرعة يحتاج معالجة سيرفرية، وده قرار معماري كبير رجعنا عنه قبل كده لأسباب تكلفة ومخاطر (راجع قسم الـbackend في التاريخ). لو السرعة أولوية قصوى، محتاجين نقعد نناقش القرار ده من الأول.
 
 **تحقق:** `npm run validate` (6/6) بعد كل التعديلات، فحص مباشر لمنطق تحليل الوقت الجديد بحالات حقيقية.
+
+---
+
+## Scope decision: expanding from the 2,300+ tool master catalogue (August 2026)
+
+A candidate catalogue of **~2,300+ tools across 22 categories** (PDF, Images, Video, Audio,
+Developer, Security/Encoding, Networking, SEO, Text, Calculators, Unit Converters, Social Media,
+Office/Spreadsheet, Design, Database, Cloud/DevOps, E-commerce, Archive, plus a suggested Business
+Suite add-on) is tracked at `docs/tools-master-database.txt` — the single source of truth for
+names, Arabic labels, and slugs going forward.
+
+Scope is split into four buckets so this stays aligned with the existing "no backend, no AI,
+everything client-side" positioning:
+
+- **Phase 1 — in scope now:** runs entirely client-side. Covers PDF, Images, Video (main list +
+  Metadata + Batch, excluding AI Video Enhancement), Audio (Part 7, ~98 tools, excluding *Album
+  Art Editor* and *Lyrics Editor* — see the audio note below), Developer, Security & Encoding
+  (excluding live-lookup tools), Text/Document (excluding AI Text), Calculators, Unit Converters,
+  Office/Spreadsheet, Design (excluding AI Design), Archive & Compression (excluding cloud/AI
+  subsections).
+- **Phase 2 — needs per-tool review:** SEO/Webmaster (meta-tag tools fine, crawling needs a live
+  fetch → out for now) and Social Media (utilities fine, posting/scheduling needs platform APIs).
+- **Phase 3 — deferred, backend/API required:** Networking (DNS/WHOIS/ping/port-scan need a server
+  hop), Database (SQL/NoSQL tools need a live connection — note: the source catalogue has this
+  section's SQL Conversion/Migration/Utilities duplicated; worth a cleanup pass whenever this
+  category is picked up), Cloud & DevOps (provider API keys), E-commerce (marketplace API
+  integrations), Archive's Cloud Archive subsection, and the enterprise add-ons (Backup & Recovery,
+  Enterprise Storage, File System Tools).
+- **Phase 4 — deferred, AI-powered:** every 🤖-tagged subsection across all categories (AI Video
+  Enhancement, the whole of Audio AI/Part 8, AI Text, AI Content, AI Design, AI Commerce +
+  Productivity Suite, AI Archive, AI-assisted SEO Crawling).
+- **Phase 5 — future/strategic:** the catalogue's closing recommendation for a full Business Suite
+  (HR, CRM, Accounting, Invoicing, Legal, PM, Marketing, Operations) as a paid-plan, backend-
+  dependent expansion. Parked until Phases 1–3 are further along.
+
+Data note: the source catalogue's part numbering jumps from Part 5 (Video) to Part 7 (Audio) —
+Part 6 appears to be a gap (possibly a missing "Video Tools 101–200" section); worth confirming
+if/when Video is revisited.
+
+### Audio Tools (Part 7, ~98 tools) — in progress
+
+Product decision: Adawaty's audio tools target **general audio** (voice notes, recordings,
+podcasts, calls), not music production/curation — *Album Art Editor* and *Lyrics Editor* are
+dropped from scope for that reason. The rest of Part 7 stays in scope, since editing/volume/
+filter/metadata utilities are useful for any audio file regardless of whether it happens to be
+music.
+
+Build order follows technical dependency, not popularity — starting with what pure Web Audio API
+can do, pushing anything needing an external codec/encoder library later:
+
+1. **Editing + Volume** (`decodeAudioData` + `AudioBuffer`, WAV export, zero external deps) —
+   **done**: Trim, Volume Adjust, Fade In/Out, Reverse, Cut, Split, Merge, Loop, Speed, plus
+   Stereo→Mono and a full-format converter (via the existing in-browser ffmpeg engine, since that
+   dependency was already shipped for video).
+2. **Recording** (Voice Recorder, Mic Test, Level Meter, Waveform Viewer, Spectrum Analyzer,
+   Silence/Noise Detector) — `MediaRecorder` + `AnalyserNode`, still no external deps. Not started.
+3. **Filters** (Equalizer, Bass/Treble Booster, Low/High/Band Pass, Noise Gate, Compressor,
+   Limiter, Expander) — native `BiquadFilterNode`/`DynamicsCompressorNode` graphs. Not started.
+4. **Metadata** (view/edit/remove tags, bitrate/codec/duration/channel/sample-rate viewers) —
+   needs a small browser-side ID3/metadata parsing library. Not started.
+5. **Conversion + Compression** (broader format coverage, bitrate reduction, WhatsApp/Telegram-
+   optimized presets) — mostly covered already by the shipped `audio-format-converter`, which
+   reuses the video ffmpeg.wasm engine (no new dependency needed). Bitrate-reduction presets still
+   open.
+6. **Utilities** (repair, recover, validate, batch versions) — thin wrappers around the tools
+   above; comes last once the underlying single-file tools exist.

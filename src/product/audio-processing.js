@@ -148,11 +148,117 @@ function processAudioBuffer(audioBuffer, {
     };
 }
 
+function bufferLike(channels, sampleRate) {
+    const length = channels[0]?.length ?? 0;
+    return {
+        numberOfChannels: channels.length,
+        length,
+        sampleRate,
+        duration: length / sampleRate,
+        getChannelData: (index) => channels[index],
+    };
+}
+
+function reverseAudioBuffer(audioBuffer) {
+    const channels = Array.from(
+        { length: audioBuffer.numberOfChannels },
+        (_, channelIndex) => {
+            const source = audioBuffer.getChannelData(channelIndex);
+            const reversed = new Float32Array(source.length);
+            for (let index = 0; index < source.length; index += 1) {
+                reversed[index] = source[source.length - 1 - index];
+            }
+            return reversed;
+        },
+    );
+    return bufferLike(channels, audioBuffer.sampleRate);
+}
+
+function concatAudioBuffers(buffers) {
+    if (!buffers.length) {
+        throw new Error('At least one audio buffer is required.');
+    }
+
+    const sampleRate = buffers[0].sampleRate;
+    const numberOfChannels = Math.max(
+        1,
+        ...buffers.map((buffer) => buffer.numberOfChannels),
+    );
+    const totalLength = buffers.reduce((sum, buffer) => sum + buffer.length, 0);
+    const channels = Array.from(
+        { length: numberOfChannels },
+        () => new Float32Array(totalLength),
+    );
+
+    let offset = 0;
+    for (const buffer of buffers) {
+        for (let channelIndex = 0; channelIndex < numberOfChannels; channelIndex += 1) {
+            const source = channelIndex < buffer.numberOfChannels
+                ? buffer.getChannelData(channelIndex)
+                : buffer.getChannelData(0);
+            channels[channelIndex].set(source, offset);
+        }
+        offset += buffer.length;
+    }
+
+    return bufferLike(channels, sampleRate);
+}
+
+/**
+ * Changes playback speed via simple linear-interpolation resampling.
+ * Pitch shifts along with speed (no pitch-preserving time-stretch) -- an
+ * accepted tradeoff for a lightweight, dependency-free implementation.
+ */
+function changeAudioSpeed(audioBuffer, rate) {
+    const safeRate = Math.max(0.1, Math.min(4, rate));
+    const newLength = Math.max(1, Math.round(audioBuffer.length / safeRate));
+    const channels = Array.from(
+        { length: audioBuffer.numberOfChannels },
+        (_, channelIndex) => {
+            const source = audioBuffer.getChannelData(channelIndex);
+            const output = new Float32Array(newLength);
+            for (let index = 0; index < newLength; index += 1) {
+                const sourcePosition = index * safeRate;
+                const lowerIndex = Math.floor(sourcePosition);
+                const upperIndex = Math.min(source.length - 1, lowerIndex + 1);
+                const fraction = sourcePosition - lowerIndex;
+                output[index] = source[lowerIndex] * (1 - fraction)
+                    + source[upperIndex] * fraction;
+            }
+            return output;
+        },
+    );
+    return bufferLike(channels, audioBuffer.sampleRate);
+}
+
+function loopAudioBuffer(audioBuffer, repeatCount) {
+    const times = Math.max(1, Math.round(repeatCount));
+    return concatAudioBuffers(Array.from({ length: times }, () => audioBuffer));
+}
+
+/** Removes the [startSeconds, endSeconds) segment and joins what remains. */
+function cutAudioBuffer(audioBuffer, startSeconds, endSeconds) {
+    const before = processAudioBuffer(audioBuffer, {
+        startSeconds: 0,
+        endSeconds: startSeconds,
+    });
+    const after = processAudioBuffer(audioBuffer, {
+        startSeconds: endSeconds,
+        endSeconds: audioBuffer.duration,
+    });
+    return concatAudioBuffers([before, after]);
+}
+
 export {
     audioBufferToWavBlob,
+    changeAudioSpeed,
+    concatAudioBuffers,
+    cutAudioBuffer,
     decodeAudioFile,
     formatAudioDuration,
+    loopAudioBuffer,
     processAudioBuffer,
+    reverseAudioBuffer,
 };
 
 // END OF FILE

@@ -1,0 +1,3685 @@
+Adawaty Master Tools Database v1.0
+Part 1 — PDF Tools (001–100)
+
+Category: PDF
+
+
+| #   | English               | Arabic                | Slug                  |
+| --- | --------------------- | --------------------- | --------------------- |
+| 001 | Merge PDF             | دمج ملفات PDF         | merge-pdf             |
+| 002 | Split PDF             | تقسيم PDF             | split-pdf             |
+| 003 | Compress PDF          | ضغط PDF               | compress-pdf          |
+| 004 | PDF to Word           | PDF إلى Word          | pdf-to-word           |
+| 005 | Word to PDF           | Word إلى PDF          | word-to-pdf           |
+| 006 | PDF to Excel          | PDF إلى Excel         | pdf-to-excel          |
+| 007 | Excel to PDF          | Excel إلى PDF         | excel-to-pdf          |
+| 008 | PDF to PowerPoint     | PDF إلى PowerPoint    | pdf-to-powerpoint     |
+| 009 | PowerPoint to PDF     | PowerPoint إلى PDF    | powerpoint-to-pdf     |
+| 010 | PDF to JPG            | PDF إلى JPG           | pdf-to-jpg            |
+| 011 | JPG to PDF            | JPG إلى PDF           | jpg-to-pdf            |
+| 012 | PDF to PNG            | PDF إلى PNG           | pdf-to-png            |
+| 013 | PNG to PDF            | PNG إلى PDF           | png-to-pdf            |
+| 014 | PDF to TIFF           | PDF إلى TIFF          | pdf-to-tiff           |
+| 015 | TIFF to PDF           | TIFF إلى PDF          | tiff-to-pdf           |
+| 016 | PDF to BMP            | PDF إلى BMP           | pdf-to-bmp            |
+| 017 | BMP to PDF            | BMP إلى PDF           | bmp-to-pdf            |
+| 018 | PDF to SVG            | PDF إلى SVG           | pdf-to-svg            |
+| 019 | SVG to PDF            | SVG إلى PDF           | svg-to-pdf            |
+| 020 | PDF to WEBP           | PDF إلى WEBP          | pdf-to-webp           |
+| 021 | WEBP to PDF           | WEBP إلى PDF          | webp-to-pdf           |
+| 022 | PDF to GIF            | PDF إلى GIF           | pdf-to-gif            |
+| 023 | GIF to PDF            | GIF إلى PDF           | gif-to-pdf            |
+| 024 | PDF to HTML           | PDF إلى HTML          | pdf-to-html           |
+| 025 | HTML to PDF           | HTML إلى PDF          | html-to-pdf           |
+| 026 | PDF to TXT            | PDF إلى TXT           | pdf-to-txt            |
+| 027 | TXT to PDF            | TXT إلى PDF           | txt-to-pdf            |
+| 028 | PDF to Markdown       | PDF إلى Markdown      | pdf-to-md             |
+| 029 | Markdown to PDF       | Markdown إلى PDF      | md-to-pdf             |
+| 030 | PDF to EPUB           | PDF إلى EPUB          | pdf-to-epub           |
+| 031 | EPUB to PDF           | EPUB إلى PDF          | epub-to-pdf           |
+| 032 | PDF to MOBI           | PDF إلى MOBI          | pdf-to-mobi           |
+| 033 | MOBI to PDF           | MOBI إلى PDF          | mobi-to-pdf           |
+| 034 | PDF to AZW3           | PDF إلى AZW3          | pdf-to-azw3           |
+| 035 | AZW3 to PDF           | AZW3 إلى PDF          | azw3-to-pdf           |
+| 036 | PDF to RTF            | PDF إلى RTF           | pdf-to-rtf            |
+| 037 | RTF to PDF            | RTF إلى PDF           | rtf-to-pdf            |
+| 038 | PDF to ODT            | PDF إلى ODT           | pdf-to-odt            |
+| 039 | ODT to PDF            | ODT إلى PDF           | odt-to-pdf            |
+| 040 | PDF to DOCX           | PDF إلى DOCX          | pdf-to-docx           |
+| 041 | DOCX to PDF           | DOCX إلى PDF          | docx-to-pdf           |
+| 042 | PDF to CSV            | PDF إلى CSV           | pdf-to-csv            |
+| 043 | CSV to PDF            | CSV إلى PDF           | csv-to-pdf            |
+| 044 | PDF to XML            | PDF إلى XML           | pdf-to-xml            |
+| 045 | XML to PDF            | XML إلى PDF           | xml-to-pdf            |
+| 046 | PDF to JSON           | PDF إلى JSON          | pdf-to-json           |
+| 047 | JSON to PDF           | JSON إلى PDF          | json-to-pdf           |
+| 048 | Extract PDF Pages     | استخراج صفحات PDF     | extract-pdf-pages     |
+| 049 | Delete PDF Pages      | حذف صفحات PDF         | delete-pdf-pages      |
+| 050 | Rotate PDF            | تدوير صفحات PDF       | rotate-pdf            |
+| 051 | Reorder PDF Pages     | إعادة ترتيب الصفحات   | reorder-pdf           |
+| 052 | Duplicate PDF Pages   | تكرار صفحات           | duplicate-pdf-pages   |
+| 053 | Reverse PDF Pages     | عكس ترتيب الصفحات     | reverse-pdf-pages     |
+| 054 | Insert Blank Page     | إضافة صفحة فارغة      | insert-blank-page     |
+| 055 | Insert Image into PDF | إضافة صورة إلى PDF    | insert-image-pdf      |
+| 056 | Insert Text into PDF  | إضافة نص              | insert-text-pdf       |
+| 057 | Insert Page Numbers   | ترقيم الصفحات         | page-numbers-pdf      |
+| 058 | Add Header            | إضافة Header          | pdf-header            |
+| 059 | Add Footer            | إضافة Footer          | pdf-footer            |
+| 060 | Add Watermark         | إضافة علامة مائية     | watermark-pdf         |
+| 061 | Remove Watermark      | إزالة العلامة المائية | remove-watermark-pdf  |
+| 062 | Add Logo              | إضافة شعار            | add-logo-pdf          |
+| 063 | Remove Logo           | إزالة شعار            | remove-logo-pdf       |
+| 064 | Add Background        | إضافة خلفية           | add-background-pdf    |
+| 065 | Remove Background     | إزالة الخلفية         | remove-background-pdf |
+| 066 | Crop PDF              | قص الصفحات            | crop-pdf              |
+| 067 | Resize PDF Pages      | تغيير حجم الصفحات     | resize-pdf            |
+| 068 | Change Page Size      | تغيير مقاس الصفحة     | change-page-size      |
+| 069 | Convert to A4         | تحويل إلى A4          | pdf-a4                |
+| 070 | Convert to Letter     | تحويل إلى Letter      | pdf-letter            |
+| 071 | Convert to Legal      | تحويل إلى Legal       | pdf-legal             |
+| 072 | Optimize PDF          | تحسين PDF             | optimize-pdf          |
+| 073 | Flatten PDF           | تسطيح PDF             | flatten-pdf           |
+| 074 | Linearize PDF         | تهيئة للويب           | linearize-pdf         |
+| 075 | Repair PDF            | إصلاح PDF             | repair-pdf            |
+| 076 | Recover PDF           | استعادة PDF           | recover-pdf           |
+| 077 | Unlock PDF            | فك حماية PDF          | unlock-pdf            |
+| 078 | Lock PDF              | حماية PDF بكلمة مرور  | lock-pdf              |
+| 079 | Encrypt PDF           | تشفير PDF             | encrypt-pdf           |
+| 080 | Decrypt PDF           | فك التشفير            | decrypt-pdf           |
+| 081 | Remove Password       | إزالة كلمة المرور     | remove-password-pdf   |
+| 082 | Set Permissions       | تحديد الصلاحيات       | pdf-permissions       |
+| 083 | Sign PDF              | توقيع PDF             | sign-pdf              |
+| 084 | Verify Signature      | التحقق من التوقيع     | verify-pdf-signature  |
+| 085 | Fill PDF Form         | تعبئة النماذج         | fill-pdf-form         |
+| 086 | Create PDF Form       | إنشاء نموذج PDF       | create-pdf-form       |
+| 087 | OCR PDF               | OCR على PDF           | ocr-pdf               |
+| 088 | OCR Arabic PDF        | OCR عربي              | ocr-arabic-pdf        |
+| 089 | OCR English PDF       | OCR إنجليزي           | ocr-english-pdf       |
+| 090 | OCR Multi Language    | OCR متعدد اللغات      | ocr-multilang-pdf     |
+| 091 | Extract Images        | استخراج الصور         | extract-images-pdf    |
+| 092 | Extract Text          | استخراج النص          | extract-text-pdf      |
+| 093 | Extract Fonts         | استخراج الخطوط        | extract-fonts-pdf     |
+| 094 | Extract Metadata      | استخراج Metadata      | extract-metadata-pdf  |
+| 095 | Remove Metadata       | حذف Metadata          | remove-metadata-pdf   |
+| 096 | View Metadata         | عرض Metadata          | view-metadata-pdf     |
+| 097 | Compare PDFs          | مقارنة ملفين PDF      | compare-pdf           |
+| 098 | Redact PDF            | إخفاء بيانات حساسة    | redact-pdf            |
+| 099 | Search in PDF         | البحث داخل PDF        | search-pdf            |
+| 100 | Batch PDF Converter   | تحويل عدة ملفات PDF   | batch-pdf-converter   |
+
+
+Adawaty Master Tools Database v1.0
+Part 2 — PDF Tools (101–200)
+
+Category: PDF
+
+
+| #   | English                   | Arabic                            | Slug                      |
+| --- | ------------------------- | --------------------------------- | ------------------------- |
+| 101 | Batch PDF Compressor      | ضغط عدة ملفات PDF                 | batch-pdf-compressor      |
+| 102 | Batch PDF Merger          | دمج عدة ملفات PDF                 | batch-pdf-merger          |
+| 103 | Batch PDF Splitter        | تقسيم عدة ملفات PDF               | batch-pdf-splitter        |
+| 104 | Batch PDF OCR             | OCR جماعي                         | batch-pdf-ocr             |
+| 105 | Batch Watermark           | إضافة علامة مائية جماعية          | batch-watermark-pdf       |
+| 106 | Batch Remove Watermark    | إزالة العلامة المائية جماعيًا     | batch-remove-watermark    |
+| 107 | Batch Rotate PDF          | تدوير ملفات PDF جماعيًا           | batch-rotate-pdf          |
+| 108 | Batch Rename PDFs         | إعادة تسمية ملفات PDF             | batch-rename-pdf          |
+| 109 | Batch Unlock PDF          | فك حماية مجموعة ملفات             | batch-unlock-pdf          |
+| 110 | Batch Lock PDF            | حماية مجموعة ملفات                | batch-lock-pdf            |
+| 111 | PDF Page Extractor        | استخراج صفحات محددة               | pdf-page-extractor        |
+| 112 | PDF Page Inserter         | إدراج صفحات                       | pdf-page-inserter         |
+| 113 | PDF Page Duplicator       | نسخ الصفحات                       | pdf-page-duplicator       |
+| 114 | PDF Page Replacer         | استبدال صفحة                      | pdf-page-replacer         |
+| 115 | PDF Page Organizer        | منظم صفحات PDF                    | pdf-page-organizer        |
+| 116 | Odd Pages Extractor       | استخراج الصفحات الفردية           | odd-pages-pdf             |
+| 117 | Even Pages Extractor      | استخراج الصفحات الزوجية           | even-pages-pdf            |
+| 118 | Remove Blank Pages        | حذف الصفحات الفارغة               | remove-blank-pages        |
+| 119 | Detect Blank Pages        | اكتشاف الصفحات الفارغة            | detect-blank-pages        |
+| 120 | Insert Cover Page         | إضافة صفحة غلاف                   | insert-cover-page         |
+| 121 | Insert Last Page          | إضافة صفحة أخيرة                  | insert-last-page          |
+| 122 | Create Booklet PDF        | إنشاء كتيب PDF                    | booklet-pdf               |
+| 123 | Print Ready PDF           | تهيئة للطباعة                     | print-ready-pdf           |
+| 124 | Book Printing Layout      | تنسيق طباعة كتاب                  | book-print-layout         |
+| 125 | Book Fold Layout          | تنسيق الطباعة المطوية             | book-fold-layout          |
+| 126 | N-up PDF                  | دمج صفحات في صفحة واحدة           | nup-pdf                   |
+| 127 | Poster PDF                | تقسيم للطباعة كملصق               | poster-pdf                |
+| 128 | Resize Margins            | تعديل الهوامش                     | resize-pdf-margins        |
+| 129 | Auto Margin Crop          | قص الهوامش تلقائيًا               | auto-margin-crop          |
+| 130 | Remove White Borders      | إزالة الإطارات البيضاء            | remove-white-borders      |
+| 131 | Grayscale PDF             | تحويل للأبيض والأسود              | grayscale-pdf             |
+| 132 | Black & White PDF         | تحويل لأسود وأبيض                 | bw-pdf                    |
+| 133 | Sepia PDF                 | تأثير سيبيا                       | sepia-pdf                 |
+| 134 | Invert PDF Colors         | عكس الألوان                       | invert-pdf-colors         |
+| 135 | Night Mode PDF            | وضع القراءة الليلي                | night-mode-pdf            |
+| 136 | Reduce PDF Colors         | تقليل الألوان                     | reduce-pdf-colors         |
+| 137 | Optimize Images in PDF    | تحسين الصور داخل PDF              | optimize-images-pdf       |
+| 138 | Compress Images in PDF    | ضغط الصور داخل PDF                | compress-images-pdf       |
+| 139 | Replace Images in PDF     | استبدال الصور                     | replace-images-pdf        |
+| 140 | Remove Images from PDF    | حذف الصور                         | remove-images-pdf         |
+| 141 | Extract Embedded Files    | استخراج الملفات المرفقة           | extract-embedded-files    |
+| 142 | Attach Files to PDF       | إرفاق ملفات داخل PDF              | attach-files-pdf          |
+| 143 | Embed Fonts               | تضمين الخطوط                      | embed-fonts-pdf           |
+| 144 | Subset Fonts              | تقليل الخطوط                      | subset-fonts-pdf          |
+| 145 | Replace Fonts             | استبدال الخطوط                    | replace-fonts-pdf         |
+| 146 | PDF Font Inspector        | فحص الخطوط                        | pdf-font-inspector        |
+| 147 | PDF Accessibility Checker | فحص إمكانية الوصول                | pdf-accessibility         |
+| 148 | Make Accessible PDF       | تحسين إمكانية الوصول              | accessible-pdf            |
+| 149 | Tagged PDF Creator        | إنشاء Tagged PDF                  | tagged-pdf                |
+| 150 | Validate PDF/A            | التحقق من PDF/A                   | validate-pdfa             |
+| 151 | Convert to PDF/A          | تحويل إلى PDF/A                   | convert-pdfa              |
+| 152 | Convert to PDF/X          | تحويل إلى PDF/X                   | convert-pdfx              |
+| 153 | Convert to PDF/E          | تحويل إلى PDF/E                   | convert-pdfe              |
+| 154 | Convert to PDF/UA         | تحويل إلى PDF/UA                  | convert-pdfua             |
+| 155 | PDF Standards Checker     | فحص توافق المعايير                | pdf-standards-checker     |
+| 156 | Digital Signature Creator | إنشاء توقيع رقمي                  | digital-signature-pdf     |
+| 157 | Timestamp PDF             | إضافة ختم زمني                    | timestamp-pdf             |
+| 158 | Certificate Viewer        | عرض الشهادات                      | pdf-certificate-viewer    |
+| 159 | Certificate Validator     | التحقق من الشهادات                | pdf-certificate-validator |
+| 160 | Certificate Remover       | حذف الشهادات                      | remove-pdf-certificates   |
+| 161 | Highlight Text            | تمييز النص                        | highlight-pdf             |
+| 162 | Underline Text            | وضع خط تحت النص                   | underline-pdf             |
+| 163 | Strikeout Text            | شطب النص                          | strikeout-pdf             |
+| 164 | Sticky Notes              | إضافة ملاحظات                     | sticky-notes-pdf          |
+| 165 | Draw on PDF               | الرسم على PDF                     | draw-pdf                  |
+| 166 | Freehand Annotation       | رسم حر                            | freehand-pdf              |
+| 167 | Arrow Annotation          | إضافة أسهم                        | arrow-pdf                 |
+| 168 | Rectangle Annotation      | إضافة مستطيل                      | rectangle-pdf             |
+| 169 | Circle Annotation         | إضافة دائرة                       | circle-pdf                |
+| 170 | Text Annotation           | إضافة تعليق نصي                   | text-annotation-pdf       |
+| 171 | Export Annotations        | تصدير التعليقات                   | export-pdf-comments       |
+| 172 | Import Annotations        | استيراد التعليقات                 | import-pdf-comments       |
+| 173 | Remove Annotations        | حذف التعليقات                     | remove-pdf-comments       |
+| 174 | PDF Comment Viewer        | عرض التعليقات                     | pdf-comment-viewer        |
+| 175 | PDF Bookmark Creator      | إنشاء فهرس إشارات                 | bookmark-pdf              |
+| 176 | PDF Bookmark Editor       | تعديل الإشارات المرجعية           | edit-bookmarks-pdf        |
+| 177 | Export Bookmarks          | تصدير الإشارات                    | export-bookmarks-pdf      |
+| 178 | Import Bookmarks          | استيراد الإشارات                  | import-bookmarks-pdf      |
+| 179 | Generate TOC              | إنشاء جدول محتويات                | generate-pdf-toc          |
+| 180 | Auto TOC Generator        | جدول محتويات تلقائي               | auto-toc-pdf              |
+| 181 | PDF Viewer Online         | عارض PDF                          | pdf-viewer                |
+| 182 | Fullscreen PDF Viewer     | عرض ملء الشاشة                    | fullscreen-pdf            |
+| 183 | Continuous Scroll Viewer  | عرض مستمر                         | continuous-pdf            |
+| 184 | Presentation Mode         | وضع العرض                         | presentation-pdf          |
+| 185 | PDF Reader with Search    | قارئ مع بحث                       | pdf-reader-search         |
+| 186 | Read Aloud PDF            | قراءة PDF صوتيًا                  | read-aloud-pdf            |
+| 187 | Translate PDF             | ترجمة PDF                         | translate-pdf             |
+| 188 | AI Summarize PDF          | تلخيص PDF بالذكاء الاصطناعي       | ai-summarize-pdf          |
+| 189 | AI Explain PDF            | شرح PDF بالذكاء الاصطناعي         | ai-explain-pdf            |
+| 190 | AI Chat with PDF          | الدردشة مع PDF                    | chat-with-pdf             |
+| 191 | AI Extract Tables         | استخراج الجداول بالذكاء الاصطناعي | ai-table-extractor        |
+| 192 | AI Form Recognizer        | التعرف على النماذج                | ai-form-recognizer        |
+| 193 | AI Invoice Extractor      | استخراج بيانات الفواتير           | invoice-extractor         |
+| 194 | AI Resume Parser          | تحليل السيرة الذاتية              | resume-parser             |
+| 195 | AI Contract Analyzer      | تحليل العقود                      | contract-analyzer         |
+| 196 | AI PDF Translator         | ترجمة احترافية                    | ai-pdf-translator         |
+| 197 | AI PDF Reviewer           | مراجعة PDF                        | ai-pdf-reviewer           |
+| 198 | AI PDF Q&A                | أسئلة وأجوبة من PDF               | pdf-qa                    |
+| 199 | AI Research Assistant     | مساعد بحث من PDF                  | research-pdf              |
+| 200 | AI Knowledge Extractor    | استخراج المعرفة من PDF            | knowledge-extractor       |
+
+Adawaty Master Tools Database v1.0
+Part 3 — Image Tools (001–100)
+
+Category: Images
+
+
+| #   | English                   | العربية               | Slug                      |
+| --- | ------------------------- | --------------------- | ------------------------- |
+| 001 | Image Compressor          | ضغط الصور             | image-compressor          |
+| 002 | Lossless Image Compressor | ضغط بدون فقدان الجودة | lossless-image-compressor |
+| 003 | Smart Image Compressor    | ضغط ذكي               | smart-image-compressor    |
+| 004 | Resize Image              | تغيير حجم الصورة      | resize-image              |
+| 005 | Resize by Width           | تغيير حسب العرض       | resize-width              |
+| 006 | Resize by Height          | تغيير حسب الارتفاع    | resize-height             |
+| 007 | Resize by Percentage      | تغيير بالنسبة المئوية | resize-percent            |
+| 008 | Crop Image                | قص الصورة             | crop-image                |
+| 009 | Smart Crop                | قص ذكي                | smart-crop                |
+| 010 | Square Crop               | قص مربع               | square-crop               |
+| 011 | Circle Crop               | قص دائري              | circle-crop               |
+| 012 | Rotate Image              | تدوير الصورة          | rotate-image              |
+| 013 | Flip Horizontal           | قلب أفقي              | flip-horizontal           |
+| 014 | Flip Vertical             | قلب رأسي              | flip-vertical             |
+| 015 | Mirror Image              | عكس الصورة            | mirror-image              |
+| 016 | Straighten Image          | تصحيح الميل           | straighten-image          |
+| 017 | Auto Rotate               | تدوير تلقائي          | auto-rotate-image         |
+| 018 | Auto Crop                 | قص تلقائي             | auto-crop-image           |
+| 019 | Perspective Correction    | تصحيح المنظور         | perspective-correction    |
+| 020 | Deskew Image              | تصحيح الميل الضوئي    | deskew-image              |
+
+Image Conversion
+
+| #   | English     | العربية      | Slug        |
+| --- | ----------- | ------------ | ----------- |
+| 021 | JPG to PNG  | JPG إلى PNG  | jpg-to-png  |
+| 022 | PNG to JPG  | PNG إلى JPG  | png-to-jpg  |
+| 023 | WEBP to JPG | WEBP إلى JPG | webp-to-jpg |
+| 024 | JPG to WEBP | JPG إلى WEBP | jpg-to-webp |
+| 025 | PNG to WEBP | PNG إلى WEBP | png-to-webp |
+| 026 | WEBP to PNG | WEBP إلى PNG | webp-to-png |
+| 027 | BMP to PNG  | BMP إلى PNG  | bmp-to-png  |
+| 028 | PNG to BMP  | PNG إلى BMP  | png-to-bmp  |
+| 029 | GIF to PNG  | GIF إلى PNG  | gif-to-png  |
+| 030 | PNG to GIF  | PNG إلى GIF  | png-to-gif  |
+| 031 | TIFF to JPG | TIFF إلى JPG | tiff-to-jpg |
+| 032 | JPG to TIFF | JPG إلى TIFF | jpg-to-tiff |
+| 033 | HEIC to JPG | HEIC إلى JPG | heic-to-jpg |
+| 034 | HEIC to PNG | HEIC إلى PNG | heic-to-png |
+| 035 | AVIF to JPG | AVIF إلى JPG | avif-to-jpg |
+| 036 | JPG to AVIF | JPG إلى AVIF | jpg-to-avif |
+| 037 | RAW to JPG  | RAW إلى JPG  | raw-to-jpg  |
+| 038 | RAW to PNG  | RAW إلى PNG  | raw-to-png  |
+| 039 | SVG to PNG  | SVG إلى PNG  | svg-to-png  |
+| 040 | PNG to SVG  | PNG إلى SVG  | png-to-svg  |
+
+Image Enhancement
+
+
+| #   | English                | العربية                        | Slug              |
+| --- | ---------------------- | ------------------------------ | ----------------- |
+| 041 | AI Image Enhancer      | تحسين الصورة بالذكاء الاصطناعي | ai-image-enhancer |
+| 042 | AI Upscale             | تكبير الصورة بالذكاء الاصطناعي | ai-upscale        |
+| 043 | 4x Upscaler            | تكبير ×4                       | 4x-upscale        |
+| 044 | 8x Upscaler            | تكبير ×8                       | 8x-upscale        |
+| 045 | Sharpen Image          | زيادة الحدة                    | sharpen-image     |
+| 046 | Denoise Image          | إزالة التشويش                  | denoise-image     |
+| 047 | Deblur Image           | إزالة الضبابية                 | deblur-image      |
+| 048 | Restore Old Photo      | ترميم الصور القديمة            | restore-old-photo |
+| 049 | Repair Damaged Photo   | إصلاح الصور التالفة            | repair-photo      |
+| 050 | Colorize Black & White | تلوين الصور القديمة            | colorize-photo    |
+
+Background Tools
+
+| #   | English                | العربية              | Slug                   |
+| --- | ---------------------- | -------------------- | ---------------------- |
+| 051 | Remove Background      | إزالة الخلفية        | remove-background      |
+| 052 | Transparent Background | خلفية شفافة          | transparent-background |
+| 053 | Replace Background     | استبدال الخلفية      | replace-background     |
+| 054 | Blur Background        | تمويه الخلفية        | blur-background        |
+| 055 | Solid Background       | خلفية بلون ثابت      | solid-background       |
+| 056 | Gradient Background    | خلفية متدرجة         | gradient-background    |
+| 057 | Studio Background      | خلفية استوديو        | studio-background      |
+| 058 | White Background       | خلفية بيضاء          | white-background       |
+| 059 | Black Background       | خلفية سوداء          | black-background       |
+| 060 | Passport Background    | خلفية صور جواز السفر | passport-background    |
+
+Watermark
+
+| #   | English                | العربية                       | Slug                   |
+| --- | ---------------------- | ----------------------------- | ---------------------- |
+| 061 | Add Watermark          | إضافة علامة مائية             | image-watermark        |
+| 062 | Remove Watermark       | إزالة علامة مائية             | remove-watermark       |
+| 063 | Add Logo               | إضافة شعار                    | add-logo               |
+| 064 | Remove Logo            | إزالة شعار                    | remove-logo            |
+| 065 | Text Watermark         | علامة مائية نصية              | text-watermark         |
+| 066 | Image Watermark        | علامة مائية بصورة             | image-watermark-tool   |
+| 067 | Batch Watermark        | علامة مائية جماعية            | batch-watermark        |
+| 068 | Batch Remove Watermark | إزالة العلامة المائية جماعيًا | batch-remove-watermark |
+
+AI Editing
+
+| #   | English            | العربية             | Slug              |
+| --- | ------------------ | ------------------- | ----------------- |
+| 069 | Remove Objects     | إزالة العناصر       | remove-object     |
+| 070 | Magic Eraser       | الممحاة السحرية     | magic-eraser      |
+| 071 | Remove Person      | إزالة الأشخاص       | remove-person     |
+| 072 | Remove Text        | إزالة النصوص        | remove-text       |
+| 073 | Remove Shadows     | إزالة الظلال        | remove-shadow     |
+| 074 | Remove Reflection  | إزالة الانعكاسات    | remove-reflection |
+| 075 | Sky Replacement    | استبدال السماء      | replace-sky       |
+| 076 | Object Replacement | استبدال عنصر        | replace-object    |
+| 077 | AI Inpainting      | ملء المناطق الفارغة | ai-inpainting     |
+| 078 | Outpainting        | توسيع الصورة        | outpainting       |
+
+Color Tools
+
+| #   | English       | العربية       | Slug          |
+| --- | ------------- | ------------- | ------------- |
+| 079 | Brightness    | تعديل السطوع  | brightness    |
+| 080 | Contrast      | تعديل التباين | contrast      |
+| 081 | Saturation    | تشبع الألوان  | saturation    |
+| 082 | Hue           | درجة اللون    | hue           |
+| 083 | Temperature   | حرارة اللون   | temperature   |
+| 084 | Exposure      | التعريض       | exposure      |
+| 085 | Gamma         | جاما          | gamma         |
+| 086 | Vibrance      | الحيوية       | vibrance      |
+| 087 | Color Balance | توازن الألوان | color-balance |
+| 088 | Auto Enhance  | تحسين تلقائي  | auto-enhance  |
+
+Filters
+
+| #   | English       | العربية       | Slug         |
+| --- | ------------- | ------------- | ------------ |
+| 089 | Black & White | أبيض وأسود    | black-white  |
+| 090 | Sepia         | سيبيا         | sepia        |
+| 091 | Vintage       | فلتر كلاسيكي  | vintage      |
+| 092 | Oil Painting  | رسم زيتي      | oil-painting |
+| 093 | Sketch        | رسم بالقلم    | sketch       |
+| 094 | Cartoon       | كرتون         | cartoon      |
+| 095 | Anime Style   | ستايل أنمي    | anime-style  |
+| 096 | Pixel Art     | بيكسل آرت     | pixel-art    |
+| 097 | Glass Effect  | تأثير الزجاج  | glass-effect |
+| 098 | Neon Effect   | تأثير النيون  | neon-effect  |
+| 099 | HDR Effect    | تأثير HDR     | hdr-effect   |
+| 100 | Film Effect   | تأثير سينمائي | film-effect  |
+
+Adawaty Master Tools Database v1.0
+Part 4 — Image Tools (101–200)
+
+Category: Images
+
+👤 Face & Portrait AI
+
+| #   | English              | العربية                       | Slug               |
+| --- | -------------------- | ----------------------------- | ------------------ |
+| 101 | AI Face Enhancer     | تحسين الوجه بالذكاء الاصطناعي | ai-face-enhancer   |
+| 102 | AI Portrait Enhancer | تحسين البورتريه               | portrait-enhancer  |
+| 103 | Face Beautifier      | تجميل الوجه                   | face-beautifier    |
+| 104 | Skin Smoother        | تنعيم البشرة                  | skin-smoother      |
+| 105 | Remove Acne          | إزالة الحبوب                  | remove-acne        |
+| 106 | Remove Wrinkles      | إزالة التجاعيد                | remove-wrinkles    |
+| 107 | Whiten Teeth         | تبييض الأسنان                 | whiten-teeth       |
+| 108 | Eye Enhancer         | تحسين العينين                 | eye-enhancer       |
+| 109 | Eye Color Changer    | تغيير لون العين               | eye-color-changer  |
+| 110 | Hair Color Changer   | تغيير لون الشعر               | hair-color-changer |
+| 111 | Hair Style AI        | تجربة قصات الشعر              | hair-style-ai      |
+| 112 | Beard Generator      | إضافة لحية                    | beard-generator    |
+| 113 | Remove Beard         | إزالة اللحية                  | remove-beard       |
+| 114 | Smile Generator      | إضافة ابتسامة                 | smile-generator    |
+| 115 | Face Swap            | تبديل الوجوه                  | face-swap          |
+| 116 | Multiple Face Swap   | تبديل عدة وجوه                | multi-face-swap    |
+| 117 | Face Blur            | طمس الوجه                     | face-blur          |
+| 118 | Face Pixelate        | تشويش الوجه                   | face-pixelate      |
+| 119 | Age Progression      | تكبير العمر                   | age-progression    |
+| 120 | Age Regression       | تصغير العمر                   | age-regression     |
+
+🎨 AI Art
+
+| #   | English                 | العربية               | Slug              |
+| --- | ----------------------- | --------------------- | ----------------- |
+| 121 | Image to Anime          | تحويل لأنمي           | image-to-anime    |
+| 122 | Image to Cartoon        | تحويل لكرتون          | image-to-cartoon  |
+| 123 | Image to Sketch         | تحويل لرسم            | image-to-sketch   |
+| 124 | Image to Painting       | تحويل للوحة           | image-to-painting |
+| 125 | Image to Watercolor     | تحويل للألوان المائية | watercolor-effect |
+| 126 | Image to Pencil Drawing | رسم بالقلم            | pencil-drawing    |
+| 127 | Image to Comic          | تحويل لكوميك          | comic-generator   |
+| 128 | Image to Pixel Art      | تحويل Pixel Art       | pixel-art-ai      |
+| 129 | Image to Lego           | تحويل إلى Lego        | lego-effect       |
+| 130 | Image to Clay Style     | تحويل إلى Clay        | clay-style        |
+| 131 | Image to Ghibli Style   | ستايل Ghibli          | ghibli-style      |
+| 132 | Image to Pixar Style    | ستايل Pixar           | pixar-style       |
+| 133 | Image to 3D Art         | تحويل إلى 3D          | image-to-3d       |
+| 134 | Image to Oil Painting   | لوحة زيتية            | oil-painting-ai   |
+| 135 | Image to Neon Art       | نيون                  | neon-art          |
+| 136 | Image to Pop Art        | Pop Art               | pop-art           |
+| 137 | Image to Low Poly       | Low Poly              | low-poly          |
+| 138 | Image to Mosaic         | فسيفساء               | mosaic-art        |
+| 139 | Image to ASCII          | ASCII Art             | ascii-art         |
+| 140 | AI Style Transfer       | نقل الأسلوب الفني     | style-transfer    |
+
+📷 Camera & EXIF
+
+| #   | English              | العربية          | Slug             |
+| --- | -------------------- | ---------------- | ---------------- |
+| 141 | View EXIF            | عرض بيانات EXIF  | view-exif        |
+| 142 | Remove EXIF          | حذف EXIF         | remove-exif      |
+| 143 | Edit EXIF            | تعديل EXIF       | edit-exif        |
+| 144 | GPS Remover          | حذف GPS          | remove-gps       |
+| 145 | Camera Info          | معلومات الكاميرا | camera-info      |
+| 146 | Lens Info            | معلومات العدسة   | lens-info        |
+| 147 | ISO Viewer           | عرض ISO          | iso-viewer       |
+| 148 | Shutter Speed Viewer | سرعة الغالق      | shutter-speed    |
+| 149 | Aperture Viewer      | فتحة العدسة      | aperture-viewer  |
+| 150 | Metadata Cleaner     | تنظيف Metadata   | metadata-cleaner |
+
+🖼️ Social Media
+
+| #   | English                  | العربية             | Slug              |
+| --- | ------------------------ | ------------------- | ----------------- |
+| 151 | Instagram Post Resizer   | مقاسات إنستجرام     | instagram-resizer |
+| 152 | Instagram Story Maker    | قصص إنستجرام        | instagram-story   |
+| 153 | Instagram Reel Thumbnail | غلاف Reel           | reel-thumbnail    |
+| 154 | Facebook Cover Maker     | غلاف فيسبوك         | facebook-cover    |
+| 155 | Facebook Post Resizer    | منشورات فيسبوك      | facebook-post     |
+| 156 | Twitter Header Maker     | غلاف X              | twitter-header    |
+| 157 | Twitter Post Size        | مقاسات X            | twitter-image     |
+| 158 | LinkedIn Banner          | بانر LinkedIn       | linkedin-banner   |
+| 159 | LinkedIn Post Image      | صورة منشور LinkedIn | linkedin-post     |
+| 160 | YouTube Thumbnail        | غلاف يوتيوب         | youtube-thumbnail |
+| 161 | YouTube Banner           | بانر يوتيوب         | youtube-banner    |
+| 162 | TikTok Cover             | غلاف TikTok         | tiktok-cover      |
+| 163 | Pinterest Pin Creator    | منشور Pinterest     | pinterest-pin     |
+| 164 | Snapchat Filter Size     | مقاسات Snapchat     | snapchat-image    |
+| 165 | WhatsApp Sticker Maker   | ملصقات واتساب       | whatsapp-sticker  |
+| 166 | WhatsApp DP Maker        | صورة واتساب         | whatsapp-dp       |
+| 167 | Telegram Sticker Creator | ملصقات تيليجرام     | telegram-sticker  |
+| 168 | Discord Avatar           | صورة Discord        | discord-avatar    |
+| 169 | Discord Banner           | بانر Discord        | discord-banner    |
+| 170 | Twitch Banner            | بانر Twitch         | twitch-banner     |
+
+🧩 Collage & Layout
+
+| #   | English                 | العربية      | Slug           |
+| --- | ----------------------- | ------------ | -------------- |
+| 171 | Photo Collage           | كولاج صور    | photo-collage  |
+| 172 | Grid Maker              | شبكة صور     | grid-maker     |
+| 173 | Contact Sheet           | ورقة مصغرات  | contact-sheet  |
+| 174 | Photo Strip             | شريط صور     | photo-strip    |
+| 175 | Before After Compare    | قبل وبعد     | before-after   |
+| 176 | Image Comparison Slider | مقارنة الصور | image-slider   |
+| 177 | Image Overlay           | دمج صورتين   | overlay-images |
+| 178 | Blend Images            | مزج الصور    | blend-images   |
+| 179 | Image Mosaic            | فسيفساء صور  | image-mosaic   |
+| 180 | Photo Wall              | حائط صور     | photo-wall     |
+
+🔍 Analysis
+
+| #   | English                 | العربية               | Slug                 |
+| --- | ----------------------- | --------------------- | -------------------- |
+| 181 | Histogram Viewer        | عرض Histogram         | histogram            |
+| 182 | Color Palette Extractor | استخراج لوحة الألوان  | color-palette        |
+| 183 | Dominant Color Finder   | استخراج اللون الأساسي | dominant-color       |
+| 184 | Average Color           | متوسط اللون           | average-color        |
+| 185 | Image Size Analyzer     | تحليل الأبعاد         | image-size           |
+| 186 | Compression Analyzer    | تحليل الضغط           | compression-analysis |
+| 187 | Sharpness Detector      | تحليل الحدة           | sharpness-detector   |
+| 188 | Blur Detector           | كشف الضبابية          | blur-detector        |
+| 189 | Noise Detector          | كشف التشويش           | noise-detector       |
+| 190 | Duplicate Image Finder  | كشف الصور المكررة     | duplicate-images     |
+
+🛠️ Utilities
+
+| #   | English                 | العربية             | Slug                   |
+| --- | ----------------------- | ------------------- | ---------------------- |
+| 191 | Batch Rename Images     | إعادة تسمية الصور   | batch-rename-images    |
+| 192 | Batch Resize Images     | تغيير حجم جماعي     | batch-resize-images    |
+| 193 | Batch Convert Images    | تحويل جماعي         | batch-convert-images   |
+| 194 | Batch Compress Images   | ضغط جماعي           | batch-compress-images  |
+| 195 | Batch Rotate Images     | تدوير جماعي         | batch-rotate-images    |
+| 196 | Batch Watermark Images  | علامة مائية جماعية  | batch-watermark-images |
+| 197 | Batch Remove Background | إزالة خلفية جماعية  | batch-remove-bg        |
+| 198 | Image File Validator    | التحقق من الصور     | image-validator        |
+| 199 | Repair Corrupted Image  | إصلاح الصور التالفة | repair-image           |
+| 200 | Image Toolkit           | مجموعة أدوات الصور  | image-toolkit          |
+
+
+Adawaty Master Tools Database v1.0
+Part 5 — Video Tools (001–100)
+
+Category: Video
+
+Video Conversion
+
+| #   | English             | العربية        | Slug                |
+| --- | ------------------- | -------------- | ------------------- |
+| 001 | Video Converter     | محول الفيديو   | video-converter     |
+| 002 | MP4 to AVI          | MP4 إلى AVI    | mp4-to-avi          |
+| 003 | AVI to MP4          | AVI إلى MP4    | avi-to-mp4          |
+| 004 | MP4 to MOV          | MP4 إلى MOV    | mp4-to-mov          |
+| 005 | MOV to MP4          | MOV إلى MP4    | mov-to-mp4          |
+| 006 | MP4 to MKV          | MP4 إلى MKV    | mp4-to-mkv          |
+| 007 | MKV to MP4          | MKV إلى MP4    | mkv-to-mp4          |
+| 008 | MP4 to WEBM         | MP4 إلى WEBM   | mp4-to-webm         |
+| 009 | WEBM to MP4         | WEBM إلى MP4   | webm-to-mp4         |
+| 010 | MP4 to FLV          | MP4 إلى FLV    | mp4-to-flv          |
+| 011 | FLV to MP4          | FLV إلى MP4    | flv-to-mp4          |
+| 012 | MP4 to WMV          | MP4 إلى WMV    | mp4-to-wmv          |
+| 013 | WMV to MP4          | WMV إلى MP4    | wmv-to-mp4          |
+| 014 | MP4 to MPEG         | MP4 إلى MPEG   | mp4-to-mpeg         |
+| 015 | MPEG to MP4         | MPEG إلى MP4   | mpeg-to-mp4         |
+| 016 | MP4 to GIF          | MP4 إلى GIF    | mp4-to-gif          |
+| 017 | GIF to MP4          | GIF إلى MP4    | gif-to-mp4          |
+| 018 | Video to MP3        | فيديو إلى MP3  | video-to-mp3        |
+| 019 | Video to WAV        | فيديو إلى WAV  | video-to-wav        |
+| 020 | Any Video Converter | تحويل أي فيديو | any-video-converter |
+
+
+
+Video Compression
+
+| #   | English               | العربية        | Slug                 |
+| --- | --------------------- | -------------- | -------------------- |
+| 021 | Compress Video        | ضغط الفيديو    | compress-video       |
+| 022 | Lossless Compression  | ضغط بدون فقدان | lossless-video       |
+| 023 | Smart Compression     | ضغط ذكي        | smart-compress-video |
+| 024 | Compress to 8MB       | ضغط إلى 8MB    | compress-8mb         |
+| 025 | Compress to 25MB      | ضغط إلى 25MB   | compress-25mb        |
+| 026 | Compress to 50MB      | ضغط إلى 50MB   | compress-50mb        |
+| 027 | Compress for WhatsApp | ضغط لواتساب    | whatsapp-video       |
+| 028 | Compress for Telegram | ضغط لتيليجرام  | telegram-video       |
+| 029 | Compress for Discord  | ضغط لديسكورد   | discord-video        |
+| 030 | Compress for Email    | ضغط للإيميل    | email-video          |
+
+
+✂ Editing
+
+| #   | English         | العربية            | Slug                  |
+| --- | --------------- | ------------------ | --------------------- |
+| 031 | Trim Video      | قص الفيديو         | trim-video            |
+| 032 | Split Video     | تقسيم الفيديو      | split-video           |
+| 033 | Merge Videos    | دمج الفيديوهات     | merge-video           |
+| 034 | Cut Video       | قطع جزء من الفيديو | cut-video             |
+| 035 | Crop Video      | قص إطار الفيديو    | crop-video            |
+| 036 | Rotate Video    | تدوير الفيديو      | rotate-video          |
+| 037 | Flip Horizontal | قلب أفقي           | flip-video-horizontal |
+| 038 | Flip Vertical   | قلب رأسي           | flip-video-vertical   |
+| 039 | Reverse Video   | عكس الفيديو        | reverse-video         |
+| 040 | Loop Video      | تكرار الفيديو      | loop-video            |
+
+
+⚡ Speed
+
+| #   | English                | العربية         | Slug            |
+| --- | ---------------------- | --------------- | --------------- |
+| 041 | Speed Up Video         | تسريع الفيديو   | speed-up-video  |
+| 042 | Slow Motion            | إبطاء الفيديو   | slow-motion     |
+| 043 | Custom Speed           | سرعة مخصصة      | custom-speed    |
+| 044 | Boomerang Video        | فيديو Boomerang | boomerang-video |
+| 045 | Frame Rate Converter   | تحويل FPS       | fps-converter   |
+| 046 | 24 FPS Converter       | 24 FPS          | 24fps           |
+| 047 | 30 FPS Converter       | 30 FPS          | 30fps           |
+| 048 | 60 FPS Converter       | 60 FPS          | 60fps           |
+| 049 | 120 FPS Converter      | 120 FPS         | 120fps          |
+| 050 | Variable FPS Converter | FPS متغير       | variable-fps    |
+
+
+🎵 Audio
+
+| #   | English              | العربية            | Slug                  |
+| --- | -------------------- | ------------------ | --------------------- |
+| 051 | Extract Audio        | استخراج الصوت      | extract-audio         |
+| 052 | Remove Audio         | حذف الصوت          | remove-audio          |
+| 053 | Replace Audio        | استبدال الصوت      | replace-audio         |
+| 054 | Add Background Music | إضافة موسيقى       | add-music             |
+| 055 | Adjust Volume        | رفع أو خفض الصوت   | adjust-volume         |
+| 056 | Mute Sections        | كتم جزء من الفيديو | mute-sections         |
+| 057 | Sync Audio           | مزامنة الصوت       | sync-audio            |
+| 058 | Audio Delay Fix      | تصحيح التأخير      | audio-delay           |
+| 059 | Normalize Audio      | توحيد مستوى الصوت  | normalize-video-audio |
+| 060 | Audio Mixer          | دمج أكثر من مسار   | audio-mixer           |
+
+
+🖼 Frames
+
+| #   | English              | العربية               | Slug                |
+| --- | -------------------- | --------------------- | ------------------- |
+| 061 | Extract Frames       | استخراج الإطارات      | extract-frames      |
+| 062 | Extract Every Frame  | استخراج كل الإطارات   | every-frame         |
+| 063 | Extract Every Second | كل ثانية صورة         | every-second-frame  |
+| 064 | Thumbnail Generator  | إنشاء Thumbnail       | thumbnail-generator |
+| 065 | First Frame          | استخراج أول إطار      | first-frame         |
+| 066 | Last Frame           | استخراج آخر إطار      | last-frame          |
+| 067 | Middle Frame         | استخراج منتصف الفيديو | middle-frame        |
+| 068 | Storyboard Generator | Storyboard            | storyboard          |
+| 069 | Contact Sheet        | ورقة مصغرات           | video-contact-sheet |
+| 070 | Frames to ZIP        | ضغط الإطارات          | frames-zip          |
+
+
+📺 Subtitle
+
+| #   | English            | العربية                  | Slug               |
+| --- | ------------------ | ------------------------ | ------------------ |
+| 071 | Add Subtitle       | إضافة ترجمة              | add-subtitle       |
+| 072 | Remove Subtitle    | حذف الترجمة              | remove-subtitle    |
+| 073 | Extract Subtitle   | استخراج الترجمة          | extract-subtitle   |
+| 074 | Burn Subtitle      | دمج الترجمة داخل الفيديو | burn-subtitle      |
+| 075 | Translate Subtitle | ترجمة الترجمة            | translate-subtitle |
+| 076 | Subtitle Sync      | مزامنة الترجمة           | subtitle-sync      |
+| 077 | SRT to VTT         | SRT إلى VTT              | srt-vtt            |
+| 078 | VTT to SRT         | VTT إلى SRT              | vtt-srt            |
+| 079 | Subtitle Editor    | محرر الترجمة             | subtitle-editor    |
+| 080 | Auto Subtitle AI   | ترجمة تلقائية            | auto-subtitle      |
+
+📐 Resolution
+
+
+| #   | English                | العربية          | Slug            |
+| --- | ---------------------- | ---------------- | --------------- |
+| 081 | 720p Converter         | 720P             | 720p            |
+| 082 | 1080p Converter        | 1080P            | 1080p           |
+| 083 | 2K Converter           | 2K               | 2k              |
+| 084 | 4K Converter           | 4K               | 4k              |
+| 085 | 8K Converter           | 8K               | 8k              |
+| 086 | Upscale Video AI       | تكبير الفيديو    | upscale-video   |
+| 087 | Downscale Video        | تقليل الدقة      | downscale-video |
+| 088 | Aspect Ratio Converter | تغيير نسبة العرض | aspect-ratio    |
+| 089 | Portrait Converter     | تحويل رأسي       | portrait-video  |
+| 090 | Landscape Converter    | تحويل أفقي       | landscape-video |
+
+
+🔍 Metadata
+
+| #   | English               | العربية         | Slug                  |
+| --- | --------------------- | --------------- | --------------------- |
+| 091 | Video Metadata Viewer | عرض Metadata    | video-metadata        |
+| 092 | Remove Metadata       | إزالة Metadata  | remove-video-metadata |
+| 093 | Codec Viewer          | عرض Codec       | codec-viewer          |
+| 094 | Bitrate Viewer        | عرض Bitrate     | bitrate-viewer        |
+| 095 | FPS Viewer            | عرض FPS         | fps-viewer            |
+| 096 | Duration Viewer       | عرض المدة       | duration-viewer       |
+| 097 | Resolution Viewer     | عرض الدقة       | resolution-viewer     |
+| 098 | Color Space Viewer    | عرض Color Space | color-space           |
+| 099 | HDR Detector          | كشف HDR         | hdr-detector          |
+| 100 | Video Inspector       | فحص الفيديو     | video-inspector       |
+
+
+⭐ Pro Video Tools
+
+ويضم أدوات مثل:
+
+Silence Remover
+Scene Detection
+Shot Detection
+Object Tracking
+Face Tracking
+Auto Reframe
+Motion Blur
+Video Stabilizer AI
+Background Removal AI
+Green Screen Removal
+Lip Sync AI
+Eye Contact AI
+Noise Reduction AI
+Video Colorizer
+HDR Converter
+AI Upscaler ×16
+AI Frame Interpolation (24→60 FPS)
+AI Video Restoration
+AI Old Film Repair
+AI Super Resolution
+
+🤖 AI Video Enhancement
+
+| #   | English                | العربية                         | Slug                |
+| --- | ---------------------- | ------------------------------- | ------------------- |
+| 101 | AI Video Enhancer      | تحسين الفيديو بالذكاء الاصطناعي | ai-video-enhancer   |
+| 102 | AI Video Upscaler      | تكبير الفيديو بالذكاء الاصطناعي | ai-video-upscaler   |
+| 103 | AI Video Restorer      | ترميم الفيديو                   | ai-video-restorer   |
+| 104 | AI Color Correction    | تصحيح الألوان                   | ai-color-correction |
+| 105 | AI Colorizer           | تلوين الفيديو الأبيض والأسود    | ai-video-colorizer  |
+| 106 | AI Denoise Video       | إزالة التشويش                   | ai-video-denoise    |
+| 107 | AI Deblur Video        | إزالة الضبابية                  | ai-video-deblur     |
+| 108 | AI Sharpen Video       | زيادة الحدة                     | ai-video-sharpen    |
+| 109 | AI Frame Interpolation | زيادة عدد الإطارات              | frame-interpolation |
+| 110 | AI Motion Smoothing    | تنعيم الحركة                    | motion-smoothing    |
+
+
+🎥 AI Editing
+
+| #   | English              | العربية               | Slug                     |
+| --- | -------------------- | --------------------- | ------------------------ |
+| 111 | Remove Background    | إزالة خلفية الفيديو   | video-background-remover |
+| 112 | Replace Background   | استبدال الخلفية       | replace-video-background |
+| 113 | Green Screen Remover | إزالة Green Screen    | green-screen             |
+| 114 | Object Remover       | إزالة عنصر            | remove-object-video      |
+| 115 | Person Remover       | إزالة شخص             | remove-person-video      |
+| 116 | Logo Remover         | إزالة شعار            | remove-logo-video        |
+| 117 | Text Remover         | إزالة النصوص          | remove-text-video        |
+| 118 | Watermark Remover    | إزالة العلامة المائية | remove-watermark-video   |
+| 119 | Sky Replacement      | استبدال السماء        | replace-sky-video        |
+| 120 | Auto Reframe         | إعادة تأطير تلقائية   | auto-reframe             |
+
+😀 Face AI
+
+| #   | English            | العربية            | Slug                  |
+| --- | ------------------ | ------------------ | --------------------- |
+| 121 | Face Tracking      | تتبع الوجه         | face-tracking         |
+| 122 | Object Tracking    | تتبع عنصر          | object-tracking       |
+| 123 | Eye Contact AI     | تصحيح اتجاه العين  | eye-contact           |
+| 124 | Face Blur          | طمس الوجه          | blur-face             |
+| 125 | Face Pixelate      | تشويش الوجه        | pixelate-face         |
+| 126 | Face Swap Video    | تبديل الوجوه       | face-swap-video       |
+| 127 | Multiple Face Swap | تبديل عدة وجوه     | multi-face-swap-video |
+| 128 | Avatar Generator   | إنشاء أفاتار متحرك | avatar-video          |
+| 129 | Talking Avatar     | أفاتار يتحدث       | talking-avatar        |
+| 130 | Lip Sync AI        | مزامنة حركة الشفاه | lip-sync-ai           |
+
+
+📝 Captions & Translation
+
+| #   | English               | العربية                | Slug                |
+| --- | --------------------- | ---------------------- | ------------------- |
+| 131 | Speech to Subtitle    | تحويل الكلام إلى ترجمة | speech-to-subtitle  |
+| 132 | AI Caption Generator  | إنشاء Captions         | caption-generator   |
+| 133 | Auto Translate Video  | ترجمة الفيديو          | translate-video     |
+| 134 | Voice Translation     | ترجمة الصوت            | voice-translation   |
+| 135 | Subtitle Translator   | ترجمة ملفات الترجمة    | subtitle-translator |
+| 136 | Subtitle Styling      | تنسيق الترجمة          | subtitle-style      |
+| 137 | Animated Captions     | ترجمة متحركة           | animated-captions   |
+| 138 | Word by Word Captions | ترجمة كلمة بكلمة       | word-captions       |
+| 139 | Karaoke Subtitle      | ترجمة كاريوكي          | karaoke-subtitles   |
+| 140 | Subtitle Preview      | معاينة الترجمة         | subtitle-preview    |
+
+
+📺 YouTube Tools
+
+| #   | English                      | العربية           | Slug                        |
+| --- | ---------------------------- | ----------------- | --------------------------- |
+| 141 | YouTube Thumbnail Extractor  | استخراج Thumbnail | youtube-thumbnail-extractor |
+| 142 | YouTube Thumbnail Downloader | تحميل Thumbnail   | thumbnail-downloader        |
+| 143 | YouTube Shorts Converter     | تحويل إلى Shorts  | youtube-shorts              |
+| 144 | YouTube Intro Maker          | مقدمة يوتيوب      | youtube-intro               |
+| 145 | YouTube Outro Maker          | خاتمة يوتيوب      | youtube-outro               |
+| 146 | YouTube Banner Creator       | بانر يوتيوب       | youtube-banner-maker        |
+| 147 | YouTube Safe Area            | منطقة الأمان      | youtube-safe-area           |
+| 148 | YouTube Loop Creator         | فيديو Loop        | youtube-loop                |
+| 149 | YouTube Clip Maker           | قص مقطع           | youtube-clips               |
+| 150 | YouTube Chapter Generator    | إنشاء Chapters    | youtube-chapters            |
+
+
+📱 Social Media
+
+| #   | English                   | العربية           | Slug                    |
+| --- | ------------------------- | ----------------- | ----------------------- |
+| 151 | TikTok Video Resizer      | تحويل لـ TikTok   | tiktok-resizer          |
+| 152 | Instagram Reel Converter  | تحويل لـ Reels    | instagram-reel          |
+| 153 | Instagram Story Converter | تحويل لـ Story    | instagram-story-video   |
+| 154 | Facebook Video Optimizer  | تهيئة لفيسبوك     | facebook-video          |
+| 155 | Twitter Video Converter   | تحويل لـ X        | twitter-video           |
+| 156 | LinkedIn Video Optimizer  | تهيئة لـ LinkedIn | linkedin-video          |
+| 157 | Pinterest Video           | فيديو Pinterest   | pinterest-video         |
+| 158 | Snapchat Video            | فيديو Snapchat    | snapchat-video          |
+| 159 | WhatsApp Status Maker     | حالة واتساب       | whatsapp-status         |
+| 160 | Discord Video Optimizer   | تهيئة Discord     | discord-video-optimizer |
+
+
+🎞 Animation
+
+| #   | English                | العربية            | Slug                |
+| --- | ---------------------- | ------------------ | ------------------- |
+| 161 | GIF Creator            | إنشاء GIF          | gif-creator         |
+| 162 | GIF Optimizer          | تحسين GIF          | gif-optimizer       |
+| 163 | GIF Compressor         | ضغط GIF            | gif-compressor      |
+| 164 | GIF Cropper            | قص GIF             | gif-cropper         |
+| 165 | GIF Speed Changer      | تغيير سرعة GIF     | gif-speed           |
+| 166 | GIF Reverse            | عكس GIF            | gif-reverse         |
+| 167 | GIF Splitter           | تقسيم GIF          | gif-splitter        |
+| 168 | GIF Frame Extractor    | استخراج الإطارات   | gif-frame-extractor |
+| 169 | Animated WEBP Creator  | WEBP متحرك         | animated-webp       |
+| 170 | Sprite Sheet Generator | إنشاء Sprite Sheet | sprite-sheet        |
+
+
+🛠 Batch Processing
+.
+| #   | English                 | العربية                | Slug                   |
+| --- | ----------------------- | ---------------------- | ---------------------- |
+| 171 | Batch Convert Videos    | تحويل جماعي            | batch-video-converter  |
+| 172 | Batch Compress Videos   | ضغط جماعي              | batch-video-compressor |
+| 173 | Batch Watermark Videos  | علامة مائية جماعية     | batch-video-watermark  |
+| 174 | Batch Rotate Videos     | تدوير جماعي            | batch-video-rotate     |
+| 175 | Batch Rename Videos     | إعادة تسمية جماعية     | batch-video-rename     |
+| 176 | Batch Extract Audio     | استخراج الصوت جماعيًا  | batch-extract-audio    |
+| 177 | Batch Subtitle          | إضافة ترجمة جماعية     | batch-subtitle         |
+| 178 | Batch Metadata Cleaner  | تنظيف Metadata جماعيًا | batch-video-metadata   |
+| 179 | Batch Thumbnail Creator | إنشاء Thumbnails       | batch-thumbnail        |
+| 180 | Batch Frame Extractor   | استخراج إطارات جماعيًا | batch-frame-extractor  |
+
+
+📊 Analysis
+
+| #   | English                   | العربية              | Slug             |
+| --- | ------------------------- | -------------------- | ---------------- |
+| 181 | Scene Detection           | اكتشاف المشاهد       | scene-detection  |
+| 182 | Shot Detection            | اكتشاف اللقطات       | shot-detection   |
+| 183 | Black Frame Detection     | كشف الشاشات السوداء  | black-frame      |
+| 184 | Duplicate Frame Detection | كشف الإطارات المكررة | duplicate-frame  |
+| 185 | Freeze Frame Detector     | كشف التجميد          | freeze-frame     |
+| 186 | Video Quality Analyzer    | تحليل الجودة         | video-quality    |
+| 187 | Loudness Analyzer         | تحليل مستوى الصوت    | video-loudness   |
+| 188 | Bitrate Analyzer          | تحليل الـ Bitrate    | bitrate-analysis |
+| 189 | Codec Analyzer            | تحليل Codec          | codec-analysis   |
+| 190 | HDR Analyzer              | تحليل HDR            | hdr-analysis     |
+
+
+📦 Utilities
+
+| #   | English                   | العربية                | Slug                      |
+| --- | ------------------------- | ---------------------- | ------------------------- |
+| 191 | Repair Video              | إصلاح الفيديو          | repair-video              |
+| 192 | Recover Corrupted Video   | استعادة الفيديو التالف | recover-video             |
+| 193 | Video Validator           | فحص سلامة الفيديو      | video-validator           |
+| 194 | Metadata Cleaner          | تنظيف Metadata         | video-metadata-cleaner    |
+| 195 | Video File Inspector      | فحص الملف              | video-inspector-pro       |
+| 196 | Merge Audio & Video       | دمج صوت مع فيديو       | merge-audio-video         |
+| 197 | Video Toolkit             | مجموعة أدوات الفيديو   | video-toolkit             |
+| 198 | Smart Export              | تصدير ذكي              | smart-export              |
+| 199 | Video Presets             | إعدادات جاهزة          | video-presets             |
+| 200 | Universal Video Processor | معالج الفيديو الشامل   | universal-video-processor |
+
+
+Adawaty Master Tools Database v1.0
+Part 7 — Audio Tools (001–100)
+
+Category: Audio
+
+🎵 Audio Conversion
+
+| #   | English                   | العربية       | Slug            |
+| --- | ------------------------- | ------------- | --------------- |
+| 001 | Audio Converter           | محول الصوت    | audio-converter |
+| 002 | MP3 to WAV                | MP3 إلى WAV   | mp3-to-wav      |
+| 003 | WAV to MP3                | WAV إلى MP3   | wav-to-mp3      |
+| 004 | MP3 to AAC                | MP3 إلى AAC   | mp3-to-aac      |
+| 005 | AAC to MP3                | AAC إلى MP3   | aac-to-mp3      |
+| 006 | MP3 to FLAC               | MP3 إلى FLAC  | mp3-to-flac     |
+| 007 | FLAC to MP3               | FLAC إلى MP3  | flac-to-mp3     |
+| 008 | MP3 to OGG                | MP3 إلى OGG   | mp3-to-ogg      |
+| 009 | OGG to MP3                | OGG إلى MP3   | ogg-to-mp3      |
+| 010 | MP3 to M4A                | MP3 إلى M4A   | mp3-to-m4a      |
+| 011 | M4A to MP3                | M4A إلى MP3   | m4a-to-mp3      |
+| 012 | WAV to FLAC               | WAV إلى FLAC  | wav-to-flac     |
+| 013 | FLAC to WAV               | FLAC إلى WAV  | flac-to-wav     |
+| 014 | AIFF to MP3               | AIFF إلى MP3  | aiff-to-mp3     |
+| 015 | MP3 to AIFF               | MP3 إلى AIFF  | mp3-to-aiff     |
+| 016 | Opus to MP3               | Opus إلى MP3  | opus-to-mp3     |
+| 017 | MP3 to Opus               | MP3 إلى Opus  | mp3-to-opus     |
+| 018 | AMR to MP3                | AMR إلى MP3   | amr-to-mp3      |
+| 019 | MP3 to AMR                | MP3 إلى AMR   | mp3-to-amr      |
+| 020 | Universal Audio Converter | محول صوت شامل | universal-audio |
+
+
+📦 Audio Compression
+
+| #   | English                 | العربية           | Slug                 |
+| --- | ----------------------- | ----------------- | -------------------- |
+| 021 | Compress Audio          | ضغط الصوت         | compress-audio       |
+| 022 | Lossless Compression    | ضغط بدون فقدان    | lossless-audio       |
+| 023 | Reduce Bitrate          | تقليل Bitrate     | reduce-bitrate       |
+| 024 | Mono Converter          | تحويل إلى Mono    | mono-audio           |
+| 025 | Stereo Converter        | تحويل إلى Stereo  | stereo-audio         |
+| 026 | Sample Rate Converter   | تغيير Sample Rate | sample-rate          |
+| 027 | Optimize Audio          | تحسين الحجم       | optimize-audio       |
+| 028 | Compress for WhatsApp   | ضغط لواتساب       | whatsapp-audio       |
+| 029 | Compress for Telegram   | ضغط لتيليجرام     | telegram-audio       |
+| 030 | Batch Audio Compression | ضغط جماعي         | batch-audio-compress |
+
+
+✂ Editing
+
+| #   | English         | العربية     | Slug           |
+| --- | --------------- | ----------- | -------------- |
+| 031 | Trim Audio      | قص الصوت    | trim-audio     |
+| 032 | Split Audio     | تقسيم الصوت | split-audio    |
+| 033 | Merge Audio     | دمج الصوت   | merge-audio    |
+| 034 | Cut Audio       | حذف جزء     | cut-audio      |
+| 035 | Reverse Audio   | عكس الصوت   | reverse-audio  |
+| 036 | Loop Audio      | تكرار الصوت | loop-audio     |
+| 037 | Speed Up Audio  | تسريع الصوت | speed-up-audio |
+| 038 | Slow Down Audio | إبطاء الصوت | slow-audio     |
+| 039 | Fade In         | Fade In     | fade-in        |
+| 040 | Fade Out        | Fade Out    | fade-out       |
+
+
+🔊 Volume
+
+| #   | English            | العربية           | Slug               |
+| --- | ------------------ | ----------------- | ------------------ |
+| 041 | Increase Volume    | رفع الصوت         | increase-volume    |
+| 042 | Decrease Volume    | خفض الصوت         | decrease-volume    |
+| 043 | Normalize Audio    | توحيد مستوى الصوت | normalize-audio    |
+| 044 | Volume Booster     | تقوية الصوت       | volume-booster     |
+| 045 | Volume Limiter     | محدد مستوى الصوت  | volume-limiter     |
+| 046 | Peak Normalization | تطبيع الذروة      | peak-normalization |
+| 047 | LUFS Normalizer    | توحيد LUFS        | lufs-normalizer    |
+| 048 | Stereo Balance     | توازن Stereo      | stereo-balance     |
+| 049 | Left Channel Only  | القناة اليسرى     | left-channel       |
+| 050 | Right Channel Only | القناة اليمنى     | right-channel      |
+
+🎙 Recording
+
+| #   | English               | العربية           | Slug               |
+| --- | --------------------- | ----------------- | ------------------ |
+| 051 | Voice Recorder        | مسجل صوت          | voice-recorder     |
+| 052 | Browser Recorder      | تسجيل من المتصفح  | browser-recorder   |
+| 053 | Mic Test              | اختبار الميكروفون | microphone-test    |
+| 054 | Mic Gain Test         | اختبار الحساسية   | mic-gain           |
+| 055 | Noise Test            | اختبار الضوضاء    | noise-test         |
+| 056 | Silence Detector      | كشف الصمت         | silence-detector   |
+| 057 | Audio Level Meter     | قياس مستوى الصوت  | audio-meter        |
+| 058 | Audio Waveform Viewer | عرض Waveform      | waveform-viewer    |
+| 059 | Spectrum Analyzer     | تحليل Spectrum    | spectrum-analyzer  |
+| 060 | Frequency Analyzer    | تحليل الترددات    | frequency-analyzer |
+
+🎚 Filters
+
+| #   | English          | العربية       | Slug                 |
+| --- | ---------------- | ------------- | -------------------- |
+| 071 | Equalizer        | معادل الصوت   | equalizer            |
+| 072 | Bass Booster     | تقوية Bass    | bass-booster         |
+| 073 | Treble Booster   | تقوية Treble  | treble-booster       |
+| 074 | Low Pass Filter  | Low Pass      | low-pass             |
+| 075 | High Pass Filter | High Pass     | high-pass            |
+| 076 | Band Pass Filter | Band Pass     | band-pass            |
+| 077 | Noise Gate       | بوابة الضوضاء | noise-gate           |
+| 078 | Limiter          | Limiter       | limiter              |
+| 079 | Compressor       | Compressor    | audio-compressor-pro |
+| 080 | Expander         | Expander      | expander             |
+
+📊 Metadata
+
+| #   | English            | العربية             | Slug                  |
+| --- | ------------------ | ------------------- | --------------------- |
+| 081 | View Metadata      | عرض Metadata        | audio-metadata        |
+| 082 | Edit Metadata      | تعديل Metadata      | edit-audio-metadata   |
+| 083 | Remove Metadata    | حذف Metadata        | remove-audio-metadata |
+| 084 | Album Art Editor   | تعديل الغلاف        | album-art             |
+| 085 | Lyrics Editor      | تعديل كلمات الأغنية | lyrics-editor         |
+| 086 | Bitrate Viewer     | عرض Bitrate         | audio-bitrate         |
+| 087 | Codec Viewer       | عرض Codec           | audio-codec           |
+| 088 | Duration Viewer    | عرض المدة           | audio-duration        |
+| 089 | Channel Viewer     | عرض القنوات         | audio-channel         |
+| 090 | Sample Rate Viewer | عرض Sample Rate     | sample-rate-viewer    |
+
+🛠 Utilities
+
+| #   | English                   | العربية            | Slug                      |
+| --- | ------------------------- | ------------------ | ------------------------- |
+| 091 | Repair Audio              | إصلاح الصوت        | repair-audio              |
+| 092 | Recover Audio             | استعادة الصوت      | recover-audio             |
+| 093 | Audio Validator           | التحقق من الملف    | audio-validator           |
+| 094 | Batch Converter           | تحويل جماعي        | batch-audio-converter     |
+| 095 | Batch Rename              | إعادة تسمية جماعية | batch-audio-rename        |
+| 096 | Batch Compressor          | ضغط جماعي          | batch-audio-compressor    |
+| 097 | Batch Metadata Cleaner    | تنظيف Metadata     | batch-audio-metadata      |
+| 098 | Batch Normalize           | توحيد مستوى الصوت  | batch-normalize           |
+| 099 | Audio Toolkit             | مجموعة أدوات الصوت | audio-toolkit             |
+| 100 | Universal Audio Processor | معالج صوت شامل     | universal-audio-processor |
+
+awaty Master Tools Database v1.0
+Part 8 — Audio Tools (101–200)
+
+Category: Audio AI
+
+🤖 AI Voice Enhancement
+
+| #   | English                | العربية                            | Slug              |
+| --- | ---------------------- | ---------------------------------- | ----------------- |
+| 101 | AI Voice Enhancer      | تحسين جودة الصوت بالذكاء الاصطناعي | ai-voice-enhancer |
+| 102 | AI Speech Cleaner      | تنظيف الكلام                       | ai-speech-cleaner |
+| 103 | AI Noise Remover       | إزالة الضوضاء                      | ai-noise-remover  |
+| 104 | AI Echo Remover        | إزالة الصدى                        | ai-echo-remover   |
+| 105 | AI Reverb Remover      | إزالة Reverb                       | ai-reverb-remover |
+| 106 | AI Hum Remover         | إزالة صوت الكهرباء                 | ai-hum-remover    |
+| 107 | AI Click Remover       | إزالة Clicks                       | ai-click-remover  |
+| 108 | AI Pop Remover         | إزالة Pop                          | ai-pop-remover    |
+| 109 | AI Breath Remover      | إزالة صوت التنفس                   | ai-breath-remover |
+| 110 | AI Mouth Click Cleaner | إزالة أصوات الفم                   | ai-mouth-click    |
+
+🎙 Podcast Tools
+
+| #   | English                   | العربية                | Slug               |
+| --- | ------------------------- | ---------------------- | ------------------ |
+| 111 | Podcast Cleaner           | تنظيف البودكاست        | podcast-cleaner    |
+| 112 | Podcast Mastering         | Mastering للبودكاست    | podcast-mastering  |
+| 113 | Podcast Loudness Fix      | ضبط مستوى الصوت        | podcast-loudness   |
+| 114 | Podcast Intro Maker       | إنشاء مقدمة            | podcast-intro      |
+| 115 | Podcast Outro Maker       | إنشاء خاتمة            | podcast-outro      |
+| 116 | Podcast Chapter Generator | إنشاء Chapters         | podcast-chapters   |
+| 117 | Podcast Highlights        | استخراج المقاطع المهمة | podcast-highlights |
+| 118 | Podcast Summary           | تلخيص الحلقة           | podcast-summary    |
+| 119 | Podcast Transcript        | تفريغ الحلقة           | podcast-transcript |
+| 120 | Podcast Clip Generator    | إنشاء Shorts           | podcast-clips      |
+
+🎼 Source Separation
+
+| #   | English              | العربية        | Slug                 |
+| --- | -------------------- | -------------- | -------------------- |
+| 121 | Vocal Remover        | إزالة الغناء   | vocal-remover        |
+| 122 | Music Remover        | إزالة الموسيقى | music-remover        |
+| 123 | Instrument Separator | فصل الآلات     | instrument-separator |
+| 124 | Drum Separator       | فصل الطبول     | drum-separator       |
+| 125 | Bass Separator       | فصل Bass       | bass-separator       |
+| 126 | Piano Separator      | فصل Piano      | piano-separator      |
+| 127 | Guitar Separator     | فصل Guitar     | guitar-separator     |
+| 128 | Strings Separator    | فصل Strings    | strings-separator    |
+| 129 | Voice Isolation      | عزل الصوت      | voice-isolation      |
+| 130 | Karaoke Maker        | إنشاء Karaoke  | karaoke-maker        |
+
+🗣 Speech to Text
+
+| #   | English                 | العربية             | Slug                    |
+| --- | ----------------------- | ------------------- | ----------------------- |
+| 131 | Speech to Text          | تحويل الكلام إلى نص | speech-to-text          |
+| 132 | Arabic Speech to Text   | تحويل عربي          | arabic-stt              |
+| 133 | English Speech to Text  | تحويل إنجليزي       | english-stt             |
+| 134 | Multi-language STT      | تحويل متعدد اللغات  | multi-stt               |
+| 135 | Meeting Transcription   | تفريغ الاجتماعات    | meeting-transcription   |
+| 136 | Interview Transcription | تفريغ المقابلات     | interview-transcription |
+| 137 | Lecture Transcription   | تفريغ المحاضرات     | lecture-transcription   |
+| 138 | Call Transcription      | تفريغ المكالمات     | call-transcription      |
+| 139 | Timestamp Transcription | تفريغ مع توقيت      | timestamp-transcript    |
+| 140 | Speaker Identification  | تمييز المتحدثين     | speaker-identification  |
+
+
+🗣 Text to Speech
+
+| #   | English                | العربية            | Slug                  |
+| --- | ---------------------- | ------------------ | --------------------- |
+| 141 | Text to Speech         | تحويل النص إلى صوت | text-to-speech        |
+| 142 | Arabic TTS             | صوت عربي           | arabic-tts            |
+| 143 | English TTS            | صوت إنجليزي        | english-tts           |
+| 144 | AI Voice Generator     | مولد أصوات AI      | ai-voice-generator    |
+| 145 | Voice Cloning          | استنساخ الصوت      | voice-cloning         |
+| 146 | Emotional Voice        | صوت مع مشاعر       | emotional-voice       |
+| 147 | Narrator Voice         | صوت راوي           | narrator-voice        |
+| 148 | Podcast Voice          | صوت بودكاست        | podcast-voice         |
+| 149 | Audiobook Voice        | صوت كتاب           | audiobook-voice       |
+| 150 | Celebrity Style Voice* | صوت بأسلوب مشهور*  | celebrity-style-voice |
+
+
+🌍 Translation
+
+| #   | English               | العربية             | Slug                |
+| --- | --------------------- | ------------------- | ------------------- |
+| 151 | Audio Translator      | ترجمة الصوت         | audio-translator    |
+| 152 | Voice Translator      | ترجمة الصوت المباشر | voice-translator    |
+| 153 | Dub Video Audio       | دبلجة الصوت         | dub-audio           |
+| 154 | Translate Podcast     | ترجمة بودكاست       | translate-podcast   |
+| 155 | Translate Lecture     | ترجمة محاضرة        | translate-lecture   |
+| 156 | Translate Meeting     | ترجمة اجتماع        | translate-meeting   |
+| 157 | Translate Interview   | ترجمة مقابلة        | translate-interview |
+| 158 | Subtitle Generator    | إنشاء ترجمة         | subtitle-generator  |
+| 159 | Subtitle Translator   | ترجمة الترجمة       | subtitle-translator |
+| 160 | Subtitle Synchronizer | مزامنة الترجمة      | subtitle-sync       |
+
+
+📊 AI Analysis
+
+| #   | English                 | العربية                   | Slug               |
+| --- | ----------------------- | ------------------------- | ------------------ |
+| 161 | Language Detection      | كشف اللغة                 | language-detection |
+| 162 | Emotion Detection       | تحليل المشاعر             | emotion-detection  |
+| 163 | Sentiment Analysis      | تحليل الانطباع            | sentiment-analysis |
+| 164 | Keyword Extractor       | استخراج الكلمات المفتاحية | keyword-extractor  |
+| 165 | Topic Detection         | كشف الموضوع               | topic-detection    |
+| 166 | Silence Detector        | كشف الصمت                 | silence-ai         |
+| 167 | Filler Word Detector    | كشف الكلمات الزائدة       | filler-detector    |
+| 168 | Speaking Speed Analyzer | تحليل سرعة الكلام         | speech-speed       |
+| 169 | Voice Gender Detection  | تحليل نوع الصوت           | voice-gender       |
+| 170 | Accent Detection        | كشف اللهجة                | accent-detector    |
+
+
+🎧 Audio Repair
+
+| #   | English                 | العربية                     | Slug                   |
+| --- | ----------------------- | --------------------------- | ---------------------- |
+| 171 | Restore Old Audio       | ترميم التسجيلات القديمة     | restore-old-audio      |
+| 172 | Cassette Cleaner        | تنظيف أشرطة الكاسيت         | cassette-cleaner       |
+| 173 | Vinyl Cleaner           | تنظيف تسجيلات Vinyl         | vinyl-cleaner          |
+| 174 | Tape Hiss Remover       | إزالة Hiss                  | tape-hiss              |
+| 175 | Audio Declipper         | إصلاح Clipping              | audio-declip           |
+| 176 | Repair Distortion       | إصلاح التشويه               | repair-distortion      |
+| 177 | Repair Dropped Samples  | إصلاح العينات المفقودة      | repair-samples         |
+| 178 | Repair Broken Recording | إصلاح التسجيل               | repair-recording       |
+| 179 | Audio Super Resolution  | رفع جودة التسجيل            | audio-super-resolution |
+| 180 | AI Mastering            | Mastering بالذكاء الاصطناعي | ai-mastering           |
+
+
+🛠 Utilities
+
+| #   | English                    | العربية                | Slug                    |
+| --- | -------------------------- | ---------------------- | ----------------------- |
+| 181 | Batch Speech to Text       | تفريغ جماعي            | batch-stt               |
+| 182 | Batch Translation          | ترجمة جماعية           | batch-audio-translation |
+| 183 | Batch Voice Enhancement    | تحسين جماعي            | batch-voice-enhancement |
+| 184 | Batch Source Separation    | فصل جماعي              | batch-separation        |
+| 185 | Audio Dataset Creator      | إنشاء Dataset          | audio-dataset           |
+| 186 | Audio Label Generator      | إنشاء Labels           | audio-labels            |
+| 187 | Speaker Dataset Builder    | إنشاء بيانات المتحدثين | speaker-dataset         |
+| 188 | Pronunciation Checker      | فحص النطق              | pronunciation-checker   |
+| 189 | Voice Similarity Checker   | مقارنة الأصوات         | voice-similarity        |
+| 190 | Audio Fingerprint          | بصمة صوتية             | audio-fingerprint       |
+| 191 | Duplicate Audio Finder     | كشف الملفات المكررة    | duplicate-audio         |
+| 192 | Copyright Audio Checker    | فحص حقوق النشر         | copyright-audio         |
+| 193 | Music Recognition          | التعرف على الموسيقى    | music-recognition       |
+| 194 | Audio Quality Score        | تقييم جودة التسجيل     | audio-quality-score     |
+| 195 | Meeting Minutes Generator  | إنشاء محضر اجتماع      | meeting-minutes         |
+| 196 | Audio Summary AI           | تلخيص التسجيل          | audio-summary           |
+| 197 | Question Extractor         | استخراج الأسئلة        | question-extractor      |
+| 198 | Action Items Extractor     | استخراج المهام         | action-items            |
+| 199 | Universal Audio AI Toolkit | مجموعة أدوات صوت AI    | audio-ai-toolkit        |
+| 200 | Complete Audio Workspace   | بيئة عمل صوتية متكاملة | audio-workspace         |
+
+Adawaty Master Tools Database v1.0
+Part 9 — Developer Tools (001–100)
+
+Category: Developer
+
+📄 JSON Tools
+
+| #   | English         | العربية          | Slug            |
+| --- | --------------- | ---------------- | --------------- |
+| 001 | JSON Formatter  | تنسيق JSON       | json-formatter  |
+| 002 | JSON Validator  | التحقق من JSON   | json-validator  |
+| 003 | JSON Beautifier | تحسين تنسيق JSON | json-beautifier |
+| 004 | JSON Minifier   | ضغط JSON         | json-minifier   |
+| 005 | JSON Viewer     | عارض JSON        | json-viewer     |
+| 006 | JSON Editor     | محرر JSON        | json-editor     |
+| 007 | JSON Compare    | مقارنة JSON      | json-compare    |
+| 008 | JSON Diff       | إظهار الاختلافات | json-diff       |
+| 009 | JSON Merge      | دمج JSON         | json-merge      |
+| 010 | JSON Sort       | ترتيب JSON       | json-sort       |
+| 011 | JSON Escape     | Escape JSON      | json-escape     |
+| 012 | JSON Unescape   | Unescape JSON    | json-unescape   |
+| 013 | JSON to XML     | JSON إلى XML     | json-to-xml     |
+| 014 | XML to JSON     | XML إلى JSON     | xml-to-json     |
+| 015 | JSON to YAML    | JSON إلى YAML    | json-to-yaml    |
+| 016 | YAML to JSON    | YAML إلى JSON    | yaml-to-json    |
+| 017 | JSON to CSV     | JSON إلى CSV     | json-to-csv     |
+| 018 | CSV to JSON     | CSV إلى JSON     | csv-to-json     |
+| 019 | JSON to Excel   | JSON إلى Excel   | json-to-excel   |
+| 020 | Excel to JSON   | Excel إلى JSON   | excel-to-json   |
+
+
+📄 XML Tools
+
+| #   | English        | العربية       | Slug           |
+| --- | -------------- | ------------- | -------------- |
+| 021 | XML Formatter  | تنسيق XML     | xml-formatter  |
+| 022 | XML Validator  | التحقق من XML | xml-validator  |
+| 023 | XML Beautifier | تحسين XML     | xml-beautifier |
+| 024 | XML Minifier   | ضغط XML       | xml-minifier   |
+| 025 | XML Viewer     | عارض XML      | xml-viewer     |
+| 026 | XML Editor     | محرر XML      | xml-editor     |
+| 027 | XML Compare    | مقارنة XML    | xml-compare    |
+| 028 | XML Diff       | الاختلافات    | xml-diff       |
+| 029 | XPath Tester   | اختبار XPath  | xpath-tester   |
+| 030 | XSD Validator  | التحقق من XSD | xsd-validator  |
+
+📄 YAML Tools
+
+| #   | English         | العربية        | Slug            |
+| --- | --------------- | -------------- | --------------- |
+| 031 | YAML Formatter  | تنسيق YAML     | yaml-formatter  |
+| 032 | YAML Validator  | التحقق من YAML | yaml-validator  |
+| 033 | YAML Beautifier | تحسين YAML     | yaml-beautifier |
+| 034 | YAML Minifier   | ضغط YAML       | yaml-minifier   |
+| 035 | YAML Viewer     | عارض YAML      | yaml-viewer     |
+| 036 | YAML Compare    | مقارنة YAML    | yaml-compare    |
+| 037 | YAML Merge      | دمج YAML       | yaml-merge      |
+| 038 | YAML Diff       | الاختلافات     | yaml-diff       |
+| 039 | YAML to TOML    | YAML إلى TOML  | yaml-to-toml    |
+| 040 | TOML to YAML    | TOML إلى YAML  | toml-to-yaml    |
+
+
+🌐 HTML Tools
+
+| #   | English               | العربية            | Slug             |
+| --- | --------------------- | ------------------ | ---------------- |
+| 041 | HTML Formatter        | تنسيق HTML         | html-formatter   |
+| 042 | HTML Beautifier       | تحسين HTML         | html-beautifier  |
+| 043 | HTML Minifier         | ضغط HTML           | html-minifier    |
+| 044 | HTML Validator        | التحقق من HTML     | html-validator   |
+| 045 | HTML Preview          | معاينة HTML        | html-preview     |
+| 046 | HTML to Markdown      | HTML إلى Markdown  | html-to-markdown |
+| 047 | Markdown to HTML      | Markdown إلى HTML  | markdown-to-html |
+| 048 | HTML Encoder          | ترميز HTML         | html-encoder     |
+| 049 | HTML Decoder          | فك ترميز HTML      | html-decoder     |
+| 050 | HTML Entity Converter | محول HTML Entities | html-entities    |
+
+
+🎨 CSS Tools
+
+| #   | English                     | العربية               | Slug           |
+| --- | --------------------------- | --------------------- | -------------- |
+| 051 | CSS Formatter               | تنسيق CSS             | css-formatter  |
+| 052 | CSS Beautifier              | تحسين CSS             | css-beautifier |
+| 053 | CSS Minifier                | ضغط CSS               | css-minifier   |
+| 054 | CSS Validator               | التحقق من CSS         | css-validator  |
+| 055 | CSS Prefixer                | إضافة Vendor Prefixes | css-prefixer   |
+| 056 | CSS Unprefixer              | إزالة Prefixes        | css-unprefixer |
+| 057 | CSS Gradient Generator      | مولد Gradients        | css-gradient   |
+| 058 | CSS Shadow Generator        | مولد Shadows          | css-shadow     |
+| 059 | CSS Border Radius Generator | مولد Border Radius    | border-radius  |
+| 060 | CSS Clip Path Generator     | مولد Clip Path        | clip-path      |
+
+⚙ JavaScript Tools
+
+| #   | English                 | العربية              | Slug            |
+| --- | ----------------------- | -------------------- | --------------- |
+| 061 | JavaScript Formatter    | تنسيق JavaScript     | js-formatter    |
+| 062 | JavaScript Beautifier   | تحسين JavaScript     | js-beautifier   |
+| 063 | JavaScript Minifier     | ضغط JavaScript       | js-minifier     |
+| 064 | JavaScript Obfuscator   | تشويش JavaScript     | js-obfuscator   |
+| 065 | JavaScript Deobfuscator | فك التشويش           | js-deobfuscator |
+| 066 | JavaScript Validator    | التحقق من JavaScript | js-validator    |
+| 067 | JavaScript Diff         | مقارنة JavaScript    | js-diff         |
+| 068 | JavaScript Compare      | مقارنة الملفات       | js-compare      |
+| 069 | Regex Tester            | اختبار Regex         | regex-tester    |
+| 070 | Regex Generator         | مولد Regex           | regex-generator |
+
+🔤 Text Encoding
+
+| #   | English         | العربية       | Slug            |
+| --- | --------------- | ------------- | --------------- |
+| 071 | Base64 Encode   | ترميز Base64  | base64-encode   |
+| 072 | Base64 Decode   | فك Base64     | base64-decode   |
+| 073 | URL Encode      | ترميز URL     | url-encode      |
+| 074 | URL Decode      | فك URL        | url-decode      |
+| 075 | HTML Encode     | ترميز HTML    | html-encode     |
+| 076 | HTML Decode     | فك HTML       | html-decode     |
+| 077 | Unicode Encode  | ترميز Unicode | unicode-encode  |
+| 078 | Unicode Decode  | فك Unicode    | unicode-decode  |
+| 079 | ASCII Converter | محول ASCII    | ascii-converter |
+| 080 | UTF-8 Converter | محول UTF-8    | utf8-converter  |
+
+
+🔐 Tokens & IDs
+
+| #   | English                   | العربية           | Slug               |
+| --- | ------------------------- | ----------------- | ------------------ |
+| 081 | UUID Generator            | مولد UUID         | uuid-generator     |
+| 082 | NanoID Generator          | مولد NanoID       | nanoid-generator   |
+| 083 | ULID Generator            | مولد ULID         | ulid-generator     |
+| 084 | JWT Decoder               | فك JWT            | jwt-decoder        |
+| 085 | JWT Encoder               | إنشاء JWT         | jwt-encoder        |
+| 086 | JWT Inspector             | فحص JWT           | jwt-inspector      |
+| 087 | GUID Generator            | مولد GUID         | guid-generator     |
+| 088 | Random String Generator   | مولد نص عشوائي    | random-string      |
+| 089 | Random Password Generator | مولد كلمات المرور | password-generator |
+| 090 | Random API Key Generator  | مولد API Keys     | api-key-generator  |
+
+🧰 Utilities
+
+
+| #   | English                   | العربية             | Slug                |
+| --- | ------------------------- | ------------------- | ------------------- |
+| 091 | Lorem Ipsum Generator     | مولد Lorem Ipsum    | lorem-generator     |
+| 092 | Dummy JSON Generator      | مولد JSON تجريبي    | dummy-json          |
+| 093 | Dummy CSV Generator       | مولد CSV تجريبي     | dummy-csv           |
+| 094 | Dummy XML Generator       | مولد XML تجريبي     | dummy-xml           |
+| 095 | Dummy SQL Generator       | مولد SQL تجريبي     | dummy-sql           |
+| 096 | Cron Expression Generator | مولد Cron           | cron-generator      |
+| 097 | Cron Expression Parser    | محلل Cron           | cron-parser         |
+| 098 | Timestamp Converter       | محول Timestamp      | timestamp-converter |
+| 099 | Unix Time Converter       | محول Unix Time      | unix-time           |
+| 100 | Developer Toolkit         | مجموعة أدوات المطور | developer-toolkit   |
+
+
+
+Adawaty Master Tools Database v1.0
+Part 10 — Security & Encoding Tools (001–100)
+
+Category: Security / Encoding / Cryptography
+
+🔐 Hash Generators
+#	English	العربية	Slug
+001	MD5 Generator	مولد MD5	md5-generator
+002	SHA1 Generator	مولد SHA1	sha1-generator
+003	SHA224 Generator	مولد SHA224	sha224-generator
+004	SHA256 Generator	مولد SHA256	sha256-generator
+005	SHA384 Generator	مولد SHA384	sha384-generator
+006	SHA512 Generator	مولد SHA512	sha512-generator
+007	SHA3-256 Generator	مولد SHA3-256	sha3-256
+008	SHA3-512 Generator	مولد SHA3-512	sha3-512
+009	RIPEMD160 Generator	مولد RIPEMD160	ripemd160
+010	Whirlpool Hash	مولد Whirlpool	whirlpool-hash
+🔍 Hash Verification
+#	English	العربية	Slug
+011	Hash Checker	التحقق من Hash	hash-checker
+012	Hash Compare	مقارنة Hash	hash-compare
+013	File Checksum	Checksum للملفات	file-checksum
+014	Verify SHA256	التحقق من SHA256	verify-sha256
+015	Verify MD5	التحقق من MD5	verify-md5
+016	Directory Checksum	Checksum لمجلد	directory-checksum
+017	Generate Manifest	إنشاء Manifest	generate-manifest
+018	Checksum Calculator	حاسبة Checksum	checksum-calculator
+019	CRC32 Calculator	حاسبة CRC32	crc32-calculator
+020	CRC64 Calculator	حاسبة CRC64	crc64-calculator
+🔑 Encoding
+#	English	العربية	Slug
+021	Base32 Encode	ترميز Base32	base32-encode
+022	Base32 Decode	فك Base32	base32-decode
+023	Base58 Encode	ترميز Base58	base58-encode
+024	Base58 Decode	فك Base58	base58-decode
+025	Base62 Encode	ترميز Base62	base62-encode
+026	Base62 Decode	فك Base62	base62-decode
+027	Base85 Encode	ترميز Base85	base85-encode
+028	Base85 Decode	فك Base85	base85-decode
+029	Hex Encoder	ترميز Hex	hex-encoder
+030	Hex Decoder	فك Hex	hex-decoder
+🔡 Binary & Number Systems
+#	English	العربية	Slug
+031	Binary to Decimal	ثنائي إلى عشري	binary-decimal
+032	Decimal to Binary	عشري إلى ثنائي	decimal-binary
+033	Hex to Binary	Hex إلى Binary	hex-binary
+034	Binary to Hex	Binary إلى Hex	binary-hex
+035	Octal to Decimal	Octal إلى Decimal	octal-decimal
+036	Decimal to Octal	Decimal إلى Octal	decimal-octal
+037	ASCII to Binary	ASCII إلى Binary	ascii-binary
+038	Binary to ASCII	Binary إلى ASCII	binary-ascii
+039	Unicode Converter	محول Unicode	unicode-converter
+040	Character Code Viewer	عارض Character Codes	character-codes
+🔐 Encryption
+#	English	العربية	Slug
+041	AES Encrypt	تشفير AES	aes-encrypt
+042	AES Decrypt	فك AES	aes-decrypt
+043	DES Encrypt	تشفير DES	des-encrypt
+044	DES Decrypt	فك DES	des-decrypt
+045	Triple DES Encrypt	تشفير 3DES	3des-encrypt
+046	Triple DES Decrypt	فك 3DES	3des-decrypt
+047	RSA Encrypt	تشفير RSA	rsa-encrypt
+048	RSA Decrypt	فك RSA	rsa-decrypt
+049	RSA Key Generator	مولد مفاتيح RSA	rsa-keygen
+050	AES Key Generator	مولد مفاتيح AES	aes-keygen
+🔐 Password Utilities
+#	English	العربية	Slug
+051	Password Generator	مولد كلمات المرور	password-generator
+052	Strong Password Generator	مولد كلمات مرور قوية	strong-password
+053	Passphrase Generator	مولد Passphrase	passphrase-generator
+054	Password Strength Checker	فحص قوة كلمة المرور	password-strength
+055	Password Entropy Calculator	حساب Entropy	password-entropy
+056	PIN Generator	مولد PIN	pin-generator
+057	Random Token Generator	مولد Tokens	token-generator
+058	Random Secret Generator	مولد Secrets	secret-generator
+059	One Time Password Generator	مولد OTP	otp-generator
+060	Secure Random Generator	مولد أرقام عشوائية آمنة	secure-random
+🌐 Certificates
+#	English	العربية	Slug
+061	CSR Generator	إنشاء CSR	csr-generator
+062	Private Key Generator	مولد Private Key	private-key
+063	Public Key Viewer	عارض Public Key	public-key-viewer
+064	Certificate Decoder	فك الشهادات	certificate-decoder
+065	Certificate Viewer	عرض الشهادة	certificate-viewer
+066	PEM Converter	محول PEM	pem-converter
+067	DER Converter	محول DER	der-converter
+068	PFX Inspector	فحص PFX	pfx-inspector
+069	Certificate Chain Viewer	عرض Certificate Chain	certificate-chain
+070	SSL Certificate Parser	محلل SSL	ssl-parser
+🔑 JWT / OAuth
+#	English	العربية	Slug
+071	JWT Inspector	فحص JWT	jwt-inspector
+072	JWT Expiration Checker	فحص انتهاء JWT	jwt-expiration
+073	JWT Claims Viewer	عرض Claims	jwt-claims
+074	JWT Signature Validator	التحقق من التوقيع	jwt-signature
+075	OAuth URL Builder	منشئ OAuth URL	oauth-url
+076	OAuth Scope Decoder	فك Scopes	oauth-scopes
+077	OAuth State Generator	مولد State	oauth-state
+078	OAuth PKCE Generator	مولد PKCE	pkce-generator
+079	OpenID Token Viewer	عارض OpenID	openid-viewer
+080	Bearer Token Analyzer	تحليل Bearer Token	bearer-token
+🛡 Security Utilities
+#	English	العربية	Slug
+081	File Signature Viewer	عرض File Signature	file-signature
+082	Magic Number Viewer	عرض Magic Number	magic-number
+083	MIME Type Detector	كشف MIME Type	mime-detector
+084	File Integrity Checker	فحص سلامة الملفات	file-integrity
+085	Random UUID Batch	توليد UUID جماعي	batch-uuid
+086	UUID Validator	التحقق من UUID	uuid-validator
+087	Secret Scanner	فحص الأسرار داخل النصوص	secret-scanner
+088	Environment Variable Parser	محلل ملفات .env	env-parser
+089	SSH Public Key Viewer	عارض مفاتيح SSH	ssh-key-viewer
+090	SSH Key Fingerprint	بصمة مفتاح SSH	ssh-fingerprint
+🧰 Misc Security
+#	English	العربية	Slug
+091	HMAC Generator	مولد HMAC	hmac-generator
+092	HMAC Verifier	التحقق من HMAC	hmac-verifier
+093	PBKDF2 Generator	مولد PBKDF2	pbkdf2-generator
+094	bcrypt Hash Generator	مولد bcrypt	bcrypt-generator
+095	Argon2 Hash Generator	مولد Argon2	argon2-generator
+096	scrypt Generator	مولد scrypt	scrypt-generator
+097	UUID v7 Generator	مولد UUID v7	uuid-v7
+098	NanoID Batch Generator	مولد NanoID جماعي	batch-nanoid
+099	Secure Notes Encoder	تشفير الملاحظات	secure-notes
+100	Security Toolkit	مجموعة أدوات الأمن	security-toolkit
+📌 ملاحظات لتحسين Adawaty
+
+أثناء المراجعة لاحظت أن المنافسين يفتقدون عدة أدوات ستكون إضافة قوية، مثل:
+
+🔍 Certificate Transparency Lookup
+🌐 DNSSEC Validator
+🔐 TLS Cipher Explorer
+📄 SPF/DKIM/DMARC Analyzer
+🔑 SSH Config Generator
+☁️ JWT + OAuth Playground
+🔒 Passkey / WebAuthn Tools
+🛡 CSP Policy Generator & Validator
+🍪 Cookie Security Analyzer
+📡 HTTP Security Headers Analyzer
+
+هذه الأدوات تجذب مطوري الويب ومهندسي الأمن، وتكمل القسم بشكل احترافي.
+
+
+Adawaty Master Tools Database v1.0
+Part 11 — Networking & Internet Tools (001–100)
+
+Category: Networking
+
+🌍 IP Tools
+#	English	العربية	Slug
+001	What's My IP	ما هو عنوان IP الخاص بي	what-is-my-ip
+002	IP Lookup	البحث عن IP	ip-lookup
+003	IP Geolocation	تحديد الموقع الجغرافي	ip-geolocation
+004	IP Whois Lookup	Whois لعنوان IP	ip-whois
+005	Reverse IP Lookup	البحث العكسي عن IP	reverse-ip
+006	IP Calculator	حاسبة IP	ip-calculator
+007	Subnet Calculator	حاسبة Subnet	subnet-calculator
+008	CIDR Calculator	حاسبة CIDR	cidr-calculator
+009	IPv4 Calculator	حاسبة IPv4	ipv4-calculator
+010	IPv6 Calculator	حاسبة IPv6	ipv6-calculator
+🌐 DNS
+#	English	العربية	Slug
+011	DNS Lookup	البحث في DNS	dns-lookup
+012	A Record Lookup	A Record	a-record
+013	AAAA Record Lookup	AAAA Record	aaaa-record
+014	MX Lookup	MX Lookup	mx-lookup
+015	TXT Lookup	TXT Lookup	txt-lookup
+016	CNAME Lookup	CNAME Lookup	cname-lookup
+017	NS Lookup	NS Lookup	ns-lookup
+018	SOA Lookup	SOA Lookup	soa-lookup
+019	PTR Lookup	PTR Lookup	ptr-lookup
+020	CAA Lookup	CAA Lookup	caa-lookup
+🔎 Advanced DNS
+#	English	العربية	Slug
+021	DNS Propagation Checker	فحص انتشار DNS	dns-propagation
+022	DNSSEC Checker	فحص DNSSEC	dnssec-checker
+023	Reverse DNS Lookup	Reverse DNS	reverse-dns
+024	DNS Trace	تتبع DNS	dns-trace
+025	DNS Resolver Test	اختبار Resolver	dns-resolver
+026	DNS Benchmark	قياس سرعة DNS	dns-benchmark
+027	Public DNS Tester	اختبار DNS العام	public-dns
+028	Flush DNS Guide	إرشادات Flush DNS	flush-dns
+029	Hosts File Generator	إنشاء Hosts File	hosts-generator
+030	DNS Zone Viewer	عرض DNS Zone	dns-zone-viewer
+🔐 SSL / TLS
+#	English	العربية	Slug
+031	SSL Checker	فحص SSL	ssl-checker
+032	SSL Expiry Checker	تاريخ انتهاء SSL	ssl-expiry
+033	TLS Version Checker	إصدار TLS	tls-version
+034	TLS Cipher Checker	Cipher Suites	tls-cipher
+035	SSL Chain Viewer	Certificate Chain	ssl-chain
+036	SSL Decoder	فك SSL	ssl-decoder
+037	SSL Certificate Downloader	تحميل الشهادة	ssl-download
+038	OCSP Checker	فحص OCSP	ocsp-checker
+039	HSTS Checker	فحص HSTS	hsts-checker
+040	SSL Labs Style Report	تقرير SSL شامل	ssl-report
+🌍 Domain Tools
+#	English	العربية	Slug
+041	WHOIS Lookup	Whois	whois
+042	Domain Age Checker	عمر الدومين	domain-age
+043	Domain Expiry Checker	انتهاء الدومين	domain-expiry
+044	Registrar Lookup	شركة التسجيل	registrar
+045	Nameserver Checker	Nameservers	nameservers
+046	Subdomain Finder	اكتشاف Subdomains	subdomain-finder
+047	Reverse Whois	Reverse Whois	reverse-whois
+048	Domain Availability	توفر الدومين	domain-availability
+049	IDN Converter	محول IDN	idn-converter
+050	Punycode Converter	محول Punycode	punycode
+🌐 URL Tools
+#	English	العربية	Slug
+051	URL Parser	محلل URL	url-parser
+052	URL Encoder	ترميز URL	url-encoder
+053	URL Decoder	فك ترميز URL	url-decoder
+054	URL Shortener	اختصار الروابط	url-shortener
+055	URL Expander	توسيع الرابط	url-expander
+056	Redirect Checker	فحص Redirect	redirect-checker
+057	Canonical Checker	فحص Canonical	canonical-checker
+058	HTTP Header Viewer	عرض Headers	http-header
+059	User Agent Parser	محلل User-Agent	user-agent
+060	Robots.txt Tester	اختبار robots.txt	robots-tester
+🌍 Website Analysis
+#	English	العربية	Slug
+061	Ping Website	Ping موقع	ping
+062	Traceroute	Traceroute	traceroute
+063	HTTP Status Checker	حالة HTTP	http-status
+064	Website Uptime Checker	فحص التشغيل	uptime
+065	Port Checker	فحص المنافذ	port-checker
+066	Open Port Scanner	فحص المنافذ المفتوحة	open-port
+067	Response Time Checker	زمن الاستجابة	response-time
+068	TTFB Checker	Time To First Byte	ttfb
+069	Website Screenshot	لقطة للموقع	website-screenshot
+070	Website Technology Detector	كشف التقنيات	tech-detector
+📡 Email
+#	English	العربية	Slug
+071	SPF Checker	فحص SPF	spf-checker
+072	DKIM Checker	فحص DKIM	dkim-checker
+073	DMARC Checker	فحص DMARC	dmarc-checker
+074	SMTP Test	اختبار SMTP	smtp-test
+075	MX Priority Viewer	عرض أولوية MX	mx-priority
+076	Blacklist Checker	فحص القوائم السوداء	blacklist-checker
+077	Email Header Analyzer	تحليل Email Headers	email-header
+078	Email DNS Report	تقرير DNS للبريد	email-dns
+079	Disposable Email Detector	كشف البريد المؤقت	temp-email-detector
+080	Email Validator	التحقق من البريد	email-validator
+⚙ Network Utilities
+#	English	العربية	Slug
+081	MAC Address Lookup	البحث عن MAC	mac-lookup
+082	MAC Vendor Lookup	الشركة المصنعة	mac-vendor
+083	Random MAC Generator	مولد MAC	mac-generator
+084	Port Number Lookup	البحث عن المنافذ	port-number
+085	Service Name Lookup	البحث عن الخدمات	service-name
+086	ASN Lookup	البحث عن ASN	asn-lookup
+087	BGP Lookup	فحص BGP	bgp-lookup
+088	MTR Report Generator	تقرير MTR	mtr-report
+089	Latency Calculator	حاسبة Latency	latency
+090	Bandwidth Calculator	حاسبة Bandwidth	bandwidth
+🛠 Misc
+#	English	العربية	Slug
+091	Network Toolkit	مجموعة أدوات الشبكات	network-toolkit
+092	Online Socket Tester	اختبار Socket	socket-tester
+093	WebSocket Tester	اختبار WebSocket	websocket
+094	API Endpoint Tester	اختبار API	api-endpoint
+095	Webhook Tester	اختبار Webhook	webhook
+096	GraphQL Playground	اختبار GraphQL	graphql-playground
+097	gRPC Tester	اختبار gRPC	grpc-tester
+098	HTTP Request Builder	منشئ HTTP Requests	http-builder
+099	cURL Generator	مولد cURL	curl-generator
+100	Internet Toolkit	مجموعة أدوات الإنترنت	internet-toolkit
+⭐ أدوات إضافية أنصح بإضافتها (غير موجودة مجتمعة عند المنافسين)
+
+هذه الأدوات ستكون نقطة قوة لـ Adawaty:
+
+☁️ Cloud
+AWS ARN Decoder
+AWS Policy Simulator
+Azure Resource ID Parser
+GCP IAM Policy Viewer
+Kubernetes YAML Validator
+Docker Compose Validator
+🌍 CDN
+Cloudflare Header Analyzer
+Cloudflare Cache Checker
+CDN Detector
+WAF Detector
+🔐 Security
+CSP Generator
+CSP Validator
+CORS Tester
+CORS Header Generator
+Security Headers Analyzer
+JWT Playground
+JWT Signature Tester
+OAuth Playground
+OpenID Playground
+
+Adawaty Master Tools Database v1.0
+Part 12 — SEO & Webmaster Tools (001–100)
+
+Category: SEO
+
+🔍 Meta Tags
+#	English	العربية	Slug
+001	Meta Tag Generator	مولد Meta Tags	meta-generator
+002	Meta Tag Analyzer	تحليل Meta Tags	meta-analyzer
+003	Title Tag Checker	فحص Title	title-checker
+004	Meta Description Checker	فحص Description	description-checker
+005	Meta Keywords Viewer	عرض Keywords	meta-keywords
+006	Open Graph Generator	مولد Open Graph	open-graph
+007	Open Graph Validator	التحقق من Open Graph	open-graph-validator
+008	Twitter Card Generator	مولد Twitter Card	twitter-card
+009	Twitter Card Validator	فحص Twitter Card	twitter-card-validator
+010	Social Preview	معاينة المشاركة	social-preview
+📄 Structured Data
+#	English	العربية	Slug
+011	Schema Generator	مولد Schema	schema-generator
+012	Schema Validator	التحقق من Schema	schema-validator
+013	JSON-LD Generator	مولد JSON-LD	jsonld-generator
+014	Breadcrumb Schema	Schema للمسارات	breadcrumb-schema
+015	FAQ Schema	FAQ Schema	faq-schema
+016	Article Schema	Article Schema	article-schema
+017	Product Schema	Product Schema	product-schema
+018	Organization Schema	Organization Schema	organization-schema
+019	Local Business Schema	Local Business	local-schema
+020	Event Schema	Event Schema	event-schema
+🔗 URL Analysis
+#	English	العربية	Slug
+021	SEO Friendly URL Checker	فحص URL	seo-url
+022	Slug Generator	مولد Slug	slug-generator
+023	Canonical URL Checker	فحص Canonical	canonical-url
+024	Redirect Chain Checker	سلسلة Redirect	redirect-chain
+025	Broken Link Checker	فحص الروابط المكسورة	broken-links
+026	Internal Link Analyzer	تحليل الروابط الداخلية	internal-links
+027	External Link Analyzer	تحليل الروابط الخارجية	external-links
+028	NoFollow Checker	فحص NoFollow	nofollow-checker
+029	Robots Meta Checker	فحص Robots Meta	robots-meta
+030	URL Length Checker	طول الرابط	url-length
+🤖 Crawling
+#	English	العربية	Slug
+031	robots.txt Generator	مولد robots.txt	robots-generator
+032	robots.txt Tester	اختبار robots.txt	robots-tester
+033	Sitemap Generator	مولد Sitemap	sitemap-generator
+034	Sitemap Validator	التحقق من Sitemap	sitemap-validator
+035	XML Sitemap Viewer	عرض Sitemap	sitemap-viewer
+036	HTML Sitemap Generator	HTML Sitemap	html-sitemap
+037	Crawlability Checker	فحص الزحف	crawlability
+038	Indexability Checker	فحص الأرشفة	indexability
+039	Orphan Pages Detector	كشف الصفحات اليتيمة	orphan-pages
+040	Pagination Checker	فحص Pagination	pagination-checker
+⚡ Performance
+#	English	العربية	Slug
+041	Core Web Vitals Checker	فحص Core Web Vitals	core-web-vitals
+042	CLS Calculator	قياس CLS	cls-calculator
+043	LCP Checker	قياس LCP	lcp-checker
+044	FID/INP Checker	قياس INP	inp-checker
+045	TTFB Checker	قياس TTFB	seo-ttfb
+046	Resource Size Analyzer	تحليل الموارد	resource-size
+047	Image SEO Checker	فحص صور SEO	image-seo
+048	Lazy Load Checker	فحص Lazy Loading	lazy-load
+049	Critical CSS Checker	فحص Critical CSS	critical-css
+050	Page Weight Analyzer	تحليل حجم الصفحة	page-weight
+📝 Content SEO
+#	English	العربية	Slug
+051	Word Counter	عداد الكلمات	word-counter
+052	Character Counter	عداد الأحرف	character-counter
+053	Reading Time Calculator	وقت القراءة	reading-time
+054	Keyword Density Checker	كثافة الكلمات المفتاحية	keyword-density
+055	Heading Structure Checker	فحص H1-H6	heading-checker
+056	Duplicate Content Checker	كشف المحتوى المكرر	duplicate-content
+057	Readability Checker	تحليل سهولة القراءة	readability
+058	Passive Voice Checker	كشف Passive Voice	passive-voice
+059	Alt Text Checker	فحص Alt Text	alt-checker
+060	Anchor Text Analyzer	تحليل Anchor Text	anchor-text
+🌍 International SEO
+#	English	العربية	Slug
+061	hreflang Generator	مولد hreflang	hreflang-generator
+062	hreflang Validator	التحقق من hreflang	hreflang-validator
+063	Language Meta Checker	فحص لغة الصفحة	language-meta
+064	Country Target Checker	فحص الاستهداف الجغرافي	country-target
+065	RTL/LTR Validator	فحص RTL/LTR	rtl-ltr
+066	Unicode SEO Checker	فحص Unicode	unicode-seo
+067	Punycode SEO Checker	فحص Punycode	punycode-seo
+068	International URL Checker	فحص الروابط الدولية	international-url
+069	Locale Generator	مولد Locale	locale-generator
+070	Geo Meta Generator	مولد Geo Meta	geo-meta
+📱 Mobile SEO
+#	English	العربية	Slug
+071	Viewport Checker	فحص Viewport	viewport-checker
+072	Mobile Friendly Checker	فحص توافق الجوال	mobile-friendly
+073	Touch Target Checker	فحص عناصر اللمس	touch-target
+074	Responsive Preview	معاينة Responsive	responsive-preview
+075	AMP Validator	التحقق من AMP	amp-validator
+076	PWA Checker	فحص PWA	pwa-checker
+077	Manifest Validator	التحقق من Manifest	manifest-validator
+078	Icon Checker	فحص الأيقونات	icon-checker
+079	Apple Touch Icon Checker	فحص Apple Icons	apple-touch-icon
+080	Splash Screen Checker	فحص Splash Screen	splash-screen
+📈 Misc SEO
+#	English	العربية	Slug
+081	Google Cache Checker	فحص Google Cache	google-cache
+082	Google Index Checker	فحص الأرشفة	google-index
+083	SERP Snippet Preview	معاينة نتائج البحث	serp-preview
+084	Search Preview Mobile	معاينة الجوال	mobile-serp
+085	Search Preview Desktop	معاينة الكمبيوتر	desktop-serp
+086	HTTP Status Checker	فحص HTTP Status	seo-http-status
+087	Redirect Validator	فحص Redirect	redirect-validator
+088	Canonical Generator	مولد Canonical	canonical-generator
+089	SEO Report Generator	تقرير SEO	seo-report
+090	Technical SEO Audit	تدقيق SEO	technical-seo
+091	Broken Image Checker	كشف الصور المكسورة	broken-images
+092	Favicon Checker	فحص Favicon	favicon-checker
+093	Link Extractor	استخراج الروابط	link-extractor
+094	Email Extractor	استخراج البريد الإلكتروني	email-extractor
+095	Phone Extractor	استخراج أرقام الهاتف	phone-extractor
+096	Social Links Extractor	استخراج روابط التواصل	social-links
+097	Heading Extractor	استخراج العناوين	heading-extractor
+098	Meta Extractor	استخراج Meta Tags	meta-extractor
+099	SEO Toolkit	مجموعة أدوات SEO	seo-toolkit
+100	Website Audit Toolkit	مجموعة تدقيق المواقع	website-audit
+💡 أدوات متقدمة أنصح بإضافتها مستقبلًا
+
+إذا أردت أن ينافس Adawaty أدوات مثل Ahrefs وSemrush في الجانب المجاني، فهذه الأدوات ستكون مميزة:
+
+AI SEO
+AI Meta Title Generator
+AI Meta Description Generator
+AI Keyword Clustering
+AI Content Brief Generator
+AI Internal Linking Suggestions
+AI Schema Generator
+AI FAQ Generator
+AI Alt Text Generator
+AI Slug Generator
+AI SEO Score Analyzer
+Technical SEO
+Crawl Simulator
+JavaScript SEO Tester
+Rendered HTML Viewer
+HTTP/2 & HTTP/3 Checker
+Preload / Prefetch Analyzer
+CSP Impact Checker
+Structured Data Diff
+Lighthouse Report Parser
+Sitemap Difference Checker
+Redirect Loop Detector
+
+
+Adawaty Master Tools Database v1.0
+Part 13 — Text & Document Tools (001–100)
+
+Category: Text
+
+📝 Text Formatting
+#	English	العربية	Slug
+001	Text Formatter	تنسيق النص	text-formatter
+002	Text Cleaner	تنظيف النص	text-cleaner
+003	Remove Extra Spaces	إزالة المسافات الزائدة	remove-extra-spaces
+004	Trim Text	حذف المسافات من البداية والنهاية	trim-text
+005	Normalize Line Breaks	توحيد الأسطر	normalize-lines
+006	Remove Empty Lines	حذف الأسطر الفارغة	remove-empty-lines
+007	Remove Duplicate Lines	حذف الأسطر المكررة	remove-duplicate-lines
+008	Sort Lines A-Z	ترتيب الأسطر A-Z	sort-lines-asc
+009	Sort Lines Z-A	ترتيب الأسطر Z-A	sort-lines-desc
+010	Shuffle Lines	خلط الأسطر عشوائيًا	shuffle-lines
+🔠 Case Conversion
+#	English	العربية	Slug
+011	UPPERCASE	تحويل إلى أحرف كبيرة	uppercase
+012	lowercase	تحويل إلى أحرف صغيرة	lowercase
+013	Title Case	أول حرف كبير	title-case
+014	Sentence Case	تنسيق الجمل	sentence-case
+015	Capitalize Words	تكبير أول حرف لكل كلمة	capitalize
+016	Toggle Case	عكس حالة الأحرف	toggle-case
+017	camelCase Converter	camelCase	camelcase
+018	PascalCase Converter	PascalCase	pascalcase
+019	snake_case Converter	snake_case	snake-case
+020	kebab-case Converter	kebab-case	kebab-case
+📊 Counters
+#	English	العربية	Slug
+021	Word Counter	عداد الكلمات	word-counter
+022	Character Counter	عداد الأحرف	character-counter
+023	Character Counter (No Spaces)	عدد الأحرف بدون مسافات	char-no-spaces
+024	Paragraph Counter	عداد الفقرات	paragraph-counter
+025	Sentence Counter	عداد الجمل	sentence-counter
+026	Line Counter	عداد الأسطر	line-counter
+027	Reading Time Calculator	حساب وقت القراءة	reading-time
+028	Speaking Time Calculator	وقت الإلقاء	speaking-time
+029	Average Word Length	متوسط طول الكلمات	avg-word-length
+030	Lexical Density Calculator	كثافة المفردات	lexical-density
+🔎 Find & Replace
+#	English	العربية	Slug
+031	Find & Replace	بحث واستبدال	find-replace
+032	Regex Find & Replace	بحث واستبدال Regex	regex-replace
+033	Remove Duplicate Words	حذف الكلمات المكررة	duplicate-words
+034	Remove Duplicate Sentences	حذف الجمل المكررة	duplicate-sentences
+035	Find Repeated Characters	كشف الأحرف المكررة	duplicate-chars
+036	Remove Numbers	حذف الأرقام	remove-numbers
+037	Remove Letters	حذف الحروف	remove-letters
+038	Remove Punctuation	حذف علامات الترقيم	remove-punctuation
+039	Remove Emojis	حذف الإيموجي	remove-emojis
+040	Remove HTML Tags	حذف HTML	remove-html
+📄 Lists
+#	English	العربية	Slug
+041	Text to List	تحويل إلى قائمة	text-list
+042	List to Text	تحويل القائمة إلى نص	list-text
+043	CSV to List	CSV إلى قائمة	csv-list
+044	List to CSV	قائمة إلى CSV	list-csv
+045	Unique List Generator	حذف التكرار من القائمة	unique-list
+046	Random List Picker	اختيار عنصر عشوائي	random-list
+047	Alphabetize List	ترتيب أبجدي	alphabetize
+048	Numbered List Generator	قائمة مرقمة	numbered-list
+049	Bullet List Generator	قائمة نقطية	bullet-list
+050	Checklist Generator	إنشاء Checklist	checklist-generator
+✨ Text Utilities
+#	English	العربية	Slug
+051	Reverse Text	عكس النص	reverse-text
+052	Reverse Words	عكس الكلمات	reverse-words
+053	Mirror Text	نص مرآة	mirror-text
+054	Upside Down Text	نص مقلوب	upside-down
+055	Zalgo Text Generator	نص Zalgo	zalgo-text
+056	Fancy Text Generator	مولد النصوص المزخرفة	fancy-text
+057	Small Caps Generator	Small Caps	small-caps
+058	Unicode Font Generator	خطوط Unicode	unicode-font
+059	Superscript Generator	Superscript	superscript
+060	Subscript Generator	Subscript	subscript
+🌍 Encoding
+#	English	العربية	Slug
+061	ASCII Converter	محول ASCII	ascii-converter
+062	Unicode Converter	محول Unicode	unicode-converter
+063	Unicode Escape	Unicode Escape	unicode-escape
+064	HTML Entity Encoder	HTML Entity	html-entity
+065	HTML Entity Decoder	فك HTML Entity	html-entity-decoder
+066	URL Encoder	ترميز URL	url-encode-text
+067	URL Decoder	فك URL	url-decode-text
+068	Base64 Text Encoder	Base64 للنصوص	base64-text
+069	Base64 Text Decoder	فك Base64	base64-text-decode
+070	ROT13 Encoder	ترميز ROT13	rot13
+📚 Markdown
+#	English	العربية	Slug
+071	Markdown Editor	محرر Markdown	markdown-editor
+072	Markdown Preview	معاينة Markdown	markdown-preview
+073	Markdown Formatter	تنسيق Markdown	markdown-format
+074	Markdown to HTML	Markdown إلى HTML	markdown-html
+075	HTML to Markdown	HTML إلى Markdown	html-markdown
+076	Markdown Table Generator	مولد جداول Markdown	markdown-table
+077	Markdown TOC Generator	مولد جدول المحتويات	markdown-toc
+078	Markdown Cheat Sheet	مرجع Markdown	markdown-cheatsheet
+079	Markdown Linter	فحص Markdown	markdown-linter
+080	Markdown Diff	مقارنة Markdown	markdown-diff
+🤖 AI Text
+#	English	العربية	Slug
+081	AI Text Summarizer	تلخيص النص	ai-summarizer
+082	AI Paraphraser	إعادة الصياغة	ai-paraphraser
+083	AI Grammar Checker	مدقق القواعد	ai-grammar
+084	AI Spell Checker	مدقق الإملاء	ai-spell
+085	AI Translator	مترجم AI	ai-translator
+086	AI Tone Rewriter	تغيير نبرة النص	ai-tone
+087	AI Keyword Extractor	استخراج الكلمات المفتاحية	ai-keywords
+088	AI Outline Generator	إنشاء Outline	ai-outline
+089	AI Bullet Point Generator	تحويل إلى نقاط	ai-bullets
+090	AI Title Generator	مولد العناوين	ai-title
+🛠 Misc
+#	English	العربية	Slug
+091	Lorem Ipsum Generator	مولد Lorem Ipsum	lorem
+092	Random Text Generator	مولد نصوص	random-text
+093	Random Name Generator	مولد أسماء	random-name
+094	Random Quote Generator	مولد اقتباسات	random-quote
+095	Profanity Filter	فلترة الكلمات المسيئة	profanity-filter
+096	Emoji Picker	منتقي الإيموجي	emoji-picker
+097	Emoji Remover	حذف الإيموجي	emoji-remover
+098	Text Diff Checker	مقارنة النصوص	text-diff
+099	Text Toolkit	مجموعة أدوات النصوص	text-toolkit
+100	Document Utilities Hub	مركز أدوات النصوص	document-utilities
+⭐️ قسم أنصح بإضافته بقوة (غير موجود كاملًا عند المنافسين)
+
+إذا أردت أن يصبح Adawaty مرجعًا فعليًا، فأضف قسمًا باسم:
+
+✍️ Writing Assistant
+
+ويحتوي على:
+
+Email Writer
+Resume Writer
+Cover Letter Generator
+LinkedIn Post Generator
+Blog Outline Generator
+Blog Intro Generator
+Blog Conclusion Generator
+Product Description Generator
+FAQ Generator
+Terms & Conditions Generator
+Privacy Policy Generator
+Refund Policy Generator
+Cookie Policy Generator
+YouTube Description Generator
+YouTube Tags Generator
+Instagram Caption Generator
+X (Twitter) Thread Generator
+Facebook Post Generator
+Press Release Generator
+Meeting Minutes Writer
+
+Adawaty Master Tools Database v1.0
+Part 14 — Calculators (001–100)
+
+Category: Calculators
+
+🧮 Basic Calculators
+#	English	العربية	Slug
+001	Basic Calculator	آلة حاسبة عادية	basic-calculator
+002	Scientific Calculator	آلة حاسبة علمية	scientific-calculator
+003	Programmer Calculator	آلة حاسبة للمبرمجين	programmer-calculator
+004	Big Number Calculator	حاسبة الأرقام الكبيرة	big-number-calculator
+005	Percentage Calculator	حاسبة النسبة المئوية	percentage-calculator
+006	Percentage Change Calculator	حاسبة نسبة التغيير	percentage-change
+007	Percentage Difference Calculator	حاسبة فرق النسبة	percentage-difference
+008	Discount Calculator	حاسبة الخصومات	discount-calculator
+009	Markup Calculator	حاسبة هامش الربح	markup-calculator
+010	Margin Calculator	حاسبة Margin	margin-calculator
+💰 Finance
+#	English	العربية	Slug
+011	VAT Calculator	حاسبة ضريبة القيمة المضافة	vat-calculator
+012	Sales Tax Calculator	حاسبة الضريبة	sales-tax
+013	Profit Calculator	حاسبة الربح	profit-calculator
+014	Loss Calculator	حاسبة الخسارة	loss-calculator
+015	ROI Calculator	العائد على الاستثمار	roi
+016	Investment Calculator	حاسبة الاستثمار	investment
+017	Loan Calculator	حاسبة القروض	loan
+018	Mortgage Calculator	حاسبة الرهن العقاري	mortgage
+019	EMI Calculator	حاسبة الأقساط	emi
+020	Currency Calculator	حاسبة العملات	currency-calculator
+⏰ Time
+#	English	العربية	Slug
+021	Age Calculator	حاسبة العمر	age-calculator
+022	Date Difference	فرق التاريخ	date-difference
+023	Days Between Dates	عدد الأيام	days-between
+024	Business Days Calculator	أيام العمل	business-days
+025	Week Calculator	عدد الأسابيع	week-calculator
+026	Month Calculator	عدد الشهور	month-calculator
+027	Year Calculator	عدد السنوات	year-calculator
+028	Time Duration Calculator	مدة الوقت	time-duration
+029	Time Zone Converter	محول المناطق الزمنية	timezone-calculator
+030	Countdown Calculator	حاسبة العد التنازلي	countdown
+🏃 Health
+#	English	العربية	Slug
+031	BMI Calculator	حاسبة BMI	bmi
+032	BMR Calculator	حاسبة BMR	bmr
+033	TDEE Calculator	حاسبة TDEE	tdee
+034	Body Fat Calculator	حاسبة الدهون	body-fat
+035	Ideal Weight Calculator	الوزن المثالي	ideal-weight
+036	Calorie Calculator	حاسبة السعرات	calorie
+037	Protein Calculator	حاسبة البروتين	protein
+038	Water Intake Calculator	احتياج المياه	water-intake
+039	Macro Calculator	حاسبة الماكروز	macro
+040	Pace Calculator	حاسبة الجري	pace
+🏠 Home
+#	English	العربية	Slug
+041	Paint Calculator	كمية الدهان	paint
+042	Wallpaper Calculator	كمية ورق الحائط	wallpaper
+043	Tile Calculator	كمية البلاط	tile
+044	Concrete Calculator	كمية الخرسانة	concrete
+045	Brick Calculator	عدد الطوب	brick
+046	Flooring Calculator	الأرضيات	flooring
+047	Roof Calculator	السقف	roof
+048	Fence Calculator	السور	fence
+049	Room Area Calculator	مساحة الغرفة	room-area
+050	Volume Calculator	الحجم	volume
+📚 Education
+#	English	العربية	Slug
+051	Average Calculator	المتوسط	average
+052	GPA Calculator	المعدل التراكمي	gpa
+053	Grade Calculator	حساب الدرجات	grade
+054	Final Grade Calculator	الدرجة النهائية	final-grade
+055	Attendance Calculator	نسبة الحضور	attendance
+056	Probability Calculator	الاحتمالات	probability
+057	Combination Calculator	التوافيق	combination
+058	Permutation Calculator	التباديل	permutation
+059	Standard Deviation	الانحراف المعياري	std-dev
+060	Mean Median Mode	المتوسط والوسيط والمنوال	mean-median-mode
+⚡ Engineering
+#	English	العربية	Slug
+061	Ohm's Law Calculator	قانون أوم	ohms-law
+062	Voltage Divider	مقسم الجهد	voltage-divider
+063	Power Calculator	حاسبة القدرة	power
+064	Current Calculator	حاسبة التيار	current
+065	Resistance Calculator	حاسبة المقاومة	resistance
+066	Capacitance Calculator	حاسبة السعة	capacitance
+067	Inductance Calculator	حاسبة الحث	inductance
+068	Frequency Calculator	حاسبة التردد	frequency
+069	Wavelength Calculator	حاسبة الطول الموجي	wavelength
+070	Decibel Calculator	حاسبة الديسيبل	decibel
+🌍 Web
+#	English	العربية	Slug
+071	Bandwidth Calculator	حاسبة Bandwidth	bandwidth
+072	Download Time Calculator	وقت التحميل	download-time
+073	Upload Time Calculator	وقت الرفع	upload-time
+074	Storage Calculator	حجم التخزين	storage
+075	Image Size Calculator	حجم الصور	image-size
+076	Video Size Calculator	حجم الفيديو	video-size
+077	Audio Size Calculator	حجم الصوت	audio-size
+078	File Size Calculator	حجم الملفات	file-size
+079	Bitrate Calculator	حاسبة Bitrate	bitrate
+080	Resolution Calculator	حاسبة الدقة	resolution
+🛠 Misc
+#	English	العربية	Slug
+081	Tip Calculator	حاسبة البقشيش	tip
+082	Fuel Cost Calculator	تكلفة الوقود	fuel-cost
+083	Fuel Consumption	استهلاك الوقود	fuel-consumption
+084	Cooking Converter	تحويل مقادير الطبخ	cooking-converter
+085	Recipe Scaling Calculator	تكبير وتصغير الوصفات	recipe-scale
+086	Pregnancy Calculator	حاسبة الحمل	pregnancy
+087	Ovulation Calculator	حاسبة التبويض	ovulation
+088	Retirement Calculator	حاسبة التقاعد	retirement
+089	Life Expectancy Calculator	متوسط العمر المتوقع	life-expectancy
+090	Random Number Generator	مولد أرقام عشوائية	random-number
+091	Random Dice Roller	رمي النرد	dice-roller
+092	Coin Flip	عملة معدنية	coin-flip
+093	Random Wheel Spinner	عجلة عشوائية	wheel-spinner
+094	Decision Maker	صانع القرار	decision-maker
+095	Lottery Number Generator	مولد أرقام يانصيب	lottery-generator
+096	Password Entropy Calculator	Entropy كلمة المرور	password-entropy
+097	Hash Rate Calculator	Hash Rate	hashrate
+098	Battery Life Calculator	عمر البطارية	battery-life
+099	Carbon Footprint Calculator	البصمة الكربونية	carbon-footprint
+100	Ultimate Calculator Hub	مركز الآلات الحاسبة	calculator-hub
+🚀 ملاحظة مهمة جدًا
+
+بعد مراجعة Calculator.net وOmni Calculator وRapidTables وGigacalculator، أرى أن قسم Calculators وحده يمكن أن يصل إلى:
+
+🏥 Medical: 150+
+💰 Finance: 200+
+📐 Math: 200+
+🏗 Engineering: 150+
+🏃 Fitness: 100+
+🧪 Chemistry: 80+
+⚡ Electrical: 120+
+📡 Networking: 60+
+🚗 Automotive: 80+
+🏠 Construction: 120+
+🍳 Cooking: 50+
+👶 Pregnancy: 40+
+📚 Education: 100+
+🌍 Travel: 60+
+
+أي أكثر من 1500 آلة حاسبة إذا أردت منافسة المواقع المتخصصة.
+
+ممتاز. هنبدأ دلوقتي قسم Unit Converters.
+
+وده من أكثر الأقسام اللي عليها بحث شهري ضخم، والمنافسين زيه:
+
+UnitConverters.net
+ConvertUnits
+RapidTables
+CalculatorSoup
+Metric-Conversions
+
+لكن كلهم تقريبًا بيقدموا أدوات قديمة. إحنا هنخليها أحدث وأسرع.
+
+Adawaty Master Tools Database v1.0
+Part 15 — Unit Converters (001–100)
+
+Category: Unit Converters
+
+📏 Length
+#	English	العربية	Slug
+001	Length Converter	محول الأطوال	length-converter
+002	Millimeter to Inch	مم إلى بوصة	mm-inch
+003	Inch to Millimeter	بوصة إلى مم	inch-mm
+004	Centimeter to Inch	سم إلى بوصة	cm-inch
+005	Inch to Centimeter	بوصة إلى سم	inch-cm
+006	Meter to Feet	متر إلى قدم	meter-feet
+007	Feet to Meter	قدم إلى متر	feet-meter
+008	Kilometer to Mile	كم إلى ميل	km-mile
+009	Mile to Kilometer	ميل إلى كم	mile-km
+010	Nautical Mile Converter	الميل البحري	nautical-mile
+⚖ Weight
+#	English	العربية	Slug
+011	Weight Converter	محول الأوزان	weight-converter
+012	Gram to Ounce	جرام إلى أونصة	gram-ounce
+013	Ounce to Gram	أونصة إلى جرام	ounce-gram
+014	Kilogram to Pound	كجم إلى رطل	kg-pound
+015	Pound to Kilogram	رطل إلى كجم	pound-kg
+016	Ton Converter	محول الأطنان	ton-converter
+017	Stone Converter	محول Stone	stone-converter
+018	Carat Converter	محول القيراط	carat-converter
+019	Milligram Converter	محول المليجرام	mg-converter
+020	Microgram Converter	محول الميكروجرام	mcg-converter
+🌡 Temperature
+#	English	العربية	Slug
+021	Temperature Converter	محول الحرارة	temperature-converter
+022	Celsius to Fahrenheit	مئوي إلى فهرنهايت	celsius-fahrenheit
+023	Fahrenheit to Celsius	فهرنهايت إلى مئوي	fahrenheit-celsius
+024	Kelvin Converter	محول كلفن	kelvin-converter
+025	Rankine Converter	محول رانكن	rankine-converter
+026	Reaumur Converter	محول ريومور	reaumur-converter
+027	Temperature Difference	فرق درجات الحرارة	temperature-difference
+028	Heat Index Calculator	مؤشر الحرارة	heat-index
+029	Wind Chill Calculator	الإحساس بالبرودة	wind-chill
+030	Dew Point Calculator	نقطة الندى	dew-point
+📦 Area
+#	English	العربية	Slug
+031	Area Converter	محول المساحات	area-converter
+032	Square Meter to Square Foot	م² إلى قدم²	sqm-sqft
+033	Square Foot to Square Meter	قدم² إلى م²	sqft-sqm
+034	Hectare Converter	محول الهكتار	hectare
+035	Acre Converter	محول الفدان/الأكر	acre
+036	Square Yard Converter	محول ياردة²	sq-yard
+037	Square Mile Converter	محول ميل²	sq-mile
+038	Dunam Converter	محول الدونم	dunam
+039	Feddan Converter	محول الفدان المصري	feddan
+040	Land Area Converter	محول الأراضي	land-area
+🧊 Volume
+#	English	العربية	Slug
+041	Volume Converter	محول الأحجام	volume-converter
+042	Liter to Gallon	لتر إلى جالون	liter-gallon
+043	Gallon to Liter	جالون إلى لتر	gallon-liter
+044	Milliliter Converter	محول المليلتر	ml-converter
+045	Cubic Meter Converter	محول م³	cubic-meter
+046	Cubic Foot Converter	محول قدم³	cubic-foot
+047	Cup Converter	محول الأكواب	cup-converter
+048	Tablespoon Converter	محول الملاعق	tablespoon
+049	Teaspoon Converter	محول ملاعق الشاي	teaspoon
+050	Cooking Volume Converter	محول مقادير السوائل	cooking-volume
+🚗 Speed
+#	English	العربية	Slug
+051	Speed Converter	محول السرعة	speed-converter
+052	Km/h to MPH	كم/س إلى ميل/س	kmh-mph
+053	MPH to Km/h	ميل/س إلى كم/س	mph-kmh
+054	Knot Converter	محول العقدة	knot-converter
+055	Mach Converter	محول Mach	mach-converter
+056	Meters per Second	متر/ثانية	mps
+057	Feet per Second	قدم/ثانية	fps
+058	Running Pace Converter	محول Pace	pace-converter
+059	Cycling Speed Converter	محول سرعة الدراجات	cycling-speed
+060	Wind Speed Converter	محول سرعة الرياح	wind-speed
+⚡ Energy & Power
+#	English	العربية	Slug
+061	Energy Converter	محول الطاقة	energy-converter
+062	Joule Converter	محول الجول	joule
+063	Calorie Converter	محول السعرات	calorie-unit
+064	BTU Converter	محول BTU	btu
+065	Kilowatt Hour Converter	محول kWh	kwh
+066	Power Converter	محول القدرة	power-converter
+067	Horsepower Converter	محول Horsepower	horsepower
+068	Watt Converter	محول Watt	watt
+069	Volt Ampere Converter	محول VA	volt-ampere
+070	Energy Cost Calculator	تكلفة الطاقة	energy-cost
+💾 Digital
+#	English	العربية	Slug
+071	Digital Storage Converter	محول أحجام البيانات	digital-storage
+072	Bit to Byte	Bit إلى Byte	bit-byte
+073	Byte to Bit	Byte إلى Bit	byte-bit
+074	KB MB GB TB Converter	KB/MB/GB/TB	storage-units
+075	Transfer Speed Converter	سرعة النقل	transfer-speed
+076	Bandwidth Converter	محول Bandwidth	bandwidth-converter
+077	Data Rate Converter	محول Data Rate	data-rate
+078	Binary Prefix Converter	محول KiB/MiB	binary-prefix
+079	Decimal Prefix Converter	محول KB/MB	decimal-prefix
+080	Disk Size Calculator	حجم الأقراص	disk-size
+🔬 Scientific
+#	English	العربية	Slug
+081	Pressure Converter	محول الضغط	pressure-converter
+082	Force Converter	محول القوة	force-converter
+083	Torque Converter	محول العزم	torque-converter
+084	Density Converter	محول الكثافة	density-converter
+085	Viscosity Converter	محول اللزوجة	viscosity-converter
+086	Frequency Converter	محول التردد	frequency-converter
+087	Radiation Converter	محول الإشعاع	radiation-converter
+088	Magnetic Field Converter	محول المجال المغناطيسي	magnetic-field
+089	Luminance Converter	محول الإضاءة	luminance-converter
+090	Fuel Economy Converter	محول استهلاك الوقود	fuel-economy
+🛠 Misc
+#	English	العربية	Slug
+091	Shoe Size Converter	مقاسات الأحذية	shoe-size
+092	Ring Size Converter	مقاسات الخواتم	ring-size
+093	Clothing Size Converter	مقاسات الملابس	clothing-size
+094	Paper Size Converter	مقاسات الورق	paper-size
+095	Screen Size Converter	مقاسات الشاشات	screen-size
+096	Pixel Density Calculator	حاسبة PPI	ppi-calculator
+097	Aspect Ratio Converter	محول Aspect Ratio	aspect-ratio-converter
+098	Time Zone Converter	محول المناطق الزمنية	timezone-converter
+099	Universal Unit Converter	محول شامل	universal-unit-converter
+100	Conversion Toolkit	مجموعة أدوات التحويل	conversion-toolkit
+⭐️ قسم أنصح بإضافته بالكامل
+
+بعد مراجعة المنافسين، أرى أن هناك قسمًا لا يقدمه أحد بشكل متكامل، وهو:
+
+📱 Device Converters
+iPhone Screen Sizes
+Android Screen Sizes
+CSS px ↔ rem
+px ↔ em
+px ↔ vh
+px ↔ vw
+DPI ↔ PPI
+CSS Unit Converter
+Tailwind Spacing Converter
+Bootstrap Breakpoint Converter
+Figma px ↔ CSS
+Flutter dp ↔ px
+Android dp ↔ px
+iOS pt ↔ px
+
+هذا القسم سيجذب المطورين والمصممين، وهو شبه غائب في مواقع التحويل التقليدية.
+
+
+قسم أعتبره من أعلى الأقسام في معدل الزيارات والـ RPM الإعلاني، وهو:
+
+📱 Social Media Tools
+
+وده قسم أغلب المواقع بتقدمه بشكل ضعيف، بينما عليه بحث ضخم جدًا، خاصة مع YouTube وTikTok وInstagram.
+
+المنافسون:
+
+Buffer
+Hootsuite (بعض الأدوات)
+Canva
+Kapwing
+VEED
+Adobe Express
+TinyWow
+Remove.bg
+Thumbsup
+TubeBuddy (جزئيًا)
+VidIQ (جزئيًا)
+Adawaty Master Tools Database v1.0
+Part 16 — Social Media Tools (001–100)
+
+Category: Social Media
+
+▶️ YouTube
+#	English	العربية	Slug
+001	YouTube Thumbnail Downloader	تحميل صورة الفيديو	youtube-thumbnail-downloader
+002	YouTube Thumbnail Viewer	عرض صورة الفيديو	youtube-thumbnail-viewer
+003	YouTube Thumbnail Generator	إنشاء Thumbnail	youtube-thumbnail-generator
+004	YouTube Banner Maker	إنشاء Banner	youtube-banner-maker
+005	YouTube Intro Maker	إنشاء Intro	youtube-intro-maker
+006	YouTube Outro Maker	إنشاء Outro	youtube-outro-maker
+007	YouTube End Screen Maker	إنشاء End Screen	youtube-end-screen
+008	YouTube Chapter Generator	مولد Chapters	youtube-chapters
+009	YouTube Title Generator	مولد العناوين	youtube-title-generator
+010	YouTube Description Generator	مولد الوصف	youtube-description-generator
+🎬 YouTube SEO
+#	English	العربية	Slug
+011	YouTube Tags Generator	مولد Tags	youtube-tags
+012	YouTube Hashtag Generator	مولد Hashtags	youtube-hashtags
+013	YouTube Keyword Generator	مولد الكلمات المفتاحية	youtube-keywords
+014	YouTube Transcript Extractor	استخراج Transcript	youtube-transcript
+015	YouTube Timestamp Generator	مولد Timestamp	youtube-timestamp
+016	YouTube Shorts Title Generator	عناوين Shorts	shorts-title
+017	YouTube Shorts Description	وصف Shorts	shorts-description
+018	YouTube Thumbnail Analyzer	تحليل Thumbnail	thumbnail-analyzer
+019	YouTube SEO Score	تحليل SEO	youtube-seo-score
+020	YouTube Video Summary	تلخيص الفيديو	youtube-summary
+📸 Instagram
+#	English	العربية	Slug
+021	Instagram Caption Generator	مولد Caption	instagram-caption
+022	Instagram Hashtag Generator	مولد Hashtags	instagram-hashtags
+023	Instagram Bio Generator	مولد Bio	instagram-bio
+024	Instagram Grid Maker	تقسيم الصور	instagram-grid
+025	Instagram Reel Cover	غلاف Reels	reel-cover
+026	Instagram Story Maker	Story Maker	instagram-story-maker
+027	Instagram Post Resizer	تغيير المقاسات	instagram-resizer
+028	Instagram Carousel Maker	Carousel	instagram-carousel
+029	Instagram Quote Generator	اقتباسات	instagram-quotes
+030	Instagram Preview	معاينة البروفايل	instagram-preview
+🎵 TikTok
+#	English	العربية	Slug
+031	TikTok Caption Generator	مولد Caption	tiktok-caption
+032	TikTok Hashtag Generator	مولد Hashtags	tiktok-hashtags
+033	TikTok Bio Generator	مولد Bio	tiktok-bio
+034	TikTok Video Resizer	تغيير المقاسات	tiktok-resizer
+035	TikTok Cover Generator	غلاف الفيديو	tiktok-cover
+036	TikTok Subtitle Generator	مولد الترجمة	tiktok-subtitles
+037	TikTok Hook Generator	مولد Hooks	tiktok-hooks
+038	TikTok Script Generator	مولد Script	tiktok-script
+039	TikTok Trend Analyzer	تحليل Trends	tiktok-trends
+040	TikTok SEO Score	تحليل SEO	tiktok-seo
+👍 Facebook
+#	English	العربية	Slug
+041	Facebook Cover Maker	غلاف Facebook	facebook-cover
+042	Facebook Post Generator	مولد منشورات	facebook-post
+043	Facebook Caption Generator	مولد Caption	facebook-caption
+044	Facebook Ad Copy Generator	كتابة الإعلانات	facebook-ad-copy
+045	Facebook Event Cover	غلاف Event	facebook-event
+046	Facebook Story Maker	Story Maker	facebook-story
+047	Facebook Image Resizer	مقاسات الصور	facebook-resizer
+048	Facebook Profile Picture Maker	صورة البروفايل	facebook-profile
+049	Facebook Quote Maker	اقتباسات	facebook-quote
+050	Facebook Preview	معاينة المنشور	facebook-preview
+🐦 X (Twitter)
+#	English	العربية	Slug
+051	X Post Generator	مولد منشورات	x-post
+052	Thread Generator	مولد Threads	thread-generator
+053	Thread Formatter	تنسيق Thread	thread-formatter
+054	X Bio Generator	مولد Bio	x-bio
+055	X Header Maker	غلاف X	x-header
+056	Tweet Screenshot Generator	لقطة Tweet	tweet-screenshot
+057	Tweet Formatter	تنسيق التغريدة	tweet-formatter
+058	Tweet Preview	معاينة التغريدة	tweet-preview
+059	Tweet Character Counter	عداد الأحرف	tweet-counter
+060	Hashtag Generator	مولد Hashtags	x-hashtag
+💼 LinkedIn
+#	English	العربية	Slug
+061	LinkedIn Post Generator	مولد منشورات	linkedin-post
+062	LinkedIn Headline Generator	Headline Generator	linkedin-headline
+063	LinkedIn Summary Generator	Summary Generator	linkedin-summary
+064	LinkedIn Banner Maker	Banner	linkedin-banner
+065	LinkedIn Profile Picture	صورة البروفايل	linkedin-profile
+066	LinkedIn Carousel Maker	Carousel	linkedin-carousel
+067	LinkedIn Article Generator	كتابة المقالات	linkedin-article
+068	LinkedIn Poll Generator	استبيانات	linkedin-poll
+069	LinkedIn About Generator	قسم About	linkedin-about
+070	LinkedIn Preview	معاينة البروفايل	linkedin-preview
+🎨 Universal
+#	English	العربية	Slug
+071	Hashtag Generator	مولد Hashtags	hashtag-generator
+072	Emoji Generator	مولد Emoji	emoji-generator
+073	Emoji Finder	البحث عن Emoji	emoji-finder
+074	Caption Generator	مولد Caption	caption-generator
+075	Bio Generator	مولد Bio	bio-generator
+076	Username Generator	مولد Usernames	username-generator
+077	Display Name Generator	مولد أسماء العرض	display-name
+078	Quote Generator	مولد الاقتباسات	quote-generator
+079	Social Media Calendar	تقويم المحتوى	content-calendar
+080	Content Planner	مخطط المحتوى	content-planner
+🤖 AI Content
+#	English	العربية	Slug
+081	Hook Generator	مولد Hooks	hook-generator
+082	CTA Generator	مولد CTA	cta-generator
+083	Viral Title Generator	عناوين Viral	viral-title
+084	Video Script Generator	مولد Script	video-script
+085	Content Idea Generator	أفكار محتوى	content-ideas
+086	Content Repurposer	إعادة استخدام المحتوى	repurpose-content
+087	Post Rewriter	إعادة كتابة المنشورات	rewrite-post
+088	Comment Generator	مولد التعليقات	comment-generator
+089	Reply Generator	مولد الردود	reply-generator
+090	AI Content Toolkit	مجموعة أدوات AI	content-toolkit
+🛠 Utilities
+#	English	العربية	Slug
+091	QR Code for Social	QR للسوشيال	social-qr
+092	Link in Bio Builder	صفحة Link in Bio	link-in-bio
+093	Social Media Icons Generator	أيقونات التواصل	social-icons
+094	Profile Picture Cropper	قص صورة البروفايل	profile-cropper
+095	Watermark Social Images	علامة مائية	social-watermark
+096	Social Image Optimizer	تحسين الصور	social-image-opt
+097	Social Preview Generator	معاينة المشاركة	social-preview-generator
+098	Multi Platform Resizer	مقاسات جميع المنصات	multi-resizer
+099	Social Toolkit	مجموعة أدوات التواصل	social-toolkit
+100	Creator Workspace	بيئة عمل صناع المحتوى	creator-workspace
+💡 قسم إضافي أنصح به بقوة (غير موجود تقريبًا عند المنافسين)
+🎥 Creator Studio
+
+يجمع أدوات خاصة بمنشئي المحتوى:
+
+YouTube
+Thumbnail A/B Tester
+CTR Estimator
+Thumbnail Heatmap
+Retention Curve Analyzer
+Video Hook Analyzer
+Intro Analyzer
+TikTok
+Viral Score
+Hook Score
+Caption Score
+Trend Score
+Instagram
+Reel Cover Optimizer
+Story Safe Zone Checker
+Carousel Splitter
+Grid Preview AI
+Universal
+Best Posting Time Calculator
+Engagement Rate Calculator
+CPM Calculator
+RPM Calculator
+Influencer Rate Calculator
+Sponsorship Calculator
+Affiliate Revenue Calculator
+🔥 ملاحظة
+
+بعد مراجعة المنافسين، أرى أن Adawaty لا ينبغي أن يكون مجرد موقع "أدوات"، بل منصة إنتاج محتوى متكاملة.
+
+لو أضفت الأقسام التالية معًا:
+
+AI Writing
+AI Images
+AI Video
+AI Audio
+Social Media
+SEO
+
+فأنت تستهدف شريحة ضخمة من:
+
+صناع المحتوى.
+المسوقين.
+أصحاب المواقع.
+اليوتيوبرز.
+أصحاب المتاجر.
+المستقلين.
+
+وهذه الفئة عادةً تحقق أعلى عائد إعلاني (RPM) مقارنة بالزوار العاديين.
+
+
+قسم Office & Spreadsheet Tools، وده من أعلى الأقسام طلبًا لأن ملايين المستخدمين بيبحثوا يوميًا عن أدوات Excel وCSV وWord، بينما معظم المواقع بتركز على PDF فقط.
+
+المنافسون:
+
+Spreadsheet Planet
+ExtendOffice
+ExcelJet
+FormulaDog
+CSVLint
+Aspose
+TinyWow
+ConvertCSV
+TableConvert
+Adawaty Master Tools Database v1.0
+Part 17 — Office & Spreadsheet Tools (001–100)
+
+Category: Office / Spreadsheet
+
+📊 Excel Conversion
+#	English	العربية	Slug
+001	Excel to CSV	Excel إلى CSV	excel-to-csv
+002	CSV to Excel	CSV إلى Excel	csv-to-excel
+003	Excel to JSON	Excel إلى JSON	excel-to-json
+004	JSON to Excel	JSON إلى Excel	json-to-excel
+005	Excel to XML	Excel إلى XML	excel-to-xml
+006	XML to Excel	XML إلى Excel	xml-to-excel
+007	Excel to SQL	Excel إلى SQL	excel-to-sql
+008	SQL to Excel	SQL إلى Excel	sql-to-excel
+009	Excel to HTML	Excel إلى HTML	excel-to-html
+010	HTML Table to Excel	HTML إلى Excel	html-to-excel
+📄 CSV Tools
+#	English	العربية	Slug
+011	CSV Viewer	عارض CSV	csv-viewer
+012	CSV Editor	محرر CSV	csv-editor
+013	CSV Formatter	تنسيق CSV	csv-formatter
+014	CSV Validator	التحقق من CSV	csv-validator
+015	CSV Cleaner	تنظيف CSV	csv-cleaner
+016	CSV Sorter	ترتيب CSV	csv-sorter
+017	CSV Filter	فلترة CSV	csv-filter
+018	CSV Splitter	تقسيم CSV	csv-splitter
+019	CSV Merger	دمج CSV	csv-merger
+020	CSV Diff	مقارنة CSV	csv-diff
+📈 Excel Utilities
+#	English	العربية	Slug
+021	Duplicate Finder	كشف التكرارات	excel-duplicates
+022	Remove Duplicates	حذف التكرارات	remove-duplicates
+023	Merge Cells	دمج الخلايا	merge-cells
+024	Split Cells	تقسيم الخلايا	split-cells
+025	Transpose Table	تبديل الصفوف والأعمدة	transpose-table
+026	Pivot Table Builder	إنشاء Pivot Table	pivot-builder
+027	Excel Formula Builder	مولد المعادلات	formula-builder
+028	Formula Checker	فحص المعادلات	formula-checker
+029	Conditional Formatting Generator	تنسيق شرطي	conditional-formatting
+030	Excel Template Generator	إنشاء قوالب Excel	excel-template
+📋 Tables
+#	English	العربية	Slug
+031	Table Generator	مولد الجداول	table-generator
+032	HTML Table Generator	مولد HTML Table	html-table
+033	Markdown Table Generator	مولد Markdown Table	markdown-table
+034	LaTeX Table Generator	مولد LaTeX Table	latex-table
+035	ASCII Table Generator	مولد ASCII Table	ascii-table
+036	Responsive Table Generator	جداول Responsive	responsive-table
+037	Table Formatter	تنسيق الجداول	table-formatter
+038	Table Sorter	ترتيب الجداول	table-sorter
+039	Table Filter	فلترة الجداول	table-filter
+040	Table Compare	مقارنة الجداول	table-compare
+📑 Word Utilities
+#	English	العربية	Slug
+041	DOCX Viewer	عارض DOCX	docx-viewer
+042	DOCX to HTML	DOCX إلى HTML	docx-to-html
+043	HTML to DOCX	HTML إلى DOCX	html-to-docx
+044	DOCX Metadata Viewer	عرض Metadata	docx-metadata
+045	Word Count Analyzer	تحليل الكلمات	word-analyzer
+046	Track Changes Cleaner	إزالة Track Changes	track-changes
+047	Header Footer Remover	حذف Header/Footer	header-footer
+048	Document Compare	مقارنة المستندات	document-compare
+049	Document Merger	دمج المستندات	document-merger
+050	Document Splitter	تقسيم المستندات	document-splitter
+📊 Charts
+#	English	العربية	Slug
+051	Pie Chart Generator	مولد Pie Chart	pie-chart
+052	Bar Chart Generator	مولد Bar Chart	bar-chart
+053	Line Chart Generator	مولد Line Chart	line-chart
+054	Area Chart Generator	مولد Area Chart	area-chart
+055	Scatter Plot Generator	مولد Scatter Plot	scatter-plot
+056	Histogram Generator	مولد Histogram	histogram-chart
+057	Bubble Chart Generator	مولد Bubble Chart	bubble-chart
+058	Radar Chart Generator	مولد Radar Chart	radar-chart
+059	Heatmap Generator	مولد Heatmap	heatmap-chart
+060	Chart Exporter	تصدير الرسوم البيانية	chart-export
+📈 Data Analysis
+#	English	العربية	Slug
+061	Missing Values Finder	كشف القيم المفقودة	missing-values
+062	Outlier Detector	كشف القيم الشاذة	outlier-detector
+063	Column Statistics	إحصائيات الأعمدة	column-statistics
+064	Data Cleaner	تنظيف البيانات	data-cleaner
+065	Null Value Replacer	استبدال Null	null-replacer
+066	Duplicate Row Finder	كشف الصفوف المكررة	duplicate-rows
+067	Data Sampler	أخذ عينات	data-sampler
+068	Random Row Generator	صفوف عشوائية	random-row
+069	Data Profiler	تحليل البيانات	data-profiler
+070	Dataset Summary	ملخص Dataset	dataset-summary
+🧾 Reports
+#	English	العربية	Slug
+071	Invoice Generator	مولد الفواتير	invoice-generator
+072	Quotation Generator	مولد عروض الأسعار	quotation-generator
+073	Receipt Generator	مولد الإيصالات	receipt-generator
+074	Timesheet Generator	مولد Timesheet	timesheet
+075	Attendance Sheet Generator	كشف الحضور	attendance-sheet
+076	Inventory Sheet Generator	جرد المخزون	inventory-sheet
+077	Expense Tracker	متابعة المصروفات	expense-tracker
+078	Budget Planner	مخطط الميزانية	budget-planner
+079	Project Tracker	متابعة المشاريع	project-tracker
+080	KPI Dashboard Generator	لوحة مؤشرات الأداء	kpi-dashboard
+🛠 Utilities
+#	English	العربية	Slug
+081	Spreadsheet Diff	مقارنة الجداول	spreadsheet-diff
+082	Spreadsheet Validator	التحقق من الجداول	spreadsheet-validator
+083	Workbook Inspector	فحص Workbook	workbook-inspector
+084	Workbook Optimizer	تحسين Workbook	workbook-optimizer
+085	Sheet Renamer	إعادة تسمية Sheets	sheet-renamer
+086	Workbook Splitter	تقسيم Workbook	workbook-splitter
+087	Workbook Merger	دمج Workbook	workbook-merger
+088	Formula Extractor	استخراج المعادلات	formula-extractor
+089	Workbook Metadata Cleaner	تنظيف Metadata	workbook-metadata
+090	Spreadsheet Toolkit	مجموعة أدوات Spreadsheet	spreadsheet-toolkit
+091	ODS Viewer	عارض ODS	ods-viewer
+092	ODS Converter	محول ODS	ods-converter
+093	TSV Viewer	عارض TSV	tsv-viewer
+094	TSV Converter	محول TSV	tsv-converter
+095	Clipboard Table Converter	تحويل الجداول من الحافظة	clipboard-table
+096	Excel Formula Cheat Sheet	مرجع معادلات Excel	excel-formulas
+097	Lookup Formula Builder	مولد XLOOKUP/VLOOKUP	lookup-builder
+098	Power Query Helper	مساعد Power Query	power-query-helper
+099	Spreadsheet Workspace	بيئة عمل الجداول	spreadsheet-workspace
+100	Office Toolkit	مجموعة أدوات Office	office-toolkit
+💡 أقسام متقدمة أنصح بإضافتها
+Excel AI
+AI Formula Generator
+AI Formula Explainer
+AI Formula Optimizer
+AI Pivot Builder
+AI Dashboard Generator
+AI Data Cleaning
+AI Forecast Generator
+AI Conditional Formatting
+AI Chart Recommendation
+AI Spreadsheet Assistant
+Google Sheets
+Google Sheets Formula Builder
+Apps Script Generator
+QUERY Formula Builder
+IMPORTRANGE Builder
+REGEX Formula Builder
+Named Range Manager
+Microsoft 365
+Power BI Helper
+Power Automate Flow Builder
+Excel Lambda Generator
+Office Script Generator
+
+
+قسم Design & Color Tools.
+
+وده من أعلى الأقسام استخدامًا للمصممين ومطوري الويب، والمنافسين فيه:
+
+Coolors
+Adobe Color
+Color Hunt
+Figma Plugins
+ImageColorPicker
+CSS Gradient
+UI Gradients
+Happy Hues
+Contrast Checker
+
+لكن لا يوجد موقع تقريبًا يجمع كل الأدوات دي معًا.
+
+Adawaty Master Tools Database v1.0
+Part 18 — Design & Color Tools (001–100)
+
+Category: Design / UI / UX
+
+🎨 Color Pickers
+#	English	العربية	Slug
+001	Color Picker	منتقي الألوان	color-picker
+002	Image Color Picker	استخراج لون من صورة	image-color-picker
+003	Screen Color Picker	التقاط لون من الشاشة	screen-color-picker
+004	HEX to RGB	HEX إلى RGB	hex-to-rgb
+005	RGB to HEX	RGB إلى HEX	rgb-to-hex
+006	RGB to HSL	RGB إلى HSL	rgb-to-hsl
+007	HSL to RGB	HSL إلى RGB	hsl-to-rgb
+008	HEX to CMYK	HEX إلى CMYK	hex-to-cmyk
+009	CMYK to HEX	CMYK إلى HEX	cmyk-to-hex
+010	Universal Color Converter	محول ألوان شامل	color-converter
+🌈 Palettes
+#	English	العربية	Slug
+011	Color Palette Generator	مولد لوحات الألوان	palette-generator
+012	Random Palette Generator	مولد عشوائي	random-palette
+013	Gradient Palette Generator	لوحات متدرجة	gradient-palette
+014	Monochromatic Palette	لوحة أحادية	monochromatic
+015	Complementary Palette	ألوان متكاملة	complementary
+016	Triadic Palette	Triadic	triadic
+017	Analogous Palette	Analogous	analogous
+018	Split Complementary Palette	Split Complementary	split-complementary
+019	Tetradic Palette	Tetradic	tetradic
+020	Brand Palette Generator	ألوان العلامة التجارية	brand-palette
+🌈 Gradients
+#	English	العربية	Slug
+021	CSS Gradient Generator	مولد CSS Gradient	css-gradient
+022	Linear Gradient Generator	Linear Gradient	linear-gradient
+023	Radial Gradient Generator	Radial Gradient	radial-gradient
+024	Conic Gradient Generator	Conic Gradient	conic-gradient
+025	Mesh Gradient Generator	Mesh Gradient	mesh-gradient
+026	Glass Gradient Generator	Glass Gradient	glass-gradient
+027	Gradient CSS Export	تصدير CSS	gradient-css
+028	Gradient SVG Export	تصدير SVG	gradient-svg
+029	Gradient PNG Export	تصدير PNG	gradient-png
+030	Gradient Preview	معاينة Gradient	gradient-preview
+♿ Accessibility
+#	English	العربية	Slug
+031	Contrast Checker	فحص التباين	contrast-checker
+032	WCAG Contrast Checker	WCAG Checker	wcag-checker
+033	Color Blindness Simulator	محاكاة عمى الألوان	color-blindness
+034	Accessible Palette Generator	لوحات متوافقة	accessible-palette
+035	Text Contrast Analyzer	تحليل تباين النص	text-contrast
+036	Dark Mode Contrast Checker	فحص الوضع الداكن	dark-mode-contrast
+037	Light Mode Contrast Checker	فحص الوضع الفاتح	light-mode-contrast
+038	Accessibility Score	درجة الوصول	accessibility-score
+039	Readability Color Checker	ألوان سهلة القراءة	readability-color
+040	Color Compliance Report	تقرير WCAG	wcag-report
+🎨 CSS Generators
+#	English	العربية	Slug
+041	Box Shadow Generator	مولد Box Shadow	box-shadow
+042	Text Shadow Generator	مولد Text Shadow	text-shadow
+043	Border Radius Generator	مولد Border Radius	border-radius
+044	Border Generator	مولد Borders	border-generator
+045	Glassmorphism Generator	Glassmorphism	glassmorphism
+046	Neumorphism Generator	Neumorphism	neumorphism
+047	Clip Path Generator	Clip Path	clip-path
+048	CSS Filter Generator	CSS Filters	css-filters
+049	Backdrop Filter Generator	Backdrop Filter	backdrop-filter
+050	CSS Animation Generator	CSS Animations	css-animation
+🖼 UI Assets
+#	English	العربية	Slug
+051	Favicon Generator	مولد Favicons	favicon-generator
+052	App Icon Generator	مولد أيقونات التطبيقات	app-icon-generator
+053	Social Icon Generator	أيقونات التواصل	social-icons-generator
+054	Avatar Generator	مولد Avatars	avatar-generator
+055	Placeholder Image Generator	صور Placeholder	placeholder-image
+056	QR Code Designer	تصميم QR	qr-designer
+057	Pattern Generator	مولد Patterns	pattern-generator
+058	Blob Generator	مولد Blob	blob-generator
+059	SVG Shape Generator	مولد SVG Shapes	svg-shapes
+060	Background Pattern Generator	مولد الخلفيات	background-pattern
+📐 Layout
+#	English	العربية	Slug
+061	Grid Generator	مولد Grid	grid-generator
+062	Flexbox Generator	مولد Flexbox	flexbox-generator
+063	CSS Grid Generator	مولد CSS Grid	css-grid
+064	Spacing Calculator	حاسبة Spacing	spacing-calculator
+065	Golden Ratio Calculator	النسبة الذهبية	golden-ratio
+066	Aspect Ratio Calculator	حاسبة Aspect Ratio	design-aspect-ratio
+067	Safe Area Generator	Safe Area	safe-area
+068	Responsive Breakpoints	Breakpoints	responsive-breakpoints
+069	Device Frame Preview	إطارات الأجهزة	device-frame
+070	Mockup Generator	مولد Mockups	mockup-generator
+📱 App Design
+#	English	العربية	Slug
+071	iOS Icon Generator	أيقونات iOS	ios-icons
+072	Android Icon Generator	أيقونات Android	android-icons
+073	Splash Screen Generator	Splash Screen	splash-screen-generator
+074	Adaptive Icon Generator	Adaptive Icons	adaptive-icons
+075	Launch Screen Generator	Launch Screen	launch-screen
+076	Material Color Generator	Material Colors	material-colors
+077	Cupertino Color Generator	ألوان Cupertino	cupertino-colors
+078	Theme Generator	مولد Themes	theme-generator
+079	Dark Theme Generator	الوضع الداكن	dark-theme
+080	Light Theme Generator	الوضع الفاتح	light-theme
+🤖 AI Design
+#	English	العربية	Slug
+081	AI Color Palette Generator	توليد لوحات ألوان بالذكاء الاصطناعي	ai-palette
+082	AI Logo Color Generator	ألوان الشعارات	ai-logo-colors
+083	AI Brand Kit Generator	مولد Brand Kit	ai-brand-kit
+084	AI UI Palette Generator	ألوان واجهات	ai-ui-palette
+085	AI Font Pairing	اقتراح الخطوط	ai-font-pairing
+086	AI Theme Generator	توليد Theme	ai-theme
+087	AI Design Critique	تحليل التصميم	ai-design-critique
+088	AI Accessibility Suggestions	اقتراحات إمكانية الوصول	ai-accessibility
+089	AI Mood Board Generator	مولد Mood Board	ai-moodboard
+090	AI Design Assistant	مساعد التصميم	ai-design-assistant
+🛠 Utilities
+#	English	العربية	Slug
+091	SVG Optimizer	تحسين SVG	svg-optimizer
+092	SVG Minifier	ضغط SVG	svg-minifier
+093	SVG Viewer	عارض SVG	svg-viewer
+094	SVG Sprite Generator	مولد SVG Sprite	svg-sprite
+095	ICO Converter	محول ICO	ico-converter
+096	Cursor Generator	مولد Cursor	cursor-generator
+097	Color Toolkit	مجموعة أدوات الألوان	color-toolkit
+098	Design Toolkit	مجموعة أدوات التصميم	design-toolkit
+099	UI Toolkit	مجموعة أدوات UI	ui-toolkit
+100	Designer Workspace	بيئة عمل المصمم	designer-workspace
+💡 قسم أرى أنه سيكون ميزة تنافسية حقيقية
+
+بدلاً من الاكتفاء بأدوات التصميم التقليدية، يمكن إنشاء Design System Hub يضم:
+
+Figma
+Figma Token Generator
+Figma Variables Converter
+Figma Component Analyzer
+Figma Design Token Export
+Tailwind CSS
+Tailwind Color Generator
+Tailwind Palette Builder
+Tailwind Spacing Generator
+Tailwind Config Generator
+Bootstrap
+Bootstrap Theme Builder
+Bootstrap Color Generator
+Material Design
+Material Theme Builder
+Material Elevation Generator
+Material Typography Scale
+Apple Human Interface
+iOS Spacing Generator
+iOS Typography Scale
+SF Symbols Helper
+
+القسم القادم هو Database Tools، وده من أكثر الأقسام اللي بيفتقدها معظم مواقع الأدوات، مع إنه مطلوب جدًا من المطورين وفرق الـ DevOps وData Engineers.
+
+المنافسون:
+
+DB Fiddle (جزئيًا)
+SQL Formatter
+SQLize
+ExtendsClass
+TableConvert
+IT-Tools
+
+لكن مفيش موقع بيجمع كل الأدوات دي في مكان واحد.
+
+Adawaty Master Tools Database v1.0
+Part 19 — Database Tools (001–100)
+
+Category: Database / SQL / NoSQL
+
+🗄 SQL Formatting
+#	English	العربية	Slug
+001	SQL Formatter	تنسيق SQL	sql-formatter
+002	SQL Beautifier	تحسين SQL	sql-beautifier
+003	SQL Minifier	ضغط SQL	sql-minifier
+004	SQL Validator	التحقق من SQL	sql-validator
+005	SQL Syntax Checker	فحص الصياغة	sql-syntax-checker
+006	SQL Query Formatter	تنسيق الاستعلامات	sql-query-formatter
+007	SQL Pretty Print	عرض منسق	sql-pretty-print
+008	SQL Keyword Uppercase	تكبير الكلمات المحجوزة	sql-uppercase
+009	SQL Keyword Lowercase	تصغير الكلمات المحجوزة	sql-lowercase
+010	SQL Comment Cleaner	إزالة التعليقات	sql-comment-cleaner
+🔄 SQL Conversion
+#	English	العربية	Slug
+011	SQL to JSON	SQL إلى JSON	sql-to-json
+012	JSON to SQL	JSON إلى SQL	json-to-sql
+013	SQL to CSV	SQL إلى CSV	sql-to-csv
+014	CSV to SQL	CSV إلى SQL	csv-to-sql
+015	SQL to Excel	SQL إلى Excel	sql-to-excel
+016	Excel to SQL	Excel إلى SQL	excel-to-sql
+017	SQL to XML	SQL إلى XML	sql-to-xml
+018	XML to SQL	XML إلى SQL	xml-to-sql
+019	SQL to YAML	SQL إلى YAML	sql-to-yaml
+020	YAML to SQL	YAML إلى SQL	yaml-to-sql
+📊 Table Tools
+#	English	العربية	Slug
+021	CREATE TABLE Generator	مولد CREATE TABLE	create-table
+022	ALTER TABLE Generator	مولد ALTER TABLE	alter-table
+023	DROP TABLE Generator	مولد DROP TABLE	drop-table
+024	Table Compare	مقارنة الجداول	table-compare-sql
+025	Table Diff	الاختلافات	table-diff
+026	Table Relationship Viewer	عرض العلاقات	table-relations
+027	ER Diagram Generator	مولد ER Diagram	er-diagram
+028	Schema Visualizer	عرض Schema	schema-visualizer
+029	Foreign Key Generator	مولد Foreign Keys	foreign-key
+030	Index Generator	مولد Index	index-generator
+⚡ Query Tools
+#	English	العربية	Slug
+031	SELECT Builder	مولد SELECT	select-builder
+032	INSERT Builder	مولد INSERT	insert-builder
+033	UPDATE Builder	مولد UPDATE	update-builder
+034	DELETE Builder	مولد DELETE	delete-builder
+035	JOIN Builder	مولد JOIN	join-builder
+036	GROUP BY Builder	مولد GROUP BY	groupby-builder
+037	ORDER BY Builder	مولد ORDER BY	orderby-builder
+038	CASE WHEN Builder	مولد CASE WHEN	case-builder
+039	CTE Builder	مولد CTE	cte-builder
+040	Stored Procedure Generator	مولد Stored Procedures	stored-procedure
+📈 Analysis
+#	English	العربية	Slug
+041	Execution Plan Viewer	عرض Execution Plan	execution-plan
+042	Query Cost Estimator	تقدير تكلفة الاستعلام	query-cost
+043	Missing Index Finder	كشف Indexes المفقودة	missing-index
+044	Duplicate Index Finder	كشف التكرار	duplicate-index
+045	Unused Index Detector	كشف Index غير مستخدم	unused-index
+046	SQL Performance Analyzer	تحليل الأداء	sql-performance
+047	Slow Query Analyzer	تحليل الاستعلامات البطيئة	slow-query
+048	Deadlock Visualizer	عرض Deadlocks	deadlock-visualizer
+049	Transaction Analyzer	تحليل Transactions	transaction-analyzer
+050	Database Health Report	تقرير صحة قاعدة البيانات	database-health
+🌐 NoSQL
+#	English	العربية	Slug
+051	MongoDB Query Builder	مولد MongoDB	mongodb-builder
+052	MongoDB Aggregation Builder	Aggregation Builder	mongodb-aggregation
+053	BSON Viewer	عارض BSON	bson-viewer
+054	JSON Document Formatter	تنسيق المستندات	json-document
+055	Redis Command Builder	مولد Redis	redis-builder
+056	Redis Key Inspector	فحص Redis Keys	redis-key
+057	Elasticsearch Query Builder	مولد Elasticsearch	elasticsearch-builder
+058	Cassandra Query Builder	مولد Cassandra	cassandra-builder
+059	DynamoDB Query Builder	مولد DynamoDB	dynamodb-builder
+060	Firestore Query Builder	مولد Firestore	firestore-builder
+🔄 Migration
+#	English	العربية	Slug
+061	MySQL to PostgreSQL	MySQL إلى PostgreSQL	mysql-postgres
+062	PostgreSQL to MySQL	PostgreSQL إلى MySQL	postgres-mysql
+063	SQL Server to MySQL	SQL Server إلى MySQL	sqlserver-mysql
+064	Oracle to PostgreSQL	Oracle إلى PostgreSQL	oracle-postgres
+065	SQLite Converter	محول SQLite	sqlite-converter
+066	Database Schema Converter	محول Schema	schema-converter
+067	Charset Converter	تحويل الترميز	charset-converter
+068	Collation Converter	تحويل Collation	collation-converter
+069	Migration Script Generator	مولد سكربتات الترحيل	migration-script
+070	Rollback Script Generator	مولد Rollback	rollback-script
+📋 Sample Data
+#	English	العربية	Slug
+071	Fake Data Generator	مولد بيانات وهمية	fake-data
+072	SQL Seed Generator	مولد Seed Data	seed-generator
+073	Random User Generator	مولد مستخدمين	random-users
+074	Address Generator	مولد العناوين	address-generator
+075	Phone Generator	مولد أرقام الهواتف	phone-generator
+076	Company Generator	مولد الشركات	company-generator
+077	Product Generator	مولد المنتجات	product-generator
+078	Invoice Data Generator	مولد بيانات الفواتير	invoice-data
+079	Order Data Generator	مولد الطلبات	order-data
+080	Database Seeder	مولد قواعد البيانات التجريبية	database-seeder
+🛠 Utilities
+#	English	العربية	Slug
+081	Connection String Builder	مولد Connection String	connection-string
+082	SQL Cheat Sheet	مرجع SQL	sql-cheatsheet
+083	Reserved Keywords Viewer	الكلمات المحجوزة	reserved-keywords
+084	Database Version Detector	كشف الإصدار	db-version
+085	Schema Compare	مقارنة Schema	schema-compare
+086	Database Metadata Viewer	عرض Metadata	db-metadata
+087	SQL Script Splitter	تقسيم السكربتات	sql-splitter
+088	SQL Script Merger	دمج السكربتات	sql-merger
+089	Database Toolkit	مجموعة أدوات قواعد البيانات	database-toolkit
+090	SQL Workspace	بيئة عمل SQL	sql-workspace
+091	Prisma Schema Generator	مولد Prisma	prisma-schema
+092	Drizzle Schema Generator	مولد Drizzle ORM	drizzle-schema
+093	TypeORM Entity Generator	مولد TypeORM	typeorm-entity
+094	Sequelize Model Generator	مولد Sequelize	sequelize-model
+095	Knex Migration Generator	مولد Knex Migration	knex-migration
+096	Database Documentation Generator	مولد توثيق قاعدة البيانات	db-docs
+097	SQL Linter	مدقق SQL	sql-linter
+098	SQL Query Explainer	شرح الاستعلامات	sql-explainer
+099	Database Workspace	بيئة قواعد البيانات	database-workspace
+100	Ultimate Database Toolkit	مجموعة قواعد البيانات الشاملة	ultimate-database
+⭐️ قسم أنصح بإضافته بقوة
+ORM Tools
+Prisma Playground
+Prisma Query Builder
+Entity Framework Helper
+Hibernate Query Builder
+Laravel Eloquent Builder
+Django ORM Builder
+SQLAlchemy Query Builder
+Data Engineering
+ETL Pipeline Generator
+CSV Mapping Tool
+Data Masking Tool
+Data Anonymizer
+SQL Data Lineage Viewer
+Data Quality Checker
+AI Database
+AI SQL Generator
+AI SQL Optimizer
+AI Explain Query
+AI Database Design
+AI ER Diagram Generator
+AI Schema Normalizer
+
+ممتاز. القسم القادم هو **Database Tools**، وده من أكثر الأقسام اللي بيفتقدها معظم مواقع الأدوات، مع إنه مطلوب جدًا من المطورين وفرق الـ DevOps وData Engineers.
+
+المنافسون:
+
+* DB Fiddle (جزئيًا)
+* SQL Formatter
+* SQLize
+* ExtendsClass
+* TableConvert
+* IT-Tools
+
+لكن مفيش موقع بيجمع كل الأدوات دي في مكان واحد.
+
+---
+
+# Adawaty Master Tools Database v1.0
+
+## Part 19 — Database Tools (001–100)
+
+> **Category: Database / SQL / NoSQL**
+
+---
+
+# 🗄 SQL Formatting
+
+| #   | English               | العربية                | Slug                |
+| --- | --------------------- | ---------------------- | ------------------- |
+| 001 | SQL Formatter         | تنسيق SQL              | sql-formatter       |
+| 002 | SQL Beautifier        | تحسين SQL              | sql-beautifier      |
+| 003 | SQL Minifier          | ضغط SQL                | sql-minifier        |
+| 004 | SQL Validator         | التحقق من SQL          | sql-validator       |
+| 005 | SQL Syntax Checker    | فحص الصياغة            | sql-syntax-checker  |
+| 006 | SQL Query Formatter   | تنسيق الاستعلامات      | sql-query-formatter |
+| 007 | SQL Pretty Print      | عرض منسق               | sql-pretty-print    |
+| 008 | SQL Keyword Uppercase | تكبير الكلمات المحجوزة | sql-uppercase       |
+| 009 | SQL Keyword Lowercase | تصغير الكلمات المحجوزة | sql-lowercase       |
+| 010 | SQL Comment Cleaner   | إزالة التعليقات        | sql-comment-cleaner |
+
+---
+
+# 🔄 SQL Conversion
+
+| #   | English      | العربية       | Slug         |
+| --- | ------------ | ------------- | ------------ |
+| 011 | SQL to JSON  | SQL إلى JSON  | sql-to-json  |
+| 012 | JSON to SQL  | JSON إلى SQL  | json-to-sql  |
+| 013 | SQL to CSV   | SQL إلى CSV   | sql-to-csv   |
+| 014 | CSV to SQL   | CSV إلى SQL   | csv-to-sql   |
+| 015 | SQL to Excel | SQL إلى Excel | sql-to-excel |
+| 016 | Excel to SQL | Excel إلى SQL | excel-to-sql |
+| 017 | SQL to XML   | SQL إلى XML   | sql-to-xml   |
+| 018 | XML to SQL   | XML إلى SQL   | xml-to-sql   |
+| 019 | SQL to YAML  | SQL إلى YAML  | sql-to-yaml  |
+| 020 | YAML to SQL  | YAML إلى SQL  | yaml-to-sql  |
+
+---
+
+# 📊 Table Tools
+
+| #   | English                   | العربية           | Slug              |
+| --- | ------------------------- | ----------------- | ----------------- |
+| 021 | CREATE TABLE Generator    | مولد CREATE TABLE | create-table      |
+| 022 | ALTER TABLE Generator     | مولد ALTER TABLE  | alter-table       |
+| 023 | DROP TABLE Generator      | مولد DROP TABLE   | drop-table        |
+| 024 | Table Compare             | مقارنة الجداول    | table-compare-sql |
+| 025 | Table Diff                | الاختلافات        | table-diff        |
+| 026 | Table Relationship Viewer | عرض العلاقات      | table-relations   |
+| 027 | ER Diagram Generator      | مولد ER Diagram   | er-diagram        |
+| 028 | Schema Visualizer         | عرض Schema        | schema-visualizer |
+| 029 | Foreign Key Generator     | مولد Foreign Keys | foreign-key       |
+| 030 | Index Generator           | مولد Index        | index-generator   |
+
+---
+
+# ⚡ Query Tools
+
+| #   | English                    | العربية                | Slug             |
+| --- | -------------------------- | ---------------------- | ---------------- |
+| 031 | SELECT Builder             | مولد SELECT            | select-builder   |
+| 032 | INSERT Builder             | مولد INSERT            | insert-builder   |
+| 033 | UPDATE Builder             | مولد UPDATE            | update-builder   |
+| 034 | DELETE Builder             | مولد DELETE            | delete-builder   |
+| 035 | JOIN Builder               | مولد JOIN              | join-builder     |
+| 036 | GROUP BY Builder           | مولد GROUP BY          | groupby-builder  |
+| 037 | ORDER BY Builder           | مولد ORDER BY          | orderby-builder  |
+| 038 | CASE WHEN Builder          | مولد CASE WHEN         | case-builder     |
+| 039 | CTE Builder                | مولد CTE               | cte-builder      |
+| 040 | Stored Procedure Generator | مولد Stored Procedures | stored-procedure |
+
+---
+
+# 📈 Analysis
+
+| #   | English                  | العربية                   | Slug                 |
+| --- | ------------------------ | ------------------------- | -------------------- |
+| 041 | Execution Plan Viewer    | عرض Execution Plan        | execution-plan       |
+| 042 | Query Cost Estimator     | تقدير تكلفة الاستعلام     | query-cost           |
+| 043 | Missing Index Finder     | كشف Indexes المفقودة      | missing-index        |
+| 044 | Duplicate Index Finder   | كشف التكرار               | duplicate-index      |
+| 045 | Unused Index Detector    | كشف Index غير مستخدم      | unused-index         |
+| 046 | SQL Performance Analyzer | تحليل الأداء              | sql-performance      |
+| 047 | Slow Query Analyzer      | تحليل الاستعلامات البطيئة | slow-query           |
+| 048 | Deadlock Visualizer      | عرض Deadlocks             | deadlock-visualizer  |
+| 049 | Transaction Analyzer     | تحليل Transactions        | transaction-analyzer |
+| 050 | Database Health Report   | تقرير صحة قاعدة البيانات  | database-health      |
+
+---
+
+# 🌐 NoSQL
+
+| #   | English                     | العربية             | Slug                  |
+| --- | --------------------------- | ------------------- | --------------------- |
+| 051 | MongoDB Query Builder       | مولد MongoDB        | mongodb-builder       |
+| 052 | MongoDB Aggregation Builder | Aggregation Builder | mongodb-aggregation   |
+| 053 | BSON Viewer                 | عارض BSON           | bson-viewer           |
+| 054 | JSON Document Formatter     | تنسيق المستندات     | json-document         |
+| 055 | Redis Command Builder       | مولد Redis          | redis-builder         |
+| 056 | Redis Key Inspector         | فحص Redis Keys      | redis-key             |
+| 057 | Elasticsearch Query Builder | مولد Elasticsearch  | elasticsearch-builder |
+| 058 | Cassandra Query Builder     | مولد Cassandra      | cassandra-builder     |
+| 059 | DynamoDB Query Builder      | مولد DynamoDB       | dynamodb-builder      |
+| 060 | Firestore Query Builder     | مولد Firestore      | firestore-builder     |
+
+---
+
+# 🔄 Migration
+
+| #   | English                    | العربية               | Slug                |
+| --- | -------------------------- | --------------------- | ------------------- |
+| 061 | MySQL to PostgreSQL        | MySQL إلى PostgreSQL  | mysql-postgres      |
+| 062 | PostgreSQL to MySQL        | PostgreSQL إلى MySQL  | postgres-mysql      |
+| 063 | SQL Server to MySQL        | SQL Server إلى MySQL  | sqlserver-mysql     |
+| 064 | Oracle to PostgreSQL       | Oracle إلى PostgreSQL | oracle-postgres     |
+| 065 | SQLite Converter           | محول SQLite           | sqlite-converter    |
+| 066 | Database Schema Converter  | محول Schema           | schema-converter    |
+| 067 | Charset Converter          | تحويل الترميز         | charset-converter   |
+| 068 | Collation Converter        | تحويل Collation       | collation-converter |
+| 069 | Migration Script Generator | مولد سكربتات الترحيل  | migration-script    |
+| 070 | Rollback Script Generator  | مولد Rollback         | rollback-script     |
+
+---
+
+# 📋 Sample Data
+
+| #   | English                | العربية                       | Slug              |
+| --- | ---------------------- | ----------------------------- | ----------------- |
+| 071 | Fake Data Generator    | مولد بيانات وهمية             | fake-data         |
+| 072 | SQL Seed Generator     | مولد Seed Data                | seed-generator    |
+| 073 | Random User Generator  | مولد مستخدمين                 | random-users      |
+| 074 | Address Generator      | مولد العناوين                 | address-generator |
+| 075 | Phone Generator        | مولد أرقام الهواتف            | phone-generator   |
+| 076 | Company Generator      | مولد الشركات                  | company-generator |
+| 077 | Product Generator      | مولد المنتجات                 | product-generator |
+| 078 | Invoice Data Generator | مولد بيانات الفواتير          | invoice-data      |
+| 079 | Order Data Generator   | مولد الطلبات                  | order-data        |
+| 080 | Database Seeder        | مولد قواعد البيانات التجريبية | database-seeder   |
+
+---
+
+# 🛠 Utilities
+
+| #   | English                          | العربية                       | Slug               |
+| --- | -------------------------------- | ----------------------------- | ------------------ |
+| 081 | Connection String Builder        | مولد Connection String        | connection-string  |
+| 082 | SQL Cheat Sheet                  | مرجع SQL                      | sql-cheatsheet     |
+| 083 | Reserved Keywords Viewer         | الكلمات المحجوزة              | reserved-keywords  |
+| 084 | Database Version Detector        | كشف الإصدار                   | db-version         |
+| 085 | Schema Compare                   | مقارنة Schema                 | schema-compare     |
+| 086 | Database Metadata Viewer         | عرض Metadata                  | db-metadata        |
+| 087 | SQL Script Splitter              | تقسيم السكربتات               | sql-splitter       |
+| 088 | SQL Script Merger                | دمج السكربتات                 | sql-merger         |
+| 089 | Database Toolkit                 | مجموعة أدوات قواعد البيانات   | database-toolkit   |
+| 090 | SQL Workspace                    | بيئة عمل SQL                  | sql-workspace      |
+| 091 | Prisma Schema Generator          | مولد Prisma                   | prisma-schema      |
+| 092 | Drizzle Schema Generator         | مولد Drizzle ORM              | drizzle-schema     |
+| 093 | TypeORM Entity Generator         | مولد TypeORM                  | typeorm-entity     |
+| 094 | Sequelize Model Generator        | مولد Sequelize                | sequelize-model    |
+| 095 | Knex Migration Generator         | مولد Knex Migration           | knex-migration     |
+| 096 | Database Documentation Generator | مولد توثيق قاعدة البيانات     | db-docs            |
+| 097 | SQL Linter                       | مدقق SQL                      | sql-linter         |
+| 098 | SQL Query Explainer              | شرح الاستعلامات               | sql-explainer      |
+| 099 | Database Workspace               | بيئة قواعد البيانات           | database-workspace |
+| 100 | Ultimate Database Toolkit        | مجموعة قواعد البيانات الشاملة | ultimate-database  |
+
+---
+
+# ⭐️ قسم أنصح بإضافته بقوة
+
+## ORM Tools
+
+* Prisma Playground
+* Prisma Query Builder
+* Entity Framework Helper
+* Hibernate Query Builder
+* Laravel Eloquent Builder
+* Django ORM Builder
+* SQLAlchemy Query Builder
+
+## Data Engineering
+
+* ETL Pipeline Generator
+* CSV Mapping Tool
+* Data Masking Tool
+* Data Anonymizer
+* SQL Data Lineage Viewer
+* Data Quality Checker
+
+## AI Database
+
+* AI SQL Generator
+* AI SQL Optimizer
+* AI Explain Query
+* AI Database Design
+* AI ER Diagram Generator
+* AI Schema Normalizer
+
+---
+
+# 📊 الإحصائية الحالية
+
+| القسم                |   عدد الأدوات |
+| -------------------- | ------------: |
+| PDF                  |           200 |
+| Images               |           200 |
+| Video                |           200 |
+| Audio                |           200 |
+| Developer            |           100 |
+| Security             |           100 |
+| Networking           |           100 |
+| SEO                  |           100 |
+| Text & Documents     |           100 |
+| Calculators          |           100 |
+| Unit Converters      |           100 |
+| Social Media         |           100 |
+| Office & Spreadsheet |           100 |
+| Design & Color       |           100 |
+| Database             |           100 |
+| **الإجمالي**         | **1900 أداة** |
+
+## توصية مهمة
+
+بعد الوصول إلى **Adawaty** يمكن أن يكون أكثر من مجرد موقع أدوات. يمكن تقسيمه مستقبلًا إلى "مراكز" (Hubs) مثل:
+
+* Creator Hub
+* Developer Hub
+* Office Hub
+* SEO Hub
+* Security Hub
+* AI Hub
+* Business Hub
+
+كل Hub يجمع الأدوات ذات الصلة مع صفحات تعليمية وأمثلة عملية، مما يحسن تجربة المستخدم والـ SEO ويزيد مدة بقاء الزائر داخل الموقع.
+
+
+
+القسم التالي في رأيي من أكثر الأقسام التي تنقص مواقع الأدوات الحالية، وهو Cloud & DevOps Tools.
+
+هذا القسم يجذب:
+
+DevOps Engineers
+Cloud Engineers
+Platform Engineers
+SRE
+Kubernetes Admins
+AWS / Azure / GCP Engineers
+
+والمنافسون لا يجمعونه في مكان واحد، بل هو موزع بين مواقع مثل:
+
+Kubernetes.io
+Helm
+Terraform
+IT-Tools
+DevToys
+JSON Crack
+YAML Validator
+K8s Lens
+Adawaty Master Tools Database v1.0
+Part 20 — Cloud & DevOps Tools (001–100)
+
+Category: Cloud / DevOps
+
+☸ Kubernetes
+#	English	العربية	Slug
+001	Kubernetes YAML Validator	التحقق من YAML	k8s-yaml-validator
+002	Kubernetes Manifest Generator	مولد Manifest	k8s-manifest
+003	Deployment Generator	مولد Deployment	deployment-generator
+004	Service Generator	مولد Service	service-generator
+005	Ingress Generator	مولد Ingress	ingress-generator
+006	ConfigMap Generator	مولد ConfigMap	configmap-generator
+007	Secret Generator	مولد Secret	secret-generator
+008	Persistent Volume Generator	مولد PV	pv-generator
+009	Persistent Volume Claim Generator	مولد PVC	pvc-generator
+010	Kustomize Generator	مولد Kustomize	kustomize-generator
+🐳 Docker
+#	English	العربية	Slug
+011	Dockerfile Generator	مولد Dockerfile	dockerfile-generator
+012	Docker Compose Generator	مولد Docker Compose	docker-compose
+013	Docker Compose Validator	التحقق من Compose	docker-compose-validator
+014	Docker Ignore Generator	مولد .dockerignore	dockerignore
+015	Docker Run Builder	مولد docker run	docker-run
+016	Docker Inspect Viewer	عارض Inspect	docker-inspect
+017	Docker Image Analyzer	تحليل Image	docker-image
+018	Docker Tag Helper	مساعد Tags	docker-tag
+019	Docker Layer Viewer	عرض Layers	docker-layers
+020	Docker Cheat Sheet	مرجع Docker	docker-cheatsheet
+🌍 Terraform
+#	English	العربية	Slug
+021	Terraform Formatter	تنسيق Terraform	terraform-format
+022	Terraform Validator	التحقق من Terraform	terraform-validator
+023	Terraform Module Generator	مولد Modules	terraform-module
+024	Terraform Variable Generator	مولد Variables	terraform-variables
+025	Terraform Output Generator	مولد Outputs	terraform-output
+026	Terraform Backend Generator	مولد Backend	terraform-backend
+027	Terraform Provider Generator	مولد Providers	terraform-provider
+028	Terraform Plan Viewer	عارض Plan	terraform-plan
+029	Terraform Graph Viewer	عارض Graph	terraform-graph
+030	Terraform Cheat Sheet	مرجع Terraform	terraform-cheatsheet
+☁ AWS
+#	English	العربية	Slug
+031	AWS ARN Decoder	محلل ARN	aws-arn
+032	AWS Policy Formatter	تنسيق IAM Policy	aws-policy
+033	AWS Policy Validator	التحقق من IAM Policy	aws-policy-validator
+034	AWS IAM Policy Generator	مولد IAM Policy	aws-iam
+035	AWS CLI Command Builder	مولد أوامر CLI	aws-cli
+036	AWS Cron Builder	مولد CloudWatch Cron	aws-cron
+037	AWS Pricing Estimator	تقدير التكلفة	aws-pricing
+038	AWS Region Finder	مناطق AWS	aws-region
+039	AWS Service Mapper	خريطة الخدمات	aws-services
+040	AWS Architecture Builder	مولد المعمارية	aws-architecture
+☁ Azure
+#	English	العربية	Slug
+041	Azure Resource ID Parser	محلل Resource ID	azure-resource
+042	Azure ARM Template Validator	التحقق من ARM	azure-arm
+043	Azure Bicep Validator	التحقق من Bicep	azure-bicep
+044	Azure CLI Builder	مولد Azure CLI	azure-cli
+045	Azure Pricing Estimator	تقدير التكلفة	azure-pricing
+046	Azure Region Finder	مناطق Azure	azure-region
+047	Azure VM Size Finder	أحجام VM	azure-vm
+048	Azure Storage Calculator	حاسبة التخزين	azure-storage
+049	Azure Naming Helper	قواعد التسمية	azure-naming
+050	Azure Architecture Builder	مولد المعمارية	azure-architecture
+☁ Google Cloud
+#	English	العربية	Slug
+051	GCP IAM Policy Viewer	عرض IAM	gcp-iam
+052	GCP Project ID Helper	مساعد Project ID	gcp-project
+053	GCP Region Finder	مناطق GCP	gcp-region
+054	GCP Pricing Estimator	تقدير التكلفة	gcp-pricing
+055	GCP CLI Builder	مولد gcloud	gcloud-builder
+056	GCP Architecture Builder	مولد المعمارية	gcp-architecture
+057	Cloud Storage Calculator	حاسبة التخزين	gcp-storage
+058	BigQuery Query Helper	مساعد BigQuery	bigquery-helper
+059	Pub/Sub Message Builder	مولد Pub/Sub	pubsub-builder
+060	Cloud Run Helper	مساعد Cloud Run	cloud-run-helper
+🚀 CI/CD
+#	English	العربية	Slug
+061	GitHub Actions YAML Generator	مولد GitHub Actions	github-actions
+062	GitLab CI Generator	مولد GitLab CI	gitlab-ci
+063	Azure Pipeline Generator	مولد Azure Pipeline	azure-pipeline
+064	Jenkinsfile Generator	مولد Jenkinsfile	jenkinsfile
+065	CircleCI Config Generator	مولد CircleCI	circleci
+066	Bitbucket Pipeline Generator	مولد Bitbucket	bitbucket-pipeline
+067	Drone CI Generator	مولد Drone CI	drone-ci
+068	Pipeline Visualizer	عارض Pipeline	pipeline-visualizer
+069	YAML Pipeline Validator	التحقق من Pipeline	pipeline-validator
+070	CI/CD Cheat Sheet	مرجع CI/CD	cicd-cheatsheet
+📦 Infrastructure
+#	English	العربية	Slug
+071	Helm Chart Generator	مولد Helm	helm-chart
+072	Helm Values Editor	محرر Values	helm-values
+073	Helm Chart Validator	التحقق من Helm	helm-validator
+074	Ansible Playbook Generator	مولد Playbook	ansible-playbook
+075	Ansible Inventory Generator	مولد Inventory	ansible-inventory
+076	Vagrantfile Generator	مولد Vagrantfile	vagrantfile
+077	Nomad Job Generator	مولد Nomad	nomad-job
+078	Consul KV Viewer	عارض Consul	consul-kv
+079	Vault Policy Generator	مولد Vault Policy	vault-policy
+080	Infrastructure Diagram Generator	مولد Infrastructure Diagram	infra-diagram
+🛠 Utilities
+#	English	العربية	Slug
+081	YAML Formatter	تنسيق YAML	yaml-formatter-devops
+082	YAML Diff	مقارنة YAML	yaml-diff-devops
+083	YAML Merge	دمج YAML	yaml-merge-devops
+084	Environment Variable Generator	مولد .env	env-generator
+085	Secret Encoder	ترميز Secrets	secret-encoder
+086	Cron Expression Builder	مولد Cron	cron-builder-devops
+087	Semantic Version Generator	مولد Semantic Version	semver-generator
+088	Release Notes Generator	مولد Release Notes	release-notes
+089	Deployment Checklist	قائمة النشر	deployment-checklist
+090	Incident Timeline Generator	مولد Timeline	incident-timeline
+091	Runbook Generator	مولد Runbook	runbook-generator
+092	SRE Error Budget Calculator	حاسبة Error Budget	error-budget
+093	SLA/SLO Calculator	حاسبة SLA/SLO	sla-slo
+094	Service Dependency Mapper	خريطة الخدمات	service-dependency
+095	Cloud Cost Summary	ملخص التكلفة	cloud-cost-summary
+096	Kubernetes Resource Calculator	حاسبة موارد Kubernetes	k8s-resource
+097	DevOps Toolkit	مجموعة أدوات DevOps	devops-toolkit
+098	Cloud Toolkit	مجموعة أدوات Cloud	cloud-toolkit
+099	Platform Engineering Hub	منصة Platform Engineering	platform-hub
+100	Ultimate DevOps Workspace	بيئة DevOps متكاملة	ultimate-devops
+🔥 قسم متقدم أوصي به بشدة
+
+لو أردت أن يصبح Adawaty مرجعًا لمهندسي الـ Cloud، أضف لاحقًا:
+
+Observability
+Prometheus Query Builder
+Grafana Dashboard Builder
+Loki Log Query Builder
+Jaeger Trace Viewer
+OpenTelemetry Config Generator
+GitOps
+ArgoCD Application Generator
+FluxCD Config Builder
+Helm Release Diff
+Kustomize Diff Viewer
+AI DevOps
+AI Dockerfile Optimizer
+AI Kubernetes YAML Generator
+AI Terraform Generator
+AI CI/CD Pipeline Builder
+AI Incident RCA Generator
+AI Log Analyzer
+
+
+القسم القادم من أكثر الأقسام ربحية إذا استهدفت أصحاب المتاجر الإلكترونية، وهو:
+
+🛒 E-commerce & Marketplace Tools
+
+هذا القسم يخدم:
+
+أصحاب Shopify
+WooCommerce
+Amazon
+Etsy
+eBay
+TikTok Shop
+Noon
+Jumia
+سلة
+زد
+
+المنافسون:
+
+Shopify Tools
+Helium10 (جزئيًا)
+JungleScout (جزئيًا)
+TinyIMG
+SmartScout
+Canva
+SellerSprite
+
+لكن لا يوجد موقع يجمع الأدوات المجانية كلها.
+
+Adawaty Master Tools Database v1.0
+Part 21 — E-commerce & Marketplace Tools (001–100)
+
+Category: E-commerce
+
+🛍 Product Listings
+#	English	العربية	Slug
+001	Product Title Generator	مولد عناوين المنتجات	product-title
+002	Product Description Generator	مولد وصف المنتجات	product-description
+003	Bullet Points Generator	مولد Bullet Points	bullet-generator
+004	Product Features Generator	مولد المميزات	product-features
+005	Product Specifications Generator	مولد المواصفات	product-specs
+006	SEO Product Description	وصف متوافق مع SEO	seo-product
+007	Short Product Description	وصف مختصر	short-description
+008	Long Product Description	وصف طويل	long-description
+009	Product FAQ Generator	مولد FAQ	product-faq
+010	Product Summary Generator	ملخص المنتج	product-summary
+🖼 Product Images
+#	English	العربية	Slug
+011	Remove Product Background	إزالة الخلفية	product-remove-bg
+012	White Background Generator	خلفية بيضاء	white-background-product
+013	Product Shadow Generator	إضافة ظل	product-shadow
+014	Product Mockup Generator	مولد Mockups	product-mockup
+015	Lifestyle Image Generator	صور Lifestyle	lifestyle-images
+016	Product Watermark	علامة مائية	product-watermark
+017	Marketplace Image Resizer	مقاسات المتاجر	marketplace-resizer
+018	Amazon Image Checker	فحص صور أمازون	amazon-image
+019	Image Compression for Stores	ضغط الصور	store-image-compress
+020	Product Gallery Builder	معرض الصور	product-gallery
+💰 Pricing
+#	English	العربية	Slug
+021	Profit Calculator	حاسبة الربح	store-profit
+022	Margin Calculator	حاسبة الهامش	store-margin
+023	Markup Calculator	حاسبة Markup	store-markup
+024	Selling Price Calculator	سعر البيع	selling-price
+025	Discount Calculator	حاسبة الخصومات	store-discount
+026	Coupon Generator	مولد كوبونات	coupon-generator
+027	VAT Calculator	ضريبة القيمة المضافة	store-vat
+028	Marketplace Fee Calculator	رسوم المتاجر	marketplace-fees
+029	Break-even Calculator	نقطة التعادل	break-even
+030	ROI Calculator	العائد على الاستثمار	store-roi
+📦 Inventory
+#	English	العربية	Slug
+031	SKU Generator	مولد SKU	sku-generator
+032	Barcode Generator	مولد Barcode	barcode-generator
+033	QR Code Generator	مولد QR	product-qr
+034	Inventory Tracker	متابعة المخزون	inventory-tracker
+035	Stock Alert Calculator	تنبيهات المخزون	stock-alert
+036	Reorder Point Calculator	نقطة إعادة الطلب	reorder-point
+037	ABC Inventory Analysis	تحليل ABC	abc-analysis
+038	Product ID Generator	مولد Product ID	product-id
+039	Batch Number Generator	مولد Batch	batch-number
+040	Warehouse Label Generator	ملصقات المخازن	warehouse-label
+📈 Marketing
+#	English	العربية	Slug
+041	Product Tags Generator	مولد Tags	product-tags
+042	Marketplace Keywords	الكلمات المفتاحية	marketplace-keywords
+043	Google Shopping Feed Generator	مولد Google Shopping Feed	shopping-feed
+044	Facebook Catalog Feed	مولد Facebook Catalog	facebook-feed
+045	Pinterest Product Pins	مولد Pins	product-pins
+046	Email Subject Generator	عناوين البريد	email-subject
+047	Promotion Text Generator	مولد نصوص العروض	promotion-text
+048	Coupon Banner Generator	بانر الكوبونات	coupon-banner
+049	Offer Countdown Generator	عداد العروض	offer-countdown
+050	Marketing Calendar	تقويم التسويق	marketing-calendar
+🏪 Shopify / WooCommerce
+#	English	العربية	Slug
+051	Shopify SEO Analyzer	تحليل SEO	shopify-seo
+052	Shopify Liquid Helper	مساعد Liquid	liquid-helper
+053	Shopify Section Generator	مولد Sections	shopify-sections
+054	WooCommerce Product Import	استيراد المنتجات	woocommerce-import
+055	WooCommerce CSV Generator	مولد CSV	woocommerce-csv
+056	Product Review Generator	مولد المراجعات	review-generator
+057	Size Chart Generator	مولد مقاسات	size-chart
+058	Shipping Calculator	حاسبة الشحن	shipping-calculator
+059	Return Policy Generator	سياسة الإرجاع	return-policy
+060	Store Policy Generator	سياسات المتجر	store-policy
+🌍 Marketplaces
+#	English	العربية	Slug
+061	Amazon Listing Optimizer	تحسين صفحات Amazon	amazon-listing
+062	Amazon Bullet Generator	مولد Bullet	amazon-bullets
+063	Amazon Search Terms Generator	مولد Search Terms	amazon-search-terms
+064	Amazon A+ Content Planner	مخطط محتوى A+	amazon-a-plus
+065	eBay Listing Builder	منشئ صفحات eBay	ebay-listing
+066	Etsy Tags Generator	مولد Etsy Tags	etsy-tags
+067	Etsy Description Generator	مولد وصف Etsy	etsy-description
+068	TikTok Shop Description	وصف TikTok Shop	tiktok-shop
+069	Jumia Listing Generator	مولد صفحات Jumia	jumia-listing
+070	Noon Listing Generator	مولد صفحات Noon	noon-listing
+🤖 AI Commerce
+#	English	العربية	Slug
+071	AI Product Description	وصف المنتج بالذكاء الاصطناعي	ai-product-description
+072	AI Product Title	عنوان المنتج بالذكاء الاصطناعي	ai-product-title
+073	AI Product Images	تحسين صور المنتجات	ai-product-images
+074	AI Product FAQ	أسئلة المنتج	ai-product-faq
+075	AI Product Comparison	مقارنة المنتجات	ai-product-comparison
+076	AI Upsell Generator	اقتراح منتجات إضافية	ai-upsell
+077	AI Cross-sell Generator	اقتراح منتجات مكملة	ai-cross-sell
+078	AI Bundle Generator	مولد الباقات	ai-bundle
+079	AI Store Assistant	مساعد المتجر	ai-store-assistant
+080	AI Commerce Toolkit	مجموعة أدوات التجارة	ai-commerce-toolkit
+🛠 Utilities
+#	English	العربية	Slug
+081	EAN Generator	مولد EAN	ean-generator
+082	UPC Generator	مولد UPC	upc-generator
+083	GTIN Validator	التحقق من GTIN	gtin-validator
+084	HS Code Finder	البحث عن HS Code	hs-code-finder
+085	Invoice Generator	مولد الفواتير	store-invoice
+086	Packing Slip Generator	Packing Slip	packing-slip
+087	Purchase Order Generator	Purchase Order	purchase-order
+088	Store Analytics Dashboard	لوحة تحليلات	store-dashboard
+089	E-commerce Toolkit	مجموعة أدوات التجارة	ecommerce-toolkit
+090	Marketplace Workspace	بيئة عمل المتاجر	marketplace-workspace
+091	Product Feed Validator	التحقق من Product Feed	product-feed-validator
+092	Feed Mapping Tool	ربط الحقول	feed-mapping-tool
+093	Variant Generator	مولد متغيرات المنتجات	variant-generator
+094	Bulk Price Updater	تحديث الأسعار الجماعي	bulk-price-updater
+095	Bulk Inventory Updater	تحديث المخزون الجماعي	bulk-inventory-updater
+096	Order CSV Formatter	تنسيق ملفات الطلبات	order-csv-formatter
+097	Customer CSV Cleaner	تنظيف بيانات العملاء	customer-csv-cleaner
+098	Marketplace Toolkit	مجموعة أدوات المتاجر	marketplace-toolkit
+099	Seller Workspace	بيئة عمل البائع	seller-workspace
+100	Ultimate Commerce Hub	مركز التجارة الإلكترونية	ultimate-commerce-hub
+⭐️ أقسام متقدمة أوصي بها
+Amazon Seller Hub
+FBA Fee Calculator
+FBM Profit Calculator
+BSR Estimator
+ACoS Calculator
+TACoS Calculator
+Inventory Age Calculator
+Restock Calculator
+Shopify AI
+AI Theme Generator
+AI Store Audit
+AI Collection Generator
+AI Product Categorizer
+Marketplace Analytics
+Profit Dashboard
+Inventory Dashboard
+Sales Forecast
+Seasonal Trend Calculator
+
+🗜️ Archive & Compression Tools
+🌐 Web & Browser Utilities
+🤖 AI Productivity Suite
+📧 Email Tools
+📱 Mobile App Tools
+🧪 Scientific & Engineering Tools
+🎓 Education & Learning Tools
+💼 Business & HR Tools
+
+هذه الأقسام ستغطي تقريبًا جميع الفئات الرئيسية للمستخدمين، وتحوّل Adawaty إلى منصة أدوات شاملة وليست مجرد موقع تحويل ملفات
+
+
+
+القسم التالي هو من أكثر الأقسام استخدامًا يوميًا، لكنه غالبًا مهمل في مواقع الأدوات العامة.
+
+📦 Archive & Compression Tools
+
+هذا القسم يخدم:
+
+مستخدمي Windows / macOS / Linux
+المطورين
+مسؤولي الأنظمة
+الشركات
+الطلاب
+
+المنافسون:
+
+ezyZip
+Extract.me
+Aspose
+CloudConvert (جزئيًا)
+Zamzar (جزئيًا)
+PeaZip
+7-Zip
+
+لكن لا يوجد موقع يجمع أدوات الأرشفة والتحليل والإصلاح معًا.
+
+Adawaty Master Tools Database v1.0
+Part 22 — Archive & Compression Tools (001–100)
+
+Category: Archive & Compression
+
+📦 ZIP
+#	English	العربية	Slug
+001	Create ZIP Archive	إنشاء ملف ZIP	create-zip
+002	Extract ZIP Archive	فك ضغط ZIP	extract-zip
+003	Password Protect ZIP	حماية ZIP بكلمة مرور	zip-password
+004	Unlock ZIP Archive	فتح ZIP	unlock-zip
+005	ZIP Metadata Viewer	عرض معلومات ZIP	zip-metadata
+006	ZIP Integrity Checker	فحص سلامة ZIP	zip-integrity
+007	ZIP Repair	إصلاح ZIP	repair-zip
+008	ZIP Comment Editor	تعديل التعليقات	zip-comment
+009	ZIP File Splitter	تقسيم ZIP	zip-splitter
+010	ZIP Merger	دمج ملفات ZIP	zip-merger
+📂 RAR
+#	English	العربية	Slug
+011	Extract RAR	فك RAR	extract-rar
+012	RAR Integrity Checker	فحص RAR	rar-integrity
+013	RAR Metadata Viewer	عرض معلومات RAR	rar-metadata
+014	RAR Password Tester	اختبار كلمة المرور	rar-password
+015	RAR Repair	إصلاح RAR	repair-rar
+016	RAR to ZIP	RAR إلى ZIP	rar-to-zip
+017	RAR Splitter	تقسيم RAR	rar-splitter
+018	RAR Merger	دمج RAR	rar-merger
+019	RAR File Analyzer	تحليل RAR	rar-analyzer
+020	RAR Workspace	بيئة RAR	rar-workspace
+📁 7Z
+#	English	العربية	Slug
+021	Extract 7Z	فك 7Z	extract-7z
+022	Create 7Z	إنشاء 7Z	create-7z
+023	7Z Integrity Checker	فحص 7Z	7z-integrity
+024	7Z Metadata Viewer	عرض معلومات 7Z	7z-metadata
+025	7Z Password Protection	حماية 7Z	7z-password
+026	7Z Repair	إصلاح 7Z	repair-7z
+027	7Z Splitter	تقسيم 7Z	7z-splitter
+028	7Z Merger	دمج 7Z	7z-merger
+029	7Z to ZIP	7Z إلى ZIP	7z-to-zip
+030	7Z Analyzer	تحليل 7Z	7z-analyzer
+🔄 Archive Conversion
+#	English	العربية	Slug
+031	ZIP to RAR	ZIP إلى RAR	zip-to-rar
+032	ZIP to 7Z	ZIP إلى 7Z	zip-to-7z
+033	RAR to 7Z	RAR إلى 7Z	rar-to-7z
+034	TAR to ZIP	TAR إلى ZIP	tar-to-zip
+035	ZIP to TAR	ZIP إلى TAR	zip-to-tar
+036	TAR.GZ Converter	محول TAR.GZ	tar-gz
+037	GZIP Converter	محول GZIP	gzip-converter
+038	BZIP2 Converter	محول BZIP2	bzip2
+039	XZ Converter	محول XZ	xz-converter
+040	Archive Converter	محول الأرشيفات	archive-converter
+🔍 Inspection
+#	English	العربية	Slug
+041	Archive Viewer	عارض الأرشيف	archive-viewer
+042	Archive File List	عرض الملفات	archive-file-list
+043	Archive Size Analyzer	تحليل الحجم	archive-size
+044	Compression Ratio Calculator	نسبة الضغط	compression-ratio
+045	Duplicate File Detector	كشف الملفات المكررة	duplicate-files
+046	Large File Finder	البحث عن الملفات الكبيرة	large-files
+047	Archive Content Search	البحث داخل الأرشيف	archive-search
+048	Checksum Generator	توليد Checksum	archive-checksum
+049	Checksum Validator	التحقق من Checksum	checksum-validator
+050	Archive Security Scanner	فحص الأرشيف	archive-security
+🗃 Linux Archives
+#	English	العربية	Slug
+051	Extract TAR	فك TAR	extract-tar
+052	Create TAR	إنشاء TAR	create-tar
+053	Extract TAR.GZ	فك TAR.GZ	extract-targz
+054	Create TAR.GZ	إنشاء TAR.GZ	create-targz
+055	Extract TAR.BZ2	فك TAR.BZ2	extract-tarbz2
+056	Create TAR.BZ2	إنشاء TAR.BZ2	create-tarbz2
+057	Extract XZ	فك XZ	extract-xz
+058	Create XZ	إنشاء XZ	create-xz
+059	Extract GZIP	فك GZIP	extract-gzip
+060	Create GZIP	إنشاء GZIP	create-gzip
+☁ Cloud Archive
+#	English	العربية	Slug
+061	Compress to ZIP Online	ضغط إلى ZIP	compress-online
+062	Extract Online Archive	فك أونلاين	extract-online
+063	Batch ZIP Creator	إنشاء ZIP جماعي	batch-zip
+064	Batch Extractor	فك جماعي	batch-extract
+065	Folder Compressor	ضغط المجلدات	folder-compressor
+066	Archive Encryptor	تشفير الأرشيف	archive-encryptor
+067	Archive Decryptor	فك التشفير	archive-decryptor
+068	Secure Archive Generator	أرشيف آمن	secure-archive
+069	Archive Sharing Link	مشاركة الأرشيف	archive-sharing
+070	Cloud Archive Manager	إدارة الأرشيف	cloud-archive
+🧰 Utilities
+#	English	العربية	Slug
+071	Compression Benchmark	قياس الضغط	compression-benchmark
+072	Compression Preset Builder	إعدادات الضغط	compression-preset
+073	Archive Password Generator	مولد كلمات المرور	archive-password-generator
+074	Compression Dictionary Estimator	تقدير Dictionary	compression-dictionary
+075	Archive MIME Detector	كشف نوع الأرشيف	archive-mime
+076	Archive Header Viewer	عرض Header	archive-header
+077	Self-Extracting Archive Builder	إنشاء SFX	self-extracting-archive
+078	Archive Log Viewer	عرض السجلات	archive-log
+079	Archive Metadata Cleaner	تنظيف Metadata	archive-metadata-cleaner
+080	Compression Toolkit	مجموعة الضغط	compression-toolkit
+🤖 AI Archive
+#	English	العربية	Slug
+081	AI Compression Recommendation	اقتراح أفضل ضغط	ai-compression
+082	AI Archive Optimizer	تحسين الأرشيف	ai-archive-optimizer
+083	AI Duplicate Detector	كشف التكرار	ai-duplicate-files
+084	AI Storage Optimizer	تحسين التخزين	ai-storage-optimizer
+085	AI Backup Planner	خطة النسخ الاحتياطي	ai-backup-planner
+086	AI Archive Classifier	تصنيف الأرشيف	ai-archive-classifier
+087	AI Compression Analyzer	تحليل الضغط	ai-compression-analyzer
+088	AI File Organizer	تنظيم الملفات	ai-file-organizer
+089	AI Archive Assistant	مساعد الأرشيف	ai-archive-assistant
+090	AI Storage Toolkit	مجموعة تخزين ذكية	ai-storage-toolkit
+🛠 Advanced
+#	English	العربية	Slug
+091	ISO Creator	إنشاء ISO	iso-creator
+092	ISO Extractor	فك ISO	iso-extractor
+093	ISO to ZIP	ISO إلى ZIP	iso-to-zip
+094	DMG Viewer	عارض DMG	dmg-viewer
+095	CAB Extractor	فك CAB	cab-extractor
+096	WIM Explorer	استعراض WIM	wim-explorer
+097	VHD Inspector	فحص VHD	vhd-inspector
+098	Archive Workspace	بيئة إدارة الأرشيف	archive-workspace
+099	Archive Toolkit	مجموعة أدوات الأرشيف	archive-toolkit
+100	Ultimate Compression Hub	مركز الضغط الشامل	ultimate-compression
+⭐️ أقسام إضافية أوصي بها
+Backup & Recovery
+Backup Planner
+Backup Verifier
+Incremental Backup Calculator
+Differential Backup Calculator
+Restore Simulator
+Snapshot Planner
+Enterprise Storage
+NAS Capacity Calculator
+RAID Calculator
+SAN Storage Planner
+Object Storage Calculator
+Glacier Cost Estimator
+Backup Retention Calculator
+File System Tools
+NTFS Analyzer
+FAT32 Analyzer
+exFAT Helper
+EXT4 Explorer
+APFS Inspector
+ZFS Planner
+
+
+إذا أضفت قسمًا متكاملًا للأعمال يشمل:
+
+HR
+CRM
+Accounting
+Invoicing
+Legal
+Project Management
+Marketing
+Operations
+
+فستستهدف شريحة ذات قيمة عالية جدًا من المستخدمين، وتفتح الباب لتقديم خطط مدفوعة أو مزايا احترافية في المستقبل، وليس الاعتماد على الإعلانات فقط.
+
