@@ -1,5 +1,42 @@
 # Changelog
 
+## 0.5.61 — Full PDF catalogue classification: 200 items sorted by tier and priority (August 2026)
+
+Planning/documentation only, no code changes. Per the site owner's request, went through the
+complete 200-item PDF section (Parts 1-2) of `docs/tools-master-database.txt` systematically,
+rather than just checking for gaps as new ideas come up, so future PDF work can be picked in
+priority order without re-auditing from scratch each time.
+
+- Cross-checked every catalogue item against the real live tool list (not just slug matching,
+  since catalogue naming and shipped naming often differ -- e.g. the catalogue's separate
+  `pdf-to-jpg`/`pdf-to-png`/`pdf-to-webp`/`pdf-to-gif` entries are all already covered by one
+  generic `pdf-to-images-converter`).
+- Classified into 7 buckets, documented in full in `docs/ROADMAP.md`:
+  - **Already built (35)**: merge, split, compress, PDF↔Word, PDF↔images, text extraction, page
+    operations, watermark, password protect, sign, OCR, and more.
+  - **Quick wins, genuinely simple Tier A (23)**: TXT/Markdown/CSV↔PDF, insert blank page/image/
+    text, header/footer, redact, search-in-PDF, grayscale/B&W/invert colors, and more -- listed
+    in priority order for the next PDF batch.
+  - **Needs a real feasibility check before starting (27)**: grouped by *why* each needs
+    investigation -- table/document-structure detection for Office format conversions, testing
+    against genuinely corrupted files for repair/recover, a UX design decision for
+    coordinate-based annotation tools (same pattern as `pdf-sign` but less natural per-item), and
+    direct verification of `pdf-lib`'s bookmark/outline APIs given how wrong the encryption
+    documentation turned out to be (0.5.58).
+  - **Hard removal operations (4)**: removing an existing watermark/logo/background/image is
+    fundamentally harder than adding one (needs reliable content detection first) -- not attempted
+    for now rather than shipping something that silently fails.
+  - **Not feasible with the current stack (10)**: unlock/decrypt/remove-password (confirmed
+    0.5.58), form filling (confirmed 0.5.60), and everything needing real PKI/certificate
+    infrastructure for legally-meaningful signatures.
+  - **AI-dependent, deferred (15)**: summarize/explain/chat/extract/translate/Q&A style tools.
+  - **Niche or low real-world priority (85)**: exotic format conversions, font tooling, PDF/A
+    standards compliance, print-layout tools, in-browser viewers, and the 10-item batch-wrapper
+    family.
+- No product code changed. Verified `npm run validate` still passes all 7 suites (506 tools,
+  unaffected by a documentation-only change).
+
+---
 ## 0.5.60 — PDF Signature Placer, Meme Generator; PDF form-filling confirmed architecturally infeasible right now (August 2026)
 
 Continuing the PDF/Image high-demand push.

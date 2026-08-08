@@ -312,6 +312,121 @@ Data note: the source catalogue's part numbering jumps from Part 5 (Video) to Pa
 Part 6 appears to be a gap (possibly a missing "Video Tools 101–200" section); worth confirming
 if/when Video is revisited.
 
+### PDF Tools (Part 1-2 of the master catalogue, 200 items) — full classification (August 2026)
+
+Per the site owner's request: went through the full 200-item PDF section of
+`docs/tools-master-database.txt` (not just checking for gaps as new ones came up), classified
+every item by execution tier and against what's actually live, so future PDF work can be
+picked in priority order without re-auditing from scratch. Cross-checked against the real
+live tool list (not just catalogue-slug matching, since catalogue naming and shipped naming
+often differ — e.g. the catalogue's `pdf-to-jpg`/`pdf-to-png`/`pdf-to-webp`/`pdf-to-gif` are all
+one already-shipped generic `pdf-to-images-converter`).
+
+**Already built (35 catalogue items covered)**: merge, split, compress,
+PDF↔Word, PDF↔images (generic, covers jpg/png/webp/gif in both directions), PDF→TXT, page
+extract/delete/rotate/reorder/reverse, page numbers, watermark, crop, page-size normalize,
+password protect, sign (image placement), OCR (language-agnostic already, covers the
+catalogue's separate Arabic/English/multi-language entries), text extraction, metadata removal,
+blank-page removal, and the multi-op `pdf-workflow` (covers the catalogue's generic batch
+converter concept).
+
+**Quick wins — genuinely simple Tier A, not yet built (23 items, priority order
+for the next PDF batch)**:
+- `txt-to-pdf` — TXT to PDF (TXT إلى PDF)
+- `pdf-to-md` — PDF to Markdown (PDF إلى Markdown)
+- `md-to-pdf` — Markdown to PDF (Markdown إلى PDF)
+- `pdf-to-csv` — PDF to CSV (PDF إلى CSV)
+- `csv-to-pdf` — CSV to PDF (CSV إلى PDF)
+- `insert-blank-page` — Insert Blank Page (إضافة صفحة فارغة)
+- `insert-image-pdf` — Insert Image into PDF (إضافة صورة إلى PDF)
+- `insert-text-pdf` — Insert Text into PDF (إضافة نص)
+- `pdf-header` — Add Header (إضافة Header)
+- `pdf-footer` — Add Footer (إضافة Footer)
+- `add-logo-pdf` — Add Logo (إضافة شعار)
+- `add-background-pdf` — Add Background (إضافة خلفية)
+- `pdf-a4` — Convert to A4 (تحويل إلى A4)
+- `pdf-letter` — Convert to Letter (تحويل إلى Letter)
+- `pdf-legal` — Convert to Legal (تحويل إلى Legal)
+- `flatten-pdf` — Flatten PDF (تسطيح PDF)
+- `extract-images-pdf` — Extract Images (استخراج الصور)
+- `view-metadata-pdf` — View Metadata (عرض Metadata)
+- `redact-pdf` — Redact PDF (إخفاء بيانات حساسة)
+- `search-pdf` — Search in PDF (البحث داخل PDF)
+- `grayscale-pdf` — Grayscale PDF (تحويل للأبيض والأسود)
+- `bw-pdf` — Black & White PDF (تحويل لأسود وأبيض)
+- `invert-pdf-colors` — Invert PDF Colors (عكس الألوان)
+
+Note: several of these (`pdf-a4`/`pdf-letter`/`pdf-legal`, `insert-blank-page`,
+`insert-image-pdf`, `add-logo-pdf`) are close enough to already-shipped tools
+(`pdf-page-size-normalizer`, `pdf-sign`, `pdf-watermark`) that they may turn out to be presets
+or minor variants rather than fully separate tools once actually scoped — run
+`npm run list:tools` and re-check descriptions before building each one, same as every batch.
+
+**Needs a real feasibility check before starting (27 items)** —
+grouped because each needs its own investigation, not because they're all the same kind of
+hard:
+- `pdf-to-excel`/`csv`, `pdf-to-powerpoint`, `excel-to-pdf`, `powerpoint-to-pdf`, `docx-to-pdf`:
+  need real table/slide/document-structure detection, not just text extraction — verify
+  reliability on real messy documents before committing to shipping these.
+- `repair-pdf`/`recover-pdf`: depends entirely on what `pdf-lib` can actually recover from a
+  corrupt file in practice — test against genuinely corrupted real-world PDFs, not just a
+  clean file, before assuming this works.
+- `compare-pdf`: feasible in principle (extract text from both, reuse the existing `json-diff`-
+  style line-diff approach) but needs a design decision on how to present differences when the
+  two PDFs have different page counts or layouts, not just different text.
+- `highlight-pdf`/`underline-pdf`/`strikeout-pdf`/sticky notes/draw/shapes annotations (10
+  items): feasible using the same coordinate-based static-input pattern as `pdf-sign`, but each
+  needs its own UX decision (typing exact x/y coordinates for a highlight box is a much worse
+  experience than for a single signature placement) — worth prototyping one (`highlight-pdf`,
+  probably the highest-demand of this group) before committing to the pattern for the rest.
+- `extract-metadata-pdf`/`pdf-permissions`: likely genuinely easy (read-only or built into the
+  existing `pdf-lib`/`pdf-encrypt-lite` APIs already in use) — probably reclassify as quick wins
+  once actually checked, just not verified yet.
+- `bookmark-pdf`/`edit-bookmarks-pdf`/`generate-pdf-toc`/`auto-toc-pdf`: `pdf-lib` supports
+  outline/bookmark APIs in principle — needs direct verification the same way the 0.5.58/0.5.59
+  PDF encryption claims were checked, given how wrong external documentation turned out to be
+  there.
+- `pdf-comment-viewer`/`presentation-pdf`: these are interactive *viewers*, not "upload → process
+  → download" tools — likely a different UI paradigm than the current tool-page renderer
+  supports, same class of question as the live-microphone and PDF-form gaps above.
+
+**Hard removal operations, likely unreliable without real content-detection (4 items)**:
+`remove-watermark-pdf` (Remove Watermark)
+`remove-logo-pdf` (Remove Logo)
+`remove-background-pdf` (Remove Background)
+`remove-images-pdf` (Remove Images from PDF)
+— *adding* a watermark/logo/background/image is trivial (place new content); *removing* an
+existing one requires reliably detecting what to remove first, which is a fundamentally harder,
+more error-prone problem without AI-assisted content detection. Not attempted for now rather
+than shipping something that silently fails on real-world files.
+
+**Not feasible with the current stack, confirmed directly (10 items)**:
+- `unlock-pdf` (Unlock PDF) — pdf-lib cannot decrypt (verified 0.5.58)
+- `decrypt-pdf` (Decrypt PDF) — pdf-lib cannot decrypt (verified 0.5.58)
+- `remove-password-pdf` (Remove Password) — pdf-lib cannot decrypt (verified 0.5.58)
+- `verify-pdf-signature` (Verify Signature) — needs real PKI/certificate-chain validation infrastructure
+- `fill-pdf-form` (Fill PDF Form) — needs dynamic per-file UI (verified 0.5.60, architecture gap)
+- `create-pdf-form` (Create PDF Form) — needs a form-building UI beyond static inputs
+- `digital-signature-pdf` (Digital Signature Creator) — needs real PKI infrastructure for a legally-meaningful signature, distinct from pdf-sign's cosmetic image placement
+- `pdf-certificate-viewer` (Certificate Viewer) — needs PKI infrastructure
+- `pdf-certificate-validator` (Certificate Validator) — needs PKI infrastructure
+- `remove-pdf-certificates` (Certificate Remover) — needs PKI infrastructure
+
+**AI-dependent, deferred per the Tier system above (15 items)**: summarize,
+explain, chat-with-PDF, table/form/invoice/resume/contract extraction, translation, Q&A, and
+research-assistant style tools — all Tier C/D/E, need the backend+AI infrastructure decision
+noted in the monetization strategy above, not attempted individually.
+
+**Niche or low real-world priority (85 items)**: exotic format
+conversions (TIFF/BMP/SVG/HTML/EPUB/MOBI/AZW3/RTF/ODT/XML/JSON ↔ PDF), font
+extraction/embedding/subsetting, PDF/A/X/E/UA standards compliance and accessibility tooling,
+print-layout tools (booklet, N-up, poster, book fold), color variants beyond grayscale/B&W/
+invert (sepia, night mode, color reduction), embedded-file attachment tools, standalone
+in-browser viewers, bookmark/comment import-export, and the 10-item "batch-X" wrapper family
+(each just applies an already-shipped single-file tool to multiple files — real convenience
+value, but lower priority than genuinely new capabilities). Available on request if any of
+these turns out to matter more than expected; not worth pre-building blind.
+
 ### Video Tools (Part 5, no fixed count due to the Part 6 numbering gap noted below) — in progress
 
 Checked `npm run list:tools` broadly (both with and without a `video-` prefix, since image/PDF/
