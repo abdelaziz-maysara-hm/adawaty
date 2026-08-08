@@ -353,3 +353,81 @@ can do, pushing anything needing an external codec/encoder library later:
    open.
 6. **Utilities** (repair, recover, validate, batch versions) — thin wrappers around the tools
    above; comes last once the underlying single-file tools exist.
+
+---
+
+## Monetization & cost strategy: "Totally Free," ad-funded (August 2026)
+
+Product decision, following a detailed cost/revenue analysis of the full ~2,300+ tool catalogue:
+Adawaty stays **completely free for every user, on every tool, with no Pro tier and no paid
+credits.** This is a deliberate competitive differentiator against other tool sites that gate
+features behind a paywall. The site funds itself through ads, not subscriptions.
+
+This works economically **only if** the backend cost per pageview stays reliably below ad revenue
+per pageview — so the plan below exists specifically to keep it that way as the catalogue grows
+into tools that aren't free to run.
+
+### Why "totally free" doesn't mean "unlimited GPU for anyone"
+
+Free for the user and free to operate are different things. The plan is: real users get the full
+product with no paywall; behind the scenes, every tool is routed to the cheapest viable execution
+method, and technical fair-use protections (rate limits, bot blocking, file size/duration caps,
+caching) keep automated abuse from breaking the economics. A real user browsing and using tools
+normally should never notice a limit exists.
+
+### The six-tier cost classification (replaces plain "client-side vs not")
+
+The existing Phase 1–5 scope split above (client-side now / needs review / deferred-backend /
+deferred-AI / future business suite) remains the right lens for **what to build when**. This tier
+system is a second, orthogonal lens for **what each tool costs to run once built** — every tool
+eventually gets tagged with one of these:
+
+| Tier | What it covers | Cost per use | Usage policy |
+|---|---|---|---|
+| 🟢 A — Browser only | Everything running 100% client-side today: PDF, Image, most Video/Audio editing, Text, Calculators, Unit Converters, Developer, most Office tools | ≈ $0 | Unlimited |
+| 🔵 B — Simple backend | DNS/HTTP/SPF-DKIM-DMARC lookups, ping, redirect/webhook/API testers — things blocked by browser CORS that need a server hop but no AI | Near-zero | Unlimited / fair-use |
+| 🟣 C — Cheap AI text | Summarize, rewrite, translate, SEO titles/descriptions, social captions, code explanation — one shared text-AI backend serving dozens of tools via prompt changes, not one API per tool | Very low | Free, with a daily quota |
+| 🟡 D — Medium AI | OCR, Speech-to-Text/transcription, PDF Q&A, invoice/document extraction | Low–medium | Free, with a tighter quota |
+| 🟠 E — Heavy AI image/audio | AI voice enhancement/noise removal, image generation/editing/upscaling | Medium | Small free daily allowance |
+| 🔴 F — AI video / heavy GPU | Video upscaling/restoration, frame interpolation, talking avatars, lip sync, face swap | High — the one tier that can genuinely break the economics if left open | Small free allowance + strict technical fair-use limits, never marketed as "unlimited" |
+
+**Everything currently shipped is Tier A.** This is exactly why the current build-out keeps
+targeting 100% client-side tools: it's the only tier that's already free to build *and* free to
+run, with zero new infrastructure or budget decisions needed. Tiers B–F all require backend
+infrastructure that doesn't exist yet (a request-routing/rate-limiting layer, an AI provider
+integration, abuse protection) — building any of them is a deliberate infrastructure decision to
+make once, not something to slip in via "just one more tool."
+
+### The economic target, once tiers B–F are built
+
+Rule of thumb from the analysis: if actual ad RPM is ~$1.50 per 1,000 pageviews, the blended
+AI+backend cost across those 1,000 pageviews needs to stay under ~$0.50–0.75 to leave a real
+margin (not $1.40, which eats the revenue). Practical levers to hit that, in priority order:
+
+1. Route every AI tool through the cheapest provider that does the job well enough (Groq/Gemini
+   Flash-Lite/Workers AI before anything premium) — one shared engine per tier, not one paid API
+   per tool.
+2. Prefer in-browser execution (WASM/WebGPU) over a server call wherever the task allows it, even
+   for tools that seem AI-like at first glance.
+3. Hard daily quotas per tier, invisible to normal usage patterns, strict for Tier E/F specifically
+   since that's the one place a single heavy request can cost more than thousands of text
+   requests combined.
+4. SEO-structured tool pages (short explainer → tool → instructions → FAQ → related tools) to lift
+   pageviews-per-visitor, which lifts ad revenue without adding any processing cost — a visitor
+   who uses 3 tools in one visit is 3 pageviews of ad revenue for the same one-time acquisition
+   cost.
+5. Delete uploaded files quickly (an hour or few) rather than storing them, so storage never
+   becomes a real cost line.
+
+This is planning math, not a guarantee — actual RPM depends heavily on audience geography (US/UK/
+EU traffic is worth substantially more than average), which is part of why the product targets
+bilingual Arabic/English content rather than Arabic-only.
+
+### What this means for current priorities
+
+No change to what's being built right now: **Tier A (100% client-side) tools remain the priority**,
+category by category, exactly as the Phase 1 list above lays out. Tiers B–F are recorded here as
+a real, planned part of the product's future — not forgotten, not blocked on a decision that has
+to happen today — but they need a dedicated infrastructure/budget conversation before the first
+one gets built, so that conversation doesn't get skipped by momentum once an AI tool "seems easy
+to just add."

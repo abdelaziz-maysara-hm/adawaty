@@ -1,5 +1,31 @@
 # Changelog
 
+## 0.5.44 — Monetization & cost strategy: "Totally Free," ad-funded (August 2026)
+
+Planning/documentation update, no code changes. Recorded a deliberate product decision in
+`docs/ROADMAP.md` following a detailed cost/revenue analysis of the full ~2,300+ tool catalogue:
+
+- **Adawaty stays completely free for every user on every tool** — no Pro tier, no paid credits.
+  Funded by ads instead of subscriptions, as a competitive differentiator against paywalled
+  competitor tool sites.
+- Introduced a **six-tier cost classification** (🟢 A Browser-only ≈$0/unlimited, 🔵 B simple
+  backend, 🟣 C cheap AI text, 🟡 D medium AI/OCR/STT, 🟠 E heavy AI image/audio, 🔴 F AI video/GPU)
+  as a second lens alongside the existing Phase 1–5 build-order scope, specifically to plan for
+  the tools that won't be free to run once built.
+- Documented the economic target once tiers B–F exist (blended AI+backend cost per 1,000
+  pageviews needs to stay well under ad RPM, not eat it) and the concrete levers to hit it:
+  cheapest-provider routing, preferring in-browser WASM/WebGPU execution over server calls where
+  possible, hard per-tier daily quotas invisible to normal usage, SEO-structured tool pages to
+  lift pageviews-per-visitor, and fast temp-file deletion to keep storage cost negligible.
+- **No change to current priorities**: everything shipped so far is Tier A (browser-only, ≈$0,
+  unlimited) by construction, which is exactly why the client-side-first build-out continues
+  unchanged. Tiers B–F are recorded as a real, planned part of the roadmap that needs a dedicated
+  infrastructure/budget conversation before the first one is built — not something to slip in
+  incrementally once an AI tool "seems easy to just add."
+- Confirmed `docs/tools-master-database.txt` (the ~2,300+ tool source catalogue) is already
+  up to date with no changes needed.
+
+---
 ## 0.5.43 — Audio Wave 2 (file-based half): waveform viewer, silence detector (August 2026)
 
 - Added 2 new client-side audio analysis tools, both fitting the existing "upload → process →
