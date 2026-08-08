@@ -1,5 +1,40 @@
 # Changelog
 
+## 0.5.62 — Full Image catalogue classification: 200 items sorted by tier and priority (August 2026)
+
+Planning/documentation only, no code changes. Same treatment as the PDF classification (0.5.61),
+applied to the Image section (Parts 3-4, 200 items).
+
+- Cross-checked against the real live tool list; found 40 catalogue items already covered,
+  several as parameter variants of one shipped tool rather than separate tools (e.g. resize-by-
+  width/height/percentage all fold into the existing `image-resizer`).
+- **Important finding, different from PDF**: Image is far more AI-dependent than its explicit
+  "AI "-prefixed count (6) suggests. Most of its AI-dependent operations don't say "AI" in the
+  name at all -- `remove-background`, `face-swap`, `anime-style`, `skin-smoother`, etc. are all
+  genuinely AI/ML-dependent despite plain-sounding names, unlike PDF where AI operations were
+  almost all explicitly prefixed. Went through all 200 items individually rather than trusting the
+  "AI "-prefix count as a category-dependency signal. Result: **65 of 200 items are AI-dependent**
+  (background removal/replacement -- confirmed the single most globally-requested image tool per
+  earlier competitor research, genuinely blocked on AI infrastructure -- plus nearly every face-
+  related and "image to art style" tool).
+- Classified the remaining items: **11 quick wins** (text watermark, a combined EXIF viewer/
+  editor absorbing 7 near-duplicate single-field catalogue entries, grid/contact-sheet/photo-strip
+  layouts, before/after comparison slider, dominant color, size/compression analysis, file
+  validation), **18 needing feasibility investigation first** (HEIC/AVIF/RAW format support all
+  need real dedicated decoders with uncertain browser coverage; PNG-to-SVG vector tracing is a
+  fundamentally harder problem than its SVG-to-PNG pair despite being listed together; smart-crop/
+  auto-rotate/perspective-correction/deskew all imply "smart" detection that may or may not need
+  AI per-item; histogram/sharpness/blur/noise detectors are feasible pure pixel-math but need
+  testing against real sample images before shipping arbitrary-feeling numbers), **4 hard removal
+  operations** (same reasoning as PDF: removing existing content reliably is harder than adding
+  new content), and **62 niche/low-priority items** (individual color-adjustment sliders already
+  covered by the existing combined adjuster, filter presets likely better as one picker than 10
+  separate pages, more platform-preset variants better added to the existing resizer's list than
+  shipped separately, and the 6-item batch-wrapper family).
+- No product code changed. Verified `npm run validate` still passes all 7 suites (506 tools,
+  unaffected by a documentation-only change).
+
+---
 ## 0.5.61 — Full PDF catalogue classification: 200 items sorted by tier and priority (August 2026)
 
 Planning/documentation only, no code changes. Per the site owner's request, went through the

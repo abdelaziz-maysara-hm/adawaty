@@ -427,6 +427,82 @@ in-browser viewers, bookmark/comment import-export, and the 10-item "batch-X" wr
 value, but lower priority than genuinely new capabilities). Available on request if any of
 these turns out to matter more than expected; not worth pre-building blind.
 
+### Image Tools (Part 3-4 of the master catalogue, 200 items) — full classification (August 2026)
+
+Same treatment as the PDF classification above. Cross-checked against the real live tool
+list, not just slug matching.
+
+**Already built or covered as a variant/mode of an existing tool (40)**:
+compress, resize (width/height/percentage all fold into the existing `image-resizer`), crop,
+rotate/flip, the common format conversions (jpg/png/webp/bmp/gif, all via one generic
+`image-format-converter`), watermark, brightness/contrast (via `image-color-adjuster`),
+grayscale, sepia, EXIF removal, social-media platform presets (via
+`social-media-image-resizer`), collage, color palette/average color extraction, and general
+blur/pixelate (`photo-censor`, covers the catalogue's face-blur/face-pixelate as a general-
+purpose tool rather than face-specific).
+
+**Quick wins — genuinely simple Tier A, not yet built (11 items)**:
+- `text-watermark` — Text Watermark (علامة مائية نصية)
+- `view-exif` — View EXIF (عرض بيانات EXIF)
+- `edit-exif` — Edit EXIF (تعديل EXIF)
+- `grid-maker` — Grid Maker (شبكة صور)
+- `contact-sheet` — Contact Sheet (ورقة مصغرات)
+- `photo-strip` — Photo Strip (شريط صور)
+- `image-slider` — Image Comparison Slider (مقارنة الصور)
+- `dominant-color` — Dominant Color Finder (استخراج اللون الأساسي)
+- `image-size` — Image Size Analyzer (تحليل الأبعاد)
+- `compression-analysis` — Compression Analyzer (تحليل الضغط)
+- `image-validator` — Image File Validator (التحقق من الصور)
+
+Note: `view-exif`/`edit-exif` naturally absorb the catalogue's separate GPS/camera/lens/ISO/
+shutter-speed/aperture-viewer entries (141, 144-149) as one combined metadata tool rather than
+7 near-identical single-field viewers.
+
+**Needs a real feasibility check before starting (18 items)**:
+- `heic-to-jpg`/`heic-to-png`: HEIC decoding needs a dedicated library with patchy/inconsistent
+  browser-native support — verify real decode quality and browser coverage before committing.
+- `avif-to-jpg`/`jpg-to-avif`: AVIF encode/decode browser support varies; verify current coverage.
+- `raw-to-jpg`/`raw-to-png`: real camera RAW formats need a genuine RAW decoder (not just a
+  canvas trick) — a substantially bigger dependency than anything added so far.
+- `svg-to-png`: likely genuinely easy (render SVG to canvas). `png-to-svg` (raster-to-vector
+  tracing) is a fundamentally different, much harder problem — don't assume both directions are
+  equally easy just because they're listed as a pair.
+- `smart-crop`/`auto-rotate-image`/`auto-crop-image`/`perspective-correction`/`deskew-image`/
+  `straighten-image` (6 items): all imply some "smart" content-aware detection. Some may have
+  simple non-AI heuristics (e.g. detecting a scanned page's edges via contrast), others may
+  effectively need AI — verify per-item before assuming any of these are Tier A.
+- `histogram`/`sharpness-detector`/`blur-detector`/`noise-detector` (4 items): the underlying
+  pixel analysis is feasible pure JS (similar to the color-extraction tools already shipped),
+  but needs real testing against genuinely sharp/blurry/noisy sample images to confirm the
+  detection thresholds are meaningful before shipping a tool that just gives an arbitrary number.
+
+**Hard removal operations (4)**: `remove-watermark`, `remove-logo`,
+`batch-remove-watermark`, `batch-remove-bg` — same reasoning as the PDF classification above:
+reliably detecting existing content to remove is much harder than adding new content.
+
+**AI-dependent, deferred (65 items — by far the largest bucket in this
+category, unlike PDF)**: upscaling/sharpen/denoise/deblur/restore-old-photo/colorize (Tier E
+image-model tools), all background removal/replacement (Tier E, the single most commonly-
+requested image tool globally per the earlier competitor research, genuinely blocked on AI
+infrastructure not being built yet), all object removal/inpainting/sky-replacement, essentially
+every face-related tool (beautify, skin-smooth, face-swap, age progression, eye/hair color
+changers — all need real ML face-detection/generation models), and the entire "image to
+[art style]" family (anime/cartoon/sketch/Ghibli/Pixar/3D/style-transfer — all need real
+diffusion or style-transfer models, not canvas filters). This is why Image, despite scoring only
+6 explicit "AI "-prefixed catalogue entries, is actually far more AI-dependent than PDF's 13 —
+most of Image's AI operations don't say "AI" in their name (`remove-background`, `face-swap`,
+`anime-style`), unlike PDF's, which mostly do. Worth remembering when eyeballing a category's
+AI-dependency from the explicit tag count alone.
+
+**Niche or low real-world priority (62 items)**: individual color-adjustment
+sliders already folded into `image-color-adjuster` (saturation/hue/temperature/exposure/gamma/
+vibrance/color-balance), filter presets likely better as one filter-picker tool than 10 separate
+pages (vintage/oil-painting/sketch/cartoon/anime/pixel-art/glass/neon/HDR/film — note several of
+these overlap with the AI-dependent bucket above under different names), more platform-preset
+variants (better added to the existing resizer's preset list than shipped as separate pages),
+solid/gradient/studio/white/black background generators, circle/square crop shape variants,
+TIFF conversions, more collage-style layouts, and the 6-item batch-wrapper family.
+
 ### Video Tools (Part 5, no fixed count due to the Part 6 numbering gap noted below) — in progress
 
 Checked `npm run list:tools` broadly (both with and without a `video-` prefix, since image/PDF/
