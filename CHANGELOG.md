@@ -1,5 +1,35 @@
 # Changelog
 
+## 0.5.46 — Developer Tools batch 2: JSON merge/sort/escape, XML minifier, ID generators (August 2026)
+
+- Continued the Developer Tools category (Part 9). 6 more client-side tools, zero new
+  dependencies:
+  - `json-merge` — deep-merges two JSON objects (nested objects merge recursively, arrays
+    concatenate, primitives take the second value).
+  - `json-sort` — recursively sorts every object's keys alphabetically at every nesting level.
+  - `json-string-escaper` — escapes plain text into a valid embeddable JSON string value, or
+    unescapes one back to plain text.
+  - `xml-minifier` — strips whitespace between tags without touching actual text content.
+  - `nanoid-generator` / `random-string-generator` — cryptographically random ID/string
+    generators (`crypto.getRandomValues`), with a configurable length and, for the string
+    generator, a choice of character set.
+- Added `src/product/definitions/xml-and-id-tools.js`, registered in `tool-definitions.js`;
+  extended the existing `json-tools-extra.js` with the three new JSON operations and a shared
+  `selectInput` helper.
+- All core algorithms (deep merge, recursive key sort, escape/unescape round-trip, XML whitespace
+  stripping, random-ID uniqueness and alphabet-membership) were unit-tested directly with real
+  cases before being wired into tool definitions.
+- Learned from last batch's DOM-trick bug: deliberately avoided any DOM-only API in this batch
+  (confirmed `crypto.getRandomValues` works identically in the Node test harness and the browser
+  before using it) — `npm run validate` passed cleanly on the first run this time, no fix-forward
+  needed.
+- Proactively recomputed and updated the three hardcoded tool-count assertions in
+  `tests/product/tool-user-journeys.integration.mjs` *before* running validate, instead of
+  reacting to a failure.
+- Verified: `npm run validate` passes all 6 suites (474 tools total); confirmed all 6 new pages
+  render with correct Arabic titles.
+
+---
 ## 0.5.45 — Developer Tools: JSON diff/CSV conversion, CSS generators (August 2026)
 
 - Started filling the Developer Tools category (Part 9 of the master catalogue, ~100 tools,

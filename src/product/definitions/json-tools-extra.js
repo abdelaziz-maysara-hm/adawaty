@@ -13,6 +13,19 @@ function textInput(id, label, placeholder) {
     });
 }
 
+function selectInput(id, ar, en, options) {
+    return Object.freeze({
+        id,
+        type: 'select',
+        label: Object.freeze({ ar, en }),
+        unit: Object.freeze({ ar: '', en: '' }),
+        options: Object.freeze(options.map(([value, optAr, optEn]) => Object.freeze({
+            value,
+            label: Object.freeze({ ar: optAr, en: optEn }),
+        }))),
+    });
+}
+
 function localized(language, ar, en) {
     return language === 'ar' ? ar : en;
 }
@@ -267,10 +280,136 @@ const csvToJsonTool = Object.freeze({
     },
 });
 
+/** Deep-merges b into a: objects merge recursively, arrays concatenate, primitives use b. */
+function deepMergeJson(a, b) {
+    if (Array.isArray(a) && Array.isArray(b)) {
+        return [...a, ...b];
+    }
+    if (
+        a && b && typeof a === 'object' && typeof b === 'object'
+        && !Array.isArray(a) && !Array.isArray(b)
+    ) {
+        const result = { ...a };
+        for (const key of Object.keys(b)) {
+            result[key] = key in a ? deepMergeJson(a[key], b[key]) : b[key];
+        }
+        return result;
+    }
+    return b;
+}
+
+const jsonMerge = Object.freeze({
+    id: 'json-merge',
+    category: 'developer',
+    icon: 'MERGE',
+    title: Object.freeze({ ar: 'دمج ملفي JSON', en: 'JSON Merge' }),
+    description: Object.freeze({
+        ar: 'ادمج كائنَي JSON في كائن واحد: الكائنات المتداخلة تندمج تكراريًا، والمصفوفات تُلحَق، والقيم البسيطة تُستبدل بالقيمة الثانية.',
+        en: 'Merge two JSON objects into one: nested objects merge recursively, arrays concatenate, and primitive values are replaced by the second one.',
+    }),
+    note: Object.freeze({
+        ar: 'عند تعارض نوعين مختلفين لنفس المفتاح (مثل نص مقابل رقم)، تفوز قيمة الكائن الثاني.',
+        en: 'When the same key holds two different types (like text vs a number), the second object\u2019s value wins.',
+    }),
+    inputs: Object.freeze([
+        textInput('base', { ar: 'JSON الأساسي', en: 'Base JSON' }, '{"name":"Adawaty","tags":["free"]}'),
+        textInput('overlay', { ar: 'JSON الإضافي', en: 'Overlay JSON' }, '{"version":2,"tags":["client-side"]}'),
+    ]),
+    calculate(values, language) {
+        const base = parseJsonOrThrow(values.base, language, localized(language, 'JSON الأساسي', 'The base JSON'));
+        const overlay = parseJsonOrThrow(values.overlay, language, localized(language, 'JSON الإضافي', 'The overlay JSON'));
+        const merged = deepMergeJson(base, overlay);
+
+        return output(
+            JSON.stringify(merged, null, 2),
+            localized(language, 'النتيجة المدمجة جاهزة', 'The merged result is ready'),
+        );
+    },
+});
+
+/** Recursively sorts every object's keys alphabetically; arrays and primitives pass through. */
+function sortJsonKeys(value) {
+    if (Array.isArray(value)) {
+        return value.map(sortJsonKeys);
+    }
+    if (value && typeof value === 'object') {
+        const sorted = {};
+        for (const key of Object.keys(value).sort()) {
+            sorted[key] = sortJsonKeys(value[key]);
+        }
+        return sorted;
+    }
+    return value;
+}
+
+const jsonSort = Object.freeze({
+    id: 'json-sort',
+    category: 'developer',
+    icon: 'A→Z',
+    title: Object.freeze({ ar: 'ترتيب مفاتيح JSON أبجديًا', en: 'JSON Key Sort' }),
+    description: Object.freeze({
+        ar: 'رتّب مفاتيح كائن JSON أبجديًا بشكل تكراري في كل المستويات، مفيد لمقارنة أو مراجعة ملفات الإعداد.',
+        en: 'Recursively sort a JSON object\u2019s keys alphabetically at every level, useful for comparing or reviewing config files.',
+    }),
+    note: Object.freeze({
+        ar: 'ترتيب عناصر المصفوفات نفسها لا يتغيّر، فقط أسماء المفاتيح داخل الكائنات.',
+        en: 'Array item order itself is unchanged; only object key names are sorted.',
+    }),
+    inputs: Object.freeze([
+        textInput('json', { ar: 'JSON', en: 'JSON' }, '{"z":1,"a":{"y":2,"b":3},"m":4}'),
+    ]),
+    calculate(values, language) {
+        const parsed = parseJsonOrThrow(values.json, language, localized(language, 'المدخل', 'The input'));
+        return output(
+            JSON.stringify(sortJsonKeys(parsed), null, 2),
+            localized(language, 'JSON مرتّب جاهز', 'The sorted JSON is ready'),
+        );
+    },
+});
+
+const jsonStringEscaper = Object.freeze({
+    id: 'json-string-escaper',
+    category: 'developer',
+    icon: 'ESC',
+    title: Object.freeze({ ar: 'ترميز وفك ترميز نص JSON', en: 'JSON String Escape & Unescape' }),
+    description: Object.freeze({
+        ar: 'رمّز نصًا عاديًا ليكون صالحًا كقيمة نصية داخل JSON، أو فُك ترميز نص JSON إلى نصه الأصلي.',
+        en: 'Escape plain text so it is valid inside a JSON string value, or unescape a JSON string back to its original text.',
+    }),
+    note: Object.freeze({
+        ar: 'الترميز يحوّل السطر الجديد وعلامات الاقتباس والخط المائل العكسي لصيغة آمنة داخل JSON.',
+        en: 'Escaping converts newlines, quotes, and backslashes into a form that is safe inside JSON.',
+    }),
+    inputs: Object.freeze([
+        selectInput('operation', 'العملية', 'Operation', [
+            ['escape', 'ترميز (نص عادي → JSON)', 'Escape (plain text \u2192 JSON)'],
+            ['unescape', 'فك الترميز (JSON → نص عادي)', 'Unescape (JSON \u2192 plain text)'],
+        ]),
+        textInput('text', { ar: 'النص', en: 'Text' }, 'Line 1\nLine 2 with "quotes"'),
+    ]),
+    calculate(values, language) {
+        try {
+            const result = values.operation === 'escape'
+                ? JSON.stringify(values.text).slice(1, -1)
+                : JSON.parse(`"${values.text}"`);
+            return output(result, localized(language, 'النتيجة', 'Result'));
+        } catch {
+            throw new Error(localized(
+                language,
+                'تعذر فك الترميز. تأكد أن النص المُدخل نص JSON مُرمّز صالح.',
+                'Could not unescape. Make sure the input is validly escaped JSON text.',
+            ));
+        }
+    },
+});
+
 const jsonToolsExtraDefinitions = Object.freeze({
     [jsonDiff.id]: jsonDiff,
     [jsonToCsvTool.id]: jsonToCsvTool,
     [csvToJsonTool.id]: csvToJsonTool,
+    [jsonMerge.id]: jsonMerge,
+    [jsonSort.id]: jsonSort,
+    [jsonStringEscaper.id]: jsonStringEscaper,
 });
 
 export { jsonToolsExtraDefinitions };

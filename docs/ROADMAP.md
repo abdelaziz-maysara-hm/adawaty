@@ -370,17 +370,21 @@ missing, since the master catalogue's exact naming doesn't always match what alr
 `csv-to-json` (quoted-value-safe conversion), and three CSS snippet generators
 (`css-gradient-generator`, `css-box-shadow-generator`, `css-border-radius-generator`).
 
-**Still open** (roughly 75+ catalogue items after accounting for the above): JSON
-viewer/editor/merge/sort/escape + JSON↔XML/YAML/Excel conversions; the full XML tool set
-(validator, beautifier, minifier, viewer, editor, compare/diff, XPath tester, XSD validator); the
-full YAML tool set (formatter, validator, beautifier, minifier, viewer, compare, merge, diff,
-YAML↔TOML); HTML formatter/validator/preview, HTML↔Markdown, HTML entity encode/decode; CSS
+**Done, second batch**: `json-merge` (deep merge), `json-sort` (recursive key sort),
+`json-string-escaper` (escape/unescape for embedding), `xml-minifier`, and two ID/string
+generators (`nanoid-generator`, `random-string-generator`) using `crypto.getRandomValues`.
+
+**Still open** (roughly 65+ catalogue items after the above): JSON viewer/editor +
+JSON↔XML/YAML/Excel conversions; the rest of the XML tool set (validator, beautifier, viewer,
+editor, compare/diff, XPath tester, XSD validator — note the validator needs a Node-safe
+well-formedness check, not `DOMParser`, since that's browser-only and the test harness runs in
+Node); the full YAML tool set (formatter, validator, beautifier, minifier, viewer, compare, merge,
+diff, YAML↔TOML); HTML formatter/validator/preview, HTML↔Markdown, HTML entity encode/decode; CSS
 formatter/validator/prefixer/unprefixer plus `clip-path` generator; the JS tool set (formatter,
 beautifier, minifier, obfuscator/deobfuscator, validator, diff/compare); `regex-generator`;
-`nanoid-generator`, `jwt-encoder`, `jwt-inspector`, `guid-generator`, `random-string`,
-`api-key-generator`; dummy-data generators (JSON/CSV/XML/SQL); and a combined
-`developer-toolkit` landing page. No architecture blockers on any of these — same pattern as what
-shipped, pick up whenever.
+`jwt-encoder`, `jwt-inspector`, `guid-generator`, `api-key-generator`; dummy-data generators
+(JSON/CSV/XML/SQL); and a combined `developer-toolkit` landing page. No architecture blockers on
+any of these — same pattern as what shipped, pick up whenever.
 
 ---
 

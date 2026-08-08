@@ -866,7 +866,32 @@
         <priority>0.9</priority>
     </url>
     <url>
+        <loc>https://www.adawaty.tools/tools/json-merge/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://www.adawaty.tools/tools/json-sort/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://www.adawaty.tools/tools/json-string-escaper/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
         <loc>https://www.adawaty.tools/tools/css-gradient-generator/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://www.adawaty.tools/tools/xml-minifier/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://www.adawaty.tools/tools/nanoid-generator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
