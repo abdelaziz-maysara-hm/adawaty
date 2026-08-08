@@ -75,6 +75,7 @@ import { financeDefinitions } from './definitions/finance.js';
 import { healthDefinitions } from './definitions/health.js';
 import { mathDefinitions } from './definitions/math.js';
 import { textDeveloperDefinitions } from './definitions/text-developer.js';
+import { textExtraToolDefinitions } from './definitions/text-extra-tools.js';
 
 const numberFormatter = new Intl.NumberFormat('en-US', {
     maximumFractionDigits: 2,
@@ -1036,6 +1037,7 @@ const allToolDefinitions = Object.freeze({
     }),
     ...converterDefinitions,
     ...textDeveloperDefinitions,
+    ...textExtraToolDefinitions,
     ...financeDefinitions,
     ...healthDefinitions,
     ...mathDefinitions,

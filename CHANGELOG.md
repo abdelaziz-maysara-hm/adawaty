@@ -1,5 +1,31 @@
 # Changelog
 
+## 0.5.56 — 4 new Text Tools: Caesar cipher, acronym generator, line numbers, word wrap (August 2026)
+
+- Checked `npm run list:tools` broadly (case-convert, word-count, character-count, text-encrypt,
+  text-hash, text-sort, duplicate-line, morse, caesar, rot13, acronym, text-repeat, line-number,
+  text-wrap, syllable, pig-latin) before picking anything. Confirmed `text-case-converter`,
+  `word-counter`, `hash-generator` (MD5/SHA), `rot13-encoder-decoder`, and
+  `duplicate-line-remover` all already exist -- `rot13` specifically confirmed a general
+  configurable-shift `caesar-cipher` is still genuinely distinct (rot13 is just the fixed
+  shift-13 special case).
+- 4 new tools, zero new dependencies, pure string manipulation:
+  - `caesar-cipher` — configurable-shift substitution cipher (encrypt with a shift, decrypt with
+    its negative), clearly labeled as educational/puzzle-use only, not real security.
+  - `acronym-generator` — first letter of each word in a phrase.
+  - `line-number-adder` — prefixes every line with a sequential, zero-padded number and a chosen
+    separator.
+  - `text-word-wrapper` — breaks long lines at a chosen width without cutting words mid-word.
+- All 4 algorithms were unit-tested with real cases before being wired into tool definitions
+  (cipher encrypt/decrypt round-trip, acronym extraction, correct zero-padded numbering,
+  word-wrap line breaking), then every tool's `calculate()` was pre-executed with its own real
+  input values (text, number, and select types) before touching `tool-definitions.js` at all.
+- New file: `src/product/definitions/text-extra-tools.js`, registered in `tool-definitions.js`.
+- Proactively recomputed and updated the tool-count assertions before running validate.
+- Verified: `npm run validate` passes all 7 suites (497 tools total, 563 unique tool ids across
+  77 definition files); confirmed all 4 new pages render with correct Arabic titles.
+
+---
 ## 0.5.55 — 4 new Video Tools: rotate, crop, merge, watermark (August 2026)
 
 - Checked `npm run list:tools` for rotate/crop/merge/concat/watermark/reverse/loop/brightness/
