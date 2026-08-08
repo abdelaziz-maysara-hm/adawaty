@@ -111,7 +111,17 @@
         <priority>0.9</priority>
     </url>
     <url>
+        <loc>https://www.adawaty.tools/tools/percentage-calculator/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
         <loc>https://www.adawaty.tools/tools/age-calculator/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://www.adawaty.tools/tools/discount-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
@@ -322,6 +332,11 @@
     </url>
     <url>
         <loc>https://www.adawaty.tools/tools/break-even-calculator/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://www.adawaty.tools/tools/tip-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>

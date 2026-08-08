@@ -479,6 +479,31 @@ pattern as what shipped, pick up whenever, **always starting with `npm run list:
 
 ---
 
+## Pre-launch priority: cover the highest real-world search demand (August 2026)
+
+Site owner is close to launching and asked specifically to prioritize the tools people actually
+search for most, not just fill out the catalogue evenly. Checked the current category
+distribution: Developer (132 tools, this session's recent focus) is proportionally large relative
+to its typical per-tool search volume, while PDF (26) and Image (22-23) -- traditionally among
+the highest-traffic categories for any general-purpose tool site -- are comparatively smaller.
+
+**Done**: `bmi-calculator` (genuinely missing), plus un-retired `percentage-calculator`,
+`discount-calculator`, and `tip-calculator` after researching real competitor-site patterns and
+getting an explicit decision from the owner to reverse the 2026-07-30 retirement specifically for
+these three (see CHANGELOG 0.5.57 for the full history and reasoning -- this was a deliberate,
+surfaced decision, not something changed silently).
+
+**Still open, next in priority order**: a focused audit of PDF and Image tools specifically for
+gaps in the *highest*-demand basic operations (background removal is confirmed missing but is
+AI-dependent -- Tier E, deferred per the monetization strategy above, not a near-term build;
+currency conversion is confirmed missing but needs live exchange rates -- Tier B backend
+dependency, also deferred). Worth checking things like PDF page numbering, PDF form filling, and
+common image format/size presets (social media dimensions) specifically, since these are
+high-volume, purely client-side-feasible operations that may already be covered under
+differently-styled ids -- use `npm run list:tools` first, the same way as every batch above.
+
+---
+
 ## Monetization & cost strategy: "Totally Free," ad-funded (August 2026)
 
 Product decision, following a detailed cost/revenue analysis of the full ~2,300+ tool catalogue:

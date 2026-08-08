@@ -1,5 +1,56 @@
 # Changelog
 
+## 0.5.57 — BMI/percentage/discount/tip calculators: added, and a deliberate reversal of a past retirement decision (August 2026)
+
+Pre-launch push to cover the highest real-world search-demand tools, guided by the site owner's
+explicit request: "if these calculators genuinely have high search demand, build them; if not,
+they'd just be unnecessary bloat."
+
+- Checked category distribution first: Developer (132 tools) is proportionally large relative to
+  its typical per-tool search volume, while PDF (26) and Image (22-23) -- traditionally among the
+  highest-traffic categories for any tool site -- are comparatively smaller. This is background
+  context for future prioritization, not something changed in this entry.
+- **`bmi-calculator` added** -- confirmed missing via `npm run list:tools` (only niche variants
+  like `ponderal-index-calculator` existed, not the standard globally-known BMI formula).
+- **Found and resolved a real conflict, not silently**: `percentage-calculator`,
+  `discount-calculator`, and `tip-calculator` all already existed as *code* (the latter fully
+  live-quality in `finance.js`) but were silently excluded from the actual site via
+  `retired-tool-ids.js` -- a deliberate curation decision the site owner made himself on
+  2026-07-30 ("Retired 86 low-value arithmetic, direct-formula, and media-metadata calculators"),
+  enforced by an explicit regression test asserting `percentage-calculator` and
+  `discount-calculator` must stay `null`. Surfaced this conflict directly to the owner rather than
+  silently picking a side, since it was his own prior decision being potentially reversed.
+- **Researched before deciding**, rather than guessing: web search confirmed "percentage
+  calculator" is the flagship/hub tool on essentially every competing calculator site, and
+  "discount calculator" / "tip calculator" are commonly offered as separate, distinctly-titled
+  pages by the same competitors (not folded into just one general page) -- real evidence of
+  distinct standalone search intent for each, not just three low-value near-duplicates of one
+  general tool.
+- **Decision, made explicitly by the owner**: un-retire all three. Removed their ids from
+  `retired-tool-ids.js`. `tip-calculator`'s existing `finance.js` implementation needed no changes.
+  Added `percentage-calculator` (3 modes: X% of a number, what-percent-is-X-of-Y, percent change
+  between two numbers) and `discount-calculator` (final price + amount saved) in a new
+  `src/product/definitions/high-demand-calculators.js`.
+- **Updated the regression test rather than leaving it stale or silently deleting it**: replaced
+  the two `assert.equal(..., null)` lines in `tests/product/tools.integration.mjs` with assertions
+  that these three tools are live, with an inline comment explaining the full history (why they
+  were retired, why they're back, and how to re-retire them if this decision is revisited later).
+- **Caught a real, useful signal while fixing this**: `tests/product/tools.integration.mjs`
+  already contained a hardcoded expectation for `bmi-calculator`'s exact output
+  (`value: '22.9'`, `label: 'Healthy weight'` for a 70kg/175cm input) -- meaning `bmi-calculator`
+  was anticipated and specifically planned for at some point before this session, just never
+  built. My first implementation used `'Normal weight'`; corrected it to match the pre-existing
+  expected wording exactly instead of just changing the test to match my own choice.
+- All calculator algorithms (BMI classification thresholds, all 3 percentage modes, discount
+  amount/final price) were unit-tested with real numeric cases before being wired into tool
+  definitions, then pre-executed with real placeholder values before touching
+  `tool-definitions.js`.
+- Verified: `npm run validate` passes all 7 suites (**500 tools exactly**, 566 unique tool ids
+  across 78 definition files); confirmed all 4 tool pages (`bmi-calculator`,
+  `percentage-calculator`, `discount-calculator`, `tip-calculator`) render live with correct
+  Arabic and English content.
+
+---
 ## 0.5.56 — 4 new Text Tools: Caesar cipher, acronym generator, line numbers, word wrap (August 2026)
 
 - Checked `npm run list:tools` broadly (case-convert, word-count, character-count, text-encrypt,

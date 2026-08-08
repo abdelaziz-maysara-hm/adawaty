@@ -56,8 +56,19 @@ const bmiResult = bmi.calculate({ height: 175, weight: 70 }, 'en');
 assert.equal(bmiResult.value, '22.9');
 assert.equal(bmiResult.label, 'Healthy weight');
 
-assert.equal(getToolDefinition('percentage-calculator'), null);
-assert.equal(getToolDefinition('discount-calculator'), null);
+// percentage-calculator and discount-calculator were deliberately retired on 2026-07-30
+// ("Retired 86 low-value arithmetic, direct-formula, and media-metadata calculators") and this
+// test used to assert they stay retired. Un-retired 2026-08-08 per an explicit, fresh decision
+// from the site owner: keep them specifically if real search demand supports it. Checked --
+// "percentage calculator" is the flagship/hub tool on essentially every competing calculator
+// site, and "discount calculator" / "tip calculator" are commonly offered as separate,
+// distinctly-titled pages by the same competitors (not just modes folded into one page), which
+// is why all three (including tip-calculator, already implemented in finance.js) were brought
+// back rather than just percentage-calculator alone. If this decision is revisited, restore the
+// two `assert.equal(..., null)` lines below and re-add the ids to retired-tool-ids.js.
+assert.ok(getToolDefinition('percentage-calculator') !== null, 'percentage-calculator should be live (see comment above)');
+assert.ok(getToolDefinition('discount-calculator') !== null, 'discount-calculator should be live (see comment above)');
+assert.ok(getToolDefinition('tip-calculator') !== null, 'tip-calculator should be live (see comment above)');
 
 assert.equal(
     getToolDefinition('json-formatter').calculate({ text: '{"ready":true}' }, 'en').value,

@@ -20,6 +20,7 @@ import { devToolsBatch6Definitions } from './definitions/dev-tools-batch6.js';
 import { advancedMathDefinitions } from './definitions/advanced-math.js';
 import { advancedFinanceDefinitions } from './definitions/advanced-finance.js';
 import { advancedHealthDefinitions } from './definitions/advanced-health.js';
+import { demandCalculatorDefinitions } from './definitions/high-demand-calculators.js';
 import { studentStudyDefinitions } from './definitions/student-study.js';
 import { textEncodingDefinitions } from './definitions/text-encoding.js';
 import { advancedDateTimeDefinitions } from './definitions/advanced-date-time.js';
@@ -1061,6 +1062,7 @@ const allToolDefinitions = Object.freeze({
     ...advancedMathDefinitions,
     ...advancedFinanceDefinitions,
     ...advancedHealthDefinitions,
+    ...demandCalculatorDefinitions,
     ...studentStudyDefinitions,
     ...textEncodingDefinitions,
     ...advancedDateTimeDefinitions,

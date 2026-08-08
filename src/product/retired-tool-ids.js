@@ -1,5 +1,5 @@
 ﻿const retiredToolIds = Object.freeze([
-    'percentage-calculator', 'average-calculator', 'percentage-change-calculator', 'ratio-calculator',
+    'average-calculator', 'percentage-change-calculator', 'ratio-calculator',
     'gcd-calculator', 'lcm-calculator', 'fraction-simplifier', 'prime-number-checker',
     'factorial-calculator', 'exponent-calculator', 'nth-root-calculator', 'median-calculator',
     'mode-calculator', 'statistical-range-calculator', 'circle-calculator',
@@ -13,8 +13,8 @@
     'gravitational-potential-energy-calculator', 'mechanical-work-calculator',
     'pressure-from-force-calculator', 'mass-volume-density-calculator', 'wave-speed-calculator',
     'heat-energy-calculator', 'mass-energy-equivalence-calculator', 'hookes-law-calculator',
-    'simple-interest-calculator', 'tip-calculator', 'commission-calculator',
-    'markup-calculator', 'discount-calculator', 'body-surface-area-calculator',
+    'simple-interest-calculator', 'commission-calculator',
+    'markup-calculator', 'body-surface-area-calculator',
     'ponderal-index-calculator', 'adjusted-body-weight-calculator',
     'healthy-weight-range-calculator', 'steps-to-distance-calculator',
     'steps-to-calories-calculator', 'leap-year-calculator', 'day-of-week-calculator',
