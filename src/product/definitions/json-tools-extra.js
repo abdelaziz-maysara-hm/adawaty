@@ -129,157 +129,6 @@ const jsonDiff = Object.freeze({
     },
 });
 
-function escapeCsvCell(value) {
-    const text = value === null || value === undefined ? '' : String(value);
-    return /["\n,]/.test(text) ? `"${text.replaceAll('"', '""')}"` : text;
-}
-
-function jsonArrayToCsv(rows, language) {
-    if (!Array.isArray(rows) || rows.length === 0) {
-        throw new Error(localized(
-            language,
-            'أدخل مصفوفة JSON بها عنصر واحد على الأقل.',
-            'Enter a JSON array with at least one item.',
-        ));
-    }
-
-    const headers = [...new Set(rows.flatMap((row) => (
-        row && typeof row === 'object' ? Object.keys(row) : []
-    )))];
-
-    if (headers.length === 0) {
-        throw new Error(localized(
-            language,
-            'عناصر المصفوفة يجب أن تكون كائنات لها حقول.',
-            'Array items must be objects with fields.',
-        ));
-    }
-
-    const lines = [headers.map(escapeCsvCell).join(',')];
-    for (const row of rows) {
-        lines.push(headers.map((header) => escapeCsvCell(row?.[header])).join(','));
-    }
-
-    return { csv: lines.join('\n'), rowCount: rows.length, columnCount: headers.length };
-}
-
-const jsonToCsvTool = Object.freeze({
-    id: 'json-to-csv',
-    category: 'developer',
-    icon: 'JSON→CSV',
-    title: Object.freeze({ ar: 'تحويل JSON إلى CSV', en: 'JSON to CSV' }),
-    description: Object.freeze({
-        ar: 'حوّل مصفوفة كائنات JSON إلى جدول CSV، مع دعم الفواصل والاقتباسات داخل القيم.',
-        en: 'Convert a JSON array of objects into a CSV table, handling commas and quotes inside values.',
-    }),
-    note: Object.freeze({
-        ar: 'أعمدة الجدول تُبنى من كل الحقول الموجودة في أي عنصر، حتى لو اختلفت بين العناصر.',
-        en: 'Table columns are built from every field appearing in any item, even if items have different fields.',
-    }),
-    inputs: Object.freeze([
-        textInput('json', { ar: 'مصفوفة JSON', en: 'JSON array' }, '[{"name":"Ahmed","age":30},{"name":"Sara","age":25}]'),
-    ]),
-    calculate(values, language) {
-        const parsed = parseJsonOrThrow(values.json, language, localized(language, 'المدخل', 'The input'));
-        const { csv, rowCount, columnCount } = jsonArrayToCsv(parsed, language);
-
-        return output(
-            csv,
-            localized(language, 'جدول CSV جاهز', 'The CSV table is ready'),
-            localized(
-                language,
-                `${rowCount} صفوف · ${columnCount} أعمدة`,
-                `${rowCount} rows · ${columnCount} columns`,
-            ),
-        );
-    },
-});
-
-function parseCsvLine(line) {
-    const cells = [];
-    let current = '';
-    let inQuotes = false;
-
-    for (let index = 0; index < line.length; index += 1) {
-        const character = line[index];
-
-        if (inQuotes) {
-            if (character === '"' && line[index + 1] === '"') {
-                current += '"';
-                index += 1;
-            } else if (character === '"') {
-                inQuotes = false;
-            } else {
-                current += character;
-            }
-            continue;
-        }
-
-        if (character === '"') {
-            inQuotes = true;
-        } else if (character === ',') {
-            cells.push(current);
-            current = '';
-        } else {
-            current += character;
-        }
-    }
-
-    cells.push(current);
-    return cells;
-}
-
-function csvTextToJson(csvText, language) {
-    const lines = csvText.trim().split(/\r?\n/).filter((line) => line.length > 0);
-    if (lines.length < 2) {
-        throw new Error(localized(
-            language,
-            'يجب أن يحتوي CSV على صف عناوين وصف بيانات واحد على الأقل.',
-            'CSV must contain a header row and at least one data row.',
-        ));
-    }
-
-    const headers = parseCsvLine(lines[0]);
-    const rows = lines.slice(1).map((line) => {
-        const cells = parseCsvLine(line);
-        const row = {};
-        headers.forEach((header, index) => {
-            row[header] = cells[index] ?? '';
-        });
-        return row;
-    });
-
-    return rows;
-}
-
-const csvToJsonTool = Object.freeze({
-    id: 'csv-to-json',
-    category: 'developer',
-    icon: 'CSV→JSON',
-    title: Object.freeze({ ar: 'تحويل CSV إلى JSON', en: 'CSV to JSON' }),
-    description: Object.freeze({
-        ar: 'حوّل جدول CSV إلى مصفوفة كائنات JSON، مع فهم صحيح للقيم المحاطة باقتباسات.',
-        en: 'Convert a CSV table into a JSON array of objects, correctly handling quoted values.',
-    }),
-    note: Object.freeze({
-        ar: 'الصف الأول يُعامل كصف عناوين الأعمدة دائمًا.',
-        en: 'The first row is always treated as the column header row.',
-    }),
-    inputs: Object.freeze([
-        textInput('csv', { ar: 'نص CSV', en: 'CSV text' }, 'name,age\nAhmed,30\nSara,25'),
-    ]),
-    calculate(values, language) {
-        const rows = csvTextToJson(values.csv, language);
-        const json = JSON.stringify(rows, null, 2);
-
-        return output(
-            json,
-            localized(language, 'مصفوفة JSON جاهزة', 'The JSON array is ready'),
-            localized(language, `${rows.length} عنصر`, `${rows.length} items`),
-        );
-    },
-});
-
 /** Deep-merges b into a: objects merge recursively, arrays concatenate, primitives use b. */
 function deepMergeJson(a, b) {
     if (Array.isArray(a) && Array.isArray(b)) {
@@ -327,46 +176,6 @@ const jsonMerge = Object.freeze({
     },
 });
 
-/** Recursively sorts every object's keys alphabetically; arrays and primitives pass through. */
-function sortJsonKeys(value) {
-    if (Array.isArray(value)) {
-        return value.map(sortJsonKeys);
-    }
-    if (value && typeof value === 'object') {
-        const sorted = {};
-        for (const key of Object.keys(value).sort()) {
-            sorted[key] = sortJsonKeys(value[key]);
-        }
-        return sorted;
-    }
-    return value;
-}
-
-const jsonSort = Object.freeze({
-    id: 'json-sort',
-    category: 'developer',
-    icon: 'A→Z',
-    title: Object.freeze({ ar: 'ترتيب مفاتيح JSON أبجديًا', en: 'JSON Key Sort' }),
-    description: Object.freeze({
-        ar: 'رتّب مفاتيح كائن JSON أبجديًا بشكل تكراري في كل المستويات، مفيد لمقارنة أو مراجعة ملفات الإعداد.',
-        en: 'Recursively sort a JSON object\u2019s keys alphabetically at every level, useful for comparing or reviewing config files.',
-    }),
-    note: Object.freeze({
-        ar: 'ترتيب عناصر المصفوفات نفسها لا يتغيّر، فقط أسماء المفاتيح داخل الكائنات.',
-        en: 'Array item order itself is unchanged; only object key names are sorted.',
-    }),
-    inputs: Object.freeze([
-        textInput('json', { ar: 'JSON', en: 'JSON' }, '{"z":1,"a":{"y":2,"b":3},"m":4}'),
-    ]),
-    calculate(values, language) {
-        const parsed = parseJsonOrThrow(values.json, language, localized(language, 'المدخل', 'The input'));
-        return output(
-            JSON.stringify(sortJsonKeys(parsed), null, 2),
-            localized(language, 'JSON مرتّب جاهز', 'The sorted JSON is ready'),
-        );
-    },
-});
-
 const jsonStringEscaper = Object.freeze({
     id: 'json-string-escaper',
     category: 'developer',
@@ -405,10 +214,7 @@ const jsonStringEscaper = Object.freeze({
 
 const jsonToolsExtraDefinitions = Object.freeze({
     [jsonDiff.id]: jsonDiff,
-    [jsonToCsvTool.id]: jsonToCsvTool,
-    [csvToJsonTool.id]: csvToJsonTool,
     [jsonMerge.id]: jsonMerge,
-    [jsonSort.id]: jsonSort,
     [jsonStringEscaper.id]: jsonStringEscaper,
 });
 

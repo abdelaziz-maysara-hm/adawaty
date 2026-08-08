@@ -1,5 +1,41 @@
 # Changelog
 
+## 0.5.49 — Cleanup: removed 3 functionally-duplicate tools found while checking for the next batch (August 2026)
+
+Found while auditing existing coverage before starting a new batch, not a regression from this
+entry's own changes.
+
+- **The problem**: the id-uniqueness guard added in 0.5.47 only catches exact `id` string
+  collisions. It can't catch a *different* problem: two tools with different ids doing the exact
+  same job. Three of mine turned out to duplicate existing tools this way:
+  - `json-to-csv` (0.5.45) duplicated the already-existing `json-to-csv-converter`
+    (`data-developer.js`) -- identical functionality, different slug.
+  - `csv-to-json` (0.5.45) duplicated the already-existing `csv-to-json-converter`
+    (`data-developer.js`) -- same.
+  - `json-sort` (0.5.46) duplicated the already-existing `json-key-sorter` (`web-developer.js`) --
+    same recursive alphabetical key-sort behavior, explicitly documented the same way in both.
+  My exact-id grep check before each batch didn't catch these because the ids genuinely didn't
+  match (`json-sort` vs `json-key-sorter`) -- only the underlying functionality did.
+- **The fix**: removed all 3 duplicate tools and their now-unused exclusive helper functions from
+  `src/product/definitions/json-tools-extra.js`, keeping the original, already-shipped versions as
+  the only live ones. `json-diff`, `json-merge`, and `json-string-escaper` were checked again and
+  confirmed to have no functional equivalent anywhere in the codebase -- they remain.
+- **Net correction across the last 3 batches**: 10 genuinely new tools shipped, not 13 as
+  previously logged (`json-diff`, `css-gradient-generator`, `json-merge`, `json-string-escaper`,
+  `xml-minifier`, `nanoid-generator`, `jwt-encoder`, `jwt-inspector`, `regex-generator`,
+  `api-key-generator`).
+- **Lesson for future batches, added to the process**: an exact-id grep isn't enough on its own.
+  Before building a tool, also skim for an existing tool with a *similar* purpose under a
+  differently-styled slug (`-converter` / `-tool` suffixes, synonyms like `sort` vs `sorter`,
+  `merge` vs `combiner`) -- check the tool's `description` text for the same core verb + noun
+  pairing, not just the id string. Recorded in `docs/ROADMAP.md`.
+- Proactively recomputed and updated the tool-count assertions in
+  `tests/product/tool-user-journeys.integration.mjs` before running validate.
+- Verified: `npm run validate` passes all 7 suites (475 tools total, down from 478; 541 unique
+  tool ids across 71 definition files); confirmed the 3 restored original tools render correctly
+  and my 3 genuinely-unique JSON tools are unaffected.
+
+---
 ## 0.5.48 — Developer Tools batch 3: JWT encode/verify, regex presets, API key generator (August 2026)
 
 - Continued Developer Tools (Part 9), applying the process fix from 0.5.47: grepped existing tool

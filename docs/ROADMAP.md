@@ -395,6 +395,16 @@ that also appear near a `category:` field) before picking "gaps" from the master
 several catalogue-sounding names already exist under the exact expected slug. Applied
 successfully in batch 3 above.
 
+**Correction (0.5.49)**: `json-to-csv`, `csv-to-json`, and `json-sort` from the batches above
+turned out to functionally duplicate already-existing tools under different slugs
+(`json-to-csv-converter`, `csv-to-json-converter`, `json-key-sorter` in `data-developer.js` and
+`web-developer.js`) -- the exact-id uniqueness guard from the previous correction can't catch this
+class of problem since the ids genuinely differ, only the functionality matches. Removed the 3
+duplicates, keeping the originals live. Net result across batches 1-3 is 10 new tools, not 13.
+**Expanded lesson**: an exact-id grep isn't sufficient on its own -- before building a tool, also
+check for an existing one with the same core verb+noun in its description (`sort`/`sorter`,
+`merge`/`combiner`, `-converter` suffix variants), not just a matching id string.
+
 **Still open** (roughly 60+ catalogue items after the above): JSON viewer/editor +
 JSON↔XML/YAML/Excel conversions; the rest of the XML tool set (validator, beautifier, viewer,
 editor, compare/diff, XPath tester, XSD validator — note the validator needs a Node-safe
