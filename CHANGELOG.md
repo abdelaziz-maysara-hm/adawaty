@@ -1,5 +1,36 @@
 # Changelog
 
+## 0.5.47 — Fix: 3 silently duplicated tool ids from the last two batches + a permanent guard (August 2026)
+
+Bug found and fixed before continuing further work, not introduced by this entry's changes.
+
+- **The bug**: `css-box-shadow-generator`, `css-border-radius-generator` (added in 0.5.45) and
+  `random-string-generator` (added in 0.5.46) each duplicated a tool `id` that already existed --
+  the first two in `color-css.js`, the third in `data-developer.js`. Because
+  `tool-definitions.js` merges every definitions file into one object via plain object spread, a
+  duplicate id doesn't error or warn anywhere -- it silently discards whichever definition was
+  spread first. Since the new files were imported *after* the originals, my versions silently won,
+  meaning the original (already-live, already-tested) tools were quietly replaced with different
+  ones under the same URL. `npm run validate` never caught this because nothing checked for
+  cross-file id collisions.
+- **The fix**: removed the 3 duplicate definitions, keeping the original, already-shipped versions
+  as the live ones. `css-gradient-generator` (batch 1) and `nanoid-generator` (batch 2) were
+  genuinely new ids with no collision and are unaffected. Net result of the last two batches is
+  therefore **9 new tools**, not 12: `json-diff`, `json-to-csv`, `csv-to-json`,
+  `css-gradient-generator`, `json-merge`, `json-sort`, `json-string-escaper`, `xml-minifier`,
+  `nanoid-generator`.
+- **The permanent guard**: added `tests/product/tool-id-uniqueness.integration.mjs`, now part of
+  `npm run validate`. It parses the real import list from `tool-definitions.js`, imports all 70
+  definitions modules directly (bypassing the merge that hides collisions), and asserts no tool id
+  is defined in more than one file. Verified it actually catches this exact bug class by
+  deliberately reintroducing a duplicate id and confirming the test fails with a clear message
+  naming both files, before restoring and confirming it passes clean.
+- Cleaned up now-unused helper functions (`selectInput` in both affected files) left over after
+  removing the duplicate tool definitions.
+- Verified: `npm run validate` now passes **7** suites (up from 6), 474 tools total, confirmed the
+  3 restored original tool pages render their correct original content.
+
+---
 ## 0.5.46 — Developer Tools batch 2: JSON merge/sort/escape, XML minifier, ID generators (August 2026)
 
 - Continued the Developer Tools category (Part 9). 6 more client-side tools, zero new

@@ -29,19 +29,6 @@ function textFieldInput(id, ar, en, placeholder) {
     });
 }
 
-function selectInput(id, ar, en, options) {
-    return Object.freeze({
-        id,
-        type: 'select',
-        label: Object.freeze({ ar, en }),
-        unit: Object.freeze({ ar: '', en: '' }),
-        options: Object.freeze(options.map(([value, optAr, optEn]) => Object.freeze({
-            value,
-            label: Object.freeze({ ar: optAr, en: optEn }),
-        }))),
-    });
-}
-
 function isValidCssColor(value) {
     if (typeof value !== 'string') return false;
     const text = value.trim();
@@ -105,86 +92,8 @@ const gradientGenerator = cssTool({
     },
 });
 
-const shadowGenerator = cssTool({
-    id: 'css-box-shadow-generator',
-    icon: 'SHDW',
-    title: Object.freeze({ ar: 'مولّد ظل CSS', en: 'CSS Box Shadow Generator' }),
-    description: Object.freeze({
-        ar: 'أنشئ كود box-shadow من إزاحة أفقية ورأسية ومقدار تمويه وانتشار ولون.',
-        en: 'Generate box-shadow CSS from horizontal/vertical offset, blur, spread, and color.',
-    }),
-    note: Object.freeze({
-        ar: 'اختر الظل الداخلي (Inset) لو محتاج تأثير غائر بدل ظل خارجي بارز.',
-        en: 'Choose inset if you need a sunken effect instead of a raised outer shadow.',
-    }),
-    inputs: Object.freeze([
-        numberInput('x', 'الإزاحة الأفقية', 'Horizontal offset', 0, { min: -100, max: 100, unit: { ar: 'بكسل', en: 'px' } }),
-        numberInput('y', 'الإزاحة الرأسية', 'Vertical offset', 4, { min: -100, max: 100, unit: { ar: 'بكسل', en: 'px' } }),
-        numberInput('blur', 'مقدار التمويه', 'Blur radius', 12, { min: 0, max: 200, unit: { ar: 'بكسل', en: 'px' } }),
-        numberInput('spread', 'مقدار الانتشار', 'Spread radius', 0, { min: -100, max: 100, unit: { ar: 'بكسل', en: 'px' } }),
-        textFieldInput('color', 'اللون', 'Color', 'rgba(0,0,0,0.3)'),
-        selectInput('inset', 'نوع الظل', 'Shadow type', [
-            ['outset', 'خارجي (افتراضي)', 'Outset (default)'],
-            ['inset', 'داخلي (Inset)', 'Inset'],
-        ]),
-    ]),
-    calculate(values, language) {
-        if (!isValidCssColor(values.color)) {
-            throw new Error(localized(
-                language,
-                'أدخل قيمة لون صالحة (مثل rgba(0,0,0,0.3) أو #333).',
-                'Enter a valid color value (like rgba(0,0,0,0.3) or #333).',
-            ));
-        }
-
-        const insetPrefix = values.inset === 'inset' ? 'inset ' : '';
-        const css = `box-shadow: ${insetPrefix}${values.x}px ${values.y}px ${values.blur}px ${values.spread}px ${values.color};`;
-
-        return output(
-            css,
-            localized(language, 'كود الظل جاهز', 'Box shadow CSS is ready'),
-            localized(language, 'انسخ السطر والصقه في ملف CSS الخاص بك.', 'Copy the line and paste it into your CSS file.'),
-        );
-    },
-});
-
-const borderRadiusGenerator = cssTool({
-    id: 'css-border-radius-generator',
-    icon: 'RAD',
-    title: Object.freeze({ ar: 'مولّد استدارة الحواف CSS', en: 'CSS Border Radius Generator' }),
-    description: Object.freeze({
-        ar: 'حدد استدارة كل زاوية من زوايا العنصر الأربع وأنشئ كود border-radius جاهزًا.',
-        en: 'Set each of the element\u2019s four corner radii and generate ready border-radius CSS.',
-    }),
-    note: Object.freeze({
-        ar: 'لو الزوايا الأربع متساوية، الكود يُبسَّط تلقائيًا لقيمة واحدة بدل تكرارها أربع مرات.',
-        en: 'If all four corners match, the code automatically collapses to a single value instead of repeating it four times.',
-    }),
-    inputs: Object.freeze([
-        numberInput('topLeft', 'أعلى يسار', 'Top-left', 8, { min: 0, max: 500, unit: { ar: 'بكسل', en: 'px' } }),
-        numberInput('topRight', 'أعلى يمين', 'Top-right', 8, { min: 0, max: 500, unit: { ar: 'بكسل', en: 'px' } }),
-        numberInput('bottomRight', 'أسفل يمين', 'Bottom-right', 8, { min: 0, max: 500, unit: { ar: 'بكسل', en: 'px' } }),
-        numberInput('bottomLeft', 'أسفل يسار', 'Bottom-left', 8, { min: 0, max: 500, unit: { ar: 'بكسل', en: 'px' } }),
-    ]),
-    calculate(values, language) {
-        const { topLeft, topRight, bottomRight, bottomLeft } = values;
-        const allEqual = topLeft === topRight && topRight === bottomRight && bottomRight === bottomLeft;
-        const css = allEqual
-            ? `border-radius: ${topLeft}px;`
-            : `border-radius: ${topLeft}px ${topRight}px ${bottomRight}px ${bottomLeft}px;`;
-
-        return output(
-            css,
-            localized(language, 'كود الاستدارة جاهز', 'Border-radius CSS is ready'),
-            localized(language, 'الترتيب: أعلى يسار، أعلى يمين، أسفل يمين، أسفل يسار.', 'Order: top-left, top-right, bottom-right, bottom-left.'),
-        );
-    },
-});
-
 const cssGeneratorToolDefinitions = Object.freeze({
     [gradientGenerator.id]: gradientGenerator,
-    [shadowGenerator.id]: shadowGenerator,
-    [borderRadiusGenerator.id]: borderRadiusGenerator,
 });
 
 export { cssGeneratorToolDefinitions };

@@ -367,12 +367,25 @@ the product (`base64-encoder-decoder`, `url-encoder-decoder`, `cron-expression-b
 missing, since the master catalogue's exact naming doesn't always match what already shipped.
 
 **Done, first batch**: `json-diff` (recursive comparison, nested/array-aware), `json-to-csv` +
-`csv-to-json` (quoted-value-safe conversion), and three CSS snippet generators
-(`css-gradient-generator`, `css-box-shadow-generator`, `css-border-radius-generator`).
+`csv-to-json` (quoted-value-safe conversion), and `css-gradient-generator`.
 
 **Done, second batch**: `json-merge` (deep merge), `json-sort` (recursive key sort),
-`json-string-escaper` (escape/unescape for embedding), `xml-minifier`, and two ID/string
-generators (`nanoid-generator`, `random-string-generator`) using `crypto.getRandomValues`.
+`json-string-escaper` (escape/unescape for embedding), `xml-minifier`, and `nanoid-generator`
+(using `crypto.getRandomValues`).
+
+**Correction (0.5.47)**: two "CSS generators" and one "string generator" originally counted in
+these batches (`css-box-shadow-generator`, `css-border-radius-generator`,
+`random-string-generator`) turned out to already exist under the same id in `color-css.js` and
+`data-developer.js` respectively. Because `tool-definitions.js` merges every definitions file via
+object spread, the duplicate ids silently overwrote the original, already-shipped tools with no
+error anywhere. Removed the duplicates and restored the originals as the live versions; net result
+of the two batches is 9 new tools, not 12. Added a permanent test
+(`tests/product/tool-id-uniqueness.integration.mjs`, now part of `npm run validate`) that imports
+every definitions module directly and asserts no id is defined twice, so this exact bug class
+can't recur silently again. **Lesson for future batches**: grep existing tool ids
+(`grep -ohE "id: '[a-z0-9-]+'" src/product/definitions/*.js | sort | uniq -d`, filtering to ids
+that also appear near a `category:` field) before picking "gaps" from the master catalogue --
+several catalogue-sounding names already exist under the exact expected slug.
 
 **Still open** (roughly 65+ catalogue items after the above): JSON viewer/editor +
 JSON↔XML/YAML/Excel conversions; the rest of the XML tool set (validator, beautifier, viewer,

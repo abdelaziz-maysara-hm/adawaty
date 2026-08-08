@@ -30,19 +30,6 @@ function numberInput(id, ar, en, placeholder, options = {}) {
     });
 }
 
-function selectInput(id, ar, en, options) {
-    return Object.freeze({
-        id,
-        type: 'select',
-        label: Object.freeze({ ar, en }),
-        unit: Object.freeze({ ar: '', en: '' }),
-        options: Object.freeze(options.map(([value, optAr, optEn]) => Object.freeze({
-            value,
-            label: Object.freeze({ ar: optAr, en: optEn }),
-        }))),
-    });
-}
-
 /** Strips whitespace between tags and trims the whole document, without touching text content. */
 function minifyXmlText(xml) {
     return xml
@@ -126,49 +113,9 @@ const nanoidGenerator = Object.freeze({
     },
 });
 
-const RANDOM_STRING_CHARSETS = Object.freeze({
-    lettersNumbers: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
-    lettersOnly: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
-    numbersOnly: '0123456789',
-    withSymbols: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=',
-});
-
-const randomStringGenerator = Object.freeze({
-    id: 'random-string-generator',
-    category: 'developer',
-    icon: 'RND',
-    title: Object.freeze({ ar: 'مولّد نص عشوائي', en: 'Random String Generator' }),
-    description: Object.freeze({
-        ar: 'أنشئ نصًا عشوائيًا بطول ومجموعة أحرف تختارها، مفيد لكلمات المرور المؤقتة أو بيانات الاختبار.',
-        en: 'Generate a random string with a chosen length and character set, useful for temporary passwords or test data.',
-    }),
-    note: Object.freeze({
-        ar: 'يستخدم مولّد أرقام عشوائية آمن تشفيريًا داخل متصفحك.',
-        en: 'Uses a cryptographically secure random number generator in your browser.',
-    }),
-    inputs: Object.freeze([
-        numberInput('length', 'الطول', 'Length', 16, { min: 1, max: 256, unit: { ar: 'حرف', en: 'chars' } }),
-        selectInput('charset', 'مجموعة الأحرف', 'Character set', [
-            ['lettersNumbers', 'حروف وأرقام', 'Letters and numbers'],
-            ['lettersOnly', 'حروف فقط', 'Letters only'],
-            ['numbersOnly', 'أرقام فقط', 'Numbers only'],
-            ['withSymbols', 'حروف وأرقام ورموز', 'Letters, numbers and symbols'],
-        ]),
-    ]),
-    calculate(values, language) {
-        const alphabet = RANDOM_STRING_CHARSETS[values.charset] ?? RANDOM_STRING_CHARSETS.lettersNumbers;
-        const length = Math.round(values.length);
-        return output(
-            generateRandomId(length, alphabet),
-            localized(language, 'النص العشوائي جاهز', 'The random string is ready'),
-        );
-    },
-});
-
 const xmlAndIdToolDefinitions = Object.freeze({
     [xmlMinifier.id]: xmlMinifier,
     [nanoidGenerator.id]: nanoidGenerator,
-    [randomStringGenerator.id]: randomStringGenerator,
 });
 
 export { xmlAndIdToolDefinitions };
