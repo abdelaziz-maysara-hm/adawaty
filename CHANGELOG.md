@@ -1,5 +1,52 @@
 # Changelog
 
+## 0.5.58 — PDF/Image gap audit: 3 new Image tools, and a real pdf-lib limitation found before it caused a broken tool (August 2026)
+
+Continuing the pre-launch high-demand-coverage push into the two traditionally highest-traffic
+categories for a general tool site (PDF: 26 tools, Image: 22-23, both proportionally small next
+to Developer's 132).
+
+- **PDF audit finding, important**: checked `npm run list:tools` for password/protect/unlock/
+  encrypt, pdf-to-excel, pdf-sign, pdf-form, and pdf-to-powerpoint -- all confirmed missing.
+  Password protect/unlock is one of the single most commonly searched PDF operations globally, so
+  investigated building it. **Verified directly, rather than trusting documentation**: generated
+  a real password-encrypted PDF with `qpdf`, then tested `pdf-lib` v1.17.1 (the exact version this
+  project uses) against it. Despite blog posts claiming pdf-lib "supports working with user
+  passwords for decryption," `PDFDocument.load(bytes, { password: '...' })` **does not actually
+  decrypt at all** in this version -- it throws the same "document is encrypted" error regardless
+  of whether a correct, incorrect, or no password is supplied. Confirmed this isn't a mistake on
+  my end by testing both a correct and an incorrect password against the same real encrypted file.
+  **Conclusion**: PDF protect/unlock is not safely buildable with the current stack without adding
+  a real encryption library (a small dedicated one exists, e.g. `@pdfsmaller/pdf-encrypt-lite`,
+  ~7KB) -- this is a deliberate infrastructure decision to make once, not something to slip into a
+  routine batch. Recorded in `docs/ROADMAP.md` so a future session doesn't repeat the same
+  documentation-trusting mistake or silently ship a broken "protect PDF" tool that doesn't
+  actually protect anything.
+- **Image audit findings**: `image-to-base64`, `base64-to-image`, and social-media preset sizing
+  all confirmed missing via `npm run list:tools`.
+- 3 new tools, reusing the existing `renderImage` canvas helper (zero new dependencies):
+  - `image-to-base64` — encodes an image as a `data:` URL text file, ready to paste into CSS/HTML/
+    JSON.
+  - `base64-to-image` — decodes Base64 text (with or without the `data:` prefix) back into a
+    downloadable image file.
+  - `social-media-image-resizer` — crops and resizes to 8 exact platform preset dimensions
+    (Instagram square/portrait/story, Facebook cover/post, X post, LinkedIn cover, YouTube
+    thumbnail) using a center "cover crop" so the image is never stretched or distorted. The
+    cover-crop math (choosing which axis to crop based on comparing source vs target aspect
+    ratio) was unit-tested with three real cases (wide-into-square, tall-into-square, exact match)
+    before being wired into the tool.
+- New file: `src/product/definitions/image-extra-tools.js`, registered in `tool-definitions.js`.
+- Confirmed `atob`/`btoa` work identically in the Node test harness and the browser before relying
+  on them for `base64-to-image`.
+- Caught the same class of issue as `jwt-inspector` (0.5.48) before it could fail in CI: the first
+  `base64-to-image` placeholder ended in a literal `...` ellipsis rather than valid Base64, failing
+  the automated sample-execution test. Fixed by using a real, minimal, valid 1x1 PNG's Base64
+  encoding as the placeholder instead.
+- Proactively recomputed and updated the tool-count assertions before running validate.
+- Verified: `npm run validate` passes all 7 suites (503 tools total, 569 unique tool ids across
+  79 definition files); confirmed all 3 new pages render with correct Arabic titles.
+
+---
 ## 0.5.57 — BMI/percentage/discount/tip calculators: added, and a deliberate reversal of a past retirement decision (August 2026)
 
 Pre-launch push to cover the highest real-world search-demand tools, guided by the site owner's

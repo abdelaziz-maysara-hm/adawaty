@@ -502,6 +502,26 @@ common image format/size presets (social media dimensions) specifically, since t
 high-volume, purely client-side-feasible operations that may already be covered under
 differently-styled ids -- use `npm run list:tools` first, the same way as every batch above.
 
+**Update (0.5.58) — PDF audit result**: checked password/protect/unlock/encrypt, pdf-to-excel,
+pdf-sign, pdf-form, pdf-to-powerpoint -- all missing. **PDF protect/unlock specifically is NOT
+safely buildable right now**: verified directly with a real qpdf-encrypted test file that
+`pdf-lib` v1.17.1 (the exact version this project uses) does not actually decrypt with a supplied
+password despite some external documentation claiming otherwise -- `PDFDocument.load(bytes,
+{ password })` throws the same "encrypted" error regardless of whether the password is correct,
+wrong, or absent. Adding real encrypt/decrypt support needs a small dedicated library (e.g.
+`@pdfsmaller/pdf-encrypt-lite`, ~7KB, built specifically to pair with pdf-lib) -- a deliberate
+new-dependency decision to make once, not something to slip into a routine batch. **Don't
+re-attempt this with pdf-lib alone based on blog posts** -- verify against a real encrypted file
+first if revisited. `pdf-to-excel`/`pdf-sign`/`pdf-form`/`pdf-to-powerpoint` remain open and
+likely feasible, just not yet scoped.
+
+**Update (0.5.58) — Image audit result, done**: `image-to-base64`, `base64-to-image`, and
+`social-media-image-resizer` (8 platform-preset dimensions, proper center "cover crop" so images
+are never stretched) shipped. Still open: passport/ID photo maker (deliberately skipped for now --
+proper passport photos usually imply background removal, which is the same Tier E AI dependency
+noted above; a version without background handling risks not meeting real user expectations for
+this specific use case), meme generator, image pixelation/censoring tool.
+
 ---
 
 ## Monetization & cost strategy: "Totally Free," ad-funded (August 2026)

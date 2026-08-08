@@ -43,6 +43,7 @@ import { audioAnalysisToolDefinitions } from './definitions/audio-analysis-tools
 import { audioFilterToolDefinitions } from './definitions/audio-filter-tools.js';
 import { projectManagementDefinitions } from './definitions/project-management.js';
 import { imageFileToolDefinitions } from './definitions/image-file-tools.js';
+import { imageExtraToolDefinitions } from './definitions/image-extra-tools.js';
 import { imageEditingToolDefinitions } from './definitions/image-editing-tools.js';
 import { imageEnhancementToolDefinitions } from './definitions/image-enhancement-tools.js';
 import { imageFilterToolDefinitions } from './definitions/image-filter-tools.js';
@@ -1085,6 +1086,7 @@ const allToolDefinitions = Object.freeze({
     ...audioFilterToolDefinitions,
     ...projectManagementDefinitions,
     ...imageFileToolDefinitions,
+    ...imageExtraToolDefinitions,
     ...imageEditingToolDefinitions,
     ...imageEnhancementToolDefinitions,
     ...imageFilterToolDefinitions,
