@@ -13,6 +13,7 @@ import { dataDeveloperDefinitions } from './definitions/data-developer.js';
 import { jsonToolsExtraDefinitions } from './definitions/json-tools-extra.js';
 import { cssGeneratorToolDefinitions } from './definitions/css-generator-tools.js';
 import { xmlAndIdToolDefinitions } from './definitions/xml-and-id-tools.js';
+import { devToolsBatch3Definitions } from './definitions/dev-tools-batch3.js';
 import { advancedMathDefinitions } from './definitions/advanced-math.js';
 import { advancedFinanceDefinitions } from './definitions/advanced-finance.js';
 import { advancedHealthDefinitions } from './definitions/advanced-health.js';
@@ -1046,6 +1047,7 @@ const allToolDefinitions = Object.freeze({
     ...jsonToolsExtraDefinitions,
     ...cssGeneratorToolDefinitions,
     ...xmlAndIdToolDefinitions,
+    ...devToolsBatch3Definitions,
     ...advancedMathDefinitions,
     ...advancedFinanceDefinitions,
     ...advancedHealthDefinitions,

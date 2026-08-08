@@ -373,6 +373,13 @@ missing, since the master catalogue's exact naming doesn't always match what alr
 `json-string-escaper` (escape/unescape for embedding), `xml-minifier`, and `nanoid-generator`
 (using `crypto.getRandomValues`).
 
+**Done, third batch**: `jwt-encoder` (HS256 sign), `jwt-inspector` (decode + optional HS256
+signature verification + expiry check, complementing rather than duplicating the existing
+non-verifying `jwt-decoder`), `regex-generator` (common pattern presets), and
+`api-key-generator` (styled test key, explicitly not a real credential). Verified
+`crypto.subtle` HMAC works identically in the Node test harness and the browser before building
+on it.
+
 **Correction (0.5.47)**: two "CSS generators" and one "string generator" originally counted in
 these batches (`css-box-shadow-generator`, `css-border-radius-generator`,
 `random-string-generator`) turned out to already exist under the same id in `color-css.js` and
@@ -385,19 +392,21 @@ every definitions module directly and asserts no id is defined twice, so this ex
 can't recur silently again. **Lesson for future batches**: grep existing tool ids
 (`grep -ohE "id: '[a-z0-9-]+'" src/product/definitions/*.js | sort | uniq -d`, filtering to ids
 that also appear near a `category:` field) before picking "gaps" from the master catalogue --
-several catalogue-sounding names already exist under the exact expected slug.
+several catalogue-sounding names already exist under the exact expected slug. Applied
+successfully in batch 3 above.
 
-**Still open** (roughly 65+ catalogue items after the above): JSON viewer/editor +
+**Still open** (roughly 60+ catalogue items after the above): JSON viewer/editor +
 JSON↔XML/YAML/Excel conversions; the rest of the XML tool set (validator, beautifier, viewer,
 editor, compare/diff, XPath tester, XSD validator — note the validator needs a Node-safe
 well-formedness check, not `DOMParser`, since that's browser-only and the test harness runs in
 Node); the full YAML tool set (formatter, validator, beautifier, minifier, viewer, compare, merge,
 diff, YAML↔TOML); HTML formatter/validator/preview, HTML↔Markdown, HTML entity encode/decode; CSS
 formatter/validator/prefixer/unprefixer plus `clip-path` generator; the JS tool set (formatter,
-beautifier, minifier, obfuscator/deobfuscator, validator, diff/compare); `regex-generator`;
-`jwt-encoder`, `jwt-inspector`, `guid-generator`, `api-key-generator`; dummy-data generators
-(JSON/CSV/XML/SQL); and a combined `developer-toolkit` landing page. No architecture blockers on
-any of these — same pattern as what shipped, pick up whenever.
+beautifier, minifier, obfuscator/deobfuscator, validator, diff/compare); `guid-generator`
+(note: functionally near-identical to the existing `uuid-generator` — worth deciding if it should
+just be a braces-formatted `{xxxxxxxx-xxxx-...}` variant rather than a fully separate tool, not
+started); dummy-data generators (JSON/CSV/XML/SQL); and a combined `developer-toolkit` landing
+page. No architecture blockers on any of these — same pattern as what shipped, pick up whenever.
 
 ---
 

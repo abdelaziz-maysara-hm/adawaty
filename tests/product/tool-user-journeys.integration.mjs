@@ -166,9 +166,9 @@ assert.deepEqual(
         .join('\n')}`,
 );
 
-assert.equal(nonFileTools.length, 378);
+assert.equal(nonFileTools.length, 382);
 assert.equal(browserOnlyTools.size, 18);
-assert.equal(executableWithoutBrowser.length, 360);
+assert.equal(executableWithoutBrowser.length, 364);
 
 const journeys = [
     {

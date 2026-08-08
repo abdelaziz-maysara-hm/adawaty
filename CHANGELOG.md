@@ -1,5 +1,35 @@
 # Changelog
 
+## 0.5.48 — Developer Tools batch 3: JWT encode/verify, regex presets, API key generator (August 2026)
+
+- Continued Developer Tools (Part 9), applying the process fix from 0.5.47: grepped existing tool
+  ids near a `category:` field before starting, confirming all 4 new ids were genuinely unused.
+- 4 new tools, zero new dependencies (uses the browser's built-in Web Crypto API):
+  - `jwt-encoder` — builds and signs an HS256 JWT from a JSON payload and a shared secret.
+  - `jwt-inspector` — decodes a JWT's header and payload, optionally verifies its HS256 signature
+    against a provided secret, and reports expiry status. Complements the existing `jwt-decoder`
+    (which explicitly does not verify signatures) rather than duplicating it.
+  - `regex-generator` — returns ready, tested regex patterns for common cases (email, URL,
+    Egyptian phone number, IPv4, hex color, strong password) instead of writing one from scratch.
+  - `api-key-generator` — generates a styled test API key (prefix + cryptographically random
+    string via `crypto.getRandomValues`), explicitly labeled as test-only, not a real credential.
+- Before writing any tool code, verified `crypto.subtle`'s HMAC-SHA256 sign/verify works
+  identically in the Node test harness and the browser, then unit-tested a full JWT sign-and-verify
+  round trip (including a wrong-secret rejection case) with real data before wiring it into tool
+  definitions.
+- New file: `src/product/definitions/dev-tools-batch3.js`, registered in `tool-definitions.js`.
+- Caught and fixed one real issue before it became a repeat of a past mistake: the initial
+  `jwt-inspector` placeholder used a literal `...` ellipsis instead of a real 3-part token,
+  which failed the automated test harness's sample-value execution (the same class of problem
+  `jwt-decoder` had already solved with a real 3-part placeholder token) — fixed by reusing that
+  same working pattern instead of adding a separate test override.
+- Proactively recomputed and updated the three hardcoded tool-count assertions in
+  `tests/product/tool-user-journeys.integration.mjs` before running validate.
+- Verified: `npm run validate` passes all 7 suites (478 tools total, 544 unique tool ids across 71
+  definition files per the duplicate-id guard); confirmed all 4 new pages render with correct
+  Arabic titles.
+
+---
 ## 0.5.47 — Fix: 3 silently duplicated tool ids from the last two batches + a permanent guard (August 2026)
 
 Bug found and fixed before continuing further work, not introduced by this entry's changes.
