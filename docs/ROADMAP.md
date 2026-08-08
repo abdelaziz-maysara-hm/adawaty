@@ -356,6 +356,19 @@ can do, pushing anything needing an external codec/encoder library later:
 
 ### Developer Tools (Part 9, ~100 tools) — in progress
 
+**Mandatory pre-check before writing any new tool (added 0.5.52, after two separate duplicate
+incidents in 0.5.47 and 0.5.49 that a plain-text `grep` for `id: '...'` missed)**: run
+`npm run list:tools` (optionally `npm run list:tools -- <keyword>` to filter), or directly
+`node scripts/list-tool-ids.mjs <keyword>`. This imports every definitions module the same way
+`tool-definitions.js` does and reads the real `id` + Arabic title off each tool object at
+runtime — it can't miss a tool no matter which internal coding style its file happens to use.
+This matters concretely: a plain grep for `id: '...'` never matches `web-transform-tools.js` or
+`web-content-tools.js`, both of which pass the id as a *positional function argument*
+(`tool('some-id', icon, title, ...)`) rather than an object key — exactly how the
+`html-to-markdown-converter` collision in 0.5.51 slipped past a text search. Read the filtered
+results for a similar id *or* title before concluding a catalogue item is genuinely missing —
+exact-slug collisions and same-function-different-name duplicates have both happened before.
+
 Checked existing coverage before adding anything: **13 of the 100 catalogue slugs already
 existed** (`json-formatter`, `json-validator`, `json-minifier`, `xml-formatter`,
 `html-beautifier`, `html-minifier`, `css-beautifier`, `css-minifier`, `regex-tester`,

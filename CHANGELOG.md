@@ -1,5 +1,32 @@
 # Changelog
 
+## 0.5.52 — New tool: `npm run list:tools`, a reliable pre-check to stop duplicate tools for good (August 2026)
+
+Process infrastructure, no product-facing tool changes.
+
+- **Root cause of the two duplicate incidents in 0.5.47/0.5.49/0.5.51**: pre-check searches were
+  plain-text `grep` for the pattern `id: '...'`. Two definitions files
+  (`web-transform-tools.js`, `web-content-tools.js`) build their tools through a `tool(id, icon,
+  title, ...)` helper function that takes the id as a positional argument, not an `id: '...'`
+  object key — so a text search for that pattern can never find a tool defined there, no matter
+  how the search terms are chosen. This is exactly how `html-to-markdown-converter` slipped past
+  a dedicated audit in 0.5.51 (caught only because the id-uniqueness *test* runs the real code,
+  not a text search).
+- **The fix**: added `scripts/list-tool-ids.mjs`, exposed as `npm run list:tools` (optionally
+  `npm run list:tools -- <keyword>` to filter). It imports every definitions module exactly the
+  way `tool-definitions.js` does and reads the real `id` + Arabic/English title + description off
+  each tool object at runtime — immune to internal coding-style differences between files, since
+  it reads the final constructed object, not the source text that built it.
+- Verified it actually finds the tool the old grep missed: `npm run list:tools -- markdown` now
+  correctly lists `html-to-markdown-converter` from `web-transform-tools.js` alongside the other
+  4 markdown-related tools.
+- Documented this as a **mandatory first step** before writing any new tool in
+  `docs/ROADMAP.md`'s Developer Tools section, with the concrete failure mode spelled out so a
+  future session (or a future me) doesn't quietly drift back to grep-only checking.
+- Verified: `npm run validate` still passes all 7 suites (481 tools, unaffected — this adds a
+  new script and an npm alias only, no product code changed).
+
+---
 ## 0.5.51 — Developer Tools batch 5: XML↔JSON, XML validator, CSS prefixer (August 2026)
 
 - Before writing any code, ran one comprehensive audit pass (not the previous piecemeal

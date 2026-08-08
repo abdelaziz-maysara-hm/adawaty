@@ -1,6 +1,6 @@
 {
   "name": "adawaty",
-  "version": "0.5.51",
+  "version": "0.5.52",
   "private": true,
   "type": "module",
   "description": "A bilingual, extensible platform for free online tools.",
@@ -8,6 +8,7 @@
   "scripts": {
     "generate:product": "node scripts/generate-product-pages.mjs",
     "prepare:media-runtime": "node scripts/prepare-media-runtime.mjs",
+    "list:tools": "node scripts/list-tool-ids.mjs",
     "test": "node scripts/run-tests.mjs",
     "test:journeys": "node tests/product/tool-user-journeys.integration.mjs",
     "check": "node scripts/check-syntax.mjs",
