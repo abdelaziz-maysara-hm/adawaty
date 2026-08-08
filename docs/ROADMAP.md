@@ -441,18 +441,23 @@ grayscale, sepia, EXIF removal, social-media platform presets (via
 blur/pixelate (`photo-censor`, covers the catalogue's face-blur/face-pixelate as a general-
 purpose tool rather than face-specific).
 
-**Quick wins — genuinely simple Tier A, not yet built (11 items)**:
-- `text-watermark` — Text Watermark (علامة مائية نصية)
-- `view-exif` — View EXIF (عرض بيانات EXIF)
-- `edit-exif` — Edit EXIF (تعديل EXIF)
-- `grid-maker` — Grid Maker (شبكة صور)
-- `contact-sheet` — Contact Sheet (ورقة مصغرات)
-- `photo-strip` — Photo Strip (شريط صور)
-- `image-slider` — Image Comparison Slider (مقارنة الصور)
-- `dominant-color` — Dominant Color Finder (استخراج اللون الأساسي)
-- `image-size` — Image Size Analyzer (تحليل الأبعاد)
-- `compression-analysis` — Compression Analyzer (تحليل الضغط)
-- `image-validator` — Image File Validator (التحقق من الصور)
+**Quick wins — genuinely simple Tier A (11 items) — ALL DONE (0.5.63)**:
+- `text-watermark` ✅ shipped as `text-watermark`
+- `view-exif` ✅ shipped as `view-exif` (using the new `piexifjs` dependency, verified with a real
+  round trip against two independent tools before use)
+- `edit-exif` ✅ shipped as `edit-exif`
+- `grid-maker` ✅ shipped as `grid-maker`
+- `contact-sheet` ✅ shipped as `image-contact-sheet` (renamed from the catalogue's plain
+  `contact-sheet` to avoid confusion with the pre-existing, unrelated
+  `video-contact-sheet-generator`)
+- `photo-strip` ✅ shipped as `photo-strip`
+- `image-slider` ✅ shipped as `image-slider`, but as a static labeled before/after composite
+  image rather than a true interactive drag-slider — the tool-page renderer only supports static
+  upload-then-download tools, the same UI-paradigm limit as the live-microphone and PDF-form gaps
+- `dominant-color` ✅ shipped as `dominant-color`
+- `image-size` ✅ shipped as `image-size`
+- `compression-analysis` ✅ shipped as `compression-analysis`
+- `image-validator` ✅ shipped as `image-validator`
 
 Note: `view-exif`/`edit-exif` naturally absorb the catalogue's separate GPS/camera/lens/ISO/
 shutter-speed/aperture-viewer entries (141, 144-149) as one combined metadata tool rather than

@@ -1,5 +1,47 @@
 # Changelog
 
+## 0.5.63 — All 11 Image "quick win" tools shipped, including a new genuine read+write EXIF library (August 2026)
+
+Implements the full "quick wins" list from the 0.5.62 Image classification.
+
+- **`view-exif` and `edit-exif`**: added `piexifjs` (v1.0.6), the first new dependency since
+  `pdf-encrypt-lite` (0.5.59) -- verified thoroughly before use, since most EXIF libraries are
+  read-only and this project specifically needed genuine write support. Tested a full real round
+  trip before writing any tool code: wrote new EXIF fields to a real JPEG, read them back
+  correctly, confirmed the output still opens correctly in two independent tools (Pillow,
+  ImageMagick), confirmed `remove()` works. Also caught and explained a subtlety while testing GPS
+  coordinate math: `piexifjs` silently truncates non-integer rational numerators when *writing*
+  (e.g. `39.84` seconds becomes `39`) -- confirmed this doesn't affect the shipped tools since
+  `edit-exif` only writes make/model/software (never GPS) and `view-exif` only *reads* GPS from
+  real camera-written data (which already uses proper integer rationals). All EXIF tag constants
+  used (`ImageIFD.Make`, `ExifIFD.FocalLength`, `GPSIFD.GPSLatitude`, etc.) were verified to
+  actually exist in the real library before use, not assumed from documentation.
+- **Reused and tested other algorithms before wiring in**: dominant-color extraction (pixel
+  binning into coarse RGB buckets, caught and fixed a real off-by-one clamping bug during testing
+  where quantizing 255 could overflow to 256), the grid/contact-sheet/photo-strip layout math
+  (reusing the same cover-crop function verified in 0.5.58's `social-media-image-resizer`), and
+  image-signature validation (real magic-byte checking, not just trusting the file extension or
+  claimed MIME type).
+- 11 new tools, organized into 3 new files:
+  - `src/product/definitions/image-exif-tools.js`: `view-exif`, `edit-exif`.
+  - `src/product/definitions/image-analysis-extra-tools.js`: `dominant-color`, `image-size`
+    (dimensions/file size/aspect ratio/format in one report), `compression-analysis` (re-encodes
+    at 4 quality levels and reports the size/savings tradeoff at each), `image-validator`
+    (magic-byte signature check), `text-watermark`.
+  - `src/product/definitions/image-layout-tools.js`: `grid-maker`, `image-contact-sheet` (grid
+    with filenames labeled below each cell -- renamed from the catalogue's plain `contact-sheet`
+    to avoid confusion with the pre-existing, unrelated `video-contact-sheet-generator`),
+    `photo-strip` (vertical photobooth-style strip, 2-6 images), and `image-slider` (built as a
+    static labeled side-by-side "before/after" composite image rather than a true interactive
+    drag-slider, since the current tool-page renderer only supports static upload-then-download
+    tools -- the same UI-paradigm limit noted for live-microphone and PDF-form tools earlier).
+- All 3 new files registered in `tool-definitions.js`.
+- Verified: `npm run validate` passes all 7 suites cleanly **on the first run** (517 tools total,
+  583 unique tool ids across 85 definition files) -- no fix-forward needed, unlike several earlier
+  batches, attributed directly to testing every non-trivial algorithm (EXIF round trip, dominant-
+  color binning, magic-byte signatures) against real data before writing any tool-definition code.
+
+---
 ## 0.5.62 — Full Image catalogue classification: 200 items sorted by tier and priority (August 2026)
 
 Planning/documentation only, no code changes. Same treatment as the PDF classification (0.5.61),
