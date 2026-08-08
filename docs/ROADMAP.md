@@ -510,10 +510,20 @@ password despite some external documentation claiming otherwise -- `PDFDocument.
 { password })` throws the same "encrypted" error regardless of whether the password is correct,
 wrong, or absent. Adding real encrypt/decrypt support needs a small dedicated library (e.g.
 `@pdfsmaller/pdf-encrypt-lite`, ~7KB, built specifically to pair with pdf-lib) -- a deliberate
-new-dependency decision to make once, not something to slip into a routine batch. **Don't
-re-attempt this with pdf-lib alone based on blog posts** -- verify against a real encrypted file
-first if revisited. `pdf-to-excel`/`pdf-sign`/`pdf-form`/`pdf-to-powerpoint` remain open and
-likely feasible, just not yet scoped.
+new-dependency decision to make once, not something to slip into a routine batch.
+`pdf-to-excel`/`pdf-sign`/`pdf-form`/`pdf-to-powerpoint` remain open and likely feasible, just not
+yet scoped.
+
+**Update (0.5.59) — PDF protect resolved**: `pdf-protect` shipped, using a new dedicated
+dependency (`@pdfsmaller/pdf-encrypt-lite`, ~7KB) added specifically to pair with `pdf-lib` for
+real RC4-128 encryption, since `pdf-lib` alone can only encrypt structurally-empty placeholders,
+not genuinely protect a file. Verified at every layer against independent tools (`qpdf`, `pypdf`)
+before shipping, including the exact combined pipeline (`pdf-lib` normalize → `.save()` → encrypt)
+end-to-end, not just each library in isolation. **`pdf-unlock` (removing an existing password)
+remains unsolved** -- this new library only adds encryption, and `pdf-lib` still can't decrypt
+(the 0.5.58 finding). A genuine decryption library would need the same rigor of direct
+verification before being trusted, given how wrong the initial pdf-lib documentation claim
+turned out to be.
 
 **Update (0.5.58) — Image audit result, done**: `image-to-base64`, `base64-to-image`, and
 `social-media-image-resizer` (8 platform-preset dimensions, proper center "cover crop" so images

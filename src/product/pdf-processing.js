@@ -1,8 +1,10 @@
 const PDF_LIB_URL = 'https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/+esm';
 const PDF_JS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.mjs';
 const PDF_JS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.worker.mjs';
+const PDF_ENCRYPT_URL = 'https://cdn.jsdelivr.net/npm/@pdfsmaller/pdf-encrypt-lite@1.2.0/+esm';
 let pdfLibPromise;
 let pdfJsPromise;
+let pdfEncryptPromise;
 
 async function loadPdfLib() {
     pdfLibPromise ??= import(PDF_LIB_URL).catch((error) => {
@@ -21,6 +23,26 @@ async function loadPdfJs() {
         throw new Error(`Unable to load the PDF rendering engine: ${error.message}`);
     });
     return pdfJsPromise;
+}
+
+/**
+ * pdf-lib (the library used everywhere else in this file) can only read the
+ * *structure* of an encrypted PDF's header enough to detect that it's
+ * encrypted -- PDFDocument.load(bytes, { password }) does not actually
+ * decrypt content in the version pinned here (verified directly against a
+ * real qpdf-encrypted test file: it throws the same "document is
+ * encrypted" error regardless of whether the password given is correct,
+ * incorrect, or omitted). This separate, small, purpose-built library
+ * handles real RC4-128 encryption for *adding* a password to an existing
+ * (unencrypted) PDF. It does not add decryption capability -- removing an
+ * existing password is a separate, still-unsolved problem in this stack.
+ */
+async function loadPdfEncrypt() {
+    pdfEncryptPromise ??= import(PDF_ENCRYPT_URL).catch((error) => {
+        pdfEncryptPromise = undefined;
+        throw new Error(`Unable to load the PDF encryption engine: ${error.message}`);
+    });
+    return pdfEncryptPromise;
 }
 
 function assertPdfFile(file) {
@@ -85,6 +107,7 @@ export {
     assertPdfFile,
     createPdfBlob,
     inspectPdfFile,
+    loadPdfEncrypt,
     loadPdfLib,
     loadPdfJs,
     outputName,

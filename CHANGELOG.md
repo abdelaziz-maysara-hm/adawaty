@@ -1,5 +1,41 @@
 # Changelog
 
+## 0.5.59 — PDF Password Protector: a new dependency, added only after real end-to-end verification (August 2026)
+
+Follow-up to the 0.5.58 finding that `pdf-lib` alone can't handle PDF encryption. Per the site
+owner's explicit request to specifically prioritize this (high real-world search demand), added
+real password-protection -- the first genuinely new external dependency added in this whole
+session's work (everything before this reused libraries already present: `pdf-lib`, `pdfjs-dist`,
+`jszip`).
+
+- **Verified before writing any tool code, at every layer, against real independent tools --
+  not documentation, not the library's own claims**:
+  1. Installed `@pdfsmaller/pdf-encrypt-lite` (a ~7KB library built specifically to pair with
+     `pdf-lib` for RC4-128 encryption) and generated a real unencrypted test PDF.
+  2. Encrypted it with the library, then verified the *output* with `qpdf` (a completely
+     independent, unrelated PDF tool) -- confirmed it genuinely requires a password to open,
+     correctly rejects a wrong password, and correctly opens with the right one.
+  3. Extracted the decrypted text with `pypdf` (a third, independent tool) and confirmed the
+     original content survived byte-for-byte intact through the full encrypt/decrypt round trip.
+  4. **Tested the exact combined pipeline the real tool uses** (load through `pdf-lib` first to
+     normalize the PDF structure, `.save()`, then encrypt the result) end-to-end, again verified
+     with `qpdf` and `pypdf` independently -- not just each library tested in isolation.
+- Added `loadPdfEncrypt()` to `src/product/pdf-processing.js`, following the exact same
+  lazy-load-with-caching pattern as the existing `loadPdfLib()`/`loadPdfJs()`, loaded from jsDelivr
+  the same way every other CDN dependency in this project already is. Documented directly in the
+  code comment why this library exists separately from `pdf-lib` (the 0.5.58 finding) and that it
+  only adds encryption, not decryption -- removing an existing password remains unsolved.
+- New tool: `pdf-protect` -- adds a password to a PDF so any standard reader requires it to open
+  the file. Minimum 4-character password requirement; clear warning that a forgotten password is
+  unrecoverable (the library doesn't retain or expose it anywhere).
+- New file: `src/product/definitions/pdf-protect-tool.js`, registered in `tool-definitions.js`.
+- Verified: `npm run validate` passes all 7 suites (504 tools total, 570 unique tool ids across
+  80 definition files); confirmed the new page renders with the correct Arabic title.
+- **Still not solved**: `pdf-unlock` (removing an existing password). This new library only
+  encrypts; `pdf-lib` still can't decrypt (per 0.5.58's finding). Would need a genuine PDF
+  decryption library, a separate investigation.
+
+---
 ## 0.5.58 — PDF/Image gap audit: 3 new Image tools, and a real pdf-lib limitation found before it caused a broken tool (August 2026)
 
 Continuing the pre-launch high-demand-coverage push into the two traditionally highest-traffic
