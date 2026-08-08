@@ -511,8 +511,15 @@ password despite some external documentation claiming otherwise -- `PDFDocument.
 wrong, or absent. Adding real encrypt/decrypt support needs a small dedicated library (e.g.
 `@pdfsmaller/pdf-encrypt-lite`, ~7KB, built specifically to pair with pdf-lib) -- a deliberate
 new-dependency decision to make once, not something to slip into a routine batch.
-`pdf-to-excel`/`pdf-sign`/`pdf-form`/`pdf-to-powerpoint` remain open and likely feasible, just not
-yet scoped.
+**Update (0.5.60)**: `pdf-sign` shipped -- places a signature *image* on a chosen page/position,
+a static-input-friendly solution to the same underlying need. `pdf-form` (auto-detecting and
+filling a PDF's own form fields) investigated and found **architecturally infeasible right now**:
+`pdf-lib`'s `getForm()` API genuinely works, but the tool-page renderer only supports a static,
+pre-defined `inputs` array declared at tool-definition time -- there's no mechanism to generate
+input fields dynamically based on an uploaded file's actual content (the specific fields a given
+PDF happens to have). Same class of gap as the live-microphone audio tools noted in Wave 2 above:
+a real infrastructure/UI-paradigm decision to make deliberately, not a routine tool to slip in.
+`pdf-to-excel`/`pdf-to-powerpoint` remain open and unscoped.
 
 **Update (0.5.59) — PDF protect resolved**: `pdf-protect` shipped, using a new dedicated
 dependency (`@pdfsmaller/pdf-encrypt-lite`, ~7KB) added specifically to pair with `pdf-lib` for
@@ -525,12 +532,14 @@ remains unsolved** -- this new library only adds encryption, and `pdf-lib` still
 verification before being trusted, given how wrong the initial pdf-lib documentation claim
 turned out to be.
 
-**Update (0.5.58) — Image audit result, done**: `image-to-base64`, `base64-to-image`, and
-`social-media-image-resizer` (8 platform-preset dimensions, proper center "cover crop" so images
-are never stretched) shipped. Still open: passport/ID photo maker (deliberately skipped for now --
-proper passport photos usually imply background removal, which is the same Tier E AI dependency
-noted above; a version without background handling risks not meeting real user expectations for
-this specific use case), meme generator, image pixelation/censoring tool.
+**Update (0.5.58)**: `image-to-base64`, `base64-to-image`, and `social-media-image-resizer` (8
+platform-preset dimensions, proper center "cover crop" so images are never stretched) shipped.
+
+**Update (0.5.60)**: `meme-generator` shipped (classic top/bottom captions, real canvas
+`measureText()` word wrapping). Confirmed `photo-censor` (blur/pixelate) already existed under a
+name an earlier keyword search missed -- avoided duplicating it. Still open: passport/ID photo
+maker (deliberately skipped -- proper passport photos usually imply background removal, the same
+Tier E AI dependency noted above).
 
 ---
 

@@ -54,6 +54,8 @@ import { pdfWorkflowToolDefinitions } from './definitions/pdf-workflow-tools.js'
 import { pdfImageToolDefinitions } from './definitions/pdf-image-tools.js';
 import { pdfDocumentToolDefinitions } from './definitions/pdf-document-tools.js';
 import { pdfProtectToolDefinitions } from './definitions/pdf-protect-tool.js';
+import { pdfSignToolDefinitions } from './definitions/pdf-sign-tool.js';
+import { memeToolDefinitions } from './definitions/meme-generator-tool.js';
 import { pdfContentToolDefinitions } from './definitions/pdf-content-tools.js';
 import { pdfEditorToolDefinitions } from './definitions/pdf-editor-tools.js';
 import { visualPdfEditorToolDefinitions } from './definitions/visual-pdf-editor-tool.js';
@@ -1098,6 +1100,8 @@ const allToolDefinitions = Object.freeze({
     ...pdfImageToolDefinitions,
     ...pdfDocumentToolDefinitions,
     ...pdfProtectToolDefinitions,
+    ...pdfSignToolDefinitions,
+    ...memeToolDefinitions,
     ...pdfContentToolDefinitions,
     ...pdfEditorToolDefinitions,
     ...visualPdfEditorToolDefinitions,

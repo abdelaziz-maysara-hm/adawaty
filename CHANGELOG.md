@@ -1,5 +1,36 @@
 # Changelog
 
+## 0.5.60 — PDF Signature Placer, Meme Generator; PDF form-filling confirmed architecturally infeasible right now (August 2026)
+
+Continuing the PDF/Image high-demand push.
+
+- Checked `npm run list:tools` for pdf-sign/pdf-signature/pdf-form and sticker/meme/pixelat/
+  censor/blur-face/color-palette first. `photo-censor` (blur/pixelate) already existed under a
+  name the earlier keyword search missed -- good catch, avoided a duplicate.
+- **`pdf-form` (auto-detect and fill a PDF's existing form fields) investigated and found
+  architecturally infeasible right now**: confirmed `pdf-lib`'s `getForm()` API genuinely exists
+  and works for form filling, but the site's tool-page renderer only supports a *static*,
+  pre-defined `inputs` array declared at tool-definition time -- there's no mechanism anywhere in
+  `tool-page.js` to generate input fields dynamically based on an uploaded file's actual content
+  (i.e., the specific fields a given PDF happens to contain). This is the same class of gap
+  identified for live-microphone audio tools (0.5.53's Wave 2 note): a real infrastructure
+  decision, not a routine tool to add. Recorded in `docs/ROADMAP.md`.
+- **`pdf-sign` shipped instead** (a feasible, static-input-friendly alternative solving the same
+  underlying need): places a signature *image* (handwritten or any prepared signature graphic) at
+  a chosen page, size, and corner/center position -- reusing the exact `page.drawImage()` pattern
+  already used for `video-watermark`/similar tools. Verified with `pdf-lib`'s real image-embedding
+  API against a genuine test PDF, confirmed with `pypdf` (an independent tool) that the output has
+  the correct page count and dimensions before shipping.
+- **`meme-generator` shipped**: classic white-text-with-black-outline top/bottom captions on any
+  image, using the canvas's own real `measureText()` for word wrapping (not an estimate) --
+  matches the established pattern already used in `roadmap-batch-1.js`'s code-to-image tool for
+  canvas text rendering.
+- New files: `src/product/definitions/pdf-sign-tool.js`,
+  `src/product/definitions/meme-generator-tool.js`, both registered in `tool-definitions.js`.
+- Verified: `npm run validate` passes all 7 suites (506 tools total, 572 unique tool ids across
+  82 definition files); confirmed both new pages render with correct Arabic titles.
+
+---
 ## 0.5.59 — PDF Password Protector: a new dependency, added only after real end-to-end verification (August 2026)
 
 Follow-up to the 0.5.58 finding that `pdf-lib` alone can't handle PDF encryption. Per the site
