@@ -48,6 +48,7 @@ import { imageExtraToolDefinitions } from './definitions/image-extra-tools.js';
 import { imageExifToolDefinitions } from './definitions/image-exif-tools.js';
 import { imageAnalysisExtraToolDefinitions } from './definitions/image-analysis-extra-tools.js';
 import { imageLayoutToolDefinitions } from './definitions/image-layout-tools.js';
+import { imageDetectorToolDefinitions } from './definitions/image-detector-tools.js';
 import { imageEditingToolDefinitions } from './definitions/image-editing-tools.js';
 import { imageEnhancementToolDefinitions } from './definitions/image-enhancement-tools.js';
 import { imageFilterToolDefinitions } from './definitions/image-filter-tools.js';
@@ -1098,6 +1099,7 @@ const allToolDefinitions = Object.freeze({
     ...imageExifToolDefinitions,
     ...imageAnalysisExtraToolDefinitions,
     ...imageLayoutToolDefinitions,
+    ...imageDetectorToolDefinitions,
     ...imageEditingToolDefinitions,
     ...imageEnhancementToolDefinitions,
     ...imageFilterToolDefinitions,

@@ -1,5 +1,45 @@
 # Changelog
 
+## 0.5.66 — 4 image quality detector tools: sharpness, blur, noise, histogram (August 2026)
+
+Note: this session's `git pull` picked up `avif-to-jpg-converter` (0.5.65) from a separate,
+parallel work session on this same repo (matching quality bar and conventions -- reasoned through
+the asymmetric AVIF encode/decode browser-support gap before shipping only the decode direction).
+Not authored in this session, mentioned here for continuity since it landed between this entry
+and the previous one.
+
+- Continued the Image "needs investigation" list from the 0.5.62 classification. All 4 detector
+  algorithms are pure canvas pixel-math with no browser-only Worker/WASM dependency (unlike HEIC/
+  AVIF), so -- unlike those -- they were fully unit-tested with real discriminating test data
+  before being wired into tool definitions:
+  - **Sharpness**: Laplacian-variance focus measure (a standard, well-documented technique).
+    Verified a high-contrast checkerboard test image scores variance ~1,040,400 while a flat
+    uniform-color image scores exactly 0 -- correctly and dramatically discriminates sharp from
+    flat.
+  - **Blur**: same underlying measurement as sharpness, with a simplified yes/no threshold instead
+    of a raw score, for a more direct answer to "is this blurry".
+  - **Noise**: average absolute difference between horizontally-adjacent pixels (a simple, real
+    noise proxy). Verified a clean flat-gray test image scores 0.00 while a randomly-perturbed
+    version of the same image scores 19.44 -- correctly discriminates clean from noisy.
+  - **Histogram**: standard per-channel (R/G/B) value-distribution chart, rendered as a downloadable
+    PNG image rather than just numbers.
+- **Found and avoided a real duplicate before it shipped**: `svg-to-png` (initially planned
+  alongside the 4 detectors) turned out to already exist as `svg-to-png-converter` in
+  `web-utility-tools-2.js` -- and the existing version is more complete (lets the user specify
+  custom output width/height, mine would have only used the SVG's native size). Caught via
+  `npm run list:tools -- svg-to-png`, removed before registering anything.
+- **Corrected my own search methodology while investigating this**: `list-tool-ids.mjs` does plain
+  substring matching, not regex OR -- an earlier search for `"svg-to-png\|png-to-svg\|svg"` as one
+  combined string silently matched nothing (since that literal string with backslash-pipes isn't
+  a substring of anything), which is exactly how the `svg-to-png-converter` duplicate almost
+  happened. Correct usage is one separate search call per term. Worth remembering for future
+  batches -- documented in `docs/ROADMAP.md`.
+- 4 new tools in a new file: `src/product/definitions/image-detector-tools.js`, registered in
+  `tool-definitions.js`.
+- Verified: `npm run validate` passes all 7 suites (523 tools total, 589 unique tool ids across
+  87 definition files); confirmed all 4 new pages render with correct Arabic titles.
+
+---
 ## 0.5.65 — AVIF to JPG: a genuine zero-dependency win found through research, not assumption (August 2026)
 
 Continuing the search-demand-priority Image work.

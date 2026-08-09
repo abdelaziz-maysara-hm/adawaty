@@ -501,10 +501,16 @@ constraint for any future Worker-based library, not just this one.
   `straighten-image` (6 items): all imply some "smart" content-aware detection. Some may have
   simple non-AI heuristics (e.g. detecting a scanned page's edges via contrast), others may
   effectively need AI — verify per-item before assuming any of these are Tier A.
-- `histogram`/`sharpness-detector`/`blur-detector`/`noise-detector` (4 items): the underlying
-  pixel analysis is feasible pure JS (similar to the color-extraction tools already shipped),
-  but needs real testing against genuinely sharp/blurry/noisy sample images to confirm the
-  detection thresholds are meaningful before shipping a tool that just gives an arbitrary number.
+- `histogram`/`sharpness-detector`/`blur-detector`/`noise-detector` (4 items) — **DONE (0.5.66)**:
+  all pure canvas pixel-math, verified with real discriminating test data (a checkerboard vs. a
+  flat image for sharpness/blur, a clean vs. randomly-perturbed image for noise) before shipping.
+  While building these, caught and avoided a real `svg-to-png` duplicate (already existed as
+  `svg-to-png-converter`, more feature-complete) — found via `npm run list:tools -- svg-to-png`
+  called as its own separate query. **Note on `list-tool-ids.mjs` usage**: it does plain substring
+  matching, not regex OR — a combined query like `"svg-to-png\|png-to-svg\|svg"` silently matches
+  nothing (the literal backslash-pipes aren't a substring of any real tool name), which is exactly
+  how this duplicate almost slipped through earlier in the same investigation. Always run one
+  separate query per term, never combine terms with `\|` expecting OR semantics.
 
 **Hard removal operations (4)**: `remove-watermark`, `remove-logo`,
 `batch-remove-watermark`, `batch-remove-bg` — same reasoning as the PDF classification above:
