@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.5.74 — Video Reverser, verified with an unambiguous OCR-based test (August 2026)
+
+Continued Video Tools by search demand ("reverse video" is a commonly searched effect).
+
+- Checked `video-reverse`, `video-speed`, `subtitle`, `video-loop`, `video-trim`,
+  `video-brightness` first: `video-speed` and `video-trim` already existed (from a separate
+  parallel work session on this repo); `video-reverse` confirmed genuinely missing.
+- **Verified the ffmpeg `reverse`/`areverse` filters with an unambiguous, directly-readable
+  test** rather than an indirect pixel-diff: generated a real test video with a visible
+  `drawtext` overlay showing the literal frame number on each frame ("FRAME 0", "FRAME 1", ...),
+  reversed it with the exact command the tool generates, then used OCR (`tesseract`) to read the
+  actual text in the first frame of each version. The original's first frame read "FRAME 0"; the
+  reversed version's first frame read "FRAME 19" (the real last frame of the 20-frame source) --
+  definitive, human-readable proof of correct frame-order reversal, not an inference from
+  aggregate pixel differences.
+- `video-reverse`: reverses both video frames and audio (`-vf reverse -af areverse`) for a full
+  play-backward effect. Added directly to the existing `src/product/definitions/video-extra-
+  tools.js` (alongside `video-rotate`/`video-crop`/`video-merge`/`video-watermark`) rather than a
+  new file, since it's a natural sibling of those.
+- Verified: `npm run validate` passes all 7 suites (535 tools total, 602 unique tool ids across
+  91 definition files); confirmed the new page renders with the correct Arabic title.
+
+---
 ## 0.5.73 — PDF Image Extractor shipped; redact-pdf deliberately deferred for a real safety reason (August 2026)
 
 Continued the PDF "quick wins" list (0.5.61 classification) by highest search demand.

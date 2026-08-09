@@ -250,11 +250,44 @@ const videoWatermark = videoTool({
     },
 });
 
+const videoReverser = videoTool({
+    id: 'video-reverse',
+    icon: 'REV',
+    action: Object.freeze({ ar: 'اعكس الفيديو', en: 'Reverse video' }),
+    title: Object.freeze({ ar: 'تشغيل الفيديو بالعكس', en: 'Video Reverser' }),
+    description: Object.freeze({
+        ar: 'اعكس ترتيب فريمات الفيديو والصوت بالكامل، من النهاية للبداية، لإنشاء تأثير تشغيل عكسي.',
+        en: 'Reverse a video\u2019s frames and audio entirely, from end to start, for a play-in-reverse effect.',
+    }),
+    note: Object.freeze({
+        ar: 'الفيديوهات الطويلة جدًا قد تحتاج وقت معالجة أطول ومساحة ذاكرة أكبر، لأن الانعكاس يحتاج تحميل الفيديو كاملًا في الذاكرة أولًا.',
+        en: 'Very long videos may take longer to process and use more memory, since reversing requires loading the whole video into memory first.',
+    }),
+    inputs: Object.freeze([videoInput()]),
+    async process(values, language) {
+        const blob = await processMediaFiles([values.video], ([video]) => [
+            '-i', video,
+            '-vf', 'reverse',
+            '-af', 'areverse',
+            '-movflags', '+faststart',
+        ], 'reversed.mp4', 'video/mp4');
+
+        return output(
+            blob,
+            'adawaty-reversed-video.mp4',
+            language,
+            'الفيديو المعكوس جاهز',
+            'The reversed video is ready',
+        );
+    },
+});
+
 const videoExtraToolDefinitions = Object.freeze({
     [videoRotator.id]: videoRotator,
     [videoCropper.id]: videoCropper,
     [videoMerger.id]: videoMerger,
     [videoWatermark.id]: videoWatermark,
+    [videoReverser.id]: videoReverser,
 });
 
 export { videoExtraToolDefinitions };
