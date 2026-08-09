@@ -2466,6 +2466,36 @@
         <priority>0.9</priority>
     </url>
     <url>
+        <loc>https://www.adawaty.tools/tools/mov-to-mp4-converter/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://www.adawaty.tools/tools/mkv-to-mp4-converter/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://www.adawaty.tools/tools/avi-to-mp4-converter/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://www.adawaty.tools/tools/webm-to-mp4-converter/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://www.adawaty.tools/tools/mp4-to-webm-converter/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://www.adawaty.tools/tools/mp4-to-mov-converter/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
         <loc>https://www.adawaty.tools/tools/video-rotate/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
