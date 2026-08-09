@@ -150,6 +150,6 @@ const powerpointCompressorToolDefinitions = Object.freeze({
     [powerpointCompressor.id]: powerpointCompressor,
 });
 
-export { compressionSettings, fittedDimensions, mediaMime, powerpointCompressorToolDefinitions };
+export { compressImageEntry, compressionSettings, fittedDimensions, mediaMime, powerpointCompressorToolDefinitions };
 
 // END OF FILE

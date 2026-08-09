@@ -1,5 +1,11 @@
 # Changelog
 
+# 0.5.87
+
+- Added a private browser-side Word compressor for DOCX documents.
+- Reused the tested Office image compression profiles while preserving the DOCX document structure.
+- Added deterministic Word media-path contract coverage.
+
 # 0.5.86
 
 - Added a private browser-side PowerPoint compressor for PPTX presentations.
