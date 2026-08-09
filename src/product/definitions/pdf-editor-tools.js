@@ -80,7 +80,7 @@ const pdfEditor = Object.freeze({
             min: 1, max: 10000, step: 1, value: '1',
         }),
         field('text', 'text', '\u0627\u0644\u0646\u0635 (\u0627\u062e\u062a\u064a\u0627\u0631\u064a)', 'Text (optional)', {
-            required: false, placeholder: 'Approved / \u062a\u0645\u062a \u0627\u0644\u0645\u0648\u0627\u0641\u0642\u0629',
+            required: false, placeholder: Object.freeze({ ar: '\u062a\u0645\u062a \u0627\u0644\u0645\u0648\u0627\u0641\u0642\u0629', en: 'Approved' }),
         }),
         field('textColor', 'color', '\u0644\u0648\u0646 \u0627\u0644\u0646\u0635', 'Text color', {
             value: '#1f2937',

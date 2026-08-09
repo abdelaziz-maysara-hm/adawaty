@@ -209,7 +209,7 @@ const wordCounter = Object.freeze({
     title: Object.freeze({ ar: 'عداد الكلمات', en: 'Word Counter' }),
     description: Object.freeze({ ar: 'احسب الكلمات والحروف والأسطر في أي نص.', en: 'Count words, characters and lines in any text.' }),
     note: Object.freeze({ ar: 'تُفصل الكلمات حسب المسافات البيضاء.', en: 'Words are separated using whitespace.' }),
-    inputs: Object.freeze([textInput('text', { ar: 'النص', en: 'Text' }, 'اكتب أو الصق النص هنا')]),
+    inputs: Object.freeze([textInput('text', { ar: 'النص', en: 'Text' }, { ar: 'اكتب أو الصق النص هنا', en: 'Type or paste text here' })]),
     calculate(values, language) {
         const stats = textStatistics(values.text);
         return output(
@@ -253,7 +253,7 @@ const slugGenerator = Object.freeze({
     title: Object.freeze({ ar: 'مولد Slug للروابط', en: 'Slug Generator' }),
     description: Object.freeze({ ar: 'حوّل العنوان إلى مسار URL نظيف وسهل القراءة.', en: 'Turn a title into a clean readable URL slug.' }),
     note: Object.freeze({ ar: 'يحافظ على الحروف العربية واللاتينية والأرقام.', en: 'Preserves Arabic, Latin letters and numbers.' }),
-    inputs: Object.freeze([textInput('text', { ar: 'العنوان', en: 'Title' }, 'أفضل أدوات مجانية')]),
+    inputs: Object.freeze([textInput('text', { ar: 'العنوان', en: 'Title' }, { ar: 'أفضل أدوات مجانية', en: 'Best free tools' })]),
     calculate(values, language) {
         const slug = values.text
             .normalize('NFKD')

@@ -26,6 +26,7 @@ import {
 const tools = listToolDefinitions();
 const toolIds = tools.map((tool) => tool.id);
 const toolIdSet = new Set(toolIds);
+const arabicScript = /[\u0600-\u06FF]/;
 
 assert.ok(tools.length >= 430, `Expected at least 430 curated tools, got ${tools.length}`);
 assert.equal(toolIds.length, new Set(toolIds).size, 'Tool IDs must be unique');
@@ -35,6 +36,24 @@ assert.deepEqual(
     [],
     'Every published tool category must have localized catalogue labels.',
 );
+
+for (const tool of tools) {
+    for (const [path, value] of [
+        ['title.en', tool.title?.en],
+        ['description.en', tool.description?.en],
+        ['note.en', tool.note?.en],
+        ['action.en', tool.action?.en],
+    ]) {
+        assert.doesNotMatch(String(value ?? ''), arabicScript, `${tool.id} ${path} must not contain Arabic copy`);
+    }
+    for (const input of tool.inputs ?? []) {
+        assert.doesNotMatch(String(input.label?.en ?? ''), arabicScript, `${tool.id}.${input.id} English label must not contain Arabic copy`);
+        assert.doesNotMatch(String(input.unit?.en ?? ''), arabicScript, `${tool.id}.${input.id} English unit must not contain Arabic copy`);
+        if (input.placeholder && typeof input.placeholder === 'object') {
+            assert.doesNotMatch(String(input.placeholder.en ?? ''), arabicScript, `${tool.id}.${input.id} English placeholder must not contain Arabic copy`);
+        }
+    }
+}
 
 for (const id of [
     'audio-format-converter',
@@ -47,6 +66,9 @@ for (const id of [
     'pdf-to-word-converter',
     'bmi-calculator',
     'pdf-merge',
+    'password-breach-checker',
+    'sri-hash-generator',
+    'csp-header-generator',
 ]) {
     assert.ok(toolIdSet.has(id), `Missing required tool: ${id}`);
 }

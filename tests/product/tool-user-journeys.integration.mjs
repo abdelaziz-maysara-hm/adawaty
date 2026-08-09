@@ -54,6 +54,10 @@ const browserOnlyTools = new Set([
     // keeps its native shaping and direction. Node has no document/canvas;
     // its deterministic Markdown parser is covered by the processing tests.
     'markdown-to-pdf',
+    // Uses the external HIBP k-anonymity range endpoint after hashing the
+    // password locally. Its parsing and hashing contracts are tested without
+    // making a live network request in popular-security-tools.integration.mjs.
+    'password-breach-checker',
 ]);
 
 const inputOverrides = Object.freeze({
@@ -191,9 +195,9 @@ assert.deepEqual(
         .join('\n')}`,
 );
 
-assert.equal(nonFileTools.length, 406);
-assert.equal(browserOnlyTools.size, 21);
-assert.equal(executableWithoutBrowser.length, 385);
+assert.equal(nonFileTools.length, 408);
+assert.equal(browserOnlyTools.size, 22);
+assert.equal(executableWithoutBrowser.length, 386);
 
 const journeys = [
     {

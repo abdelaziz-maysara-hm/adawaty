@@ -221,7 +221,7 @@ const urlSlugGenerator = tool({
         en: 'Strips special characters and replaces spaces with hyphens, with Arabic character support.',
     },
     inputs: [
-        shortTextInput('title', { ar: 'العنوان', en: 'Title' }, 'أفضل 10 أدوات مجانية أونلاين!'),
+        shortTextInput('title', { ar: 'العنوان', en: 'Title' }, { ar: 'أفضل 10 أدوات مجانية أونلاين!', en: 'Best 10 free online tools!' }),
         selectInput('case', { ar: 'حالة الأحرف', en: 'Case' }, [
             { value: 'lower', label: { ar: 'أحرف صغيرة', en: 'lowercase' } },
             { value: 'keep', label: { ar: 'كما هي', en: 'keep as-is' } },
@@ -259,7 +259,7 @@ const bionicReadingConverter = tool({
         ar: 'الناتج كود HTML جاهز للّصق في أي محرر يدعم التنسيق.',
         en: 'The output is ready-to-paste HTML for any editor that supports formatting.',
     },
-    inputs: [textInput('text', { ar: 'النص', en: 'Text' }, 'اقرأ هذا النص بسرعة أكبر مع تقنية القراءة الحيوية.', 8)],
+    inputs: [textInput('text', { ar: 'النص', en: 'Text' }, { ar: 'اقرأ هذا النص بسرعة أكبر مع تقنية القراءة الحيوية.', en: 'Read this text faster with bionic reading.' }, 8)],
     calculate(values, language) {
         const html = values.text.split(/(\s+)/).map((chunk) => (/\s+/.test(chunk) ? chunk : bionicWord(chunk))).join('');
         return output(html, localized(language, 'كود HTML', 'HTML output'));

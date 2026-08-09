@@ -374,7 +374,7 @@ const text2handwriting = tool({
         en: 'Uses a cursive font available in the browser; the look is approximate, not a substitute for a real signature.',
     },
     inputs: [
-        textInput('text', { ar: 'النص', en: 'Text' }, 'مرحبًا بكم في أدواتي!\nHello from Adawaty!', 6),
+        textInput('text', { ar: 'النص', en: 'Text' }, { ar: 'مرحبًا بكم في أدواتي!', en: 'Hello from Adawaty!' }, 6),
         selectInput('paper', { ar: 'نوع الورق', en: 'Paper style' }, [
             { value: 'lined', label: { ar: 'مسطر', en: 'Lined' } },
             { value: 'plain', label: { ar: 'سادة', en: 'Plain' } },

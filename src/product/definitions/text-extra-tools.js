@@ -25,7 +25,7 @@ function numberInput(id, ar, en, placeholder, min, max, unit = '') {
         max,
         step: 1,
         label: Object.freeze({ ar, en }),
-        unit: Object.freeze({ ar: unit, en: unit }),
+        unit: Object.freeze(typeof unit === 'object' ? unit : { ar: unit, en: unit }),
         placeholder: String(placeholder),
     });
 }
@@ -193,7 +193,7 @@ const textWordWrapper = textTool({
     }),
     inputs: Object.freeze([
         textInput('text', 'النص', 'Text', 'This is a long line of text that needs wrapping at a specific width', 8),
-        numberInput('width', 'أقصى عرض للسطر', 'Maximum line width', 40, 10, 300, 'حرف'),
+        numberInput('width', 'أقصى عرض للسطر', 'Maximum line width', 40, 10, 300, { ar: 'حرف', en: 'characters' }),
     ]),
     calculate(values, language) {
         if (!values.text.trim()) {

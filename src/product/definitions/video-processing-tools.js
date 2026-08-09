@@ -38,7 +38,7 @@ function numberInput(id, ar, en, placeholder, min, max, unit) {
         step: 0.1,
         placeholder: String(placeholder),
         label: Object.freeze({ ar, en }),
-        unit: Object.freeze({ ar: unit, en: unit }),
+        unit: Object.freeze(typeof unit === 'object' ? unit : { ar: unit, en: unit }),
     });
 }
 
@@ -114,10 +114,10 @@ const videoTrimmer = Object.freeze({
     }),
     inputs: Object.freeze([
         videoInput(),
-        numberInput('startMinutes', 'دقائق البداية', 'Start minutes', 0, 0, 1439, 'د'),
-        numberInput('startSeconds', 'ثواني البداية', 'Start seconds', 0, 0, 59.9, 'ث'),
-        numberInput('endMinutes', 'دقائق النهاية', 'End minutes', 0, 0, 1439, 'د'),
-        numberInput('endSeconds', 'ثواني النهاية', 'End seconds', 10, 0, 59.9, 'ث'),
+        numberInput('startMinutes', 'دقائق البداية', 'Start minutes', 0, 0, 1439, { ar: 'د', en: 'min' }),
+        numberInput('startSeconds', 'ثواني البداية', 'Start seconds', 0, 0, 59.9, { ar: 'ث', en: 'sec' }),
+        numberInput('endMinutes', 'دقائق النهاية', 'End minutes', 0, 0, 1439, { ar: 'د', en: 'min' }),
+        numberInput('endSeconds', 'ثواني النهاية', 'End seconds', 10, 0, 59.9, { ar: 'ث', en: 'sec' }),
     ]),
     async process(values, language) {
         const start = timePartsToSeconds(values.startMinutes, values.startSeconds);
