@@ -629,7 +629,14 @@ byte, CRC32 matched both a known reference value and Python's `zlib.crc32`, and 
 **RFC 6238's own officially published test vector** exactly (the strongest verification standard
 used this session — matching the spec's reference output, not just a self-consistent round trip).
 
-**Still open** (~85 items after the above): AES/DES/3DES/RSA encrypt-decrypt and RSA/AES key
+**Done (0.5.69)**: `aes-encryption-tool` (combined encrypt/decrypt, AES-256-GCM +
+PBKDF2-derived key from a password) — picked specifically for search demand ("encrypt text
+online" carries real general-audience volume, unlike some niche remaining items). Verified two
+ways: a full round trip correctly recovers plaintext and rejects a wrong password, and the raw
+AES-256-GCM primitive was cross-checked byte-for-byte against Python's independent
+`cryptography` library with identical fixed key/IV inputs.
+
+**Still open** (~84 items after the above): DES/3DES/RSA encrypt-decrypt and RSA/AES key
 generation (Web Crypto supports AES-GCM/CBC and RSA-OAEP/PSS natively — verify the exact API
 shape before building, same rigor as everything above, but no new dependency expected);
 bcrypt/Argon2/scrypt password hashing (Web Crypto does *not* support these — would need a

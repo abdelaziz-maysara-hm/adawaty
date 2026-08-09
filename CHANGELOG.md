@@ -1,5 +1,38 @@
 # Changelog
 
+## 0.5.69 — AES text encryption/decryption, picked specifically for high search demand (August 2026)
+
+Continued Security & Encoding, picking `aes-encrypt`/`aes-decrypt` specifically because
+"encrypt text online" style tools carry genuinely high general search demand (unlike some of the
+more niche remaining items like SSH key fingerprinting), per the site owner's request to keep
+prioritizing by real demand rather than working strictly in catalogue order.
+
+- Checked `npm run list:tools -- aes-encrypt` and `-- aes-decrypt` first, before writing anything
+  — both confirmed missing.
+- **Verified two ways before shipping, the strongest combination used yet**:
+  1. A full password-based encrypt-then-decrypt round trip correctly recovers the original text,
+     and correctly rejects a wrong password (confirmed via a real thrown error, not a silent
+     wrong-output failure).
+  2. The raw AES-256-GCM primitive itself (fixed key and IV, bypassing password derivation
+     entirely) was cross-checked against Python's independent `cryptography` library using
+     byte-for-byte identical inputs — **the ciphertext+tag output matched exactly**, the same
+     verification standard as the TOTP-vs-RFC-6238 check in 0.5.68, applied here against a
+     library instead of a published spec vector.
+- Built as one combined tool (encrypt/decrypt mode selector) rather than two separate catalogue
+  entries, matching the established `base64-encoder-decoder`/`base32-encoder-decoder` pattern —
+  more useful in practice, since it lets someone immediately verify their own encryption by
+  switching modes.
+- `aes-encryption-tool`: AES-256-GCM with a PBKDF2-derived key (100,000 iterations, SHA-256) from
+  a user-supplied password — the standard, safe way to do password-based symmetric encryption with
+  Web Crypto (no raw key entry needed, no new dependency). Salt and IV are randomly generated per
+  encryption and bundled into one Base64 package with the ciphertext, so decrypting only needs the
+  package and the original password.
+- Added to the existing `src/product/definitions/security-encoding-extra-tools.js` from 0.5.68.
+- Proactively recomputed and updated the tool-count assertions before running validate.
+- Verified: `npm run validate` passes all 7 suites (531 tools total, 597 unique tool ids across
+  89 definition files); confirmed the new page renders with the correct Arabic title.
+
+---
 ## 0.5.68 — Security & Encoding: HMAC, Base32, CRC32, TOTP, PIN generator (August 2026)
 
 Pivoted to Security & Encoding (Part 10, 100 catalogue items), identified earlier as the largest
