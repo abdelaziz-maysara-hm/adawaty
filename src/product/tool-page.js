@@ -57,16 +57,17 @@ function createInput(input, language) {
         }
     } else if (input.type === 'textarea') {
         element.rows = input.rows ?? 8;
-        element.placeholder = input.placeholder ?? '';
+        element.placeholder = resolvePlaceholder(input, language);
     } else {
         element.type = input.type;
         element.inputMode = input.type === 'number' ? 'decimal' : '';
 
-        for (const attribute of ['min', 'max', 'step', 'placeholder', 'accept', 'multiple', 'value']) {
+        for (const attribute of ['min', 'max', 'step', 'accept', 'multiple', 'value']) {
             if (input[attribute] !== undefined) {
                 element.setAttribute(attribute, String(input[attribute]));
             }
         }
+        element.placeholder = resolvePlaceholder(input, language);
     }
 
     control.append(element);
@@ -136,6 +137,18 @@ function createInput(input, language) {
     return group;
 }
 
+function resolvePlaceholder(input, language) {
+    if (input.placeholder && typeof input.placeholder === 'object') {
+        return translate(input.placeholder, language);
+    }
+
+    const placeholder = String(input.placeholder ?? '');
+    if (language === 'en' && /[\u0600-\u06FF]/.test(placeholder)) {
+        return translate(input.label, 'en');
+    }
+    return placeholder;
+}
+
 function renderForm(language) {
     form.replaceChildren(
         ...tool.inputs.map((input) => createInput(input, language)),
@@ -189,6 +202,9 @@ function updateCopy(language) {
     document.querySelector('#back-label').textContent = language === 'ar'
         ? 'كل الأدوات'
         : 'All tools';
+    document.querySelectorAll('[data-copy]').forEach((element) => {
+        element.hidden = element.dataset.copy !== language;
+    });
     clearProcessedOutput();
     result.hidden = true;
     renderForm(language);
@@ -268,7 +284,10 @@ form.addEventListener('submit', async (event) => {
     } catch (error) {
         const message = error.message || '';
         const hasArabicScript = /[\u0600-\u06FF]/.test(message);
-        const looksUnlocalized = language === 'ar' && !hasArabicScript && message.length > 0;
+        const looksUnlocalized = message.length > 0 && (
+            (language === 'ar' && !hasArabicScript)
+            || (language === 'en' && hasArabicScript)
+        );
 
         document.querySelector('#result-value').textContent = language === 'ar' ? 'خطأ' : 'Error';
         document.querySelector('#result-label').textContent = looksUnlocalized

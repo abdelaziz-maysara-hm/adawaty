@@ -4,6 +4,7 @@ import { dateTimeDefinitions } from './definitions/date-time.js';
 import { engineeringDefinitions } from './definitions/engineering.js';
 import { securityNetworkDefinitions } from './definitions/security-network.js';
 import { securityEncodingToolDefinitions } from './definitions/security-encoding-extra-tools.js';
+import { popularSecurityToolDefinitions } from './definitions/popular-security-tools.js';
 import { fileSignatureToolDefinitions } from './definitions/file-signature-tool.js';
 import { seoDefinitions } from './definitions/seo.js';
 import { colorCssDefinitions } from './definitions/color-css.js';
@@ -1080,6 +1081,7 @@ const allToolDefinitions = Object.freeze({
     ...engineeringDefinitions,
     ...securityNetworkDefinitions,
     ...securityEncodingToolDefinitions,
+    ...popularSecurityToolDefinitions,
     ...fileSignatureToolDefinitions,
     ...seoDefinitions,
     ...colorCssDefinitions,

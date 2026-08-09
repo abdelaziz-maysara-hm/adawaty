@@ -22,9 +22,9 @@ function numberInput(id, ar, en, placeholder, min, max, unit = '') {
         min,
         max,
         step: 1,
-        placeholder: String(placeholder),
+        placeholder: typeof placeholder === 'object' ? Object.freeze(placeholder) : String(placeholder),
         label: Object.freeze({ ar, en }),
-        unit: Object.freeze({ ar: unit, en: unit }),
+        unit: Object.freeze(typeof unit === 'object' ? unit : { ar: unit, en: unit }),
     });
 }
 
@@ -233,8 +233,8 @@ const textToPdfConverter = Object.freeze({
         en: 'Each page is rendered as an image (not selectable text) to guarantee correct Arabic rendering, since standard PDF text tools don\u2019t support connected Arabic letter shaping. For an English-only document needing selectable, searchable text, use a TXT-to-Word-to-PDF conversion instead.',
     }),
     inputs: Object.freeze([
-        textAreaInput('text', 'النص', 'Text', 'اكتب النص هنا...\n\nWrite your text here...'),
-        numberInput('fontSize', 'حجم الخط', 'Font size', 14, 8, 32, 'نقطة'),
+        textAreaInput('text', 'النص', 'Text', { ar: 'اكتب النص هنا...', en: 'Write your text here...' }),
+        numberInput('fontSize', 'حجم الخط', 'Font size', 14, 8, 32, { ar: 'نقطة', en: 'pt' }),
     ]),
     async process(values, language) {
         if (!values.text.trim()) {
@@ -296,8 +296,8 @@ const markdownToPdfConverter = Object.freeze({
         en: 'Processing stays local. Pages are rendered as images for correct Arabic shaping, so PDF text is not selectable.',
     }),
     inputs: Object.freeze([
-        textAreaInput('markdown', 'نص Markdown', 'Markdown text', '# عنوان\n\nفقرة نصية.\n\n- عنصر أول\n- عنصر ثانٍ'),
-        numberInput('fontSize', 'حجم النص الأساسي', 'Base font size', 14, 10, 24, 'نقطة'),
+        textAreaInput('markdown', 'نص Markdown', 'Markdown text', { ar: '# عنوان\n\nفقرة نصية.\n\n- عنصر أول\n- عنصر ثانٍ', en: '# Heading\n\nText paragraph.\n\n- First item\n- Second item' }),
+        numberInput('fontSize', 'حجم النص الأساسي', 'Base font size', 14, 10, 24, { ar: 'نقطة', en: 'pt' }),
     ]),
     async process(values, language) {
         if (!values.markdown.trim()) throw new Error(localized(language, 'أدخل نص Markdown.', 'Enter Markdown text.'));

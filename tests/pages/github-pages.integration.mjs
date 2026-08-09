@@ -146,6 +146,21 @@ const bmiToolHtml = await readFile(
 );
 assert.match(bmiToolHtml, /tool-page\.js\?v=s7b\d+/);
 assert.match(bmiToolHtml, /http-equiv="Cache-Control" content="no-cache"/);
+assert.match(bmiToolHtml, /data-copy="en">Related tools/);
+
+const ilovePdfAlternativeHtml = await readFile(
+    new URL('../../best/ilovepdf-alternative/index.html', import.meta.url),
+    'utf8',
+);
+const roundupScript = await readFile(
+    new URL('../../src/product/roundup-page.js', import.meta.url),
+    'utf8',
+);
+assert.match(ilovePdfAlternativeHtml, /data-copy="en">Free iLovePDF Alternatives With No Daily Limit/);
+assert.match(ilovePdfAlternativeHtml, /roundup-page\.js\?v=s7b\d+/);
+assert.match(ilovePdfAlternativeHtml, /data-copy="en">All tools/);
+assert.match(roundupScript, /adawaty-language/);
+assert.match(roundupScript, /element\.hidden = element\.dataset\.copy !== selected/);
 
 const languageBootstrap = await readFile(
     new URL('../../src/product/language-bootstrap.js', import.meta.url),

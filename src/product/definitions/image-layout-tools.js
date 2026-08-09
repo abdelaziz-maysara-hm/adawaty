@@ -41,7 +41,7 @@ function numberInput(id, ar, en, placeholder, min, max, unit = '') {
         step: 1,
         placeholder: String(placeholder),
         label: Object.freeze({ ar, en }),
-        unit: Object.freeze({ ar: unit, en: unit }),
+        unit: Object.freeze(typeof unit === 'object' ? unit : { ar: unit, en: unit }),
     });
 }
 
@@ -136,7 +136,7 @@ const gridMaker = imageTool({
     inputs: Object.freeze([
         multiFileInput('images', 'اختر الصور (اثنتان على الأقل)', 'Choose images (at least two)'),
         numberInput('columns', 'عدد الأعمدة', 'Columns', 3, 1, 10, ''),
-        numberInput('cellSize', 'حجم كل خلية', 'Cell size', 300, 50, 1000, 'بكسل'),
+        numberInput('cellSize', 'حجم كل خلية', 'Cell size', 300, 50, 1000, { ar: 'بكسل', en: 'px' }),
     ]),
     async process(values, language) {
         if (!Array.isArray(values.images) || values.images.length < 2) {
@@ -211,7 +211,7 @@ const imageContactSheet = imageTool({
     inputs: Object.freeze([
         multiFileInput('images', 'اختر الصور (اثنتان على الأقل)', 'Choose images (at least two)'),
         numberInput('columns', 'عدد الأعمدة', 'Columns', 4, 1, 10, ''),
-        numberInput('cellSize', 'حجم كل خلية', 'Cell size', 200, 50, 600, 'بكسل'),
+        numberInput('cellSize', 'حجم كل خلية', 'Cell size', 200, 50, 600, { ar: 'بكسل', en: 'px' }),
     ]),
     async process(values, language) {
         if (!Array.isArray(values.images) || values.images.length < 2) {

@@ -151,7 +151,7 @@ const unicodeConverter = Object.freeze({
     description: Object.freeze({ ar: 'حوّل النص إلى نقاط Unicode أو أعد صيغة U+ إلى أحرف.', en: 'Convert text into Unicode code points or decode U+ notation.' }),
     note: Object.freeze({ ar: 'يدعم الأحرف خارج النطاق الأساسي مثل الرموز التعبيرية.', en: 'Supports characters outside the basic multilingual plane, including emoji.' }),
     inputs: Object.freeze([
-        textInput('text', { ar: 'النص أو نقاط Unicode', en: 'Text or Unicode points' }, 'أدواتي 🚀', 4),
+        textInput('text', { ar: 'النص أو نقاط Unicode', en: 'Text or Unicode points' }, { ar: 'أدواتي 🚀', en: 'Adawaty 🚀' }, 4),
         selectInput('operation', { ar: 'العملية', en: 'Operation' }, directionOptions),
     ]),
     calculate(values, language) {
@@ -233,7 +233,7 @@ const vowelConsonantCounter = Object.freeze({
     title: Object.freeze({ ar: 'عداد حروف العلة والساكنة', en: 'Vowel and Consonant Counter' }),
     description: Object.freeze({ ar: 'احسب حروف العلة والحروف الأخرى في النص العربي أو الإنجليزي.', en: 'Count vowel-like and other letters in Arabic or English text.' }),
     note: Object.freeze({ ar: 'تُعامل ا وأشكالها و و ي كحروف علة عربية لأغراض العد العام.', en: 'Arabic alef forms, waw and ya are treated as vowel-like for general counting.' }),
-    inputs: Object.freeze([textInput('text', { ar: 'النص', en: 'Text' }, 'Adawaty أدواتي', 4)]),
+    inputs: Object.freeze([textInput('text', { ar: 'النص', en: 'Text' }, { ar: 'أدواتي منصة مجانية', en: 'Adawaty free tools' }, 4)]),
     calculate(values, language) {
         const letters = values.text.match(/\p{L}/gu) ?? [];
         const vowels = letters.filter((letter) => /[aeiouاويأإآ]/iu.test(letter)).length;

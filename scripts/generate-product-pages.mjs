@@ -8,7 +8,7 @@ import { ROUNDUP_CONTENT } from '../src/product/definitions/roundup-content.js';
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const baseUrl = 'https://www.adawaty.tools';
-const assetVersion = 's7b43';
+const assetVersion = 's7b44';
 const catalogueAssetVersion = 's7b42';
 const tools = listToolDefinitions();
 const categories = Object.freeze({
@@ -164,11 +164,11 @@ function createToolPage(tool) {
             </section>
         </div>
         ${relatedTools.length ? `<section class="product-related">
-            <h2>أدوات ذات صلة</h2>
+            <h2><span data-copy="ar">أدوات ذات صلة</span><span data-copy="en">Related tools</span></h2>
             <div class="product-related-grid">
                 ${relatedTools.map((related) => `<a class="product-related-card" href="../../tools/${related.id}/">
                     <span class="product-related-icon" aria-hidden="true">${escapeHtml(related.icon ?? '')}</span>
-                    <span class="product-related-title">${escapeHtml(related.title.ar)}</span>
+                    <span class="product-related-title"><span data-copy="ar">${escapeHtml(related.title.ar)}</span><span data-copy="en">${escapeHtml(related.title.en)}</span></span>
                 </a>`).join('\n                ')}
             </div>
         </section>` : ''}
@@ -242,7 +242,7 @@ function createCataloguePage({
     });
     const categoryRoundups = category ? ROUNDUP_CONTENT.filter((entry) => entry.category === category) : [];
     const roundupLinksHtml = categoryRoundups.length ? `<div class="catalogue-roundup-links">
-            ${categoryRoundups.map((entry) => `<a href="${basePath}best/${entry.slug}/">${escapeHtml(entry.titleAr)}</a>`).join('\n            ')}
+            ${categoryRoundups.map((entry) => `<a href="${basePath}best/${entry.slug}/"><span data-copy="ar">${escapeHtml(entry.titleAr)}</span><span data-copy="en">${escapeHtml(entry.titleEn)}</span></a>`).join('\n            ')}
         </div>` : '';
 
     return `<!doctype html>
@@ -331,7 +331,7 @@ function createRoundupPage(entry) {
             '@type': 'ListItem',
             position: index + 1,
             url: `${baseUrl}/tools/${tool.id}/`,
-            name: tool.title.ar,
+            name: tool.title.en,
         })),
     });
     const breadcrumbData = safeJson({
@@ -374,6 +374,7 @@ function createRoundupPage(entry) {
     <script type="application/ld+json">${breadcrumbData}</script>
     <link rel="stylesheet" href="../../src/css/main.css">
     <link rel="stylesheet" href="../../src/css/product.css">
+    <script type="module" src="../../src/product/roundup-page.js?v=${assetVersion}"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7919896989773628" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -381,28 +382,29 @@ function createRoundupPage(entry) {
         <nav class="navigation shell" aria-label="التنقل الرئيسي">
             <a class="brand" href="../../">
                 <span class="brand-mark">أ</span>
-                <span class="brand-copy"><strong>أدواتي</strong><span>Adawaty</span></span>
+                <span class="brand-copy"><strong><span data-copy="ar">أدواتي</span><span data-copy="en">Adawaty</span></strong><span><span data-copy="ar">Adawaty</span><span data-copy="en">Tools Platform</span></span></span>
             </a>
+            <button class="button" id="roundup-language-toggle" type="button">English</button>
         </nav>
     </header>
     <main class="product-page shell">
-        <a class="product-back" href="../../all-tools/"><span aria-hidden="true">←</span><span>كل الأدوات</span></a>
+        <a class="product-back" href="../../all-tools/"><span aria-hidden="true">←</span><span data-copy="ar">كل الأدوات</span><span data-copy="en">All tools</span></a>
         <article class="roundup-page">
-            <h1>${title}</h1>
-            ${entry.introAr.map((paragraph) => `<p class="roundup-intro">${escapeHtml(paragraph)}</p>`).join('\n            ')}
+            <h1><span data-copy="ar">${title}</span><span data-copy="en">${escapeHtml(entry.titleEn)}</span></h1>
+            <div data-copy="ar">${entry.introAr.map((paragraph) => `<p class="roundup-intro">${escapeHtml(paragraph)}</p>`).join('\n            ')}</div>
+            <div data-copy="en">${entry.introEn.map((paragraph) => `<p class="roundup-intro">${escapeHtml(paragraph)}</p>`).join('\n            ')}</div>
             <section class="product-related">
-                <h2>الأدوات</h2>
+                <h2><span data-copy="ar">الأدوات</span><span data-copy="en">Tools</span></h2>
                 <div class="product-related-grid">
                     ${items.map((tool) => `<a class="product-related-card" href="../../tools/${tool.id}/">
                         <span class="product-related-icon" aria-hidden="true">${escapeHtml(tool.icon ?? '')}</span>
-                        <span class="product-related-title">${escapeHtml(tool.title.ar)}</span>
+                        <span class="product-related-title"><span data-copy="ar">${escapeHtml(tool.title.ar)}</span><span data-copy="en">${escapeHtml(tool.title.en)}</span></span>
                     </a>`).join('\n                    ')}
                 </div>
             </section>
         </article>
     </main>
     <footer class="site-footer"><div class="footer-row shell"><p>Adawaty</p><p>© <span id="current-year"></span></p></div></footer>
-    <script>document.getElementById('current-year').textContent = new Date().getFullYear();</script>
 </body>
 </html>
 `;

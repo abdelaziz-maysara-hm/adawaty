@@ -38,7 +38,7 @@ function numberInput(id, ar, en, placeholder, min, max, unit = '') {
         step: 1,
         placeholder: String(placeholder),
         label: Object.freeze({ ar, en }),
-        unit: Object.freeze({ ar: unit, en: unit }),
+        unit: Object.freeze(typeof unit === 'object' ? unit : { ar: unit, en: unit }),
     });
 }
 
@@ -85,7 +85,7 @@ const pdfSigner = Object.freeze({
         pdfInput(),
         imageInput('signature', 'صورة التوقيع', 'Signature image'),
         numberInput('page', 'رقم الصفحة', 'Page number', 1, 1, 10000, ''),
-        numberInput('width', 'عرض التوقيع', 'Signature width', 150, 30, 500, 'نقطة PDF'),
+        numberInput('width', 'عرض التوقيع', 'Signature width', 150, 30, 500, { ar: 'نقطة PDF', en: 'PDF points' }),
         selectInput('position', 'الموضع', 'Position', [
             ['bottomRight', 'أسفل اليمين', 'Bottom-right'],
             ['bottomCenter', 'أسفل المنتصف', 'Bottom-center'],

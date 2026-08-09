@@ -1,5 +1,11 @@
 # Changelog
 
+# 0.5.99
+
+- Fixed English-mode Arabic leaks in related tools, input units, placeholders and all comparison pages including the iLovePDF alternative.
+- Added bilingual roundup navigation and a regression audit for English metadata.
+- Added Password Breach Checker, SRI Hash Generator and CSP Header Generator to Security & Network tools.
+
 # 0.5.98
 
 - Added target-size image compression with custom KB input and dedicated 20, 50, 100, 200 and 500 KB tools.
