@@ -71,7 +71,7 @@
 ### Image (فجوات 10015-style)
 - [x] `image-average-color-picker` / dominant color ✅ (0.5.40)
 - [x] `image-color-extractor` (لوحة ألوان من صورة)
-- [ ] `image-color-picker` (eyedropper تفاعلي)
+- [x] `image-color-picker` (قراءة دقيقة لأي موضع بالصورة بصيغ HEX / RGB / HSL) ✅ (0.5.80)
 - [x] `photo-censor` (blur / pixelate على كامل الصورة؛ منطقة محددة مؤجلة)
 - [x] `svg-blob-generator`
 - [x] `svg-pattern-generator`
