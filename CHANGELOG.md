@@ -1,5 +1,11 @@
 # Changelog
 
+# 0.5.91
+
+- Added five browser-side GIF tools: compressor, speed changer, resizer, GIF to MP4, and animation reverser.
+- Reused the deployed FFmpeg runtime with optimized palette generation for GIF output.
+- Added deterministic sizing and speed-boundary contracts.
+
 # 0.5.90
 
 - Added five browser-side ebook/document tools: EPUB to PDF, PDF to EPUB, EPUB to TXT, HTML to PDF, and PDF to CSV.
