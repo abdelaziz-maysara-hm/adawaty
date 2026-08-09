@@ -70,6 +70,7 @@ import { pdfGrayscaleToolDefinitions } from './definitions/pdf-grayscale-tool.js
 import { pdfToPowerPointToolDefinitions } from './definitions/pdf-to-powerpoint-tool.js';
 import { pdfToExcelToolDefinitions } from './definitions/pdf-to-excel-tool.js';
 import { excelToPdfToolDefinitions } from './definitions/excel-to-pdf-tool.js';
+import { powerpointToPdfToolDefinitions } from './definitions/powerpoint-to-pdf-tool.js';
 import { subtitleBurnToolDefinitions } from './definitions/subtitle-burn-tool.js';
 import { memeToolDefinitions } from './definitions/meme-generator-tool.js';
 import { pdfContentToolDefinitions } from './definitions/pdf-content-tools.js';
@@ -1132,6 +1133,7 @@ const allToolDefinitions = Object.freeze({
     ...pdfToPowerPointToolDefinitions,
     ...pdfToExcelToolDefinitions,
     ...excelToPdfToolDefinitions,
+    ...powerpointToPdfToolDefinitions,
     ...subtitleBurnToolDefinitions,
     ...memeToolDefinitions,
     ...pdfContentToolDefinitions,
