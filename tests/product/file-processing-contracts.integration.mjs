@@ -26,6 +26,7 @@ import { parseMarkdownBlocks } from '../../src/product/definitions/text-to-pdf-t
 import { structuredPagesToMarkdown } from '../../src/product/definitions/pdf-content-tools.js';
 import { addPageNumbers } from '../../src/product/definitions/pdf-document-tools.js';
 import { fitInside } from '../../src/product/definitions/pdf-to-powerpoint-tool.js';
+import { dedicatedPdfImageIds, popularPdfImageConverterDefinitions } from '../../src/product/definitions/popular-pdf-image-converters.js';
 import {
     columnWidths,
     textItemsToRows,
@@ -179,6 +180,10 @@ assert.deepEqual(
     ],
 );
 assert.equal(shortenCell('a'.repeat(50), 10), 'aaaaaaaaa…');
+assert.equal(dedicatedPdfImageIds.length, 4);
+assert.equal(new Set(dedicatedPdfImageIds).size, 4);
+assert.deepEqual(popularPdfImageConverterDefinitions['pdf-to-jpg-converter'].inputs.map(({ id }) => id), ['pdf', 'scale']);
+assert.deepEqual(popularPdfImageConverterDefinitions['jpg-to-pdf-converter'].inputs.map(({ id }) => id), ['images']);
 
 assert.deepEqual(parseMarkdownBlocks('# Title\n\n- **Fast**\n> Private\n```\nconst ok = true;\n```'), [
     { kind: 'heading', level: 1, text: 'Title' },

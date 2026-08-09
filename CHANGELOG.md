@@ -1,5 +1,11 @@
 # Changelog
 
+# 0.5.96
+
+- Added dedicated JPG to PDF, PNG to PDF, PDF to JPG and PDF to PNG pages for high-intent searches.
+- Reused the existing tested PDF/image engines rather than duplicating conversion logic.
+- Added contracts for dedicated IDs and format-specific input shapes.
+
 # 0.5.95
 
 - Added six dedicated video converters for MOV, MKV, AVI and WebM to MP4 plus MP4 to WebM and MOV.

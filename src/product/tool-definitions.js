@@ -64,6 +64,7 @@ import { imageSvgTracerToolDefinitions } from './definitions/image-svg-tracer-to
 import { pdfFileToolDefinitions } from './definitions/pdf-file-tools.js';
 import { pdfWorkflowToolDefinitions } from './definitions/pdf-workflow-tools.js';
 import { pdfImageToolDefinitions } from './definitions/pdf-image-tools.js';
+import { popularPdfImageConverterDefinitions } from './definitions/popular-pdf-image-converters.js';
 import { pdfDocumentToolDefinitions } from './definitions/pdf-document-tools.js';
 import { pdfProtectToolDefinitions } from './definitions/pdf-protect-tool.js';
 import { pdfSignToolDefinitions } from './definitions/pdf-sign-tool.js';
@@ -1137,6 +1138,7 @@ const allToolDefinitions = Object.freeze({
     ...pdfFileToolDefinitions,
     ...pdfWorkflowToolDefinitions,
     ...pdfImageToolDefinitions,
+    ...popularPdfImageConverterDefinitions,
     ...pdfDocumentToolDefinitions,
     ...pdfProtectToolDefinitions,
     ...pdfSignToolDefinitions,
