@@ -1,5 +1,11 @@
 # Changelog
 
+# 0.5.86
+
+- Added a private browser-side PowerPoint compressor for PPTX presentations.
+- Added light, balanced and strong image recompression profiles with safe package-level DEFLATE compression.
+- Added deterministic image sizing, MIME recognition and compression-setting contracts.
+
 # 0.5.85
 
 - Added a private browser-side PowerPoint to PDF converter for PPTX presentations.

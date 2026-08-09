@@ -41,6 +41,11 @@ import {
     slideMediaPaths,
 } from '../../src/product/definitions/powerpoint-to-pdf-tool.js';
 import {
+    compressionSettings,
+    fittedDimensions,
+    mediaMime,
+} from '../../src/product/definitions/powerpoint-compressor-tool.js';
+import {
     timePartsToSeconds,
     videoProcessingToolDefinitions,
 } from '../../src/product/definitions/video-processing-tools.js';
@@ -203,6 +208,11 @@ assert.deepEqual(
     ),
     ['ppt/media/image1.png'],
 );
+assert.deepEqual(fittedDimensions(4000, 2000, 1920), { width: 1920, height: 960 });
+assert.deepEqual(fittedDimensions(800, 600, 1920), { width: 800, height: 600 });
+assert.equal(mediaMime('ppt/media/photo.jpeg'), 'image/jpeg');
+assert.equal(mediaMime('ppt/media/vector.svg'), undefined);
+assert.deepEqual(compressionSettings('strong'), { maximumDimension: 1280, jpegQuality: 0.62 });
 assert.equal(timePartsToSeconds(2, 15.5), 135.5);
 assert.deepEqual(
     videoProcessingToolDefinitions['video-trimmer'].inputs.map(({ id }) => id),
