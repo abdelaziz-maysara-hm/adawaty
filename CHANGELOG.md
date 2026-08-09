@@ -1,5 +1,11 @@
 # Changelog
 
+# 0.5.90
+
+- Added five browser-side ebook/document tools: EPUB to PDF, PDF to EPUB, EPUB to TXT, HTML to PDF, and PDF to CSV.
+- Reused the existing ZIP, PDF rendering and table extraction engines with no new dependency.
+- Added deterministic HTML text, CSV and text-wrapping contracts.
+
 # 0.5.89
 
 - Added five browser-side data/document converters: Excel to JSON, JSON to Excel, Excel to HTML, Word to HTML, and PowerPoint to TXT.

@@ -48,6 +48,7 @@ import {
 import { isWordMediaPath } from '../../src/product/definitions/word-compressor-tool.js';
 import { documentXmlToText } from '../../src/product/definitions/office-utility-tools.js';
 import { normalizeJsonData, rowsToHtmlTable, slidesToText } from '../../src/product/definitions/data-document-converters.js';
+import { htmlToPlainText, rowsToCsv, splitTextLines } from '../../src/product/definitions/ebook-document-tools.js';
 import {
     timePartsToSeconds,
     videoProcessingToolDefinitions,
@@ -225,6 +226,9 @@ assert.equal(
 assert.deepEqual(normalizeJsonData({ active: true, count: 3 }), [{ key: 'active', value: true }, { key: 'count', value: 3 }]);
 assert.match(rowsToHtmlTable([['Name'], ['Ada']], 'People'), /<th>Name<\/th>[\s\S]*<td>Ada<\/td>/);
 assert.equal(slidesToText([['Title', 'Body'], ['Next']]), '--- Slide 1 ---\nTitle\nBody\n\n--- Slide 2 ---\nNext');
+assert.equal(htmlToPlainText('<h1>Title</h1><p>Hello &amp; welcome</p>'), 'Title\nHello & welcome');
+assert.equal(rowsToCsv([['Name', 'Note'], ['Ada', 'A, B']]), 'Name,Note\r\nAda,"A, B"');
+assert.deepEqual(splitTextLines('one two three', 7), ['one two', 'three']);
 assert.equal(timePartsToSeconds(2, 15.5), 135.5);
 assert.deepEqual(
     videoProcessingToolDefinitions['video-trimmer'].inputs.map(({ id }) => id),
