@@ -17,6 +17,7 @@ import {
     assertImageFile,
 } from '../../src/product/ocr-processing.js';
 import { assertOverlayImage } from '../../src/product/definitions/pdf-editor-tools.js';
+import { structuredPagesToMarkdown } from '../../src/product/definitions/pdf-content-tools.js';
 import { addPageNumbers } from '../../src/product/definitions/pdf-document-tools.js';
 import {
     timePartsToSeconds,
@@ -90,6 +91,17 @@ await assert.rejects(() => inspectImage(text), /valid image/);
 assert.equal(formatAudioDuration(0), '0:00');
 assert.equal(formatAudioDuration(65.2), '1:05');
 assert.equal(formatAudioDuration(3_661), '61:01');
+
+assert.equal(
+    structuredPagesToMarkdown([
+        [
+            { text: 'Document title', headingLevel: 1 },
+            { text: 'First paragraph.', headingLevel: 0 },
+        ],
+        [{ text: 'Second page', headingLevel: 2 }],
+    ]),
+    '<!-- Page 1 -->\n\n# Document title\n\nFirst paragraph.\n\n---\n\n<!-- Page 2 -->\n\n## Second page',
+);
 
 assert.equal(timePartsToSeconds(0, 10), 10);
 assert.equal(timePartsToSeconds(2, 15.5), 135.5);

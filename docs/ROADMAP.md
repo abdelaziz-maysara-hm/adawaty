@@ -338,7 +338,8 @@ for the next PDF batch)**:
   correctly) and embedded as a page image, not native PDF text. Disclosed tradeoff: resulting
   text is not selectable/searchable. Reused the codebase's existing `renderTextPng` pattern from
   `pdf-editor-tools.js`, extended to full paragraph wrapping and pagination.
-- `pdf-to-md` — PDF to Markdown (PDF إلى Markdown)
+- `pdf-to-md` ✅ **done (0.5.78)** — extracts structured text locally, detects headings from
+  font size and adds explicit page separators in the generated Markdown file.
 - `md-to-pdf` — Markdown to PDF (Markdown إلى PDF)
 - `pdf-to-csv` — PDF to CSV (PDF إلى CSV)
 - `csv-to-pdf` — CSV to PDF (CSV إلى PDF)
