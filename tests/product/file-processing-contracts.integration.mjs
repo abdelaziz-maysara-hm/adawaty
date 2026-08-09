@@ -52,6 +52,7 @@ import { htmlToPlainText, rowsToCsv, splitTextLines } from '../../src/product/de
 import { gifScaleFilter, speedFactor } from '../../src/product/definitions/gif-processing-tools.js';
 import { conversionKey, conversionPairs } from '../../src/product/definitions/popular-image-converters.js';
 import { bassBoostFilter, noiseReductionFilter } from '../../src/product/definitions/popular-audio-tools.js';
+import { audioConversionPairs, conversionKey as audioConversionKey, safeBitrate } from '../../src/product/definitions/popular-audio-converters.js';
 import {
     timePartsToSeconds,
     videoProcessingToolDefinitions,
@@ -243,6 +244,11 @@ assert.equal(noiseReductionFilter('strong'), 'afftdn=nf=-30');
 assert.equal(noiseReductionFilter('unknown'), 'afftdn=nf=-25');
 assert.equal(bassBoostFilter(3), 'bass=g=3:f=110');
 assert.equal(bassBoostFilter(99), 'bass=g=18:f=110');
+assert.equal(audioConversionKey('wav', 'mp3'), 'wav-to-mp3-converter');
+assert.equal(audioConversionPairs.length, 6);
+assert.equal(new Set(audioConversionPairs.map(([source, target]) => audioConversionKey(source, target))).size, 6);
+assert.equal(safeBitrate('320k'), '320k');
+assert.equal(safeBitrate('999k'), '192k');
 assert.equal(timePartsToSeconds(2, 15.5), 135.5);
 assert.deepEqual(
     videoProcessingToolDefinitions['video-trimmer'].inputs.map(({ id }) => id),

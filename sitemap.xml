@@ -1846,6 +1846,36 @@
         <priority>0.9</priority>
     </url>
     <url>
+        <loc>https://www.adawaty.tools/tools/wav-to-mp3-converter/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://www.adawaty.tools/tools/mp3-to-wav-converter/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://www.adawaty.tools/tools/m4a-to-mp3-converter/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://www.adawaty.tools/tools/flac-to-mp3-converter/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://www.adawaty.tools/tools/ogg-to-mp3-converter/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://www.adawaty.tools/tools/opus-to-mp3-converter/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
         <loc>https://www.adawaty.tools/tools/pert-estimate-calculator/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
