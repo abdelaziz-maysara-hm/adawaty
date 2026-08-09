@@ -340,7 +340,8 @@ for the next PDF batch)**:
   `pdf-editor-tools.js`, extended to full paragraph wrapping and pagination.
 - `pdf-to-md` ✅ **done (0.5.78)** — extracts structured text locally, detects headings from
   font size and adds explicit page separators in the generated Markdown file.
-- `md-to-pdf` — Markdown to PDF (Markdown إلى PDF)
+- `md-to-pdf` ✅ **done (0.5.79)** — browser-rendered Arabic/English Markdown with headings,
+  lists, quotes, code blocks and automatic pagination.
 - `pdf-to-csv` — PDF to CSV (PDF إلى CSV)
 - `csv-to-pdf` — CSV to PDF (CSV إلى PDF)
 - `insert-blank-page` — Insert Blank Page (إضافة صفحة فارغة)
