@@ -1,5 +1,11 @@
 # Changelog
 
+# 0.5.95
+
+- Added six dedicated video converters for MOV, MKV, AVI and WebM to MP4 plus MP4 to WebM and MOV.
+- Reused the existing private FFmpeg runtime with fast, compatible H.264/AAC and VP9/Opus output profiles.
+- Added deterministic conversion-pair and codec-profile contracts.
+
 # 0.5.94
 
 - Added six dedicated audio converters: WAV to MP3, MP3 to WAV, M4A to MP3, FLAC to MP3, OGG to MP3 and OPUS to MP3.

@@ -57,6 +57,7 @@ import {
     timePartsToSeconds,
     videoProcessingToolDefinitions,
 } from '../../src/product/definitions/video-processing-tools.js';
+import { conversionKey as videoConversionKey, outputArgs as videoOutputArgs, videoConversionPairs } from '../../src/product/definitions/popular-video-converters.js';
 import {
     assertPdfFile,
     createPdfBlob,
@@ -254,6 +255,11 @@ assert.deepEqual(
     videoProcessingToolDefinitions['video-trimmer'].inputs.map(({ id }) => id),
     ['video', 'startMinutes', 'startSeconds', 'endMinutes', 'endSeconds'],
 );
+assert.equal(videoConversionKey('mov', 'mp4'), 'mov-to-mp4-converter');
+assert.equal(videoConversionPairs.length, 6);
+assert.equal(new Set(videoConversionPairs.map(([source, target]) => videoConversionKey(source, target))).size, 6);
+assert.ok(videoOutputArgs('mp4').includes('libx264'));
+assert.ok(videoOutputArgs('webm').includes('libvpx-vp9'));
 
 for (const pageCount of [1, 3, 6]) {
     const rendered = [];
