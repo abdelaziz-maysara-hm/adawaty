@@ -35,6 +35,12 @@ import {
     shortenCell,
 } from '../../src/product/definitions/excel-to-pdf-tool.js';
 import {
+    decodeXmlText,
+    extractSlideText,
+    naturalSlideOrder,
+    slideMediaPaths,
+} from '../../src/product/definitions/powerpoint-to-pdf-tool.js';
+import {
     timePartsToSeconds,
     videoProcessingToolDefinitions,
 } from '../../src/product/definitions/video-processing-tools.js';
@@ -180,6 +186,23 @@ assert.equal(
 );
 
 assert.equal(timePartsToSeconds(0, 10), 10);
+assert.equal(decodeXmlText('Research &amp; Development &#x2014; 2026'), 'Research & Development — 2026');
+assert.deepEqual(
+    extractSlideText('<p:a:p><a:r><a:t>Quarterly </a:t></a:r><a:r><a:t>results</a:t></a:r></p:a:p><p:a:p><a:r><a:t>Revenue &amp; growth</a:t></a:r></p:a:p>'),
+    ['Quarterly results', 'Revenue & growth'],
+);
+assert.deepEqual(
+    ['ppt/slides/slide10.xml', 'ppt/slides/slide2.xml', 'ppt/slides/slide1.xml'].sort(naturalSlideOrder),
+    ['ppt/slides/slide1.xml', 'ppt/slides/slide2.xml', 'ppt/slides/slide10.xml'],
+);
+assert.deepEqual(
+    slideMediaPaths(
+        'ppt/slides/slide1.xml',
+        '<a:blip r:embed="rId7"/>',
+        '<Relationship Id="rId7" Target="../media/image1.png"/>',
+    ),
+    ['ppt/media/image1.png'],
+);
 assert.equal(timePartsToSeconds(2, 15.5), 135.5);
 assert.deepEqual(
     videoProcessingToolDefinitions['video-trimmer'].inputs.map(({ id }) => id),

@@ -393,6 +393,8 @@ hard:
 - `pdf-to-excel`/`csv`, `pdf-to-powerpoint`, `excel-to-pdf`, `powerpoint-to-pdf`, `docx-to-pdf`:
   need real table/slide/document-structure detection, not just text extraction — verify
   reliability on real messy documents before committing to shipping these.
+  `powerpoint-to-pdf` now ships with honest browser-only PPTX text and primary-image rendering;
+  exact PowerPoint layout, animation and font fidelity remain deferred.
 - `repair-pdf`/`recover-pdf`: depends entirely on what `pdf-lib` can actually recover from a
   corrupt file in practice — test against genuinely corrupted real-world PDFs, not just a
   clean file, before assuming this works.

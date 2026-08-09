@@ -1,5 +1,11 @@
 # Changelog
 
+# 0.5.85
+
+- Added a private browser-side PowerPoint to PDF converter for PPTX presentations.
+- Added natural slide ordering, slide text extraction, primary-image recovery and landscape PDF rendering.
+- Added deterministic XML entity, text, media relationship and slide ordering contracts.
+
 ## 0.5.77 — Subtitle Burner, likely the highest-demand remaining Video gap (August 2026)
 
 Continued Video Tools by search demand ("add subtitles to video" / "burn in subtitles" is a
