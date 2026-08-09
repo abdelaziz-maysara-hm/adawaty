@@ -1310,3 +1310,9 @@ See git history for Sprint 7 batches and earlier release notes.
 - Added a private browser-side image color picker with exact percentage-based pixel sampling.
 - Added HEX, RGB, HSL, alpha and source pixel coordinates to the result.
 - Added deterministic coordinate-clamping and RGB-to-HSL contract coverage.
+
+# 0.5.81
+
+- Added a private browser-side PNG/JPG/WebP/BMP to SVG vector tracer.
+- Added balanced, detailed, and simple-logo modes with configurable color quantization.
+- Added deterministic tracing-option contracts and lazy-loaded the lightweight tracing engine.
