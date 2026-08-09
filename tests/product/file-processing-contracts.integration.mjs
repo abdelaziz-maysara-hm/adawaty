@@ -17,6 +17,7 @@ import {
     assertImageFile,
 } from '../../src/product/ocr-processing.js';
 import { assertOverlayImage } from '../../src/product/definitions/pdf-editor-tools.js';
+import { parseMarkdownBlocks } from '../../src/product/definitions/text-to-pdf-tool.js';
 import { structuredPagesToMarkdown } from '../../src/product/definitions/pdf-content-tools.js';
 import { addPageNumbers } from '../../src/product/definitions/pdf-document-tools.js';
 import {
@@ -91,6 +92,14 @@ await assert.rejects(() => inspectImage(text), /valid image/);
 assert.equal(formatAudioDuration(0), '0:00');
 assert.equal(formatAudioDuration(65.2), '1:05');
 assert.equal(formatAudioDuration(3_661), '61:01');
+
+assert.deepEqual(parseMarkdownBlocks('# Title\n\n- **Fast**\n> Private\n```\nconst ok = true;\n```'), [
+    { kind: 'heading', level: 1, text: 'Title' },
+    { kind: 'blank', text: '' },
+    { kind: 'list', text: '• Fast' },
+    { kind: 'quote', text: 'Private' },
+    { kind: 'code', text: 'const ok = true;' },
+]);
 
 assert.equal(
     structuredPagesToMarkdown([

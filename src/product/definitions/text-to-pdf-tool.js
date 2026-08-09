@@ -106,6 +106,118 @@ async function canvasToPngBytes(canvas) {
     return new Uint8Array(await blob.arrayBuffer());
 }
 
+function cleanInlineMarkdown(value) {
+    return value
+        .replace(/!\[([^\]]*)\]\([^)]*\)/g, '$1')
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '$1 ($2)')
+        .replace(/(\*\*|__)(.*?)\1/g, '$2')
+        .replace(/([*_~`])(.*?)\1/g, '$2')
+        .replace(/\\([\\`*_[\]{}()#+.!>-])/g, '$1');
+}
+
+function parseMarkdownBlocks(markdown) {
+    const blocks = [];
+    let inCodeBlock = false;
+    for (const rawLine of String(markdown).replace(/\r\n?/g, '\n').split('\n')) {
+        if (/^\s*```/.test(rawLine)) {
+            inCodeBlock = !inCodeBlock;
+            continue;
+        }
+        if (inCodeBlock) {
+            blocks.push({ kind: 'code', text: rawLine || ' ' });
+            continue;
+        }
+        const heading = rawLine.match(/^\s*(#{1,6})\s+(.+)$/);
+        if (heading) {
+            blocks.push({ kind: 'heading', level: heading[1].length, text: cleanInlineMarkdown(heading[2]) });
+            continue;
+        }
+        const unordered = rawLine.match(/^\s*[-+*]\s+(.+)$/);
+        const ordered = rawLine.match(/^\s*(\d+)[.)]\s+(.+)$/);
+        if (unordered || ordered) {
+            blocks.push({
+                kind: 'list',
+                text: unordered ? `• ${cleanInlineMarkdown(unordered[1])}` : `${ordered[1]}. ${cleanInlineMarkdown(ordered[2])}`,
+            });
+            continue;
+        }
+        const quote = rawLine.match(/^\s*>\s?(.*)$/);
+        if (quote) {
+            blocks.push({ kind: 'quote', text: cleanInlineMarkdown(quote[1]) });
+            continue;
+        }
+        blocks.push({ kind: rawLine.trim() ? 'paragraph' : 'blank', text: cleanInlineMarkdown(rawLine) });
+    }
+    return blocks;
+}
+
+function markdownBlockStyle(block, baseSize) {
+    if (block.kind === 'heading') {
+        return { size: Math.round(baseSize * (1.9 - ((block.level - 1) * 0.16))), weight: 'bold', indent: 0, gap: baseSize * 0.65 };
+    }
+    if (block.kind === 'code') return { size: Math.max(10, baseSize - 1), weight: 'normal', indent: 18, gap: 0 };
+    if (block.kind === 'list') return { size: baseSize, weight: 'normal', indent: 20, gap: 0 };
+    if (block.kind === 'quote') return { size: baseSize, weight: 'italic', indent: 24, gap: baseSize * 0.25 };
+    return { size: baseSize, weight: 'normal', indent: 0, gap: block.kind === 'blank' ? baseSize * 0.75 : 0 };
+}
+
+function layoutMarkdown(context, blocks, maxWidth, baseSize, fontFamily) {
+    const lines = [];
+    for (const block of blocks) {
+        const style = markdownBlockStyle(block, baseSize);
+        if (block.kind === 'blank') {
+            lines.push({ text: '', ...style, height: style.gap });
+            continue;
+        }
+        context.font = `${style.weight} ${style.size}px ${fontFamily}`;
+        const wrapped = wrapParagraph(context, block.text, maxWidth - style.indent);
+        wrapped.forEach((text, index) => lines.push({
+            text,
+            ...style,
+            gap: index === 0 ? style.gap : 0,
+            height: style.size * 1.45,
+        }));
+    }
+    return lines;
+}
+
+function paginateMarkdownLines(lines, availableHeight) {
+    const pages = [[]];
+    let used = 0;
+    for (const line of lines) {
+        const required = line.height + line.gap;
+        if (pages.at(-1).length > 0 && used + required > availableHeight) {
+            pages.push([]);
+            used = 0;
+        }
+        pages.at(-1).push(line);
+        used += required;
+    }
+    return pages;
+}
+
+function renderMarkdownPage(lines, isRtl, width, height, margin, fontFamily) {
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    const context = canvas.getContext('2d');
+    context.fillStyle = '#ffffff';
+    context.fillRect(0, 0, width, height);
+    context.fillStyle = '#111827';
+    context.textBaseline = 'top';
+    context.direction = isRtl ? 'rtl' : 'ltr';
+    context.textAlign = isRtl ? 'right' : 'left';
+    let y = margin;
+    for (const line of lines) {
+        y += line.gap;
+        context.font = `${line.weight} ${line.size}px ${fontFamily}`;
+        const x = isRtl ? width - margin - line.indent : margin + line.indent;
+        context.fillText(line.text, x, y);
+        y += line.height;
+    }
+    return canvas;
+}
+
 const textToPdfConverter = Object.freeze({
     id: 'txt-to-pdf',
     category: 'pdf',
@@ -169,10 +281,60 @@ const textToPdfConverter = Object.freeze({
     },
 });
 
-const textToPdfToolDefinitions = Object.freeze({
-    [textToPdfConverter.id]: textToPdfConverter,
+const markdownToPdfConverter = Object.freeze({
+    id: 'markdown-to-pdf',
+    category: 'pdf',
+    icon: 'MD→PDF',
+    action: Object.freeze({ ar: 'حوّل إلى PDF', en: 'Convert to PDF' }),
+    title: Object.freeze({ ar: 'تحويل Markdown إلى PDF', en: 'Markdown to PDF Converter' }),
+    description: Object.freeze({
+        ar: 'حوّل Markdown العربي أو الإنجليزي إلى PDF منسق يدعم العناوين والقوائم والاقتباسات وكتل الكود.',
+        en: 'Convert Arabic or English Markdown into a formatted PDF with headings, lists, quotes and code blocks.',
+    }),
+    note: Object.freeze({
+        ar: 'تتم المعالجة محليًا. تُرسم الصفحات كصور لضمان تشكيل العربية الصحيح، لذلك لن يكون النص داخل PDF قابلًا للتحديد.',
+        en: 'Processing stays local. Pages are rendered as images for correct Arabic shaping, so PDF text is not selectable.',
+    }),
+    inputs: Object.freeze([
+        textAreaInput('markdown', 'نص Markdown', 'Markdown text', '# عنوان\n\nفقرة نصية.\n\n- عنصر أول\n- عنصر ثانٍ'),
+        numberInput('fontSize', 'حجم النص الأساسي', 'Base font size', 14, 10, 24, 'نقطة'),
+    ]),
+    async process(values, language) {
+        if (!values.markdown.trim()) throw new Error(localized(language, 'أدخل نص Markdown.', 'Enter Markdown text.'));
+        const isRtl = ARABIC_PATTERN.test(values.markdown);
+        const scale = 2;
+        const width = 595 * scale;
+        const height = 842 * scale;
+        const margin = 50 * scale;
+        const baseSize = Math.round(values.fontSize) * scale;
+        const fontFamily = isRtl ? 'Arial, Tahoma, sans-serif' : 'Arial, sans-serif';
+        const measureCanvas = document.createElement('canvas');
+        const context = measureCanvas.getContext('2d');
+        const lines = layoutMarkdown(context, parseMarkdownBlocks(values.markdown), width - (margin * 2), baseSize, fontFamily);
+        const pages = paginateMarkdownLines(lines, height - (margin * 2));
+        const { PDFDocument } = await loadPdfLib();
+        const pdfDoc = await PDFDocument.create();
+        for (const pageLines of pages) {
+            const canvas = renderMarkdownPage(pageLines, isRtl, width, height, margin, fontFamily);
+            const image = await pdfDoc.embedPng(await canvasToPngBytes(canvas));
+            const page = pdfDoc.addPage([595, 842]);
+            page.drawImage(image, { x: 0, y: 0, width: 595, height: 842 });
+        }
+        const blob = createPdfBlob(await pdfDoc.save());
+        return {
+            value: `${pages.length} ${localized(language, 'صفحة', 'pages')}`,
+            label: localized(language, 'ملف PDF جاهز', 'The PDF file is ready'),
+            details: `${(blob.size / 1024).toFixed(1)} KB`,
+            download: { blob, filename: 'adawaty-markdown-document.pdf' },
+        };
+    },
 });
 
-export { textToPdfToolDefinitions };
+const textToPdfToolDefinitions = Object.freeze({
+    [textToPdfConverter.id]: textToPdfConverter,
+    [markdownToPdfConverter.id]: markdownToPdfConverter,
+});
+
+export { parseMarkdownBlocks, textToPdfToolDefinitions };
 
 // END OF FILE

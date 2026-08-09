@@ -1300,3 +1300,7 @@ See git history for Sprint 7 batches and earlier release notes.
 
 - Added a browser-only PDF to Markdown converter with heading detection and explicit page separators.
 - Added a deterministic conversion contract test for the generated Markdown structure.
+# 0.5.79
+
+- Added a browser-only Markdown to PDF converter with Arabic support, structured block styling and automatic pagination.
+- Added a deterministic Markdown parsing contract test.

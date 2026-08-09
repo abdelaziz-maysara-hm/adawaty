@@ -50,16 +50,10 @@ const browserOnlyTools = new Set([
     // testable in this Node harness, same class as html-to-markdown-
     // converter above.
     'txt-to-pdf',
-    // txt-to-pdf deliberately renders each page via document.createElement
-    // ('canvas') + the browser's native text engine, rather than pdf-lib's
-    // built-in drawText -- confirmed directly that pdf-lib's WinAnsi-
-    // encoded StandardFonts throw immediately on any Arabic character, and
-    // canvas is the only way in this stack to get correctly-shaped,
-    // correctly-reordered Arabic text (matching the same proven approach
-    // already used for single-line text overlays in pdf-editor-tools.js).
-    // No `document` global exists in this Node test harness, so this tool
-    // can only really be exercised in a browser.
-    'txt-to-pdf',
+    // markdown-to-pdf shares the same browser Canvas renderer so Arabic text
+    // keeps its native shaping and direction. Node has no document/canvas;
+    // its deterministic Markdown parser is covered by the processing tests.
+    'markdown-to-pdf',
 ]);
 
 const inputOverrides = Object.freeze({
@@ -197,8 +191,8 @@ assert.deepEqual(
         .join('\n')}`,
 );
 
-assert.equal(nonFileTools.length, 405);
-assert.equal(browserOnlyTools.size, 20);
+assert.equal(nonFileTools.length, 406);
+assert.equal(browserOnlyTools.size, 21);
 assert.equal(executableWithoutBrowser.length, 385);
 
 const journeys = [
