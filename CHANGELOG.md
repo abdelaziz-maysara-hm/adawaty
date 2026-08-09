@@ -1,5 +1,11 @@
 # Changelog
 
+# 0.5.94
+
+- Added six dedicated audio converters: WAV to MP3, MP3 to WAV, M4A to MP3, FLAC to MP3, OGG to MP3 and OPUS to MP3.
+- Added selectable MP3 bitrate while reusing the existing private in-browser FFmpeg runtime.
+- Added deterministic conversion-pair and bitrate validation contracts.
+
 # 0.5.93
 
 - Added six dedicated, high-demand image conversion pages for JPG, PNG and WebP in both directions.

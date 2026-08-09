@@ -44,6 +44,7 @@ import { audioFileToolDefinitions } from './definitions/audio-file-tools.js';
 import { audioAnalysisToolDefinitions } from './definitions/audio-analysis-tools.js';
 import { audioFilterToolDefinitions } from './definitions/audio-filter-tools.js';
 import { popularAudioToolDefinitions } from './definitions/popular-audio-tools.js';
+import { popularAudioConverterDefinitions } from './definitions/popular-audio-converters.js';
 import { projectManagementDefinitions } from './definitions/project-management.js';
 import { imageFileToolDefinitions } from './definitions/image-file-tools.js';
 import { popularImageConverterDefinitions } from './definitions/popular-image-converters.js';
@@ -1115,6 +1116,7 @@ const allToolDefinitions = Object.freeze({
     ...audioAnalysisToolDefinitions,
     ...audioFilterToolDefinitions,
     ...popularAudioToolDefinitions,
+    ...popularAudioConverterDefinitions,
     ...projectManagementDefinitions,
     ...imageFileToolDefinitions,
     ...popularImageConverterDefinitions,
