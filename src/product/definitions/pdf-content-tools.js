@@ -159,6 +159,19 @@ async function extractStructuredPages(file) {
     return pages;
 }
 
+function structuredPagesToMarkdown(pages) {
+    return pages.map((blocks, pageIndex) => {
+        const content = blocks.map((block) => {
+            const text = String(block.text ?? '').trim();
+            if (!text) return '';
+            return block.headingLevel > 0
+                ? `${'#'.repeat(Math.min(6, block.headingLevel))} ${text}`
+                : text;
+        }).filter(Boolean).join('\n\n');
+        return `<!-- Page ${pageIndex + 1} -->\n\n${content}`.trimEnd();
+    }).join('\n\n---\n\n');
+}
+
 function xmlEscape(value) {
     return String(value)
         .replaceAll('&', '&amp;')
@@ -316,6 +329,37 @@ const pdfToWord = Object.freeze({
     },
 });
 
+const pdfToMarkdown = Object.freeze({
+    id: 'pdf-to-markdown',
+    category: 'pdf',
+    icon: 'PDF→MD',
+    action: Object.freeze({ ar: 'حوّل إلى Markdown', en: 'Convert to Markdown' }),
+    title: Object.freeze({ ar: 'تحويل PDF إلى Markdown', en: 'PDF to Markdown Converter' }),
+    description: Object.freeze({
+        ar: 'حوّل النص القابل للتحديد داخل PDF إلى Markdown منظم مع اكتشاف العناوين وفواصل الصفحات تلقائيًا.',
+        en: 'Convert selectable PDF text into organized Markdown with automatic heading detection and page separators.',
+    }),
+    note: Object.freeze({
+        ar: 'تعمل الأداة محليًا مع ملفات PDF النصية. قد تحتاج الجداول والأعمدة المتعددة إلى مراجعة، أما الملفات المصورة فتحتاج إلى OCR.',
+        en: 'This runs locally for text-based PDFs. Tables and multi-column layouts may need review, while scanned documents require OCR.',
+    }),
+    inputs: Object.freeze([pdfInput()]),
+    async process(values, language) {
+        const pages = await extractStructuredPages(values.pdf);
+        const markdown = structuredPagesToMarkdown(pages);
+        const blob = new Blob([markdown], { type: 'text/markdown;charset=utf-8' });
+        const base = values.pdf.name.replace(/\.pdf$/i, '') || 'document';
+        return result(
+            blob,
+            `${base}.md`,
+            localized(language, `${pages.length} صفحة`, `${pages.length} pages`),
+            language,
+            'ملف Markdown جاهز',
+            'Markdown file is ready',
+        );
+    },
+});
+
 const pageSizes = Object.freeze({
     a4: Object.freeze([595.28, 841.89]),
     letter: Object.freeze([612, 792]),
@@ -402,12 +446,14 @@ const pdfPageSizeNormalizer = Object.freeze({
 const pdfContentToolDefinitions = Object.freeze({
     [pdfTextExtractor.id]: pdfTextExtractor,
     [pdfToWord.id]: pdfToWord,
+    [pdfToMarkdown.id]: pdfToMarkdown,
     [pdfPageSizeNormalizer.id]: pdfPageSizeNormalizer,
 });
 
 export {
     createDocx,
     pdfContentToolDefinitions,
+    structuredPagesToMarkdown,
 };
 
 // END OF FILE

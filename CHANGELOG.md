@@ -1296,3 +1296,7 @@ Planning/documentation update, no code changes. Recorded a deliberate product de
 ## Sprint 7 and earlier
 
 See git history for Sprint 7 batches and earlier release notes.
+# 0.5.78
+
+- Added a browser-only PDF to Markdown converter with heading detection and explicit page separators.
+- Added a deterministic conversion contract test for the generated Markdown structure.
