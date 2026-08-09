@@ -157,4 +157,4 @@ const wordToPdfConverter = Object.freeze({
 
 const wordToPdfDefinitions = Object.freeze({ [wordToPdfConverter.id]: wordToPdfConverter });
 
-export { wordToPdfDefinitions };
+export { loadMammoth, wordToPdfDefinitions };

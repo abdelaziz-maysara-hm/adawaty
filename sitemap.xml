@@ -2191,6 +2191,31 @@
         <priority>0.9</priority>
     </url>
     <url>
+        <loc>https://www.adawaty.tools/tools/excel-to-json-converter/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://www.adawaty.tools/tools/json-to-excel-converter/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://www.adawaty.tools/tools/excel-to-html-table/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://www.adawaty.tools/tools/word-to-html-converter/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://www.adawaty.tools/tools/powerpoint-to-txt-converter/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
         <loc>https://www.adawaty.tools/tools/subtitle-burn-in/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>

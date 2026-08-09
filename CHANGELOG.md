@@ -1,5 +1,11 @@
 # Changelog
 
+# 0.5.89
+
+- Added five browser-side data/document converters: Excel to JSON, JSON to Excel, Excel to HTML, Word to HTML, and PowerPoint to TXT.
+- Reused the existing SheetJS, Mammoth and Office ZIP runtimes without adding dependencies.
+- Added deterministic JSON normalization, HTML-table and slide-text contracts.
+
 # 0.5.88
 
 - Added five browser-side Office tools in one release: Excel compressor, Word and PowerPoint image extractors, Word to TXT, and PowerPoint to JPG.
