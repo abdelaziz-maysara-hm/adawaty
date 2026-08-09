@@ -49,6 +49,7 @@ import { projectManagementDefinitions } from './definitions/project-management.j
 import { imageFileToolDefinitions } from './definitions/image-file-tools.js';
 import { popularImageConverterDefinitions } from './definitions/popular-image-converters.js';
 import { avifToolDefinitions } from './definitions/avif-converter-tool.js';
+import { legacyImageConverterDefinitions } from './definitions/legacy-image-converters.js';
 import { imageExtraToolDefinitions } from './definitions/image-extra-tools.js';
 import { imageExifToolDefinitions } from './definitions/image-exif-tools.js';
 import { imageAnalysisExtraToolDefinitions } from './definitions/image-analysis-extra-tools.js';
@@ -1123,6 +1124,7 @@ const allToolDefinitions = Object.freeze({
     ...imageFileToolDefinitions,
     ...popularImageConverterDefinitions,
     ...avifToolDefinitions,
+    ...legacyImageConverterDefinitions,
     ...imageExtraToolDefinitions,
     ...imageExifToolDefinitions,
     ...imageAnalysisExtraToolDefinitions,

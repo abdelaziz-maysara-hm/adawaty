@@ -1,5 +1,11 @@
 # Changelog
 
+# 0.5.97
+
+- Added AVIF to PNG, JFIF to JPG, BMP to JPG/PNG and TIFF to JPG/PNG converters.
+- Used native browser image decoding where supported and the existing local FFmpeg runtime for TIFF.
+- Added deterministic conversion-pair and TIFF output-profile contracts.
+
 # 0.5.96
 
 - Added dedicated JPG to PDF, PNG to PDF, PDF to JPG and PDF to PNG pages for high-intent searches.
