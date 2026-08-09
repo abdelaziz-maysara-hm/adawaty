@@ -1328,3 +1328,9 @@ See git history for Sprint 7 batches and earlier release notes.
 - Added a private browser-side PDF to Excel converter for text PDFs and clear tables.
 - Added one worksheet per PDF page, nearby-word cell grouping, and automatic column widths.
 - Reused the existing SheetJS runtime and added deterministic row-extraction contracts.
+
+# 0.5.84
+
+- Added a private browser-side Excel to PDF converter for XLSX and XLS workbooks.
+- Added automatic horizontal and vertical table pagination with repeated header rows.
+- Added Arabic-safe Canvas rendering and deterministic pagination contracts.
