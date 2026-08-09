@@ -1,5 +1,33 @@
 # Changelog
 
+## 0.5.71 — File Signature/Type Detector, and a real HEIC-vs-MP4 bug caught by testing with real files (August 2026)
+
+Continued Security & Encoding with `file-signature-viewer`, generalizing the magic-byte detection
+approach already proven in `image-validator` (0.5.63) to cover common file types broadly, not
+just images — picked for genuine "what file type is this" search demand.
+
+- Checked `file-signature`, `magic-number`, `mime-detector`, `file-type-detector` first — all
+  confirmed missing.
+- **Caught and fixed a real bug during testing, not written from memory of the spec**: tested the
+  signature database against a full set of real files already used elsewhere in this session's
+  testing (genuine PDF, PNG, JPEG, GZIP, ZIP files, plus a freshly-generated real `.xlsx` and the
+  real HEIC file from 0.5.64/0.5.67). The real HEIC file was **misidentified as an MP4 video**:
+  HEIC/HEIF and MP4 share the exact same ISO-BMFF `ftyp` container structure at the same byte
+  offsets, and the file's actual brand string turned out to be `mif1` (a generic HEIF "still
+  image" brand), not the more commonly assumed `heic` string the first version only checked for.
+  Fixed by widening the accepted brand list to the full real HEIF specification set (`heic`,
+  `heix`, `mif1`, `msf1`, `heim`, `heis`, `hevc`, `hevx`) and re-verified all 7 test files
+  (including the same real HEIC file, correctly identified this time) before shipping. Also
+  confirmed the real `.xlsx` test file correctly reports as a ZIP archive, since Office documents
+  genuinely are ZIP containers internally — documented this clearly in the tool's own note rather
+  than letting it look like a false positive.
+- Pre-executed the actual tool's `process()` function (not just the standalone algorithm) against
+  4 real byte samples, including the HEIC-vs-MP4 disambiguation case, before registering anything.
+- New file: `src/product/definitions/file-signature-tool.js`, registered in `tool-definitions.js`.
+- Verified: `npm run validate` passes all 7 suites (533 tools total, 599 unique tool ids across
+  90 definition files); confirmed the new page renders with the correct Arabic title.
+
+---
 ## 0.5.70 — bcrypt hash generator/verifier, and a real test-harness gap discovered along the way (August 2026)
 
 Continued Security & Encoding with `bcrypt-generator`, a high-demand developer tool for testing
