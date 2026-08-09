@@ -50,6 +50,7 @@ import { documentXmlToText } from '../../src/product/definitions/office-utility-
 import { normalizeJsonData, rowsToHtmlTable, slidesToText } from '../../src/product/definitions/data-document-converters.js';
 import { htmlToPlainText, rowsToCsv, splitTextLines } from '../../src/product/definitions/ebook-document-tools.js';
 import { gifScaleFilter, speedFactor } from '../../src/product/definitions/gif-processing-tools.js';
+import { conversionKey, conversionPairs } from '../../src/product/definitions/popular-image-converters.js';
 import { bassBoostFilter, noiseReductionFilter } from '../../src/product/definitions/popular-audio-tools.js';
 import {
     timePartsToSeconds,
@@ -234,6 +235,9 @@ assert.deepEqual(splitTextLines('one two three', 7), ['one two', 'three']);
 assert.equal(gifScaleFilter(800, 600), 'scale=800:600:force_original_aspect_ratio=decrease:flags=lanczos,pad=800:600:(ow-iw)/2:(oh-ih)/2:color=black@0');
 assert.equal(speedFactor(9), 4);
 assert.equal(speedFactor(0.1), 0.25);
+assert.equal(conversionKey('png', 'jpg'), 'png-to-jpg-converter');
+assert.equal(conversionPairs.length, 6);
+assert.equal(new Set(conversionPairs.map(([source, target]) => conversionKey(source, target))).size, 6);
 assert.equal(noiseReductionFilter('light'), 'afftdn=nf=-20');
 assert.equal(noiseReductionFilter('strong'), 'afftdn=nf=-30');
 assert.equal(noiseReductionFilter('unknown'), 'afftdn=nf=-25');

@@ -1,5 +1,11 @@
 # Changelog
 
+# 0.5.93
+
+- Added six dedicated, high-demand image conversion pages for JPG, PNG and WebP in both directions.
+- Reused the existing private browser image pipeline with no new dependency or duplicated processing engine.
+- Added deterministic contracts for conversion slugs and pair uniqueness.
+
 # 0.5.92
 
 - Added five high-demand browser-side audio tools: MP4 to MP3, noise remover, vocal remover, audio normalizer and bass booster.
