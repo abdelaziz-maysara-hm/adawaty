@@ -1,5 +1,41 @@
 # Changelog
 
+## 0.5.75 — Text to PDF (with genuine Arabic support) and Video Looper (August 2026)
+
+Continued PDF and Video quick wins by search demand.
+
+- **`txt-to-pdf`: found and solved a real bilingual-audience problem before shipping.**
+  `pdf-lib`'s built-in fonts (`StandardFonts.Helvetica` etc.) use WinAnsi encoding and throw
+  immediately on any Arabic character -- confirmed directly (`WinAnsi cannot encode "م"`). Even
+  embedding a custom Arabic font via `@pdf-lib/fontkit` wouldn't fully solve it: `pdf-lib` has no
+  text-shaping engine, so Arabic letters would render disconnected and without correct right-to-
+  left reordering, producing garbled output. Raised this directly with the site owner rather than
+  quietly shipping English-only or attempting a fragile custom-shaping workaround. **Solution**:
+  discovered the codebase already has a proven pattern for exactly this
+  (`pdf-editor-tools.js`'s `renderTextPng`) -- render text onto a real `<canvas>` using the
+  browser's own native text engine (which already shapes and reorders Arabic correctly, being the
+  same engine that renders every Arabic webpage), export as PNG, embed the PNG as a full page
+  image via `pdf-lib`. Extended this proven single-line approach to full paragraph word-wrap
+  (canvas `measureText`, matching the wrapping pattern used across many tools this session) and
+  multi-page pagination. Clearly disclosed the real tradeoff in the tool's own note: pages are
+  images, so the resulting text is not selectable or searchable -- a deliberate, disclosed choice
+  in exchange for correct Arabic rendering, not a hidden limitation.
+- **`video-loop`**: verified the exact `-stream_loop`/`-c copy` command against real ffmpeg --
+  a 2-second source video with `times=3` (2 extra loops) produced a 6.04-second output, matching
+  the expected ~3x duration.
+- Because `txt-to-pdf` genuinely requires real DOM canvas APIs (`document.createElement`) to
+  render Arabic correctly, it cannot run in the Node test harness -- added to the existing
+  `browserOnlyTools` exclusion set in `tests/product/tool-user-journeys.integration.mjs`
+  (the same set already used for `html-to-markdown-converter` and other DOM-dependent tools),
+  with a comment explaining why.
+- New files: `src/product/definitions/text-to-pdf-tool.js`; `video-loop` added to the existing
+  `src/product/definitions/video-extra-tools.js`.
+- Proactively recomputed and updated the tool-count assertions (including the corrected
+  `browserOnlyTools` set) before running validate.
+- Verified: `npm run validate` passes all 7 suites (537 tools total, 604 unique tool ids across
+  92 definition files); confirmed both new pages render with correct Arabic titles.
+
+---
 ## 0.5.74 — Video Reverser, verified with an unambiguous OCR-based test (August 2026)
 
 Continued Video Tools by search demand ("reverse video" is a commonly searched effect).

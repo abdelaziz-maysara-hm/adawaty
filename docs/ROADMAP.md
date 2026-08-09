@@ -332,7 +332,12 @@ converter concept).
 
 **Quick wins — genuinely simple Tier A, not yet built (23 items, priority order
 for the next PDF batch)**:
-- `txt-to-pdf` — TXT to PDF (TXT إلى PDF)
+- `txt-to-pdf` ✅ **done (0.5.75)** — genuine bilingual support: `pdf-lib`'s built-in fonts can't
+  encode Arabic at all and have no text-shaping engine even with a custom font, so text is
+  rendered via a real `<canvas>` (the browser's native text engine already shapes Arabic
+  correctly) and embedded as a page image, not native PDF text. Disclosed tradeoff: resulting
+  text is not selectable/searchable. Reused the codebase's existing `renderTextPng` pattern from
+  `pdf-editor-tools.js`, extended to full paragraph wrapping and pagination.
 - `pdf-to-md` — PDF to Markdown (PDF إلى Markdown)
 - `md-to-pdf` — Markdown to PDF (Markdown إلى PDF)
 - `pdf-to-csv` — PDF to CSV (PDF إلى CSV)
@@ -563,15 +568,17 @@ audio equivalents of several common operations already existed) before picking a
 
 **Done**: `video-rotate` (90°/180°), `video-crop`, `video-merge` (silent output by design — see
 the CHANGELOG 0.5.55 entry for why: concat fails outright if one input lacks an audio track, a
-realistic case for arbitrary uploads), `video-watermark` (image overlay, 5 position presets).
+realistic case for arbitrary uploads), `video-watermark` (image overlay, 5 position presets),
+`video-reverse` (0.5.74, verified with an unambiguous OCR-based test reading actual frame-number
+text rather than an indirect pixel diff), `video-loop` (0.5.75, `-stream_loop`/`-c copy`, verified
+duration math against real ffmpeg).
 Every ffmpeg filter command was run against a real generated test video through the sandbox's
 system ffmpeg binary before being written into a tool, including re-running the *exact* generated
 command strings (not hand-retyped) end-to-end — catching the merge audio-mismatch failure this
 way before it could reach production.
 
-**Still open**: video reverse, loop, brightness/contrast adjustment, subtitle burn-in, and
-anything from the broader catalogue once the Part 6 numbering gap (noted below) is resolved or
-worked around.
+**Still open**: brightness/contrast adjustment, subtitle burn-in, and anything from the broader
+catalogue once the Part 6 numbering gap (noted below) is resolved or worked around.
 
 ### Audio Tools (Part 7, ~98 tools) — in progress
 

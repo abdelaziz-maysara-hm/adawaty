@@ -282,12 +282,49 @@ const videoReverser = videoTool({
     },
 });
 
+const videoLooper = videoTool({
+    id: 'video-loop',
+    icon: 'LOOP',
+    action: Object.freeze({ ar: 'كرّر الفيديو', en: 'Loop video' }),
+    title: Object.freeze({ ar: 'تكرار الفيديو عدة مرات', en: 'Video Looper' }),
+    description: Object.freeze({
+        ar: 'كرّر فيديو عددًا من المرات لإنشاء نسخة أطول تُشغَّل في حلقة متصلة، مفيد لخلفيات الفيديو أو مقاطع السوشيال ميديا القصيرة.',
+        en: 'Repeat a video a chosen number of times to create a longer, continuously-looping version, useful for video backgrounds or short social clips.',
+    }),
+    note: Object.freeze({
+        ar: 'الصوت (إن وُجد) يتكرر مع الفيديو بنفس العدد من المرات.',
+        en: 'Audio (if present) repeats along with the video the same number of times.',
+    }),
+    inputs: Object.freeze([
+        videoInput(),
+        numberInput('times', 'عدد مرات التكرار', 'Number of repeats', 3, 2, 20, ''),
+    ]),
+    async process(values, language) {
+        const extraLoops = Math.round(values.times) - 1;
+        const blob = await processMediaFiles([values.video], ([video]) => [
+            '-stream_loop', String(extraLoops),
+            '-i', video,
+            '-c', 'copy',
+            '-movflags', '+faststart',
+        ], 'looped.mp4', 'video/mp4');
+
+        return output(
+            blob,
+            'adawaty-looped-video.mp4',
+            language,
+            'الفيديو المكرر جاهز',
+            'The looped video is ready',
+        );
+    },
+});
+
 const videoExtraToolDefinitions = Object.freeze({
     [videoRotator.id]: videoRotator,
     [videoCropper.id]: videoCropper,
     [videoMerger.id]: videoMerger,
     [videoWatermark.id]: videoWatermark,
     [videoReverser.id]: videoReverser,
+    [videoLooper.id]: videoLooper,
 });
 
 export { videoExtraToolDefinitions };

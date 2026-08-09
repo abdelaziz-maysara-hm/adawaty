@@ -42,6 +42,24 @@ const browserOnlyTools = new Set([
     // bcryptjs calls (genSaltSync/hashSync/compareSync) directly against
     // the locally-installed package before this exclusion was added.
     'bcrypt-generator',
+    // txt-to-pdf uses document.createElement('canvas') directly to render
+    // text pages as images -- deliberately, since this is the only way to
+    // get correctly-shaped Arabic text into a PDF (pdf-lib's native
+    // drawText can't encode Arabic at all, and lacks a text-shaping
+    // engine even with a custom font). Genuine DOM dependency, not
+    // testable in this Node harness, same class as html-to-markdown-
+    // converter above.
+    'txt-to-pdf',
+    // txt-to-pdf deliberately renders each page via document.createElement
+    // ('canvas') + the browser's native text engine, rather than pdf-lib's
+    // built-in drawText -- confirmed directly that pdf-lib's WinAnsi-
+    // encoded StandardFonts throw immediately on any Arabic character, and
+    // canvas is the only way in this stack to get correctly-shaped,
+    // correctly-reordered Arabic text (matching the same proven approach
+    // already used for single-line text overlays in pdf-editor-tools.js).
+    // No `document` global exists in this Node test harness, so this tool
+    // can only really be exercised in a browser.
+    'txt-to-pdf',
 ]);
 
 const inputOverrides = Object.freeze({
@@ -179,8 +197,8 @@ assert.deepEqual(
         .join('\n')}`,
 );
 
-assert.equal(nonFileTools.length, 404);
-assert.equal(browserOnlyTools.size, 19);
+assert.equal(nonFileTools.length, 405);
+assert.equal(browserOnlyTools.size, 20);
 assert.equal(executableWithoutBrowser.length, 385);
 
 const journeys = [
