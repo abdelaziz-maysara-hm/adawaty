@@ -17,6 +17,11 @@ import {
     assertImageFile,
 } from '../../src/product/ocr-processing.js';
 import { assertOverlayImage } from '../../src/product/definitions/pdf-editor-tools.js';
+import { addPageNumbers } from '../../src/product/definitions/pdf-document-tools.js';
+import {
+    timePartsToSeconds,
+    videoProcessingToolDefinitions,
+} from '../../src/product/definitions/video-processing-tools.js';
 import {
     assertPdfFile,
     createPdfBlob,
@@ -85,6 +90,37 @@ await assert.rejects(() => inspectImage(text), /valid image/);
 assert.equal(formatAudioDuration(0), '0:00');
 assert.equal(formatAudioDuration(65.2), '1:05');
 assert.equal(formatAudioDuration(3_661), '61:01');
+
+assert.equal(timePartsToSeconds(0, 10), 10);
+assert.equal(timePartsToSeconds(2, 15.5), 135.5);
+assert.deepEqual(
+    videoProcessingToolDefinitions['video-trimmer'].inputs.map(({ id }) => id),
+    ['video', 'startMinutes', 'startSeconds', 'endMinutes', 'endSeconds'],
+);
+
+for (const pageCount of [1, 3, 6]) {
+    const rendered = [];
+    const pages = Array.from({ length: pageCount }, () => ({
+        drawText(text, options) {
+            rendered.push({ text, options });
+        },
+        getHeight: () => 800,
+        getWidth: () => 600,
+    }));
+    addPageNumbers(
+        { getPages: () => pages },
+        { widthOfTextAtSize: (text) => text.length * 7 },
+        { rgb: (...channels) => channels },
+        1,
+        12,
+        'bottom-center',
+    );
+    assert.equal(rendered.length, pageCount);
+    assert.deepEqual(
+        rendered.map(({ text }) => text),
+        Array.from({ length: pageCount }, (_, index) => String(index + 1)),
+    );
+}
 
 console.log('File-processing contracts passed for image, PDF, audio and video inputs.');
 

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const currentDir = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(currentDir, '../..');
@@ -38,7 +38,7 @@ const idToFiles = new Map();
 
 for (const { exportName, file } of modules) {
     // eslint-disable-next-line no-await-in-loop -- sequential import keeps failures easy to trace
-    const moduleExports = await import(path.join(definitionsDir, file));
+    const moduleExports = await import(pathToFileURL(path.join(definitionsDir, file)).href);
     const definitions = moduleExports[exportName];
 
     assert.ok(
