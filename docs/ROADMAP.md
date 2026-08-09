@@ -348,9 +348,20 @@ for the next PDF batch)**:
 - `pdf-letter` — Convert to Letter (تحويل إلى Letter)
 - `pdf-legal` — Convert to Legal (تحويل إلى Legal)
 - `flatten-pdf` — Flatten PDF (تسطيح PDF)
-- `extract-images-pdf` — Extract Images (استخراج الصور)
+- `extract-images-pdf` ✅ **done (0.5.73)** — walks every page's operator list via `pdfjs-dist`,
+  extracts every embedded image, packages as PNGs in one ZIP. Verified byte-for-byte before
+  shipping: a real embedded image's extracted raw pixel data matched an independent Python/Pillow
+  read of the original source image exactly.
 - `view-metadata-pdf` — View Metadata (عرض Metadata)
-- `redact-pdf` — Redact PDF (إخفاء بيانات حساسة)
+- `redact-pdf` — **investigated (0.5.73), deliberately NOT shipped, a real safety finding**:
+  drawing a black box over PDF text (the obvious naive approach) does not remove the underlying
+  text — independently confirmed with `pypdf` that "covered" text remains fully extractable via
+  copy-paste underneath the visual overlay. This is the well-documented real-world PDF redaction
+  failure mode behind actual sensitive-data leaks. Raised directly with the site owner rather than
+  silently shipping a misleadingly-named cover-up tool or quietly renaming around the problem; the
+  decision was to skip this entirely for now. **Genuine redaction (actually stripping the covered
+  region's content stream, not just drawing over it) is a separate, meaningfully bigger task if
+  revisited later — don't reuse the naive draw-a-box approach under the "redact" name.**
 - `search-pdf` — Search in PDF (البحث داخل PDF)
 - `grayscale-pdf` — Grayscale PDF (تحويل للأبيض والأسود)
 - `bw-pdf` — Black & White PDF (تحويل لأسود وأبيض)

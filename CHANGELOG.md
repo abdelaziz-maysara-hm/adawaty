@@ -1,5 +1,42 @@
 # Changelog
 
+## 0.5.73 — PDF Image Extractor shipped; redact-pdf deliberately deferred for a real safety reason (August 2026)
+
+Continued the PDF "quick wins" list (0.5.61 classification) by highest search demand.
+
+- **`redact-pdf`: investigated, then deliberately NOT shipped, a genuine safety finding, not a
+  feasibility limit.** Tested drawing a black rectangle over text in a real PDF with `pdf-lib` --
+  it renders correctly, but independently confirmed with `pypdf` that the covered text remains
+  **fully extractable** underneath the visual overlay (copy-paste or programmatic extraction
+  still returns the "hidden" text in full). This is the exact well-documented, real-world PDF
+  redaction failure mode responsible for actual data leaks (sensitive numbers, medical/legal
+  content) when people trust a "black box" as if it were removal. Shipping this under the name
+  "Redact PDF" would give users false confidence that sensitive information was actually removed.
+  Raised this directly with the site owner rather than silently picking a naming workaround or
+  quietly shipping it; the owner's decision was to skip it entirely for now rather than ship a
+  misleadingly-named cover-up tool, since genuine redaction (actually stripping the underlying
+  content stream in the covered region, not just drawing over it) needs meaningfully more time.
+  Recorded in `docs/ROADMAP.md` so this isn't re-attempted carelessly later.
+- **`extract-images-pdf`: investigated and shipped.** Used `pdfjs-dist` (already a project
+  dependency) to walk each page's operator list for `paintImageXObject`/`paintJpegXObject` calls
+  and pull the referenced image object's raw pixel data. **Verified the full pipeline
+  byte-for-byte before writing the tool**: generated a real PDF with a genuinely embedded image,
+  extracted its raw pixel bytes via PDF.js, and confirmed those bytes exactly matched (byte-for-
+  byte, e.g. pixel `(253, 0, 0)` in both) an independent Python/Pillow read of the original source
+  image -- not just "the extraction ran without erroring," but the actual pixel values verified
+  correct against a source outside the extraction pipeline itself.
+- `extract-images-pdf`: walks every page, extracts every embedded image, converts PDF.js's raw
+  `RGB_24BPP`/`RGBA_32BPP` pixel formats to canvas-ready RGBA, and packages every image as PNG
+  files in one ZIP (reusing the existing `jszip` CDN pattern already used elsewhere in
+  `pdf-document-tools.js`). Rare 1-bit monochrome images (`GRAYSCALE_1BPP`, mostly found in
+  pure black-and-white scans) are explicitly not supported yet rather than silently mishandled --
+  noted clearly in the tool's own description.
+- New file: `src/product/definitions/pdf-image-extractor-tool.js`, registered in
+  `tool-definitions.js`.
+- Verified: `npm run validate` passes all 7 suites (534 tools total, 601 unique tool ids across
+  91 definition files); confirmed the new page renders with the correct Arabic title.
+
+---
 ## 0.5.72 — Age Calculator, one of the single highest-demand calculator queries globally (August 2026)
 
 Stepped away from Security & Encoding briefly to pick up an unmistakably high-demand gap in a

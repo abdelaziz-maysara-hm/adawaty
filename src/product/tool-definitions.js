@@ -63,6 +63,7 @@ import { pdfImageToolDefinitions } from './definitions/pdf-image-tools.js';
 import { pdfDocumentToolDefinitions } from './definitions/pdf-document-tools.js';
 import { pdfProtectToolDefinitions } from './definitions/pdf-protect-tool.js';
 import { pdfSignToolDefinitions } from './definitions/pdf-sign-tool.js';
+import { pdfImageExtractorToolDefinitions } from './definitions/pdf-image-extractor-tool.js';
 import { memeToolDefinitions } from './definitions/meme-generator-tool.js';
 import { pdfContentToolDefinitions } from './definitions/pdf-content-tools.js';
 import { pdfEditorToolDefinitions } from './definitions/pdf-editor-tools.js';
@@ -1117,6 +1118,7 @@ const allToolDefinitions = Object.freeze({
     ...pdfDocumentToolDefinitions,
     ...pdfProtectToolDefinitions,
     ...pdfSignToolDefinitions,
+    ...pdfImageExtractorToolDefinitions,
     ...memeToolDefinitions,
     ...pdfContentToolDefinitions,
     ...pdfEditorToolDefinitions,
