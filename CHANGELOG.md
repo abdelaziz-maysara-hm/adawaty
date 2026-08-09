@@ -1,5 +1,33 @@
 # Changelog
 
+## 0.5.76 — PDF Grayscale Converter, verified at 3 independent layers (August 2026)
+
+Continued PDF quick wins by search demand ("convert PDF to grayscale/black and white" for
+print-cost savings is a genuine, common need).
+
+- Checked `grayscale-pdf` first — confirmed missing.
+- **Verified the render-grayscale-rebuild pipeline at three independent layers before writing
+  any tool code**, the most thorough verification chain used this session:
+  1. Generated a real PDF with distinct red/blue/green rectangles, rendered it with `pdfjs-dist`
+     (already a project dependency), and confirmed by direct pixel scan that all three colors
+     were genuinely present in the rendered output.
+  2. Applied the exact grayscale conversion (standard luminosity formula) and rebuilt a PDF the
+     same way the tool does, using `pdf-lib`.
+  3. Re-rendered that *output* PDF with a third library, **PyMuPDF, completely unrelated to
+     either `pdfjs-dist` or `pdf-lib`**, and confirmed zero color saturation remained anywhere in
+     the final result -- not inferring correctness from the pipeline's own tools, but checking the
+     final artifact with an independent party.
+- `grayscale-pdf`: renders every page via `pdfjs-dist`, converts to grayscale, and rebuilds the
+  document with `pdf-lib` -- reusing the exact same architecture as `txt-to-pdf` (0.5.75). Same
+  disclosed tradeoff, clearly noted in the tool's own description: pages become images, so
+  original text is no longer selectable or searchable after conversion.
+- New file: `src/product/definitions/pdf-grayscale-tool.js`, registered in `tool-definitions.js`.
+  Takes a file input, so (like `pdf-image-extractor`) it's naturally excluded from the test
+  harness's auto-execution without needing a `browserOnlyTools` entry.
+- Verified: `npm run validate` passes all 7 suites (538 tools total, 605 unique tool ids across
+  93 definition files); confirmed the new page renders with the correct Arabic title.
+
+---
 ## 0.5.75 — Text to PDF (with genuine Arabic support) and Video Looper (August 2026)
 
 Continued PDF and Video quick wins by search demand.

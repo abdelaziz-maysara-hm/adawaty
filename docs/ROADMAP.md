@@ -368,7 +368,12 @@ for the next PDF batch)**:
   region's content stream, not just drawing over it) is a separate, meaningfully bigger task if
   revisited later — don't reuse the naive draw-a-box approach under the "redact" name.**
 - `search-pdf` — Search in PDF (البحث داخل PDF)
-- `grayscale-pdf` — Grayscale PDF (تحويل للأبيض والأسود)
+- `grayscale-pdf` ✅ **done (0.5.76)** — renders each page via `pdfjs-dist`, converts to
+  grayscale, rebuilds via `pdf-lib` (same architecture as `txt-to-pdf`). Verified at 3 independent
+  layers before shipping: real colored PDF → confirmed color present after rendering → applied
+  grayscale + rebuild → re-rendered the *output* with a third, unrelated library (PyMuPDF) and
+  confirmed zero color saturation remained. Same disclosed tradeoff as `txt-to-pdf`: pages become
+  images, original text no longer selectable/searchable.
 - `bw-pdf` — Black & White PDF (تحويل لأسود وأبيض)
 - `invert-pdf-colors` — Invert PDF Colors (عكس الألوان)
 
