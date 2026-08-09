@@ -1304,3 +1304,9 @@ See git history for Sprint 7 batches and earlier release notes.
 
 - Added a browser-only Markdown to PDF converter with Arabic support, structured block styling and automatic pagination.
 - Added a deterministic Markdown parsing contract test.
+
+# 0.5.80
+
+- Added a private browser-side image color picker with exact percentage-based pixel sampling.
+- Added HEX, RGB, HSL, alpha and source pixel coordinates to the result.
+- Added deterministic coordinate-clamping and RGB-to-HSL contract coverage.

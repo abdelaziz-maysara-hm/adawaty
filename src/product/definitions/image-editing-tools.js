@@ -65,6 +65,70 @@ function toHex(red, green, blue) {
         .toUpperCase()}`;
 }
 
+function rgbToHsl(red, green, blue) {
+    const normalized = [red, green, blue].map((channel) => channel / 255);
+    const maximum = Math.max(...normalized);
+    const minimum = Math.min(...normalized);
+    const lightness = (maximum + minimum) / 2;
+    const delta = maximum - minimum;
+
+    if (delta === 0) {
+        return Object.freeze({ hue: 0, saturation: 0, lightness: Math.round(lightness * 100) });
+    }
+
+    const saturation = delta / (1 - Math.abs((2 * lightness) - 1));
+    let hue;
+    if (maximum === normalized[0]) {
+        hue = 60 * (((normalized[1] - normalized[2]) / delta) % 6);
+    } else if (maximum === normalized[1]) {
+        hue = 60 * (((normalized[2] - normalized[0]) / delta) + 2);
+    } else {
+        hue = 60 * (((normalized[0] - normalized[1]) / delta) + 4);
+    }
+
+    return Object.freeze({
+        hue: Math.round((hue + 360) % 360),
+        saturation: Math.round(saturation * 100),
+        lightness: Math.round(lightness * 100),
+    });
+}
+
+function normalizeSampleCoordinate(percentage, dimension) {
+    const safePercentage = Math.min(100, Math.max(0, Number(percentage) || 0));
+    return Math.min(dimension - 1, Math.floor((safePercentage / 100) * dimension));
+}
+
+async function sampleImageColor(file, xPercent, yPercent) {
+    if (!(file instanceof File) || !file.type.startsWith('image/')) {
+        throw new Error('Please select a valid image file.');
+    }
+
+    const image = await decodeImage(file);
+    const canvas = document.createElement('canvas');
+    canvas.width = image.naturalWidth;
+    canvas.height = image.naturalHeight;
+    const context = canvas.getContext('2d', { willReadFrequently: true });
+    if (!context) {
+        throw new Error('Image processing is unavailable in this browser.');
+    }
+
+    context.drawImage(image, 0, 0);
+    const x = normalizeSampleCoordinate(xPercent, canvas.width);
+    const y = normalizeSampleCoordinate(yPercent, canvas.height);
+    const [red, green, blue, alpha] = context.getImageData(x, y, 1, 1).data;
+
+    return Object.freeze({
+        red,
+        green,
+        blue,
+        alpha,
+        x,
+        y,
+        hex: toHex(red, green, blue),
+        hsl: rgbToHsl(red, green, blue),
+    });
+}
+
 async function extractPalette(file, paletteSize) {
     if (!(file instanceof File) || !file.type.startsWith('image/')) {
         throw new Error('Please select a valid image file.');
@@ -367,13 +431,65 @@ const averageColorPicker = Object.freeze({
     },
 });
 
+const imageColorPicker = Object.freeze({
+    id: 'image-color-picker',
+    category: 'image',
+    icon: 'PICK',
+    action: Object.freeze({ ar: 'اختر لونًا من الصورة', en: 'Pick an image color' }),
+    title: Object.freeze({ ar: 'منتقي لون من الصورة', en: 'Image Color Picker' }),
+    description: Object.freeze({
+        ar: 'اختر موضعًا أفقيًا ورأسيًا داخل الصورة واحصل على لون البكسل الدقيق بصيغ HEX وRGB وHSL.',
+        en: 'Choose a horizontal and vertical position in an image and read the exact pixel color as HEX, RGB, and HSL.',
+    }),
+    note: Object.freeze({
+        ar: 'النسب تبدأ من أعلى يسار الصورة. تتم قراءة الصورة محليًا داخل المتصفح ولا تُرفع إلى أي خادم.',
+        en: 'Percentages start at the top-left corner. The image is read locally in your browser and is never uploaded.',
+    }),
+    tags: Object.freeze(['image', 'color', 'picker', 'hex', 'rgb', 'hsl', 'processing']),
+    inputs: Object.freeze([
+        fileInput(),
+        numberInput('xPercent', 'الموضع الأفقي', 'Horizontal position', 50, {
+            min: 0,
+            max: 100,
+            unit: { ar: '%', en: '%' },
+        }),
+        numberInput('yPercent', 'الموضع الرأسي', 'Vertical position', 50, {
+            min: 0,
+            max: 100,
+            unit: { ar: '%', en: '%' },
+        }),
+    ]),
+    async process(values, language) {
+        try {
+            const color = await sampleImageColor(
+                values.image,
+                values.xPercent ?? 50,
+                values.yPercent ?? 50,
+            );
+            const alpha = (color.alpha / 255).toFixed(2);
+            return {
+                value: color.hex,
+                label: `RGB ${color.red}, ${color.green}, ${color.blue} · Alpha ${alpha}`,
+                details: `HSL ${color.hsl.hue}°, ${color.hsl.saturation}%, ${color.hsl.lightness}% · (${color.x}, ${color.y}) px`,
+            };
+        } catch (error) {
+            throw new Error(localized(
+                language,
+                'تعذّر قراءة اللون. تأكد من اختيار صورة صالحة وموضع بين 0 و100%.',
+                'Unable to read the color. Choose a valid image and a position between 0 and 100%.',
+            ), { cause: error });
+        }
+    },
+});
+
 const imageEditingToolDefinitions = Object.freeze({
     [cropper.id]: cropper,
     [rotator.id]: rotator,
     [metadataRemover.id]: metadataRemover,
     [averageColorPicker.id]: averageColorPicker,
+    [imageColorPicker.id]: imageColorPicker,
 });
 
-export { imageEditingToolDefinitions };
+export { imageEditingToolDefinitions, normalizeSampleCoordinate, rgbToHsl };
 
 // END OF FILE
