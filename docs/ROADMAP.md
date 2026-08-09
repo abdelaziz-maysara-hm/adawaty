@@ -612,6 +612,39 @@ can do, pushing anything needing an external codec/encoder library later:
 6. **Utilities** (repair, recover, validate, batch versions) — thin wrappers around the tools
    above; comes last once the underlying single-file tools exist.
 
+### Security & Encoding Tools (Part 10, 100 items) — in progress
+
+Identified as the largest gap of any fully-in-scope category (only 10 live tools against 100
+catalogue items before this section started, and every single item is pure client-side JS — no
+AI, no backend, unlike most other large gaps in the catalogue).
+
+**Already built before this section started**: `hash-generator` (MD5/SHA1/256/512),
+`jwt-decoder`/`jwt-encoder`/`jwt-inspector`, `password-generator`, `uuid-generator`,
+`base64-encoder-decoder`.
+
+**Done (0.5.68)**: `hmac-generator`, `base32-encoder-decoder`, `crc32-calculator`,
+`otp-generator` (TOTP), `pin-generator`. Every algorithm verified against an independent,
+authoritative reference before shipping — Base32 matched Python's `base64.b32encode` byte-for-
+byte, CRC32 matched both a known reference value and Python's `zlib.crc32`, and TOTP matched
+**RFC 6238's own officially published test vector** exactly (the strongest verification standard
+used this session — matching the spec's reference output, not just a self-consistent round trip).
+
+**Still open** (~85 items after the above): AES/DES/3DES/RSA encrypt-decrypt and RSA/AES key
+generation (Web Crypto supports AES-GCM/CBC and RSA-OAEP/PSS natively — verify the exact API
+shape before building, same rigor as everything above, but no new dependency expected);
+bcrypt/Argon2/scrypt password hashing (Web Crypto does *not* support these — would need a
+dedicated library, a deliberate dependency decision like `piexifjs`/`pdf-encrypt-lite` before
+this session's earlier tools); certificate/CSR/PEM/DER/PFX tooling (X.509 parsing — check for an
+existing lightweight library rather than hand-rolling ASN.1 parsing); OAuth/OpenID token
+tooling (mostly straightforward JWT-adjacent parsing, likely quick once scoped); file-signature/
+magic-number/MIME detection (similar pattern to the already-shipped `image-validator`, likely a
+genuine quick win); SSH key viewer/fingerprint (needs an SSH key format parser); PBKDF2 (Web
+Crypto supports this natively via `deriveBits`, likely another quick win); a batch UUID/NanoID
+generator (trivial, wraps the existing single-item generators); and a combined `security-toolkit`
+landing page. No architecture blockers identified on most of these — same pattern as what
+shipped, pick up whenever, **starting with `npm run list:tools` before writing any code, per the
+0.5.67 timing correction above.**
+
 ### Developer Tools (Part 9, ~100 tools) — in progress
 
 **Mandatory pre-check before writing any new tool (added 0.5.52, after two separate duplicate

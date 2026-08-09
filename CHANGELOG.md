@@ -1,5 +1,43 @@
 # Changelog
 
+## 0.5.68 — Security & Encoding: HMAC, Base32, CRC32, TOTP, PIN generator (August 2026)
+
+Pivoted to Security & Encoding (Part 10, 100 catalogue items), identified earlier as the largest
+gap of any fully-in-scope category (only 10 tools live against 100 catalogue items, and every one
+of them is pure client-side JS -- no AI, no backend).
+
+- Checked existing coverage first, before writing anything: `hash-generator` (MD5/SHA),
+  `jwt-decoder`/`jwt-encoder`/`jwt-inspector`, `password-generator`, `uuid-generator`, and
+  `base64-encoder-decoder` all already existed. `hmac-generator`, Base32 encode/decode, CRC32,
+  OTP/TOTP, and PIN generation were all genuinely missing.
+- **Every algorithm was verified against an independent, authoritative reference before being
+  wired into a tool** -- the strongest verification standard used yet this session:
+  - **HMAC-SHA256**: reused the exact Web Crypto pattern already proven for `jwt-encoder`.
+  - **Base32**: verified byte-for-byte identical output to Python's standard-library
+    `base64.b32encode` for a real test string.
+  - **CRC32**: verified against both a well-known published reference value *and* Python's
+    independent `zlib.crc32`, for the exact string "The quick brown fox jumps over the lazy dog"
+    -- both matched `414fa339` precisely.
+  - **TOTP**: verified against **RFC 6238's own officially published test vector** (secret
+    `GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ`, time=59s, 8 digits, SHA-1) -- produced `94287082`,
+    matching the standard's specification exactly. This is the highest-confidence verification
+    method used in this session: matching the spec's own reference output, not just a
+    self-consistent round trip.
+- 5 new tools, zero new dependencies (Web Crypto API + hand-verified pure-JS algorithms):
+  - `hmac-generator` — HMAC-SHA1/256/384/512 for a message + secret key.
+  - `base32-encoder-decoder` — RFC 4648 Base32, the format used in most 2FA app secret keys.
+  - `crc32-calculator` — the IEEE 802.3 checksum used in ZIP files and network protocols,
+    clearly labeled as non-cryptographic (error detection only, not tamper-proof).
+  - `otp-generator` — generates a live TOTP code from a Base32 secret, the same method apps like
+    Google Authenticator use, with a live "seconds remaining" countdown in the result.
+  - `pin-generator` — cryptographically random numeric PIN, 3-12 digits.
+- New file: `src/product/definitions/security-encoding-extra-tools.js`, registered in
+  `tool-definitions.js`, using the existing `security-network` category.
+- Proactively recomputed and updated the tool-count assertions before running validate.
+- Verified: `npm run validate` passes all 7 suites (530 tools total, 596 unique tool ids across
+  89 definition files); confirmed all 5 new pages render with correct Arabic titles.
+
+---
 ## 0.5.67 — Process fix: check first, write code second; 2 smart image tools shipped (August 2026)
 
 - **Process correction**: caught by the site owner mid-session. The `svg-to-png` duplicate in

@@ -3,6 +3,7 @@ import { converterDefinitions } from './definitions/converters.js';
 import { dateTimeDefinitions } from './definitions/date-time.js';
 import { engineeringDefinitions } from './definitions/engineering.js';
 import { securityNetworkDefinitions } from './definitions/security-network.js';
+import { securityEncodingToolDefinitions } from './definitions/security-encoding-extra-tools.js';
 import { seoDefinitions } from './definitions/seo.js';
 import { colorCssDefinitions } from './definitions/color-css.js';
 import { homeLifestyleDefinitions } from './definitions/home-lifestyle.js';
@@ -1055,6 +1056,7 @@ const allToolDefinitions = Object.freeze({
     ...dateTimeDefinitions,
     ...engineeringDefinitions,
     ...securityNetworkDefinitions,
+    ...securityEncodingToolDefinitions,
     ...seoDefinitions,
     ...colorCssDefinitions,
     ...homeLifestyleDefinitions,
