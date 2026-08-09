@@ -1,5 +1,11 @@
 # Changelog
 
+# 0.5.92
+
+- Added five high-demand browser-side audio tools: MP4 to MP3, noise remover, vocal remover, audio normalizer and bass booster.
+- Reused the existing FFmpeg runtime so media remains on the user's device and no dependency was added.
+- Added deterministic contracts for noise-reduction and bass-boost filter boundaries.
+
 # 0.5.91
 
 - Added five browser-side GIF tools: compressor, speed changer, resizer, GIF to MP4, and animation reverser.
