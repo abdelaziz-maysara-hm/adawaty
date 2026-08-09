@@ -1,5 +1,30 @@
 # Changelog
 
+## 0.5.65 — AVIF to JPG: a genuine zero-dependency win found through research, not assumption (August 2026)
+
+Continuing the search-demand-priority Image work.
+
+- Researched AVIF browser support before building anything, rather than assuming both directions
+  of the conversion pair are equally hard (or equally easy): AVIF **decode** has been natively
+  supported by every major browser engine since roughly 2020-2023 (Chrome 85+, Firefox 93+, Safari
+  16.4+) via the standard `<img>`/`createImageBitmap` pipeline. AVIF **encode**
+  (`canvas.toBlob('image/avif')`) is still genuinely inconsistent across browsers as of 2026 --
+  solid in Chrome, gaps in Firefox/Safari per multiple current sources.
+- **This asymmetry meant one direction was a genuine zero-dependency quick win**: confirmed the
+  existing `decodeImage()`/`renderImage()` helpers already used throughout `image-processing.js`
+  have no format-specific gating (just checks `file.type.startsWith('image/')`, then uses the
+  standard `<img>` decode path) -- meaning AVIF *input* already works through entirely existing,
+  already-tested infrastructure, no new library needed.
+- Shipped `avif-to-jpg-converter` (`src/product/definitions/avif-converter-tool.js`) as a
+  dedicated tool (matching the existing `heic-to-jpg-converter` pattern, not folded into the
+  shared generic `image-format-converter`, to avoid touching a helper many other tools depend on).
+  Deliberately did **not** build `jpg-to-avif` alongside it, given the encode-side browser support
+  gaps -- same "the two directions of a conversion pair aren't equally easy" lesson already
+  applied to SVG-to-PNG/PNG-to-SVG in the original classification.
+- Verified: `npm run validate` passes all 7 suites (519 tools total, 585 unique tool ids across
+  86 definition files); confirmed the new page renders with the correct Arabic title.
+
+---
 ## 0.5.64 — HEIC to PNG: a correction found while starting the batch, and the first tool shipped without full sandbox verification (August 2026)
 
 Picked HEIC-to-JPG as the highest-search-demand remaining Image gap (iPhone's default photo

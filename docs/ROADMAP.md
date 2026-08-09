@@ -482,7 +482,16 @@ in a real browser rather than block on a sandbox limitation. Worth remembering a
 constraint for any future Worker-based library, not just this one.
 
 **Needs a real feasibility check before starting (16 items after the correction below)**:
-- `avif-to-jpg`/`jpg-to-avif`: AVIF encode/decode browser support varies; verify current coverage.
+- `avif-to-jpg` ✅ shipped (0.5.65) as `avif-to-jpg-converter`. Researched before building:
+  AVIF *decode* has been natively supported by every major browser engine since ~2020-2023
+  (Chrome 85+, Firefox 93+, Safari 16.4+) via the standard `<img>`/`createImageBitmap` pipeline
+  already used everywhere in this codebase's `decodeImage()` helper -- confirmed via multiple
+  independent sources, and confirmed the existing `renderImage`/`decodeImage` functions have no
+  format-specific gating that would block AVIF specifically. No new dependency needed.
+  `jpg-to-avif` (the *encode* direction) deliberately NOT built alongside it: `canvas.toBlob`'s
+  AVIF encode support is still genuinely inconsistent across browsers as of 2026 (solid in Chrome,
+  gaps in Firefox/Safari per current sources) -- same "the two directions of a conversion pair
+  aren't equally easy" lesson already applied to SVG-to-PNG/PNG-to-SVG below.
 - `raw-to-jpg`/`raw-to-png`: real camera RAW formats need a genuine RAW decoder (not just a
   canvas trick) — a substantially bigger dependency than anything added so far.
 - `svg-to-png`: likely genuinely easy (render SVG to canvas). `png-to-svg` (raster-to-vector
