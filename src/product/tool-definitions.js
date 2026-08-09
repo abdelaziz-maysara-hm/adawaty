@@ -47,6 +47,7 @@ import { popularAudioToolDefinitions } from './definitions/popular-audio-tools.j
 import { popularAudioConverterDefinitions } from './definitions/popular-audio-converters.js';
 import { projectManagementDefinitions } from './definitions/project-management.js';
 import { imageFileToolDefinitions } from './definitions/image-file-tools.js';
+import { targetSizeImageToolDefinitions } from './definitions/target-size-image-tools.js';
 import { popularImageConverterDefinitions } from './definitions/popular-image-converters.js';
 import { avifToolDefinitions } from './definitions/avif-converter-tool.js';
 import { legacyImageConverterDefinitions } from './definitions/legacy-image-converters.js';
@@ -1122,6 +1123,7 @@ const allToolDefinitions = Object.freeze({
     ...popularAudioConverterDefinitions,
     ...projectManagementDefinitions,
     ...imageFileToolDefinitions,
+    ...targetSizeImageToolDefinitions,
     ...popularImageConverterDefinitions,
     ...avifToolDefinitions,
     ...legacyImageConverterDefinitions,

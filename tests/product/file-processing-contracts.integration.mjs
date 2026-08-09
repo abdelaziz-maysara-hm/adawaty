@@ -53,6 +53,7 @@ import { htmlToPlainText, rowsToCsv, splitTextLines } from '../../src/product/de
 import { gifScaleFilter, speedFactor } from '../../src/product/definitions/gif-processing-tools.js';
 import { conversionKey, conversionPairs } from '../../src/product/definitions/popular-image-converters.js';
 import { conversionKey as legacyImageKey, ffmpegImageArgs, legacyImageConversionPairs } from '../../src/product/definitions/legacy-image-converters.js';
+import { nextImageScale, normalizeTargetKb, TARGET_PRESETS } from '../../src/product/definitions/target-size-image-tools.js';
 import { bassBoostFilter, noiseReductionFilter } from '../../src/product/definitions/popular-audio-tools.js';
 import { audioConversionPairs, conversionKey as audioConversionKey, safeBitrate } from '../../src/product/definitions/popular-audio-converters.js';
 import {
@@ -250,6 +251,10 @@ assert.equal(legacyImageKey('tiff', 'jpg'), 'tiff-to-jpg-converter');
 assert.equal(legacyImageConversionPairs.length, 6);
 assert.ok(ffmpegImageArgs('png').includes('png'));
 assert.deepEqual(ffmpegImageArgs('jpg', 90), ['-frames:v', '1', '-q:v', '3']);
+assert.deepEqual(TARGET_PRESETS, [20, 50, 100, 200, 500]);
+assert.equal(normalizeTargetKb(2), 5);
+assert.equal(normalizeTargetKb(9000), 5000);
+assert.equal(nextImageScale(100_000, 400_000), 0.46);
 assert.equal(noiseReductionFilter('light'), 'afftdn=nf=-20');
 assert.equal(noiseReductionFilter('strong'), 'afftdn=nf=-30');
 assert.equal(noiseReductionFilter('unknown'), 'afftdn=nf=-25');

@@ -1,5 +1,11 @@
 # Changelog
 
+# 0.5.98
+
+- Added target-size image compression with custom KB input and dedicated 20, 50, 100, 200 and 500 KB tools.
+- Added iterative quality search with automatic dimension reduction for strict upload limits.
+- Added deterministic target normalization, preset and resize-scale contracts.
+
 # 0.5.97
 
 - Added AVIF to PNG, JFIF to JPG, BMP to JPG/PNG and TIFF to JPG/PNG converters.
