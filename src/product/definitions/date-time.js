@@ -299,6 +299,66 @@ const birthdayCountdown = Object.freeze({
     },
 });
 
+const ageCalculator = Object.freeze({
+    id: 'age-calculator',
+    category: 'date-time',
+    icon: '🎈',
+    title: Object.freeze({ ar: 'حاسبة العمر', en: 'Age Calculator' }),
+    description: Object.freeze({
+        ar: 'احسب عمرك بالضبط بالسنوات والشهور والأيام من تاريخ ميلادك حتى اليوم، أو حتى تاريخ آخر تختاره.',
+        en: 'Calculate your exact age in years, months, and days from your birth date to today, or to another date you choose.',
+    }),
+    note: Object.freeze({
+        ar: 'يتعامل بشكل صحيح مع السنوات الكبيسة ومواليد 29 فبراير.',
+        en: 'Correctly handles leap years and February 29th birthdays.',
+    }),
+    inputs: Object.freeze([
+        dateInput('birthDate', { ar: 'تاريخ الميلاد', en: 'Birth date' }),
+        dateInput('referenceDate', { ar: 'احسب العمر حتى تاريخ (اختياري، افتراضيًا اليوم)', en: 'Calculate age as of (optional, defaults to today)' }),
+    ]),
+    calculate(values, language) {
+        const birth = parseUtcDate(values.birthDate);
+        const now = new Date();
+        const reference = values.referenceDate
+            ? parseUtcDate(values.referenceDate)
+            : new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
+
+        if (reference < birth) {
+            throw new Error(localized(
+                language,
+                'تاريخ الحساب يجب أن يكون بعد تاريخ الميلاد.',
+                'The reference date must be after the birth date.',
+            ));
+        }
+
+        let years = reference.getUTCFullYear() - birth.getUTCFullYear();
+        let months = reference.getUTCMonth() - birth.getUTCMonth();
+        let days = reference.getUTCDate() - birth.getUTCDate();
+
+        if (days < 0) {
+            months -= 1;
+            const daysInPrevMonth = new Date(Date.UTC(reference.getUTCFullYear(), reference.getUTCMonth(), 0)).getUTCDate();
+            days += daysInPrevMonth;
+        }
+        if (months < 0) {
+            years -= 1;
+            months += 12;
+        }
+
+        const totalDays = Math.round((reference - birth) / dayMilliseconds);
+
+        return result(
+            `${years} ${localized(language, 'سنة', 'years')}`,
+            localized(
+                language,
+                `${months} شهر و${days} يوم`,
+                `${months} months and ${days} days`,
+            ),
+            localized(language, `إجمالي ${format(totalDays)} يوم`, `Total ${format(totalDays)} days`),
+        );
+    },
+});
+
 const workHours = Object.freeze({
     id: 'work-hours-calculator',
     category: 'date-time',
@@ -398,6 +458,7 @@ const dateTimeDefinitions = Object.freeze({
     'leap-year-calculator': leapYear,
     'time-duration-calculator': timeDuration,
     'birthday-countdown-calculator': birthdayCountdown,
+    'age-calculator': ageCalculator,
     'work-hours-calculator': workHours,
     'timezone-converter': timezoneConverter,
     'day-of-week-calculator': dayOfWeek,

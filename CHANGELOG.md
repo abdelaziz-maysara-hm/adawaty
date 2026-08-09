@@ -1,5 +1,34 @@
 # Changelog
 
+## 0.5.72 — Age Calculator, one of the single highest-demand calculator queries globally (August 2026)
+
+Stepped away from Security & Encoding briefly to pick up an unmistakably high-demand gap in a
+different category, per the ongoing "highest search demand" priority.
+
+- Checked `age-calculator` first — the 3 substring matches returned (`percentage-calculator`,
+  `quiz-average-calculator`, `mortgage-calculator`) were all false positives from "age" appearing
+  inside longer words (percent**age**, avera**ge**, mortg**age**), not real age calculators.
+  Double-checked with `birthday`, `date-of-birth`, and `how old` to confirm genuinely missing --
+  only the existing `birthday-countdown-calculator` came up, which counts days *to* the next
+  birthday, a different calculation from computing current age *from* a birth date.
+- Designed and unit-tested the year/month/day age-difference algorithm with real edge cases before
+  writing the tool: an exact-birthday case (26y/0m/0d), the day-before-a-birthday case (correctly
+  borrows from the previous month's actual day count), and a leap-day birth date (February 29)
+  compared against a non-leap reference year -- all verified against manual hand-calculation
+  before being wired in, then re-verified using the exact UTC date methods
+  (`getUTCFullYear`/`getUTCMonth`/`getUTCDate`) the codebase's existing date tools already use, to
+  avoid the timezone bugs that plain local-time `Date` math is prone to.
+- Added directly to the existing `src/product/definitions/date-time.js` (reusing its established
+  `parseUtcDate`/`dateInput`/`result` helpers) rather than a new file, since it belongs naturally
+  alongside the existing `birthday-countdown-calculator`.
+- `age-calculator`: years/months/days from a birth date to today (or any other chosen reference
+  date), with total-days-lived also shown; validates that the reference date isn't before the
+  birth date.
+- Verified: `npm run validate` passes all 7 suites (600 unique tool ids across 90 definition
+  files, up from 599); confirmed the new page renders with the correct Arabic title and the
+  calculation logic produces exactly the pre-verified expected output when executed directly.
+
+---
 ## 0.5.71 — File Signature/Type Detector, and a real HEIC-vs-MP4 bug caught by testing with real files (August 2026)
 
 Continued Security & Encoding with `file-signature-viewer`, generalizing the magic-byte detection
