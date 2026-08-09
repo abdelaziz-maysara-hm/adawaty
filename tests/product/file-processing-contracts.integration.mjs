@@ -25,6 +25,7 @@ import { buildTraceOptions } from '../../src/product/definitions/image-svg-trace
 import { parseMarkdownBlocks } from '../../src/product/definitions/text-to-pdf-tool.js';
 import { structuredPagesToMarkdown } from '../../src/product/definitions/pdf-content-tools.js';
 import { addPageNumbers } from '../../src/product/definitions/pdf-document-tools.js';
+import { fitInside } from '../../src/product/definitions/pdf-to-powerpoint-tool.js';
 import {
     timePartsToSeconds,
     videoProcessingToolDefinitions,
@@ -121,6 +122,12 @@ assert.deepEqual(
     },
 );
 assert.equal(buildTraceOptions('detailed', 40).numberofcolors, 32);
+const wideSlide = fitInside(1600, 900, 13.333, 7.5);
+assert.equal(wideSlide.width, 13.333);
+assert.ok(Math.abs(wideSlide.height - 7.5) < 0.001);
+const portraitSlide = fitInside(800, 1200, 13.333, 7.5);
+assert.equal(portraitSlide.height, 7.5);
+assert.ok(portraitSlide.x > 4);
 
 assert.deepEqual(parseMarkdownBlocks('# Title\n\n- **Fast**\n> Private\n```\nconst ok = true;\n```'), [
     { kind: 'heading', level: 1, text: 'Title' },

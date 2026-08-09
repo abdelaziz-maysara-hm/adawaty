@@ -1316,3 +1316,9 @@ See git history for Sprint 7 batches and earlier release notes.
 - Added a private browser-side PNG/JPG/WebP/BMP to SVG vector tracer.
 - Added balanced, detailed, and simple-logo modes with configurable color quantization.
 - Added deterministic tracing-option contracts and lazy-loaded the lightweight tracing engine.
+
+# 0.5.82
+
+- Added a private browser-side PDF to PowerPoint converter with one faithful slide per PDF page.
+- Added balanced, high-quality, and compact rendering modes plus a 100-slide safety limit.
+- Added deterministic slide-fit contracts and lazy-loaded PptxGenJS only when conversion runs.
