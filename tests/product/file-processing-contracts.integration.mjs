@@ -31,6 +31,10 @@ import {
     textItemsToRows,
 } from '../../src/product/definitions/pdf-to-excel-tool.js';
 import {
+    paginateSheet,
+    shortenCell,
+} from '../../src/product/definitions/excel-to-pdf-tool.js';
+import {
     timePartsToSeconds,
     videoProcessingToolDefinitions,
 } from '../../src/product/definitions/video-processing-tools.js';
@@ -140,6 +144,21 @@ const extractedRows = textItemsToRows([
 ]);
 assert.deepEqual(extractedRows, [['Name', 'Score'], ['Adawaty', '98']]);
 assert.deepEqual(columnWidths(extractedRows), [{ wch: 9 }, { wch: 8 }]);
+assert.deepEqual(
+    paginateSheet([
+        ['Name', 'Score', 'City'],
+        ['A', 98, 'Cairo'],
+        ['B', 91, 'Giza'],
+        ['C', 87, 'Alexandria'],
+    ], 2, 2),
+    [
+        [['Name', 'Score'], ['A', 98], ['B', 91]],
+        [['Name', 'Score'], ['C', 87]],
+        [['City'], ['Cairo'], ['Giza']],
+        [['City'], ['Alexandria']],
+    ],
+);
+assert.equal(shortenCell('a'.repeat(50), 10), 'aaaaaaaaa…');
 
 assert.deepEqual(parseMarkdownBlocks('# Title\n\n- **Fast**\n> Private\n```\nconst ok = true;\n```'), [
     { kind: 'heading', level: 1, text: 'Title' },
