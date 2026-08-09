@@ -45,6 +45,7 @@ import {
     fittedDimensions,
     mediaMime,
 } from '../../src/product/definitions/powerpoint-compressor-tool.js';
+import { isWordMediaPath } from '../../src/product/definitions/word-compressor-tool.js';
 import {
     timePartsToSeconds,
     videoProcessingToolDefinitions,
@@ -213,6 +214,8 @@ assert.deepEqual(fittedDimensions(800, 600, 1920), { width: 800, height: 600 });
 assert.equal(mediaMime('ppt/media/photo.jpeg'), 'image/jpeg');
 assert.equal(mediaMime('ppt/media/vector.svg'), undefined);
 assert.deepEqual(compressionSettings('strong'), { maximumDimension: 1280, jpegQuality: 0.62 });
+assert.equal(isWordMediaPath('word/media/image1.png'), true);
+assert.equal(isWordMediaPath('ppt/media/image1.png'), false);
 assert.equal(timePartsToSeconds(2, 15.5), 135.5);
 assert.deepEqual(
     videoProcessingToolDefinitions['video-trimmer'].inputs.map(({ id }) => id),
