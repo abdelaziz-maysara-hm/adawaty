@@ -1,5 +1,11 @@
 # Changelog
 
+# 0.5.88
+
+- Added five browser-side Office tools in one release: Excel compressor, Word and PowerPoint image extractors, Word to TXT, and PowerPoint to JPG.
+- Reused the existing Office ZIP, image compression and slide rendering pipelines to keep the bundle lightweight.
+- Added deterministic Word XML text extraction coverage.
+
 # 0.5.87
 
 - Added a private browser-side Word compressor for DOCX documents.

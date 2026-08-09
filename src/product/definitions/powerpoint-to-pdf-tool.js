@@ -77,7 +77,7 @@ async function decodeZipImage(entry) {
     return createImageBitmap(new Blob([await entry.async('arraybuffer')], { type: mime }));
 }
 
-async function renderSlide(slide, slideNumber, language) {
+async function renderSlide(slide, slideNumber, language, mime = 'image/png', quality) {
     const canvas = document.createElement('canvas');
     canvas.width = 1600;
     canvas.height = 900;
@@ -112,7 +112,7 @@ async function renderSlide(slide, slideNumber, language) {
     context.font = '400 20px Arial, sans-serif';
     context.textAlign = 'center';
     context.fillText(String(slideNumber), 800, 870);
-    return canvasToBlob(canvas, 'image/png');
+    return canvasToBlob(canvas, mime, quality);
 }
 
 const powerpointToPdf = Object.freeze({
@@ -192,6 +192,14 @@ const powerpointToPdfToolDefinitions = Object.freeze({
     [powerpointToPdf.id]: powerpointToPdf,
 });
 
-export { decodeXmlText, extractSlideText, naturalSlideOrder, powerpointToPdfToolDefinitions, slideMediaPaths };
+export {
+    decodeXmlText,
+    decodeZipImage,
+    extractSlideText,
+    naturalSlideOrder,
+    powerpointToPdfToolDefinitions,
+    renderSlide,
+    slideMediaPaths,
+};
 
 // END OF FILE
