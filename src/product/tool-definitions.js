@@ -43,6 +43,7 @@ import { audioPodcastDefinitions } from './definitions/audio-podcast.js';
 import { audioFileToolDefinitions } from './definitions/audio-file-tools.js';
 import { audioAnalysisToolDefinitions } from './definitions/audio-analysis-tools.js';
 import { audioFilterToolDefinitions } from './definitions/audio-filter-tools.js';
+import { popularAudioToolDefinitions } from './definitions/popular-audio-tools.js';
 import { projectManagementDefinitions } from './definitions/project-management.js';
 import { imageFileToolDefinitions } from './definitions/image-file-tools.js';
 import { avifToolDefinitions } from './definitions/avif-converter-tool.js';
@@ -1112,6 +1113,7 @@ const allToolDefinitions = Object.freeze({
     ...audioFileToolDefinitions,
     ...audioAnalysisToolDefinitions,
     ...audioFilterToolDefinitions,
+    ...popularAudioToolDefinitions,
     ...projectManagementDefinitions,
     ...imageFileToolDefinitions,
     ...avifToolDefinitions,
