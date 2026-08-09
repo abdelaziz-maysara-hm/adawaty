@@ -47,6 +47,7 @@ import {
 } from '../../src/product/definitions/powerpoint-compressor-tool.js';
 import { isWordMediaPath } from '../../src/product/definitions/word-compressor-tool.js';
 import { documentXmlToText } from '../../src/product/definitions/office-utility-tools.js';
+import { normalizeJsonData, rowsToHtmlTable, slidesToText } from '../../src/product/definitions/data-document-converters.js';
 import {
     timePartsToSeconds,
     videoProcessingToolDefinitions,
@@ -221,6 +222,9 @@ assert.equal(
     documentXmlToText('<w:p><w:r><w:t>Hello &amp; welcome</w:t></w:r></w:p><w:p><w:r><w:t>Second paragraph</w:t></w:r></w:p>'),
     'Hello & welcome\n\nSecond paragraph',
 );
+assert.deepEqual(normalizeJsonData({ active: true, count: 3 }), [{ key: 'active', value: true }, { key: 'count', value: 3 }]);
+assert.match(rowsToHtmlTable([['Name'], ['Ada']], 'People'), /<th>Name<\/th>[\s\S]*<td>Ada<\/td>/);
+assert.equal(slidesToText([['Title', 'Body'], ['Next']]), '--- Slide 1 ---\nTitle\nBody\n\n--- Slide 2 ---\nNext');
 assert.equal(timePartsToSeconds(2, 15.5), 135.5);
 assert.deepEqual(
     videoProcessingToolDefinitions['video-trimmer'].inputs.map(({ id }) => id),
