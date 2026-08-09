@@ -21,6 +21,7 @@ import {
     normalizeSampleCoordinate,
     rgbToHsl,
 } from '../../src/product/definitions/image-editing-tools.js';
+import { buildTraceOptions } from '../../src/product/definitions/image-svg-tracer-tool.js';
 import { parseMarkdownBlocks } from '../../src/product/definitions/text-to-pdf-tool.js';
 import { structuredPagesToMarkdown } from '../../src/product/definitions/pdf-content-tools.js';
 import { addPageNumbers } from '../../src/product/definitions/pdf-document-tools.js';
@@ -103,6 +104,23 @@ assert.equal(normalizeSampleCoordinate(100, 100), 99);
 assert.equal(normalizeSampleCoordinate(150, 20), 19);
 assert.deepEqual(rgbToHsl(255, 0, 0), { hue: 0, saturation: 100, lightness: 50 });
 assert.deepEqual(rgbToHsl(128, 128, 128), { hue: 0, saturation: 0, lightness: 50 });
+assert.deepEqual(
+    buildTraceOptions('logo', 30),
+    {
+        ltres: 1,
+        qtres: 1,
+        pathomit: 12,
+        colorsampling: 2,
+        numberofcolors: 8,
+        mincolorratio: 0.02,
+        colorquantcycles: 3,
+        scale: 1,
+        roundcoords: 1,
+        viewbox: true,
+        desc: false,
+    },
+);
+assert.equal(buildTraceOptions('detailed', 40).numberofcolors, 32);
 
 assert.deepEqual(parseMarkdownBlocks('# Title\n\n- **Fast**\n> Private\n```\nconst ok = true;\n```'), [
     { kind: 'heading', level: 1, text: 'Title' },

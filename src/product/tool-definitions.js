@@ -57,6 +57,7 @@ import { imageEnhancementToolDefinitions } from './definitions/image-enhancement
 import { imageFilterToolDefinitions } from './definitions/image-filter-tools.js';
 import { imageBatchToolDefinitions } from './definitions/image-batch-tools.js';
 import { imageWorkflowToolDefinitions } from './definitions/image-workflow-tools.js';
+import { imageSvgTracerToolDefinitions } from './definitions/image-svg-tracer-tool.js';
 import { pdfFileToolDefinitions } from './definitions/pdf-file-tools.js';
 import { pdfWorkflowToolDefinitions } from './definitions/pdf-workflow-tools.js';
 import { pdfImageToolDefinitions } from './definitions/pdf-image-tools.js';
@@ -1115,6 +1116,7 @@ const allToolDefinitions = Object.freeze({
     ...imageFilterToolDefinitions,
     ...imageBatchToolDefinitions,
     ...imageWorkflowToolDefinitions,
+    ...imageSvgTracerToolDefinitions,
     ...pdfFileToolDefinitions,
     ...pdfWorkflowToolDefinitions,
     ...pdfImageToolDefinitions,

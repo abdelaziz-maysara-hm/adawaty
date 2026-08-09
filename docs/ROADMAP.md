@@ -46,7 +46,7 @@
 - [x] `image-format-converter` ✅
 - [x] HEIC→JPG ✅
 - [ ] AVIF — مؤجل (دعم المتصفح)
-- [ ] PNG→SVG tracer
+- [x] PNG/JPG→SVG tracer ✅ (0.5.81)
 
 ### PDF ↔ Documents (client-side only)
 | التحويل | الحالة | ملاحظات |
@@ -101,7 +101,7 @@
 ## المرحلة 2 — مفيدة، قد تحتاج CDN إضافية خفيفة
 
 - [x] `word-to-pdf-converter` — يدعم النص اللاتيني فقط حاليًا (mammoth.js + pdf-lib)؛ العربي مؤجل لحد ما نلاقي حل خط Unicode موثوق
-- [ ] `image-svg-tracer`
+- [x] `image-svg-tracer` ✅ (0.5.81)
 - [x] `json-tree-viewer` (نسخة أساسية: عرض شجري نصي، بدون طي/فرد تفاعلي)
 
 ---
