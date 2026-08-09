@@ -1,5 +1,37 @@
 # Changelog
 
+## 0.5.67 — Process fix: check first, write code second; 2 smart image tools shipped (August 2026)
+
+- **Process correction**: caught by the site owner mid-session. The `svg-to-png` duplicate in
+  0.5.66 was found via `npm run list:tools` only *after* its full implementation was already
+  written -- the check happened right before registering, not before writing any code at all.
+  That's real wasted effort even though nothing duplicate ever shipped. From this entry onward,
+  the check runs first, before opening a new file or writing a line of tool code, not as a final
+  gate before registration.
+- Applied immediately: checked `auto-rotate`, `smart-crop`, `auto-crop`,
+  `perspective-correction`, `deskew`, `straighten` via `list-tool-ids` *before* deciding what to
+  build, confirming all 6 genuinely missing before writing anything.
+- Picked the 2 with real, verifiable feasibility (not "smart"/AI-implied despite the catalogue's
+  naming) and skipped the rest for now:
+  - `auto-rotate-image`: **not** AI-based despite the "auto" framing -- reads the standard EXIF
+    Orientation tag (a well-documented 8-value spec) via the already-integrated `piexifjs` and
+    applies the corresponding rotation/flip. Verified the full 1-8 orientation-to-transform
+    mapping against the spec directly (e.g. orientation 6, the common case for phone photos shot
+    in portrait, correctly maps to a 90-degree rotation with no flip) before writing the tool.
+  - `auto-crop-image`: scans inward from each edge to find the bounding box of non-background
+    content (using the top-left corner as the background color reference). Verified with a real
+    synthetic test image (a 10x10 red square on a 20x20 white background) -- detected bounds
+    matched the expected box exactly (top=5, bottom=14, left=5, right=14).
+  - Deliberately skipped `smart-crop` (implies genuine saliency/content-importance detection,
+    likely AI-dependent), `perspective-correction` (needs a UX decision for how the user specifies
+    the 4 corners), and `deskew-image`/`straighten-image` (auto angle-detection is a meaningfully
+    harder problem than manual rotation, which already exists as `video-rotate`'s image
+    equivalent) -- not attempted rather than shipped as a shaky approximation.
+- New file: `src/product/definitions/image-smart-tools.js`, registered in `tool-definitions.js`.
+- Verified: `npm run validate` passes all 7 suites (525 tools total, 591 unique tool ids across
+  88 definition files); confirmed both new pages render with correct Arabic titles.
+
+---
 ## 0.5.66 — 4 image quality detector tools: sharpness, blur, noise, histogram (August 2026)
 
 Note: this session's `git pull` picked up `avif-to-jpg-converter` (0.5.65) from a separate,

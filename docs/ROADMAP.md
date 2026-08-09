@@ -498,9 +498,15 @@ constraint for any future Worker-based library, not just this one.
   tracing) is a fundamentally different, much harder problem — don't assume both directions are
   equally easy just because they're listed as a pair.
 - `smart-crop`/`auto-rotate-image`/`auto-crop-image`/`perspective-correction`/`deskew-image`/
-  `straighten-image` (6 items): all imply some "smart" content-aware detection. Some may have
-  simple non-AI heuristics (e.g. detecting a scanned page's edges via contrast), others may
-  effectively need AI — verify per-item before assuming any of these are Tier A.
+  `straighten-image` (6 items). **Update (0.5.67)**: checked each individually before building
+  anything (per the process fix below). `auto-rotate-image` and `auto-crop-image` — **DONE**:
+  neither is actually AI/"smart" despite the naming — auto-rotate reads the standard EXIF
+  Orientation tag (reusing the already-integrated `piexifjs`), auto-crop scans inward from each
+  edge for the content bounding box (pure pixel comparison against the corner color). Both
+  verified with real test data before shipping. Still deliberately skipped: `smart-crop` (implies
+  genuine saliency detection, likely AI-dependent), `perspective-correction` (needs a UX decision
+  for specifying 4 corners), `deskew-image`/`straighten-image` (auto angle-detection is a
+  meaningfully harder problem than the manual rotation that already exists).
 - `histogram`/`sharpness-detector`/`blur-detector`/`noise-detector` (4 items) — **DONE (0.5.66)**:
   all pure canvas pixel-math, verified with real discriminating test data (a checkerboard vs. a
   flat image for sharpness/blur, a clean vs. randomly-perturbed image for noise) before shipping.
@@ -620,6 +626,13 @@ This matters concretely: a plain grep for `id: '...'` never matches `web-transfo
 `html-to-markdown-converter` collision in 0.5.51 slipped past a text search. Read the filtered
 results for a similar id *or* title before concluding a catalogue item is genuinely missing —
 exact-slug collisions and same-function-different-name duplicates have both happened before.
+
+**Timing correction (0.5.67)**: the check has to run *before writing any tool code at all*, not
+just before registering it in `tool-definitions.js`. The `svg-to-png` duplicate in 0.5.66 was
+caught via this exact check, but only right before registration — its full implementation had
+already been written by that point, real wasted effort even though nothing duplicate ever shipped.
+Run the check as the literal first step, before creating a new file or writing a line of tool
+logic, not as a final gate.
 
 Checked existing coverage before adding anything: **13 of the 100 catalogue slugs already
 existed** (`json-formatter`, `json-validator`, `json-minifier`, `xml-formatter`,
