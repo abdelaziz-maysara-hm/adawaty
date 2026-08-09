@@ -54,6 +54,7 @@
 | PDF → Word (محلي) | ✅ | فقرات + عناوين |
 | PDF → Word Pro (سيرفر) | ❌ مُزال | كان غير مستقر؛ يُعاد لاحقًا فقط بعد استقرار السيرفر |
 | PDF → صور / صور → PDF | ✅ | |
+| PDF → PowerPoint | ✅ | كل صفحة كشريحة تحافظ على الشكل؛ النص غير قابل للتحرير |
 | PDF merge / split / rotate / compress | ✅ | |
 | Word → PDF | [ ] | جودة محدودة محليًا |
 | Excel ↔ CSV | ✅ | SheetJS |
@@ -118,7 +119,7 @@
 قائمة مؤجلة:
 - PDF → Word عالي الدقة (جداول/صور)
 - Word → PDF عالي الدقة
-- PDF → PPTX / XLSX
+- PDF → XLSX
 - Background remover
 - AI image upscaler
 - Speech-to-text
