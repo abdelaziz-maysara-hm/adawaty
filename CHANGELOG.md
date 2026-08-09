@@ -1322,3 +1322,9 @@ See git history for Sprint 7 batches and earlier release notes.
 - Added a private browser-side PDF to PowerPoint converter with one faithful slide per PDF page.
 - Added balanced, high-quality, and compact rendering modes plus a 100-slide safety limit.
 - Added deterministic slide-fit contracts and lazy-loaded PptxGenJS only when conversion runs.
+
+# 0.5.83
+
+- Added a private browser-side PDF to Excel converter for text PDFs and clear tables.
+- Added one worksheet per PDF page, nearby-word cell grouping, and automatic column widths.
+- Reused the existing SheetJS runtime and added deterministic row-extraction contracts.
