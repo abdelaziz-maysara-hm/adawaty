@@ -27,6 +27,10 @@ import { structuredPagesToMarkdown } from '../../src/product/definitions/pdf-con
 import { addPageNumbers } from '../../src/product/definitions/pdf-document-tools.js';
 import { fitInside } from '../../src/product/definitions/pdf-to-powerpoint-tool.js';
 import {
+    columnWidths,
+    textItemsToRows,
+} from '../../src/product/definitions/pdf-to-excel-tool.js';
+import {
     timePartsToSeconds,
     videoProcessingToolDefinitions,
 } from '../../src/product/definitions/video-processing-tools.js';
@@ -128,6 +132,14 @@ assert.ok(Math.abs(wideSlide.height - 7.5) < 0.001);
 const portraitSlide = fitInside(800, 1200, 13.333, 7.5);
 assert.equal(portraitSlide.height, 7.5);
 assert.ok(portraitSlide.x > 4);
+const extractedRows = textItemsToRows([
+    { str: 'Name', transform: [1, 0, 0, 10, 10, 100], width: 30, height: 10 },
+    { str: 'Score', transform: [1, 0, 0, 10, 120, 100], width: 30, height: 10 },
+    { str: 'Adawaty', transform: [1, 0, 0, 10, 10, 80], width: 45, height: 10 },
+    { str: '98', transform: [1, 0, 0, 10, 120, 80], width: 12, height: 10 },
+]);
+assert.deepEqual(extractedRows, [['Name', 'Score'], ['Adawaty', '98']]);
+assert.deepEqual(columnWidths(extractedRows), [{ wch: 9 }, { wch: 8 }]);
 
 assert.deepEqual(parseMarkdownBlocks('# Title\n\n- **Fast**\n> Private\n```\nconst ok = true;\n```'), [
     { kind: 'heading', level: 1, text: 'Title' },

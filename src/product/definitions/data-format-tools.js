@@ -539,6 +539,7 @@ const dataFormatToolDefinitions = Object.freeze(Object.fromEntries([
 export {
     dataFormatToolDefinitions,
     jsonToXml,
+    loadSheetJs,
     resolvePath,
 };
 
