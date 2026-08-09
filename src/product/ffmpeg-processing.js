@@ -148,6 +148,7 @@ export {
     assertAudioFile,
     assertMediaFile,
     assertVideoFile,
+    getRuntime,
     inspectVideoFile,
     processAudio,
     processMedia,

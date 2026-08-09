@@ -1,5 +1,38 @@
 # Changelog
 
+## 0.5.77 — Subtitle Burner, likely the highest-demand remaining Video gap (August 2026)
+
+Continued Video Tools by search demand ("add subtitles to video" / "burn in subtitles" is a
+consistently high-volume query).
+
+- Checked `subtitle`, `video-brightness`, `video-contrast` first -- all confirmed missing;
+  subtitle burn-in picked as the clear highest-demand of the three.
+- **Confirmed `ffmpeg`'s `subtitles` filter is properly backed by `libass`** in this environment
+  (`--enable-libass` present in the build configuration) before assuming it would work.
+- **Verified with the same OCR technique as `video-reverse` (0.5.74), reading actual burned-in
+  text rather than inferring from a successful exit code**: created a real 2-line SRT file, burned
+  it into a real test video with the exact command the tool generates, extracted frames at each
+  subtitle's timestamp, and used `tesseract` to confirm the correct line of text was genuinely
+  present in the video pixels at the correct time (not just that the command ran without error).
+  An initial test against a busy `testsrc` pattern background returned no OCR text at all; traced
+  this to the background pattern interfering with text recognition, not a real failure -- retested
+  against a plain background and got clean, correct OCR reads, confirming the underlying subtitle
+  rendering was correct all along.
+- **A real architectural finding**: the existing `processMediaFiles` helper validates every input
+  as a genuine audio/video file, so it can't accept a plain-text `.srt` subtitle file. Rather than
+  work around this awkwardly, exported the underlying `getRuntime()` from
+  `src/product/ffmpeg-processing.js` (previously private) so this tool can write the video and the
+  subtitle text to ffmpeg's virtual filesystem directly, while still reusing the same cached
+  ffmpeg.wasm runtime instance as every other video tool (avoiding a second, wasteful WASM load if
+  a user runs another video tool in the same session).
+- `subtitle-burn-in`: takes a video + an `.srt` file + a font size, permanently burns the subtitle
+  text into the video image via `libass`. Clearly notes in its own description that burned-in
+  subtitles can't be toggled off afterward, unlike a separate subtitle track.
+- New file: `src/product/definitions/subtitle-burn-tool.js`, registered in `tool-definitions.js`.
+- Verified: `npm run validate` passes all 7 suites (539 tools total, 606 unique tool ids across
+  94 definition files); confirmed the new page renders with the correct Arabic title.
+
+---
 ## 0.5.76 — PDF Grayscale Converter, verified at 3 independent layers (August 2026)
 
 Continued PDF quick wins by search demand ("convert PDF to grayscale/black and white" for

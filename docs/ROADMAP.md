@@ -576,14 +576,19 @@ the CHANGELOG 0.5.55 entry for why: concat fails outright if one input lacks an 
 realistic case for arbitrary uploads), `video-watermark` (image overlay, 5 position presets),
 `video-reverse` (0.5.74, verified with an unambiguous OCR-based test reading actual frame-number
 text rather than an indirect pixel diff), `video-loop` (0.5.75, `-stream_loop`/`-c copy`, verified
-duration math against real ffmpeg).
+duration math against real ffmpeg), `subtitle-burn-in` (0.5.77, `libass`-backed, verified with the
+same OCR technique -- confirmed real burned-in subtitle text was present at the correct video
+timestamp, not just that the command exited cleanly; also exported `getRuntime()` from
+`ffmpeg-processing.js` so this tool could write a non-media `.srt` file to ffmpeg's virtual
+filesystem directly, since the generic `processMediaFiles` helper validates every input as
+audio/video).
 Every ffmpeg filter command was run against a real generated test video through the sandbox's
 system ffmpeg binary before being written into a tool, including re-running the *exact* generated
 command strings (not hand-retyped) end-to-end — catching the merge audio-mismatch failure this
 way before it could reach production.
 
-**Still open**: brightness/contrast adjustment, subtitle burn-in, and anything from the broader
-catalogue once the Part 6 numbering gap (noted below) is resolved or worked around.
+**Still open**: brightness/contrast adjustment, and anything from the broader catalogue once the
+Part 6 numbering gap (noted below) is resolved or worked around.
 
 ### Audio Tools (Part 7, ~98 tools) — in progress
 
