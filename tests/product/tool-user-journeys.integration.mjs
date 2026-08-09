@@ -29,6 +29,19 @@ const browserOnlyTools = new Set([
     'qr-code-generator',
     'code-to-image',
     'text-to-handwriting',
+    // bcrypt-generator is the first non-file tool that dynamically imports
+    // a CDN module (bcryptjs) at runtime. Every other CDN-dependent tool
+    // shipped so far (piexifjs, pdf-lib, heic2any, pdf-encrypt-lite) takes
+    // a file input, which already excludes it from this harness's
+    // auto-execution (no real File object to synthesize) -- so this is the
+    // first time it surfaces: Node's default ESM loader only supports
+    // file:/data: schemes for dynamic import(), not https:, so
+    // import('https://cdn.jsdelivr.net/...') genuinely cannot succeed here
+    // even though it works correctly in every real browser. Confirmed this
+    // is an environment limitation, not a bug, by testing the exact same
+    // bcryptjs calls (genSaltSync/hashSync/compareSync) directly against
+    // the locally-installed package before this exclusion was added.
+    'bcrypt-generator',
 ]);
 
 const inputOverrides = Object.freeze({
@@ -166,8 +179,8 @@ assert.deepEqual(
         .join('\n')}`,
 );
 
-assert.equal(nonFileTools.length, 403);
-assert.equal(browserOnlyTools.size, 18);
+assert.equal(nonFileTools.length, 404);
+assert.equal(browserOnlyTools.size, 19);
 assert.equal(executableWithoutBrowser.length, 385);
 
 const journeys = [

@@ -636,7 +636,20 @@ ways: a full round trip correctly recovers plaintext and rejects a wrong passwor
 AES-256-GCM primitive was cross-checked byte-for-byte against Python's independent
 `cryptography` library with identical fixed key/IV inputs.
 
-**Still open** (~84 items after the above): DES/3DES/RSA encrypt-decrypt and RSA/AES key
+**Done (0.5.70)**: `bcrypt-generator` (generate + verify modes, `bcryptjs` v3.0.3 loaded from its
+UMD build specifically since the plain ESM entry unconditionally imports Node's `crypto` and
+can't load in a browser). Verified bidirectional cross-compatibility with Python's independent
+`bcrypt` package (hash with one, verify with the other, both directions, both correct-password
+acceptance and wrong-password rejection). **Also surfaced and fixed a genuine gap in the test
+harness itself**: this is the first *non-file* tool to dynamically `import()` a CDN module —
+every earlier CDN-dependent tool needed a file input, which already excluded it from
+auto-execution testing, so Node's inability to `import()` an `https:` URL (only `file:`/`data:`
+are supported by the default loader) never surfaced before. Added `bcrypt-generator` to the
+existing `browserOnlyTools` exclusion set in `tests/product/tool-user-journeys.integration.mjs`
+with a comment explaining why — **relevant for any future CDN-dependent tool with no file input**,
+not just this one.
+
+**Still open** (~83 items after the above): DES/3DES/RSA encrypt-decrypt and RSA/AES key
 generation (Web Crypto supports AES-GCM/CBC and RSA-OAEP/PSS natively — verify the exact API
 shape before building, same rigor as everything above, but no new dependency expected);
 bcrypt/Argon2/scrypt password hashing (Web Crypto does *not* support these — would need a

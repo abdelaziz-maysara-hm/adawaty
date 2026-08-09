@@ -1,5 +1,50 @@
 # Changelog
 
+## 0.5.70 — bcrypt hash generator/verifier, and a real test-harness gap discovered along the way (August 2026)
+
+Continued Security & Encoding with `bcrypt-generator`, a high-demand developer tool for testing
+password-hashing systems (distinct from the AES tool: bcrypt is specifically for one-way password
+storage, not reversible encryption).
+
+- Researched before adding a new dependency: `bcryptjs` (4.8M downloads/month per npm, zero
+  native dependencies, API-compatible with the native Node `bcrypt` package).
+- **Verified bidirectional cross-compatibility with an independent library**, the same standard
+  used for AES/TOTP: generated a hash with `bcryptjs` and confirmed Python's separate `bcrypt`
+  package both accepts the correct password and rejects a wrong one against it, then did the
+  reverse (hashed with Python, verified with `bcryptjs`) — both directions matched. Along the way,
+  an initial test with a password containing a backslash (`B4c0/\/`) appeared to fail cross-
+  verification; traced this to the test string itself being parsed into two genuinely different
+  byte sequences by JS vs Python's differing escape-sequence handling, not a library bug — re-ran
+  with an unambiguous password and confirmed full compatibility.
+- **Caught a real CDN-loading pitfall before it shipped**: `bcryptjs`'s plain ESM entry
+  (`index.js`) has an unconditional `import nodeCrypto from "crypto"` at the top, which cannot
+  load in a browser at all. Used the UMD build specifically
+  (`bcryptjs@3.0.3/umd/index.js/+esm`), which detects its environment instead, and additionally
+  wired `bcrypt.setRandomFallback()` explicitly to `crypto.getRandomValues` (identical in Node and
+  every real browser) rather than relying on the library's own environment-detection branch at
+  all -- removing that as a source of uncertainty entirely.
+- **Found and fixed a real gap in the test harness itself**: `bcrypt-generator` is the first
+  *non-file* tool in this whole session to dynamically `import()` a CDN module at runtime. Every
+  earlier CDN-dependent tool (`piexifjs`, `pdf-lib`, `heic2any`, `pdf-encrypt-lite`) happens to
+  require a file input, which already excludes it from the test harness's auto-execution (no real
+  `File` object to synthesize) -- so this specific failure mode never surfaced before. Node's
+  default ESM loader only supports `file:`/`data:` schemes for dynamic `import()`, not `https:`,
+  so the harness's attempt to actually execute the tool failed with
+  `Only URLs with a scheme in: file and data are supported`. This is a genuine Node-vs-browser
+  environment gap, not a bug in the tool -- added `bcrypt-generator` to the existing
+  `browserOnlyTools` exclusion set in `tests/product/tool-user-journeys.integration.mjs` (the same
+  set already used for DOM-only tools like `html-to-markdown-converter`), with a comment
+  explaining why, so a future CDN-dependent non-file tool doesn't need to rediscover this.
+- `bcrypt-generator`: two modes (generate a new hash at a chosen cost factor 4-14, or verify a
+  password against an existing hash), clearly noting 72-byte input length limit and cross-
+  compatibility with standard bcrypt implementations in other languages.
+- Added to the existing `src/product/definitions/security-encoding-extra-tools.js`.
+- Proactively recomputed and updated the tool-count assertions (including the corrected
+  `browserOnlyTools` set) before running validate.
+- Verified: `npm run validate` passes all 7 suites (532 tools total, 598 unique tool ids across
+  89 definition files); confirmed the new page renders with the correct Arabic title.
+
+---
 ## 0.5.69 — AES text encryption/decryption, picked specifically for high search demand (August 2026)
 
 Continued Security & Encoding, picking `aes-encrypt`/`aes-decrypt` specifically because

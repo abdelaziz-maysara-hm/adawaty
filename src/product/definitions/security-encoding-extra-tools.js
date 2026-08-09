@@ -399,6 +399,92 @@ const aesEncryptionTool = securityTool({
     },
 });
 
+const BCRYPTJS_URL = 'https://cdn.jsdelivr.net/npm/bcryptjs@3.0.3/umd/index.js/+esm';
+let bcryptPromise;
+
+/**
+ * Loads bcryptjs from its UMD build specifically, not the plain ESM entry
+ * -- the plain entry (index.js) has an unconditional `import nodeCrypto
+ * from "crypto"` at the top, which fails to even load in a browser. The
+ * UMD build detects its environment instead. Also explicitly wires
+ * setRandomFallback to the standard crypto.getRandomValues (identical in
+ * Node and every real browser) rather than relying on the library's own
+ * environment-detection branch, removing that as a source of uncertainty
+ * entirely. The core algorithm itself was verified independently before
+ * choosing this library: a hash generated here was confirmed readable by
+ * Python's separate `bcrypt` package and vice versa (bidirectional
+ * cross-compatibility with correct-password acceptance and wrong-password
+ * rejection both ways) using a real password with no ambiguous escape
+ * characters.
+ */
+async function loadBcrypt() {
+    bcryptPromise ??= import(BCRYPTJS_URL).then((module) => {
+        const bcrypt = module.default ?? module;
+        bcrypt.setRandomFallback((length) => {
+            const bytes = new Uint8Array(length);
+            crypto.getRandomValues(bytes);
+            return Array.from(bytes);
+        });
+        return bcrypt;
+    }).catch((error) => {
+        bcryptPromise = undefined;
+        throw new Error(`Unable to load the bcrypt engine: ${error.message}`);
+    });
+    return bcryptPromise;
+}
+
+const bcryptHashGenerator = securityTool({
+    id: 'bcrypt-generator',
+    icon: 'BCRYPT',
+    title: Object.freeze({ ar: 'مولّد ومتحقق bcrypt', en: 'bcrypt Hash Generator & Verifier' }),
+    description: Object.freeze({
+        ar: 'أنشئ تجزئة bcrypt لكلمة مرور (لاختبار أنظمة المصادقة)، أو تحقق من تطابق كلمة مرور مع تجزئة bcrypt موجودة.',
+        en: 'Generate a bcrypt hash for a password (for testing authentication systems), or verify a password against an existing bcrypt hash.',
+    }),
+    note: Object.freeze({
+        ar: 'التجزئة الناتجة متوافقة مع أي نظام يستخدم bcrypt القياسي (مثل مكتبات Node.js وPython وPHP الشائعة). أقصى طول مدخل مدعوم هو 72 بايت.',
+        en: 'The resulting hash is compatible with any system using standard bcrypt (like common Node.js, Python, and PHP libraries). Maximum supported input length is 72 bytes.',
+    }),
+    inputs: Object.freeze([
+        selectInput('operation', 'العملية', 'Operation', [
+            ['generate', 'إنشاء تجزئة جديدة', 'Generate a new hash'],
+            ['verify', 'التحقق من تجزئة موجودة', 'Verify against an existing hash'],
+        ]),
+        textFieldInput('password', 'كلمة المرور', 'Password', ''),
+        textFieldInput('hash', 'التجزئة (للتحقق فقط)', 'Hash (for verify only)', '$2b$10$...'),
+        numberInput('rounds', 'عدد جولات التعقيد (Cost Factor)', 'Cost factor (rounds)', 10, 4, 14, ''),
+    ]),
+    async calculate(values, language) {
+        if (!values.password) {
+            throw new Error(localized(language, 'أدخل كلمة المرور.', 'Enter the password.'));
+        }
+
+        const bcrypt = await loadBcrypt();
+
+        if (values.operation === 'generate') {
+            const salt = bcrypt.genSaltSync(Math.round(values.rounds));
+            const hash = bcrypt.hashSync(values.password, salt);
+            return output(hash, localized(language, 'التجزئة الجديدة جاهزة', 'The new hash is ready'));
+        }
+
+        if (!values.hash || !values.hash.startsWith('$2')) {
+            throw new Error(localized(
+                language,
+                'أدخل تجزئة bcrypt صالحة للتحقق منها (تبدأ بـ $2).',
+                'Enter a valid bcrypt hash to verify against (starts with $2).',
+            ));
+        }
+
+        const matches = bcrypt.compareSync(values.password, values.hash);
+        return output(
+            matches ? localized(language, 'متطابقة', 'Match') : localized(language, 'غير متطابقة', 'No match'),
+            matches
+                ? localized(language, 'كلمة المرور تطابق التجزئة ✓', 'The password matches the hash \u2713')
+                : localized(language, 'كلمة المرور لا تطابق التجزئة ✗', 'The password does not match the hash \u2717'),
+        );
+    },
+});
+
 const securityEncodingToolDefinitions = Object.freeze({
     [hmacGenerator.id]: hmacGenerator,
     [base32EncoderDecoder.id]: base32EncoderDecoder,
@@ -406,6 +492,7 @@ const securityEncodingToolDefinitions = Object.freeze({
     [otpGenerator.id]: otpGenerator,
     [pinGenerator.id]: pinGenerator,
     [aesEncryptionTool.id]: aesEncryptionTool,
+    [bcryptHashGenerator.id]: bcryptHashGenerator,
 });
 
 export { securityEncodingToolDefinitions };
