@@ -210,6 +210,22 @@ function numberPosition(page, textWidth, position) {
     return (page.getWidth() - textWidth) / 2;
 }
 
+function addPageNumbers(document, font, pdfLib, startNumber, fontSize, position) {
+    document.getPages().forEach((page, index) => {
+        const text = String(startNumber + index);
+        const width = font.widthOfTextAtSize(text, fontSize);
+        page.drawText(text, {
+            x: numberPosition(page, width, position),
+            y: position.startsWith('top-')
+                ? Math.max(8, page.getHeight() - fontSize - 20)
+                : Math.min(20, Math.max(8, page.getHeight() * 0.04)),
+            size: fontSize,
+            font,
+            color: pdfLib.rgb(0.18, 0.18, 0.18),
+        });
+    });
+}
+
 const pageNumberer = Object.freeze({
     id: 'pdf-page-number-adder',
     category: 'pdf',
@@ -246,17 +262,14 @@ const pageNumberer = Object.freeze({
         const font = await document.embedFont(
             pdfLib.StandardFonts.Helvetica,
         );
-        document.getPages().forEach((page, index) => {
-            const text = String(values.startNumber + index);
-            const width = font.widthOfTextAtSize(text, values.fontSize);
-            page.drawText(text, {
-                x: numberPosition(page, width, values.position),
-                y: values.position.startsWith('top-') ? Math.max(8, page.getHeight() - values.fontSize - 20) : Math.min(20, Math.max(8, page.getHeight() * 0.04)),
-                size: values.fontSize,
-                font,
-                color: pdfLib.rgb(0.18, 0.18, 0.18),
-            });
-        });
+        addPageNumbers(
+            document,
+            font,
+            pdfLib,
+            values.startNumber,
+            values.fontSize,
+            values.position,
+        );
         const blob = createPdfBlob(await document.save());
         return pdfResult(
             blob,
@@ -407,6 +420,6 @@ const pdfDocumentToolDefinitions = Object.freeze({
     [pdfInterleaver.id]: pdfInterleaver,
 });
 
-export { pdfDocumentToolDefinitions };
+export { addPageNumbers, pdfDocumentToolDefinitions };
 
 // END OF FILE

@@ -42,6 +42,10 @@ function numberInput(id, ar, en, placeholder, min, max, unit) {
     });
 }
 
+function timePartsToSeconds(minutes, seconds) {
+    return (Number(minutes) * 60) + Number(seconds);
+}
+
 function output(blob, filename, language, ar, en) {
     return {
         value: `${(blob.size / 1024 / 1024).toFixed(1)} MB`,
@@ -110,17 +114,21 @@ const videoTrimmer = Object.freeze({
     }),
     inputs: Object.freeze([
         videoInput(),
-        numberInput('start', 'وقت البداية', 'Start time', 0, 0, 86400, 'ث'),
-        numberInput('end', 'وقت النهاية', 'End time', 10, 0.1, 86400, 'ث'),
+        numberInput('startMinutes', 'دقائق البداية', 'Start minutes', 0, 0, 1439, 'د'),
+        numberInput('startSeconds', 'ثواني البداية', 'Start seconds', 0, 0, 59.9, 'ث'),
+        numberInput('endMinutes', 'دقائق النهاية', 'End minutes', 0, 0, 1439, 'د'),
+        numberInput('endSeconds', 'ثواني النهاية', 'End seconds', 10, 0, 59.9, 'ث'),
     ]),
     async process(values, language) {
-        if (values.end <= values.start) {
+        const start = timePartsToSeconds(values.startMinutes, values.startSeconds);
+        const end = timePartsToSeconds(values.endMinutes, values.endSeconds);
+        if (end <= start) {
             throw new Error(localized(language, 'وقت النهاية يجب أن يكون بعد البداية.', 'End time must be after start time.'));
         }
-        const duration = values.end - values.start;
+        const duration = end - start;
         const blob = await processVideo(
             values.video,
-            ['-ss', String(values.start), '-t', String(duration), '-c', 'copy'],
+            ['-ss', String(start), '-t', String(duration), '-c', 'copy'],
             'trimmed.mp4',
         );
         return output(blob, 'adawaty-trimmed-video.mp4', language, 'الفيديو المقصوص جاهز', 'Trimmed video is ready');
@@ -391,6 +399,6 @@ const videoProcessingToolDefinitions = Object.freeze({
     [addAudioToVideo.id]: addAudioToVideo,
 });
 
-export { videoProcessingToolDefinitions };
+export { timePartsToSeconds, videoProcessingToolDefinitions };
 
 // END OF FILE
