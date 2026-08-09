@@ -46,6 +46,7 @@ import {
     mediaMime,
 } from '../../src/product/definitions/powerpoint-compressor-tool.js';
 import { isWordMediaPath } from '../../src/product/definitions/word-compressor-tool.js';
+import { documentXmlToText } from '../../src/product/definitions/office-utility-tools.js';
 import {
     timePartsToSeconds,
     videoProcessingToolDefinitions,
@@ -216,6 +217,10 @@ assert.equal(mediaMime('ppt/media/vector.svg'), undefined);
 assert.deepEqual(compressionSettings('strong'), { maximumDimension: 1280, jpegQuality: 0.62 });
 assert.equal(isWordMediaPath('word/media/image1.png'), true);
 assert.equal(isWordMediaPath('ppt/media/image1.png'), false);
+assert.equal(
+    documentXmlToText('<w:p><w:r><w:t>Hello &amp; welcome</w:t></w:r></w:p><w:p><w:r><w:t>Second paragraph</w:t></w:r></w:p>'),
+    'Hello & welcome\n\nSecond paragraph',
+);
 assert.equal(timePartsToSeconds(2, 15.5), 135.5);
 assert.deepEqual(
     videoProcessingToolDefinitions['video-trimmer'].inputs.map(({ id }) => id),

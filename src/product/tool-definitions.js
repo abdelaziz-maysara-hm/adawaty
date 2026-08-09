@@ -73,6 +73,7 @@ import { excelToPdfToolDefinitions } from './definitions/excel-to-pdf-tool.js';
 import { powerpointToPdfToolDefinitions } from './definitions/powerpoint-to-pdf-tool.js';
 import { powerpointCompressorToolDefinitions } from './definitions/powerpoint-compressor-tool.js';
 import { wordCompressorToolDefinitions } from './definitions/word-compressor-tool.js';
+import { officeUtilityToolDefinitions } from './definitions/office-utility-tools.js';
 import { subtitleBurnToolDefinitions } from './definitions/subtitle-burn-tool.js';
 import { memeToolDefinitions } from './definitions/meme-generator-tool.js';
 import { pdfContentToolDefinitions } from './definitions/pdf-content-tools.js';
@@ -1138,6 +1139,7 @@ const allToolDefinitions = Object.freeze({
     ...powerpointToPdfToolDefinitions,
     ...powerpointCompressorToolDefinitions,
     ...wordCompressorToolDefinitions,
+    ...officeUtilityToolDefinitions,
     ...subtitleBurnToolDefinitions,
     ...memeToolDefinitions,
     ...pdfContentToolDefinitions,
