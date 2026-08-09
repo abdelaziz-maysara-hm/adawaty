@@ -1,5 +1,40 @@
 # Changelog
 
+## 0.5.64 — HEIC to PNG: a correction found while starting the batch, and the first tool shipped without full sandbox verification (August 2026)
+
+Picked HEIC-to-JPG as the highest-search-demand remaining Image gap (iPhone's default photo
+format, a very common compatibility pain point) per the site owner's request to prioritize search
+volume.
+
+- **Correction found immediately via `npm run list:tools -- heic`**: `heic-to-jpg` was
+  miscategorized as "needs investigation" in the 0.5.62 classification -- it was already live as
+  `heic-to-jpg-converter` in `document-media-tools.js`, using `heic2any` (a real CDN dependency
+  already shipped, previously unnoticed in the classification pass). Exactly the failure mode
+  `list-tool-ids.mjs` was built to catch, and it did.
+- **A genuine sandbox limitation, not a documentation error this time**: investigated both major
+  HEIC libraries (`heic2any`, the newer `heic-to`) to add the missing `heic-to-png` alongside the
+  existing JPG converter. Downloaded a real HEIC file from libheif's own GitHub repo, verified it
+  as authentic via `file`, and independently decoded it with ImageMagick/libheif as ground truth
+  (1280x854). Both libraries hit a hard wall in Node: `heic-to` throws `Worker is not defined`,
+  `heic2any` throws `window is not defined` -- both genuinely require browser-only
+  `Worker`/`Blob`-URL APIs with no viable Node polyfill (confirmed by trying `worker_threads.Worker`
+  directly, which fails differently since it expects file paths, not `blob:` URLs).
+- **Disclosed this limitation directly and got an explicit decision from the site owner**: ship
+  `heic-to-png-converter` using the same already-proven-in-production `heic2any` engine as the
+  existing JPG converter (reusing its exact `loadHeic2Any()` helper, no second dependency), with
+  the owner testing it personally in a real browser rather than blocking on a sandbox constraint.
+  This is the first tool in this session shipped without the usual full independent-tool
+  verification -- explicitly flagged as such, not silently skipped.
+- New tool: `heic-to-png-converter` in `document-media-tools.js` (same file as the existing
+  `heic-to-jpg-converter`, for consistency and to share the one HEIC engine).
+- Corrected the 0.5.62 classification in `docs/ROADMAP.md` to remove the false "needs
+  investigation" status for HEIC and document the full finding for future reference.
+- Verified: `npm run validate` passes all 7 suites (518 tools total, 584 unique tool ids across
+  85 definition files); confirmed the new page renders with the correct Arabic title. **Pixel-
+  level decode correctness for `heic-to-png-converter` specifically has not been independently
+  verified and awaits the site owner's real-browser test.**
+
+---
 ## 0.5.63 — All 11 Image "quick win" tools shipped, including a new genuine read+write EXIF library (August 2026)
 
 Implements the full "quick wins" list from the 0.5.62 Image classification.

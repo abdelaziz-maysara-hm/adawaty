@@ -182,6 +182,47 @@ const heicToJpgConverter = Object.freeze({
     },
 });
 
+// --- HEIC to PNG converter --------------------------------------------------
+// Reuses the same heic2any engine as heic-to-jpg-converter above (already
+// live and using this exact library) rather than introducing a second HEIC
+// dependency. Note for whoever picks this up next: heic2any and the newer
+// heic-to library both genuinely need browser-only Worker/Blob-URL APIs, so
+// neither can be end-to-end verified in a plain Node sandbox -- confirmed
+// directly by testing both against a real HEIC file downloaded from
+// libheif's own repository (verified authentic via `file`, decoded
+// independently via ImageMagick/libheif as 1280x854 ground truth). Shipped
+// on the site owner's explicit request to real-world test personally,
+// since heic2any is already proven live in production via the JPG sibling
+// tool above.
+
+const heicToPngConverter = Object.freeze({
+    id: 'heic-to-png-converter',
+    category: 'image',
+    icon: 'HEIC',
+    action: Object.freeze({ ar: 'حوّل HEIC إلى PNG', en: 'Convert HEIC to PNG' }),
+    title: Object.freeze({ ar: 'تحويل HEIC إلى PNG', en: 'HEIC to PNG Converter' }),
+    description: Object.freeze({
+        ar: 'حوّل صور آيفون بصيغة HEIC إلى PNG، مفيد لو محتاج خلفية شفافة أو جودة بلا فقدان.',
+        en: 'Convert iPhone HEIC photos to PNG, useful if you need transparency support or lossless quality.',
+    }),
+    note: Object.freeze({
+        ar: 'التحويل يتم بالكامل داخل متصفحك دون رفع الصورة لأي خادم. ملفات PNG أكبر حجمًا من JPG عادةً.',
+        en: 'The conversion happens entirely in your browser; the photo is never uploaded. PNG files are typically larger than JPG.',
+    }),
+    inputs: Object.freeze([imageFileInput()]),
+    async process(values, language) {
+        const file = values.image;
+        if (!(file instanceof File)) {
+            throw new Error(localized(language, 'اختر صورة HEIC أولًا.', 'Choose a HEIC image first.'));
+        }
+        const heic2any = await loadHeic2Any();
+        const converted = await heic2any({ blob: file, toType: 'image/png' });
+        const blob = Array.isArray(converted) ? converted[0] : converted;
+        const base = file.name.replace(/\.(heic|heif)$/i, '') || 'photo';
+        return fileResult(blob, `${base}.png`, language, 'ملف PNG جاهز', 'PNG file is ready');
+    },
+});
+
 // --- Favicon generator ----------------------------------------------------
 
 const FAVICON_SIZES = [16, 32, 48, 180, 192, 512];
@@ -303,6 +344,7 @@ const videoToGifConverter = Object.freeze({
 const documentMediaDefinitions = Object.freeze(Object.fromEntries([
     pdfCompressor,
     heicToJpgConverter,
+    heicToPngConverter,
     faviconGenerator,
     videoToGifConverter,
 ].map((definition) => [definition.id, definition])));

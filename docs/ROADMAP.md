@@ -463,9 +463,25 @@ Note: `view-exif`/`edit-exif` naturally absorb the catalogue's separate GPS/came
 shutter-speed/aperture-viewer entries (141, 144-149) as one combined metadata tool rather than
 7 near-identical single-field viewers.
 
-**Needs a real feasibility check before starting (18 items)**:
-- `heic-to-jpg`/`heic-to-png`: HEIC decoding needs a dedicated library with patchy/inconsistent
-  browser-native support — verify real decode quality and browser coverage before committing.
+**Correction (found while starting the next batch)**: `heic-to-jpg` was miscategorized as "needs
+investigation" in the 0.5.62 classification -- it was actually **already live** as
+`heic-to-jpg-converter` in `document-media-tools.js`, using `heic2any` (a real, already-shipped
+CDN dependency this whole time). `npm run list:tools -- heic` caught this immediately when
+starting the next batch, exactly the workflow this tool exists for. Added `heic-to-png-converter`
+right alongside it in the same file, reusing the exact same `loadHeic2Any()` helper rather than
+introducing a second HEIC library. **Verification limitation, disclosed and accepted explicitly by
+the site owner**: both `heic2any` and the newer `heic-to` library need real browser-only
+`Worker`/`Blob`-URL APIs that don't exist in a plain Node sandbox -- confirmed by testing both
+against a real HEIC file (downloaded from libheif's own repo, verified authentic via `file`,
+independently decoded via ImageMagick/libheif as 1280x854 ground truth) and hitting a hard
+`Worker is not defined` / `window is not defined` wall with no viable polyfill. This is the first
+tool in this whole session shipped without the usual full independent-tool verification --
+explicitly because `heic-to-jpg-converter` (using the identical `heic2any` engine) is already
+proven live in production, and the site owner asked to ship `heic-to-png` and test it personally
+in a real browser rather than block on a sandbox limitation. Worth remembering as a real
+constraint for any future Worker-based library, not just this one.
+
+**Needs a real feasibility check before starting (16 items after the correction below)**:
 - `avif-to-jpg`/`jpg-to-avif`: AVIF encode/decode browser support varies; verify current coverage.
 - `raw-to-jpg`/`raw-to-png`: real camera RAW formats need a genuine RAW decoder (not just a
   canvas trick) — a substantially bigger dependency than anything added so far.
