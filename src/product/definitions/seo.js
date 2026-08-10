@@ -317,7 +317,57 @@ const serpPreview = Object.freeze({
     },
 });
 
+const seoChecker = Object.freeze({
+    id: 'seo-checker',
+    category: 'seo',
+    icon: 'SEO',
+    title: Object.freeze({ ar: 'فاحص SEO للصفحات', en: 'Website SEO Checker' }),
+    description: Object.freeze({
+        ar: 'افحص كود HTML واكتشف مشكلات العنوان والوصف والعناوين والصور والروابط ووسوم المشاركة.',
+        en: 'Audit HTML for title, description, headings, images, links, canonical and social metadata issues.',
+    }),
+    note: Object.freeze({
+        ar: 'ألصق مصدر HTML للصفحة؛ يتم الفحص محليًا داخل متصفحك ولا يُرفع الكود لأي خادم.',
+        en: 'Paste the page HTML source. The audit runs locally in your browser and uploads nothing.',
+    }),
+    inputs: Object.freeze([
+        textInput('html', { ar: 'كود HTML', en: 'HTML source' }, '<!doctype html><html><head><title>Example page</title><meta name="description" content="A useful page description."></head><body><h1>Example page</h1></body></html>', 16),
+    ]),
+    calculate(values, language) {
+        const source = String(values.html ?? '').trim();
+        if (!source) {
+            throw new Error(localized(language, 'ألصق كود HTML صالحًا لفحصه.', 'Paste valid HTML source to audit.'));
+        }
+        const tagContent = (tag) => source.match(new RegExp(`<${tag}\\b[^>]*>([\\s\\S]*?)<\\/${tag}>`, 'i'))?.[1]
+            ?.replace(/<[^>]+>/g, '').trim() ?? '';
+        const tags = (tag) => source.match(new RegExp(`<${tag}\\b[^>]*>`, 'gi')) ?? [];
+        const hasAttribute = (markup, name) => new RegExp(`\\s${name}(?:\\s*=|\\s|>)`, 'i').test(`${markup}>`);
+        const hasMeta = (attribute, value) => new RegExp(`<meta\\b[^>]*\\s${attribute}\\s*=\\s*["']${value}["'][^>]*>`, 'i').test(source);
+        const title = tagContent('title');
+        const descriptionTag = source.match(/<meta\b[^>]*\sname\s*=\s*["']description["'][^>]*>/i)?.[0] ?? '';
+        const description = descriptionTag.match(/\scontent\s*=\s*["']([^"']*)["']/i)?.[1].trim() ?? '';
+        const h1Count = tags('h1').length;
+        const images = tags('img');
+        const links = source.match(/<a\b[^>]*\shref\s*=\s*["'][^"']+["'][^>]*>[\s\S]*?<\/a>/gi) ?? [];
+        const tests = [
+            [title.length >= 30 && title.length <= 60, localized(language, `طول العنوان ${title.length}/30–60`, `Title length ${title.length}/30–60`), 20],
+            [description.length >= 70 && description.length <= 160, localized(language, `طول الوصف ${description.length}/70–160`, `Description length ${description.length}/70–160`), 20],
+            [h1Count === 1, localized(language, `عدد عناوين H1: ${h1Count} (المطلوب واحد)`, `H1 count: ${h1Count} (expected one)`), 15],
+            [/<link\b[^>]*\srel\s*=\s*["']canonical["'][^>]*>/i.test(source), localized(language, 'رابط Canonical', 'Canonical URL'), 10],
+            [hasMeta('name', 'viewport'), localized(language, 'دعم شاشة الموبايل', 'Mobile viewport'), 10],
+            [/<html\b[^>]*\slang\s*=\s*["'][^"']+["']/i.test(source), localized(language, 'لغة الصفحة', 'Document language'), 5],
+            [images.every((image) => hasAttribute(image, 'alt')), localized(language, `نصوص الصور البديلة: ${images.filter((image) => hasAttribute(image, 'alt')).length}/${images.length}`, `Image alt text: ${images.filter((image) => hasAttribute(image, 'alt')).length}/${images.length}`), 10],
+            [hasMeta('property', 'og:title'), localized(language, 'وسوم Open Graph', 'Open Graph tags'), 5],
+            [links.every((link) => /<a\b[^>]*\saria-label\s*=|>\s*[^<\s]/i.test(link)), localized(language, 'أسماء الروابط', 'Accessible link names'), 5],
+        ];
+        const score = tests.reduce((total, [passed, , points]) => total + (passed ? points : 0), 0);
+        const report = tests.map(([passed, label]) => `${passed ? '✓' : '✗'} ${label}`).join('\n');
+        return output(`${score}/100`, localized(language, 'نتيجة فحص SEO', 'SEO audit score'), report);
+    },
+});
+
 const seoDefinitions = Object.freeze({
+    [seoChecker.id]: seoChecker,
     [metaTagGenerator.id]: metaTagGenerator,
     [openGraphGenerator.id]: openGraphGenerator,
     [twitterCardGenerator.id]: twitterCardGenerator,

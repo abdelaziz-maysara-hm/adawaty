@@ -1,5 +1,11 @@
 # Changelog
 
+# 0.5.101
+
+- Added a private browser-side SEO checker for titles, descriptions, headings, images, links, canonical and social metadata.
+- Prioritized high-demand tools in the catalogue and grouped complementary workflows beside each other.
+- Kept the existing contextual related-tools recommendations without adding duplicate interface sections.
+
 # 0.5.100
 
 - Localized browser-tab titles for comparison, all-tools and category pages when English is active.

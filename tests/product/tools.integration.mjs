@@ -24,6 +24,7 @@ import {
 } from '../../src/product/definitions/file-utility-tools.js';
 
 const tools = listToolDefinitions();
+assert.ok(tools.some((tool) => tool.id === 'seo-checker'), 'SEO checker must be registered.');
 const toolIds = tools.map((tool) => tool.id);
 const toolIdSet = new Set(toolIds);
 const arabicScript = /[\u0600-\u06FF]/;
