@@ -1,13 +1,14 @@
 import './site-navigation.js?v=s7b42';
 import { listToolDefinitions } from './tool-definitions.js?v=s7b46';
 import { categoryLabels as categories } from './category-labels.js?v=s7b37';
+import { rankTools, scoreToolMatch } from './smart-search.js?v=s7b47';
 
 const copy = Object.freeze({
     ar: Object.freeze({
         all: '\u0643\u0644 \u0627\u0644\u0623\u062f\u0648\u0627\u062a',
         processing: '\u0623\u062f\u0648\u0627\u062a \u0627\u0644\u0645\u0639\u0627\u0644\u062c\u0629',
         calculators: '\u0627\u0644\u062d\u0627\u0633\u0628\u0627\u062a \u0648\u0627\u0644\u0645\u0648\u0644\u062f\u0627\u062a',
-        search: '\u0627\u0628\u062d\u062b \u0628\u0627\u0633\u0645 \u0627\u0644\u0623\u062f\u0627\u0629 \u0623\u0648 \u0648\u0635\u0641\u0647\u0627',
+        search: '\u0627\u0628\u062d\u062b \u0628\u0627\u0644\u0627\u0633\u0645 \u0623\u0648 \u0627\u0644\u0645\u0647\u0645\u0629 \u0623\u0648 \u0646\u0648\u0639 \u0627\u0644\u0645\u0644\u0641',
         count: '\u0623\u062f\u0627\u0629 \u0645\u062a\u0627\u062d\u0629',
         empty: '\u0644\u0627 \u062a\u0648\u062c\u062f \u0623\u062f\u0648\u0627\u062a \u0645\u0637\u0627\u0628\u0642\u0629 \u0644\u0628\u062d\u062b\u0643.',
         open: '\u0627\u0641\u062a\u062d \u0627\u0644\u0623\u062f\u0627\u0629',
@@ -17,7 +18,7 @@ const copy = Object.freeze({
         all: 'All tools',
         processing: 'Processing tools',
         calculators: 'Calculators & generators',
-        search: 'Search by tool name or description',
+        search: 'Search tools \u2014 name, type, or task',
         count: 'tools available',
         empty: 'No tools match your search.',
         open: 'Open tool',
@@ -63,33 +64,37 @@ function escapeHtml(value) {
         .replaceAll("'", '&#39;');
 }
 
+function categoryMatch(tool) {
+    return !activeCategory
+        || (activeCategory === 'processing' && isProcessingTool(tool))
+        || (activeCategory === 'calculators' && !isProcessingTool(tool))
+        || tool.category === activeCategory;
+}
+
+function defaultToolOrder(first, second) {
+    const firstPriority = priorityOrder.get(first.id);
+    const secondPriority = priorityOrder.get(second.id);
+    if (firstPriority !== undefined || secondPriority !== undefined) {
+        return (firstPriority ?? Number.MAX_SAFE_INTEGER)
+            - (secondPriority ?? Number.MAX_SAFE_INTEGER);
+    }
+    const processingOrder = Number(isProcessingTool(second))
+        - Number(isProcessingTool(first));
+    return processingOrder || first.title[language].localeCompare(
+        second.title[language],
+        language,
+    );
+}
+
 function getVisibleTools() {
-    const query = search.value.trim().toLocaleLowerCase(language);
-    return tools.filter((tool) => {
-        const matchesCategory = !activeCategory
-            || (activeCategory === 'processing' && isProcessingTool(tool))
-            || (activeCategory === 'calculators' && !isProcessingTool(tool))
-            || tool.category === activeCategory;
-        const searchable = [
-            tool.title.ar,
-            tool.title.en,
-            tool.description.ar,
-            tool.description.en,
-        ].join(' ').toLocaleLowerCase(language);
-        return matchesCategory && (!query || searchable.includes(query));
-    }).sort((first, second) => {
-        const firstPriority = priorityOrder.get(first.id);
-        const secondPriority = priorityOrder.get(second.id);
-        if (firstPriority !== undefined || secondPriority !== undefined) {
-            return (firstPriority ?? Number.MAX_SAFE_INTEGER)
-                - (secondPriority ?? Number.MAX_SAFE_INTEGER);
-        }
-        const processingOrder = Number(isProcessingTool(second))
-            - Number(isProcessingTool(first));
-        return processingOrder || first.title[language].localeCompare(
-            second.title[language],
-            language,
-        );
+    const query = search.value.trim();
+    const inCategory = tools.filter(categoryMatch);
+    if (!query) {
+        return inCategory.slice().sort(defaultToolOrder);
+    }
+    return rankTools(inCategory, query, {
+        categories,
+        tieBreaker: defaultToolOrder,
     });
 }
 
