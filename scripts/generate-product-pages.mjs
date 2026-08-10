@@ -7,7 +7,7 @@ import { retiredToolIds } from '../src/product/retired-tool-ids.js';
 import { ROUNDUP_CONTENT } from '../src/product/definitions/roundup-content.js';
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const baseUrl = 'https://www.adawaty.tools';
+const baseUrl = 'https://adawaty.tools';
 const assetVersion = 's7b46';
 const catalogueAssetVersion = 's7b46';
 const roundupAssetVersion = 's7b45';
