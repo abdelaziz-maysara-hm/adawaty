@@ -117,11 +117,16 @@ function createToolPage(tool) {
     <meta property="og:title" content="${title}">
     <meta property="og:description" content="${description}">
     <meta property="og:url" content="${canonical}">
+    <meta property="og:image" content="${baseUrl}/og-image.svg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="أدواتي — Adawaty">
     <meta property="og:locale" content="ar_AR">
     <meta property="og:locale:alternate" content="en_US">
-    <meta name="twitter:card" content="summary">
+    <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="${title}">
     <meta name="twitter:description" content="${description}">
+    <meta name="twitter:image" content="${baseUrl}/og-image.svg">
     <script type="application/ld+json">${structuredData}</script>
     <script type="application/ld+json">${breadcrumbData}</script>
     ${relatedData ? `<script type="application/ld+json">${relatedData}</script>` : ''}
@@ -269,11 +274,16 @@ function createCataloguePage({
     <meta property="og:title" content="${escapeHtml(title)}">
     <meta property="og:description" content="${escapeHtml(description)}">
     <meta property="og:url" content="${canonical}">
+    <meta property="og:image" content="${baseUrl}/og-image.svg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="أدواتي — Adawaty">
     <meta property="og:locale" content="ar_AR">
     <meta property="og:locale:alternate" content="en_US">
-    <meta name="twitter:card" content="summary">
+    <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="${escapeHtml(title)}">
     <meta name="twitter:description" content="${escapeHtml(description)}">
+    <meta name="twitter:image" content="${baseUrl}/og-image.svg">
     <script type="application/ld+json">${structuredData}</script>
     <script type="application/ld+json">${breadcrumbData}</script>
     <link rel="stylesheet" href="${basePath}src/css/main.css">
@@ -366,11 +376,16 @@ function createRoundupPage(entry) {
     <meta property="og:title" content="${title}">
     <meta property="og:description" content="${description}">
     <meta property="og:url" content="${canonical}">
+    <meta property="og:image" content="${baseUrl}/og-image.svg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="أدواتي — Adawaty">
     <meta property="og:locale" content="ar_AR">
     <meta property="og:locale:alternate" content="en_US">
-    <meta name="twitter:card" content="summary">
+    <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="${title}">
     <meta name="twitter:description" content="${description}">
+    <meta name="twitter:image" content="${baseUrl}/og-image.svg">
     <script type="application/ld+json">${structuredData}</script>
     <script type="application/ld+json">${breadcrumbData}</script>
     <link rel="stylesheet" href="../../src/css/main.css">
