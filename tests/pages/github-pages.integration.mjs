@@ -65,21 +65,75 @@ assert.match(homeScript, /applyLanguage\(getInitialLanguage\(\)\)/);
 assert.match(homeScript, /adawaty-language/);
 assert.match(homeScript, /adawaty-preview-language/);
 assert.match(homeScript, /searchParams\.set\('q'/);
-assert.match(stylesheet, /@media \(max-width: 720px\)/);
-assert.match(stylesheet, /\.home-search/);
-assert.match(stylesheet, /\.featured-tools/);
-
+assert.match(stylesheet, /@media \(max-width: 700px\)/);
 assert.match(catalogueHtml, /data-catalogue-page/);
-assert.match(catalogueHtml, /id="catalogue-search"/);
 assert.match(catalogueHtml, /catalogue-page\.js\?v=s7b\d+/);
 assert.match(catalogueHtml, /http-equiv="Cache-Control" content="no-cache"/);
-assert.match(catalogueHtml, /rel="canonical" href="https:\/\/adawaty\.tools\/all-tools\/"/);
+assert.match(catalogueHtml, /"@type":"CollectionPage"/);
 assert.match(healthCategoryHtml, /data-category="health"/);
 assert.match(converterCategoryHtml, /data-category="converter"/);
 assert.match(developerCategoryHtml, /data-category="developer"/);
 assert.match(textCategoryHtml, /data-category="text"/);
-assert.match(catalogueScript, /listToolDefinitions/);
-assert.match(catalogueScript, /All tools/);
+const engineeringCategoryHtml = await readFile(
+    new URL('../../categories/engineering/index.html', import.meta.url),
+    'utf8',
+);
+assert.match(engineeringCategoryHtml, /data-category="engineering"/);
+const securityNetworkCategoryHtml = await readFile(
+    new URL('../../categories/security-network/index.html', import.meta.url),
+    'utf8',
+);
+assert.match(
+    securityNetworkCategoryHtml,
+    /data-category="security-network"/,
+);
+const seoCategoryHtml = await readFile(
+    new URL('../../categories/seo/index.html', import.meta.url),
+    'utf8',
+);
+assert.match(seoCategoryHtml, /data-category="seo"/);
+const colorCssCategoryHtml = await readFile(
+    new URL('../../categories/color-css/index.html', import.meta.url),
+    'utf8',
+);
+assert.match(colorCssCategoryHtml, /data-category="color-css"/);
+const homeLifestyleCategoryHtml = await readFile(
+    new URL('../../categories/home-lifestyle/index.html', import.meta.url),
+    'utf8',
+);
+assert.match(homeLifestyleCategoryHtml, /data-category="home-lifestyle"/);
+const islamicCategoryHtml = await readFile(
+    new URL('../../categories/islamic/index.html', import.meta.url),
+    'utf8',
+);
+assert.match(islamicCategoryHtml, /data-category="islamic"/);
+const imageCategoryHtml = await readFile(
+    new URL('../../categories/image/index.html', import.meta.url),
+    'utf8',
+);
+assert.match(imageCategoryHtml, /data-category="image"/);
+const pdfCategoryHtml = await readFile(
+    new URL('../../categories/pdf/index.html', import.meta.url),
+    'utf8',
+);
+assert.match(pdfCategoryHtml, /data-category="pdf"/);
+const videoCategoryHtml = await readFile(
+    new URL('../../categories/video/index.html', import.meta.url),
+    'utf8',
+);
+assert.match(videoCategoryHtml, /data-category="video"/);
+const audioCategoryHtml = await readFile(
+    new URL('../../categories/audio/index.html', import.meta.url),
+    'utf8',
+);
+assert.match(audioCategoryHtml, /data-category="audio"/);
+const studentStudyCategoryHtml = await readFile(
+    new URL('../../categories/student-study/index.html', import.meta.url),
+    'utf8',
+);
+assert.match(studentStudyCategoryHtml, /data-category="student-study"/);
+assert.match(catalogueScript, /getVisibleTools/);
+assert.match(catalogueScript, /data-category/);
 assert.match(catalogueScript, /Processing tools/);
 assert.match(catalogueScript, /Calculators & generators/);
 assert.match(catalogueScript, /typeof tool\.process/);
