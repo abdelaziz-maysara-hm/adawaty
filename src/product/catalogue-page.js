@@ -1,5 +1,5 @@
 import './site-navigation.js?v=s7b42';
-import { listToolDefinitions } from './tool-definitions.js?v=s7b37';
+import { listToolDefinitions } from './tool-definitions.js?v=s7b46';
 import { categoryLabels as categories } from './category-labels.js?v=s7b37';
 
 const copy = Object.freeze({
@@ -37,6 +37,16 @@ const basePath = root?.dataset.basePath ?? '../';
 const fixedCategory = root?.dataset.category ?? '';
 const tools = listToolDefinitions();
 const isProcessingTool = (tool) => typeof tool.process === 'function' || tool.interactive === true;
+const priorityGroups = Object.freeze([
+    ['pdf-merge', 'pdf-splitter', 'pdf-compressor', 'pdf-to-word-converter', 'word-to-pdf-converter', 'pdf-to-jpg-converter', 'jpg-to-pdf-converter', 'pdf-editor'],
+    ['image-compressor', 'compress-image-to-target-size', 'image-resizer', 'image-cropper', 'image-format-converter', 'jpg-to-png-converter', 'png-to-jpg-converter', 'image-to-text-ocr'],
+    ['video-compressor', 'video-trimmer', 'video-splitter', 'video-merge', 'video-audio-remover', 'add-audio-to-video', 'video-audio-extractor', 'video-format-converter'],
+    ['audio-compressor-dynamics', 'audio-trimmer', 'audio-splitter', 'audio-merger', 'audio-noise-remover', 'audio-format-converter', 'mp3-to-wav-converter', 'wav-to-mp3-converter'],
+    ['word-counter', 'character-counter', 'text-case-converter', 'duplicate-line-remover', 'text-diff-checker', 'grammar-checker', 'text-summarizer'],
+    ['seo-checker', 'keyword-density-checker', 'serp-snippet-preview', 'meta-tag-generator', 'open-graph-generator', 'robots-txt-generator', 'sitemap-entry-generator'],
+    ['password-generator', 'password-strength-checker', 'password-breach-checker', 'hash-generator', 'sri-hash-generator', 'csp-header-generator'],
+]);
+const priorityOrder = new Map(priorityGroups.flat().map((id, index) => [id, index]));
 let activeCategory = fixedCategory;
 let language = document.documentElement.dataset.language === 'en' ? 'en' : 'ar';
 const initialQuery = new URLSearchParams(window.location.search).get('q')?.trim() ?? '';
@@ -68,6 +78,12 @@ function getVisibleTools() {
         ].join(' ').toLocaleLowerCase(language);
         return matchesCategory && (!query || searchable.includes(query));
     }).sort((first, second) => {
+        const firstPriority = priorityOrder.get(first.id);
+        const secondPriority = priorityOrder.get(second.id);
+        if (firstPriority !== undefined || secondPriority !== undefined) {
+            return (firstPriority ?? Number.MAX_SAFE_INTEGER)
+                - (secondPriority ?? Number.MAX_SAFE_INTEGER);
+        }
         const processingOrder = Number(isProcessingTool(second))
             - Number(isProcessingTool(first));
         return processingOrder || first.title[language].localeCompare(
