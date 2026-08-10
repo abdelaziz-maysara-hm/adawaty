@@ -12,6 +12,10 @@ function applyLanguage(language) {
     document.querySelectorAll('[data-copy]').forEach((element) => {
         element.hidden = element.dataset.copy !== selected;
     });
+    const heading = document.querySelector(`.roundup-page h1 [data-copy="${selected}"]`);
+    if (heading?.textContent.trim()) {
+        document.title = `${heading.textContent.trim()} | ${selected === 'ar' ? 'أدواتي' : 'Adawaty'}`;
+    }
     if (toggle) toggle.textContent = selected === 'ar' ? 'English' : 'العربية';
     try {
         localStorage.setItem('adawaty-language', selected);

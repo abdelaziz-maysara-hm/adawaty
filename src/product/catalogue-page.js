@@ -132,6 +132,10 @@ function applyLanguage() {
     document.querySelectorAll('[data-copy]').forEach((element) => {
         element.hidden = element.dataset.copy !== language;
     });
+    const heading = document.querySelector(`.catalogue-header h1 [data-copy="${language}"]`);
+    if (heading?.textContent.trim()) {
+        document.title = `${heading.textContent.trim()} | ${language === 'ar' ? 'أدواتي' : 'Adawaty'}`;
+    }
     renderFilters();
     renderTools();
 }

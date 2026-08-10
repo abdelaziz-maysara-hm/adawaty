@@ -139,6 +139,8 @@ assert.match(catalogueScript, /Calculators & generators/);
 assert.match(catalogueScript, /typeof tool\.process/);
 assert.match(catalogueScript, /adawaty-language/);
 assert.match(catalogueScript, /URLSearchParams/);
+assert.match(catalogueScript, /document\.title =/);
+assert.match(catalogueScript, /catalogue-header h1/);
 
 const bmiToolHtml = await readFile(
     new URL('../../tools/bmi-calculator/index.html', import.meta.url),
@@ -161,6 +163,8 @@ assert.match(ilovePdfAlternativeHtml, /roundup-page\.js\?v=s7b\d+/);
 assert.match(ilovePdfAlternativeHtml, /data-copy="en">All tools/);
 assert.match(roundupScript, /adawaty-language/);
 assert.match(roundupScript, /element\.hidden = element\.dataset\.copy !== selected/);
+assert.match(roundupScript, /document\.title =/);
+assert.match(roundupScript, /roundup-page h1/);
 
 const languageBootstrap = await readFile(
     new URL('../../src/product/language-bootstrap.js', import.meta.url),
