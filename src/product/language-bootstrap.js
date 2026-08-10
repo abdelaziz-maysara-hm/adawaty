@@ -16,4 +16,19 @@
     root.dataset.language = language;
 }());
 
+(function bootstrapGoogleAnalytics() {
+    const measurementId = 'G-N9X0ZTH17N';
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+    window.gtag = gtag;
+    gtag('js', new Date());
+    gtag('config', measurementId);
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = 'https://www.googletagmanager.com/gtag/js?id=' + measurementId;
+    document.head.appendChild(script);
+}());
+
 // END OF FILE
