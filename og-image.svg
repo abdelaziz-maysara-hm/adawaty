@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#07111f"/>
+      <stop offset="100%" style="stop-color:#0c1a2e"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="1100" cy="80" r="180" fill="#0e2846" opacity="0.7"/>
+  <circle cx="80" cy="560" r="140" fill="#0c233d" opacity="0.8"/>
+  <rect x="0" y="0" width="10" height="630" fill="#38bdf8"/>
+  <circle cx="140" cy="210" r="48" fill="#0f3255" stroke="#38bdf8" stroke-width="3"/>
+  <text x="140" y="222" text-anchor="middle" font-family="Cairo, Noto Sans Arabic, Arial, sans-serif" font-size="48" font-weight="700" fill="#38bdf8">أ</text>
+  <text x="220" y="200" font-family="Cairo, Noto Sans Arabic, Arial, sans-serif" font-size="72" font-weight="700" fill="#f1f5f9">أدواتي</text>
+  <text x="220" y="255" font-family="Noto Sans, Arial, sans-serif" font-size="32" font-weight="600" fill="#38bdf8">Adawaty — Free Online Tools</text>
+  <text x="220" y="330" font-family="Cairo, Noto Sans Arabic, Arial, sans-serif" font-size="30" font-weight="600" fill="#94a3b8">أكثر من 400 أداة مجانية للصور وPDF والفيديو والنصوص</text>
+  <text x="220" y="375" font-family="Noto Sans, Arial, sans-serif" font-size="24" fill="#64748b">Compress · Convert · Edit · Calculate — in your browser</text>
+  <g font-family="Cairo, Noto Sans Arabic, Arial, sans-serif" font-size="22" font-weight="600" fill="#22d3ee">
+    <rect x="220" y="440" width="90" height="44" rx="22" fill="#14304d" stroke="#286090"/>
+    <text x="265" y="469" text-anchor="middle">صور</text>
+    <rect x="325" y="440" width="90" height="44" rx="22" fill="#14304d" stroke="#286090"/>
+    <text x="370" y="469" text-anchor="middle">PDF</text>
+    <rect x="430" y="440" width="100" height="44" rx="22" fill="#14304d" stroke="#286090"/>
+    <text x="480" y="469" text-anchor="middle">فيديو</text>
+    <rect x="545" y="440" width="90" height="44" rx="22" fill="#14304d" stroke="#286090"/>
+    <text x="590" y="469" text-anchor="middle">صوت</text>
+    <rect x="650" y="440" width="100" height="44" rx="22" fill="#14304d" stroke="#286090"/>
+    <text x="700" y="469" text-anchor="middle">نصوص</text>
+    <rect x="765" y="440" width="110" height="44" rx="22" fill="#14304d" stroke="#286090"/>
+    <text x="820" y="469" text-anchor="middle">مطورين</text>
+  </g>
+  <text x="1150" y="595" text-anchor="end" font-family="Noto Sans, Arial, sans-serif" font-size="20" fill="#64748b">adawaty.tools</text>
+</svg>
