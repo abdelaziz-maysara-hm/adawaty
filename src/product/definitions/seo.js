@@ -317,27 +317,67 @@ const serpPreview = Object.freeze({
     },
 });
 
+
+function requirePageUrl(value, language) {
+    let raw = String(value ?? '').trim();
+    if (!raw) {
+        throw new Error(localized(language, 'أدخل رابط الصفحة أو النطاق.', 'Enter a page URL or domain.'));
+    }
+    if (!/^https?:\/\//i.test(raw)) {
+        raw = `https://${raw}`;
+    }
+    return requireUrl(raw, language);
+}
+
+async function fetchPageHtml(pageUrl, language) {
+    const target = pageUrl.href;
+    const attempts = [
+        target,
+        `https://api.allorigins.win/raw?url=${encodeURIComponent(target)}`,
+        `https://corsproxy.io/?${encodeURIComponent(target)}`,
+    ];
+    for (const endpoint of attempts) {
+        try {
+            const response = await fetch(endpoint, {
+                method: 'GET',
+                redirect: 'follow',
+                headers: { Accept: 'text/html,application/xhtml+xml;q=0.9,*/*;q=0.8' },
+            });
+            if (!response.ok) continue;
+            const text = await response.text();
+            if (!text || text.length < 20) continue;
+            if (!/<html\b|<head\b|<title\b|<body\b/i.test(text) && text.length < 500) continue;
+            return text;
+        } catch {
+            // try next endpoint
+        }
+    }
+    throw new Error(localized(
+        language,
+        'تعذّر جلب الصفحة. تأكد من الرابط أو أن الموقع يسمح بالوصول. بعض المواقع تحجب الفحص من المتصفح.',
+        'Could not fetch the page. Check the URL, or the site may block browser-side checks.',
+    ));
+}
+
 const seoChecker = Object.freeze({
     id: 'seo-checker',
     category: 'seo',
     icon: 'SEO',
     title: Object.freeze({ ar: 'فاحص SEO للصفحات', en: 'Website SEO Checker' }),
     description: Object.freeze({
-        ar: 'افحص كود HTML واكتشف مشكلات العنوان والوصف والعناوين والصور والروابط ووسوم المشاركة.',
-        en: 'Audit HTML for title, description, headings, images, links, canonical and social metadata issues.',
+        ar: 'أدخل رابط الصفحة أو النطاق لتحليل العنوان والوصف والعناوين والصور والروابط ووسوم المشاركة.',
+        en: 'Enter a page URL or domain to audit title, description, headings, images, links and social metadata.',
     }),
     note: Object.freeze({
-        ar: 'ألصق مصدر HTML للصفحة؛ يتم الفحص محليًا داخل متصفحك ولا يُرفع الكود لأي خادم.',
-        en: 'Paste the page HTML source. The audit runs locally in your browser and uploads nothing.',
+        ar: 'يتم جلب HTML الصفحة عبر المتصفح (مع وسيط عند الحاجة بسبب قيود CORS). النتائج تقديرية وليست بديلاً عن أدوات Google الرسمية.',
+        en: 'Page HTML is fetched in your browser (via a public relay when CORS blocks direct access). Results are approximate and not a substitute for official Google tools.',
     }),
     inputs: Object.freeze([
-        textInput('html', { ar: 'كود HTML', en: 'HTML source' }, '<!doctype html><html><head><title>Example page</title><meta name="description" content="A useful page description."></head><body><h1>Example page</h1></body></html>', 16),
+        textInput('url', { ar: 'رابط الصفحة أو النطاق', en: 'Page URL or domain' }, 'https://example.com/'),
     ]),
-    calculate(values, language) {
-        const source = String(values.html ?? '').trim();
-        if (!source) {
-            throw new Error(localized(language, 'ألصق كود HTML صالحًا لفحصه.', 'Paste valid HTML source to audit.'));
-        }
+    async process(values, language) {
+        const pageUrl = requirePageUrl(values.url, language);
+        const source = await fetchPageHtml(pageUrl, language);
         const tagContent = (tag) => source.match(new RegExp(`<${tag}\\b[^>]*>([\\s\\S]*?)<\\/${tag}>`, 'i'))?.[1]
             ?.replace(/<[^>]+>/g, '').trim() ?? '';
         const tags = (tag) => source.match(new RegExp(`<${tag}\\b[^>]*>`, 'gi')) ?? [];
@@ -356,12 +396,15 @@ const seoChecker = Object.freeze({
             [/<link\b[^>]*\srel\s*=\s*["']canonical["'][^>]*>/i.test(source), localized(language, 'رابط Canonical', 'Canonical URL'), 10],
             [hasMeta('name', 'viewport'), localized(language, 'دعم شاشة الموبايل', 'Mobile viewport'), 10],
             [/<html\b[^>]*\slang\s*=\s*["'][^"']+["']/i.test(source), localized(language, 'لغة الصفحة', 'Document language'), 5],
-            [images.every((image) => hasAttribute(image, 'alt')), localized(language, `نصوص الصور البديلة: ${images.filter((image) => hasAttribute(image, 'alt')).length}/${images.length}`, `Image alt text: ${images.filter((image) => hasAttribute(image, 'alt')).length}/${images.length}`), 10],
+            [images.length === 0 || images.every((image) => hasAttribute(image, 'alt')), localized(language, `نصوص الصور البديلة: ${images.filter((image) => hasAttribute(image, 'alt')).length}/${images.length}`, `Image alt text: ${images.filter((image) => hasAttribute(image, 'alt')).length}/${images.length}`), 10],
             [hasMeta('property', 'og:title'), localized(language, 'وسوم Open Graph', 'Open Graph tags'), 5],
-            [links.every((link) => /<a\b[^>]*\saria-label\s*=|>\s*[^<\s]/i.test(link)), localized(language, 'أسماء الروابط', 'Accessible link names'), 5],
+            [links.length === 0 || links.every((link) => /<a\b[^>]*\saria-label\s*=|>\s*[^<\s]/i.test(link)), localized(language, 'أسماء الروابط', 'Accessible link names'), 5],
         ];
         const score = tests.reduce((total, [passed, , points]) => total + (passed ? points : 0), 0);
-        const report = tests.map(([passed, label]) => `${passed ? '✓' : '✗'} ${label}`).join('\n');
+        const report = [
+            localized(language, `الصفحة: ${pageUrl.href}`, `Page: ${pageUrl.href}`),
+            ...tests.map(([passed, label]) => `${passed ? '✓' : '✗'} ${label}`),
+        ].join('\n');
         return output(`${score}/100`, localized(language, 'نتيجة فحص SEO', 'SEO audit score'), report);
     },
 });
