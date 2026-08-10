@@ -9,7 +9,8 @@ import { ROUNDUP_CONTENT } from '../src/product/definitions/roundup-content.js';
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const baseUrl = 'https://www.adawaty.tools';
 const assetVersion = 's7b44';
-const catalogueAssetVersion = 's7b42';
+const catalogueAssetVersion = 's7b45';
+const roundupAssetVersion = 's7b45';
 const tools = listToolDefinitions();
 const categories = Object.freeze({
     health: Object.freeze({ ar: 'أدوات الصحة', en: 'Health Tools' }),
@@ -374,7 +375,7 @@ function createRoundupPage(entry) {
     <script type="application/ld+json">${breadcrumbData}</script>
     <link rel="stylesheet" href="../../src/css/main.css">
     <link rel="stylesheet" href="../../src/css/product.css">
-    <script type="module" src="../../src/product/roundup-page.js?v=${assetVersion}"></script>
+    <script type="module" src="../../src/product/roundup-page.js?v=${roundupAssetVersion}"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7919896989773628" crossorigin="anonymous"></script>
 </head>
 <body>

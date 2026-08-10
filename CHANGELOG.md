@@ -1,5 +1,11 @@
 # Changelog
 
+# 0.5.100
+
+- Localized browser-tab titles for comparison, all-tools and category pages when English is active.
+- Updated titles immediately when visitors switch languages without reloading the page.
+- Added regression coverage for localized catalogue and roundup document titles.
+
 # 0.5.99
 
 - Fixed English-mode Arabic leaks in related tools, input units, placeholders and all comparison pages including the iLovePDF alternative.
