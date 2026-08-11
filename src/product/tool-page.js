@@ -185,23 +185,9 @@ function updateCopy(language) {
     root.dir = language === 'ar' ? 'rtl' : 'ltr';
     root.dataset.language = language;
     document.title = `${translate(tool.title, language)} | ${language === 'ar' ? 'أدواتي' : 'Adawaty'}`;
-    document.querySelector('#tool-title').textContent = translate(
-        tool.title,
-        language,
-    );
-    document.querySelector('#tool-description').textContent = translate(
-        tool.description,
-        language,
-    );
-    document.querySelector('#tool-note').textContent = translate(
-        tool.note,
-        language,
-    );
     document.querySelector('#tool-icon').textContent = tool.icon;
     languageButton.textContent = language === 'ar' ? 'English' : 'العربية';
-    document.querySelector('#back-label').textContent = language === 'ar'
-        ? 'كل الأدوات'
-        : 'All tools';
+    // Title / description / note / back use data-copy spans in HTML — toggle only.
     document.querySelectorAll('[data-copy]').forEach((element) => {
         element.hidden = element.dataset.copy !== language;
     });
