@@ -98,7 +98,8 @@ function createToolPage(tool) {
 <html lang="ar" dir="rtl" data-language="ar">
 <head>
     <meta charset="UTF-8">
-    <script src="../../src/product/language-bootstrap.js?v=s7b42"></script>
+    <script>(function(){var l='';try{l=localStorage.getItem('adawaty-language')||localStorage.getItem('adawaty-preview-language')||''}catch(e){}if(l!=='ar'&&l!=='en')l=(navigator.language||'').toLowerCase().startsWith('ar')?'ar':'en';var r=document.documentElement;r.lang=l;r.dir=l==='ar'?'rtl':'ltr';r.dataset.language=l})();</script>
+    <script src="../../src/product/language-bootstrap.js?v=s7b48"></script>
     <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
     <meta http-equiv="Cache-Control" content="no-cache">
     <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -255,7 +256,8 @@ function createCataloguePage({
 <html lang="ar" dir="rtl" data-language="ar">
 <head>
     <meta charset="UTF-8">
-    <script src="${basePath}src/product/language-bootstrap.js?v=s7b42"></script>
+    <script>(function(){var l='';try{l=localStorage.getItem('adawaty-language')||localStorage.getItem('adawaty-preview-language')||''}catch(e){}if(l!=='ar'&&l!=='en')l=(navigator.language||'').toLowerCase().startsWith('ar')?'ar':'en';var r=document.documentElement;r.lang=l;r.dir=l==='ar'?'rtl':'ltr';r.dataset.language=l})();</script>
+    <script src="${basePath}src/product/language-bootstrap.js?v=s7b48"></script>
     <link rel="icon" href="${basePath}favicon.svg" type="image/svg+xml">
     <meta http-equiv="Cache-Control" content="no-cache">
     <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -359,6 +361,7 @@ function createRoundupPage(entry) {
 <html lang="ar" dir="rtl" data-language="ar">
 <head>
     <meta charset="UTF-8">
+    <script>(function(){var l='';try{l=localStorage.getItem('adawaty-language')||localStorage.getItem('adawaty-preview-language')||''}catch(e){}if(l!=='ar'&&l!=='en')l=(navigator.language||'').toLowerCase().startsWith('ar')?'ar':'en';var r=document.documentElement;r.lang=l;r.dir=l==='ar'?'rtl':'ltr';r.dataset.language=l})();</script>
     <script src="../../src/product/language-bootstrap.js?v=${assetVersion}"></script>
     <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
     <meta http-equiv="Cache-Control" content="no-cache">
