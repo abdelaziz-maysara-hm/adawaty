@@ -56,7 +56,10 @@ jobs:
         run: |
           npm ci --ignore-scripts
           npm run prepare:media-runtime
-          rm -rf node_modules
+      - name: Generate product pages
+        run: npm run generate:product
+      - name: Remove node_modules before upload
+        run: rm -rf node_modules
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 

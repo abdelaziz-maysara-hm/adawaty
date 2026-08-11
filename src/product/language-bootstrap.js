@@ -16,6 +16,14 @@
     root.dataset.language = language;
 }());
 
+(function injectLangFoucCss() {
+    if (document.getElementById('lang-fouc')) return;
+    var s = document.createElement('style');
+    s.id = 'lang-fouc';
+    s.textContent = '[data-language="en"] [data-copy="ar"],[data-language="ar"] [data-copy="en"]{display:none!important}';
+    document.documentElement.appendChild(s);
+}());
+
 (function bootstrapGoogleAnalytics() {
     const measurementId = 'G-N9X0ZTH17N';
     window.dataLayer = window.dataLayer || [];
