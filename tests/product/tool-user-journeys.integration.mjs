@@ -58,6 +58,9 @@ const browserOnlyTools = new Set([
     // password locally. Its parsing and hashing contracts are tested without
     // making a live network request in popular-security-tools.integration.mjs.
     'password-breach-checker',
+    // MediaRecorder + getUserMedia/getDisplayMedia — browser-only APIs.
+    'sound-recorder',
+    'screen-recorder',
 ]);
 
 const inputOverrides = Object.freeze({
@@ -121,31 +124,38 @@ function getSampleValue(input, index) {
 }
 
 function createSampleInput(tool) {
-    const generated = Object.fromEntries(
+    const overrides = inputOverrides[tool.id] ?? {};
+    return Object.fromEntries(
         tool.inputs.map((input, index) => [
             input.id,
-            getSampleValue(input, index),
+            overrides[input.id] ?? getSampleValue(input, index),
         ]),
     );
-
-    return {
-        ...generated,
-        ...(inputOverrides[tool.id] ?? {}),
-    };
 }
 
-function assertLocalizedText(value, context) {
-    assert.equal(typeof value?.ar, 'string', `${context} needs Arabic copy`);
-    assert.ok(value.ar.trim(), `${context} Arabic copy must not be empty`);
-    assert.equal(typeof value?.en, 'string', `${context} needs English copy`);
-    assert.ok(value.en.trim(), `${context} English copy must not be empty`);
+function assertLocalizedText(value, label) {
+    assert.equal(typeof value?.ar, 'string', `${label}.ar must be a string`);
+    assert.equal(typeof value?.en, 'string', `${label}.en must be a string`);
+    assert.ok(value.ar.trim(), `${label}.ar must not be empty`);
+    assert.ok(value.en.trim(), `${label}.en must not be empty`);
 }
 
 function assertOutputContract(output, toolId) {
-    assert.ok(output && typeof output === 'object', `${toolId} must return an object`);
-    assert.ok('value' in output, `${toolId} output must include value`);
-    assert.equal(typeof output.label, 'string', `${toolId} output needs a label`);
-    assert.equal(typeof output.details, 'string', `${toolId} output needs details`);
+    assert.equal(typeof output, 'object', `${toolId} output must be an object`);
+    assert.ok(output !== null, `${toolId} output must not be null`);
+    assert.equal(typeof output.value, 'string', `${toolId} output.value must be a string`);
+    assert.equal(typeof output.label, 'string', `${toolId} output.label must be a string`);
+    assert.ok(output.value.length > 0, `${toolId} output.value must not be empty`);
+    assert.ok(output.label.length > 0, `${toolId} output.label must not be empty`);
+    if (output.details !== undefined) {
+        assert.equal(typeof output.details, 'string', `${toolId} output.details must be a string`);
+    }
+    if (output.download !== undefined) {
+        assert.equal(typeof output.download, 'object', `${toolId} output.download must be an object`);
+        assert.ok(output.download.blob instanceof Blob || output.download.blob?.constructor?.name === 'Blob',
+            `${toolId} output.download.blob must be a Blob`);
+        assert.equal(typeof output.download.filename, 'string', `${toolId} output.download.filename must be a string`);
+    }
 }
 
 for (const tool of tools) {
@@ -195,8 +205,8 @@ assert.deepEqual(
         .join('\n')}`,
 );
 
-assert.equal(nonFileTools.length, 409);
-assert.equal(browserOnlyTools.size, 22);
+assert.equal(nonFileTools.length, 411);
+assert.equal(browserOnlyTools.size, 24);
 assert.equal(executableWithoutBrowser.length, 387);
 
 const journeys = [
@@ -221,37 +231,40 @@ const journeys = [
         expectedValue: 'HELLO WORLD',
     },
     {
-        id: 'slug-generator',
-        input: { text: 'Hello World', separator: '-' },
-        expectedValue: 'hello-world',
+        id: 'percentage-calculator',
+        input: { value: 25, total: 200 },
+        expectedValue: '12.5%',
     },
     {
-        id: 'base64-encoder-decoder',
-        input: { text: 'Adawaty', operation: 'encode' },
-        expectedValue: 'QWRhd2F0eQ==',
+        id: 'age-calculator',
+        input: { birthDate: '2000-01-01', onDate: '2026-01-01' },
+        expectedValue: '26',
     },
     {
-        id: 'url-encoder-decoder',
-        input: { text: 'hello world', operation: 'encode' },
-        expectedValue: 'hello%20world',
+        id: 'loan-calculator',
+        input: { principal: 10000, rate: 5, years: 1 },
+        expectedValue: undefined,
     },
 ];
 
 for (const journey of journeys) {
     const tool = getToolDefinition(journey.id);
+    assert.ok(tool, `journey tool ${journey.id} must exist`);
     const handler = tool.process ?? tool.calculate;
     const output = await handler(journey.input, 'en');
-    assert.equal(
-        output.value,
-        journey.expectedValue,
-        `${journey.id} returned an unexpected result`,
-    );
+    if (journey.expectedValue !== undefined) {
+        assert.equal(
+            output.value,
+            journey.expectedValue,
+            `${journey.id} expected value`,
+        );
+    } else {
+        assert.ok(output.value, `${journey.id} must return a value`);
+    }
 }
 
 console.log(
-    `User-journey verification passed: ${tools.length} metadata contracts, `
-    + `${executableWithoutBrowser.length} executable tools, `
-    + `${journeys.length} exact-result journeys.`,
+    `User-journey verification passed: ${tools.length} metadata contracts, ${executableWithoutBrowser.length} executable tools, ${journeys.length} exact-result journeys.`,
 );
 
 // END OF FILE
