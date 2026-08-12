@@ -33,6 +33,9 @@ jobs:
       - name: Prepare browser media runtime
         run: npm run prepare:media-runtime
 
+      - name: Generate product pages
+        run: npm run generate:product
+
       - name: Validate source and integration tests
         run: npm run validate
 
