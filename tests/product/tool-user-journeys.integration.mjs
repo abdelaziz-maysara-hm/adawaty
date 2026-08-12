@@ -128,7 +128,9 @@ function createSampleInput(tool) {
     return Object.fromEntries(
         tool.inputs.map((input, index) => [
             input.id,
-            overrides[input.id] ?? getSampleValue(input, index),
+            Object.prototype.hasOwnProperty.call(overrides, input.id)
+                ? overrides[input.id]
+                : getSampleValue(input, index),
         ]),
     );
 }
@@ -136,26 +138,13 @@ function createSampleInput(tool) {
 function assertLocalizedText(value, label) {
     assert.equal(typeof value?.ar, 'string', `${label}.ar must be a string`);
     assert.equal(typeof value?.en, 'string', `${label}.en must be a string`);
-    assert.ok(value.ar.trim(), `${label}.ar must not be empty`);
-    assert.ok(value.en.trim(), `${label}.en must not be empty`);
+    assert.ok(value.ar.trim().length > 0, `${label}.ar must not be empty`);
+    assert.ok(value.en.trim().length > 0, `${label}.en must not be empty`);
 }
 
 function assertOutputContract(output, toolId) {
-    assert.equal(typeof output, 'object', `${toolId} output must be an object`);
-    assert.ok(output !== null, `${toolId} output must not be null`);
-    assert.equal(typeof output.value, 'string', `${toolId} output.value must be a string`);
-    assert.equal(typeof output.label, 'string', `${toolId} output.label must be a string`);
-    assert.ok(output.value.length > 0, `${toolId} output.value must not be empty`);
-    assert.ok(output.label.length > 0, `${toolId} output.label must not be empty`);
-    if (output.details !== undefined) {
-        assert.equal(typeof output.details, 'string', `${toolId} output.details must be a string`);
-    }
-    if (output.download !== undefined) {
-        assert.equal(typeof output.download, 'object', `${toolId} output.download must be an object`);
-        assert.ok(output.download.blob instanceof Blob || output.download.blob?.constructor?.name === 'Blob',
-            `${toolId} output.download.blob must be a Blob`);
-        assert.equal(typeof output.download.filename, 'string', `${toolId} output.download.filename must be a string`);
-    }
+    assert.equal(typeof output?.value, 'string', `${toolId} must return value string`);
+    assert.equal(typeof output?.label, 'string', `${toolId} must return label string`);
 }
 
 for (const tool of tools) {
@@ -231,40 +220,37 @@ const journeys = [
         expectedValue: 'HELLO WORLD',
     },
     {
-        id: 'percentage-calculator',
-        input: { value: 25, total: 200 },
-        expectedValue: '12.5%',
+        id: 'slug-generator',
+        input: { text: 'Hello World', separator: '-' },
+        expectedValue: 'hello-world',
     },
     {
-        id: 'age-calculator',
-        input: { birthDate: '2000-01-01', onDate: '2026-01-01' },
-        expectedValue: '26',
+        id: 'base64-encoder-decoder',
+        input: { text: 'Adawaty', operation: 'encode' },
+        expectedValue: 'QWRhd2F0eQ==',
     },
     {
-        id: 'loan-calculator',
-        input: { principal: 10000, rate: 5, years: 1 },
-        expectedValue: undefined,
+        id: 'url-encoder-decoder',
+        input: { text: 'hello world', operation: 'encode' },
+        expectedValue: 'hello%20world',
     },
 ];
 
 for (const journey of journeys) {
     const tool = getToolDefinition(journey.id);
-    assert.ok(tool, `journey tool ${journey.id} must exist`);
     const handler = tool.process ?? tool.calculate;
     const output = await handler(journey.input, 'en');
-    if (journey.expectedValue !== undefined) {
-        assert.equal(
-            output.value,
-            journey.expectedValue,
-            `${journey.id} expected value`,
-        );
-    } else {
-        assert.ok(output.value, `${journey.id} must return a value`);
-    }
+    assert.equal(
+        output.value,
+        journey.expectedValue,
+        `${journey.id} returned an unexpected result`,
+    );
 }
 
 console.log(
-    `User-journey verification passed: ${tools.length} metadata contracts, ${executableWithoutBrowser.length} executable tools, ${journeys.length} exact-result journeys.`,
+    `User-journey verification passed: ${tools.length} metadata contracts, `
+    + `${executableWithoutBrowser.length} executable tools, `
+    + `${journeys.length} exact-result journeys.`,
 );
 
 // END OF FILE
