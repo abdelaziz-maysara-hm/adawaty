@@ -1811,6 +1811,16 @@
         <priority>0.9</priority>
     </url>
     <url>
+        <loc>https://adawaty.tools/tools/sound-recorder/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://adawaty.tools/tools/screen-recorder/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
         <loc>https://adawaty.tools/tools/audio-waveform-viewer/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
