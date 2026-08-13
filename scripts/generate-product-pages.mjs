@@ -49,7 +49,10 @@ function safeJson(value) {
 
 function createToolPage(tool) {
     const title = escapeHtml(tool.title.ar);
+    const titleEn = escapeHtml(tool.title.en);
     const description = escapeHtml(tool.description.ar);
+    const descriptionEn = escapeHtml(tool.description.en);
+    const noteEn = escapeHtml(tool.note.en ?? '');
     const canonical = `${baseUrl}/tools/${tool.id}/`;
     const categoryLabel = categories[tool.category]?.ar ?? tool.category;
     const categoryUrl = `${baseUrl}/categories/${tool.category}/`;
@@ -151,9 +154,9 @@ function createToolPage(tool) {
         <div class="product-grid">
             <section class="product-intro">
                 <span class="product-icon" id="tool-icon" aria-hidden="true"></span>
-                <h1 id="tool-title">${title}</h1>
-                <p class="product-description" id="tool-description">${description}</p>
-                <p class="product-note" id="tool-note">${escapeHtml(tool.note.ar)}</p>
+                <h1 id="tool-title"><span data-copy="ar">${title}</span><span data-copy="en">${titleEn}</span></h1>
+                <p class="product-description" id="tool-description"><span data-copy="ar">${description}</span><span data-copy="en">${descriptionEn}</span></p>
+                <p class="product-note" id="tool-note"><span data-copy="ar">${escapeHtml(tool.note.ar)}</span><span data-copy="en">${noteEn}</span></p>
             </section>
             <section class="product-calculator" aria-label="Calculator">
                 <form class="product-form" id="tool-form"></form>

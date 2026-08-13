@@ -61,6 +61,15 @@ const browserOnlyTools = new Set([
     // MediaRecorder + getUserMedia/getDisplayMedia — browser-only APIs.
     'sound-recorder',
     'screen-recorder',
+    // Fetches an arbitrary user-provided URL live (via a CORS relay in the
+    // browser) to audit its HTML. Same class as password-breach-checker
+    // above: a live external network call has no place in an automated
+    // test run, regardless of environment. Confirmed the placeholder URL
+    // (https://example.com/) is blocked by this specific sandbox's egress
+    // policy (x-deny-reason: host_not_allowed), separate from the tool's
+    // own correctness -- excluded on the same "no live network calls in
+    // tests" principle either way.
+    'seo-checker',
 ]);
 
 const inputOverrides = Object.freeze({
@@ -195,8 +204,8 @@ assert.deepEqual(
 );
 
 assert.equal(nonFileTools.length, 411);
-assert.equal(browserOnlyTools.size, 24);
-assert.equal(executableWithoutBrowser.length, 387);
+assert.equal(browserOnlyTools.size, 25);
+assert.equal(executableWithoutBrowser.length, 386);
 
 const journeys = [
     {

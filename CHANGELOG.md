@@ -1,5 +1,18 @@
 # Changelog
 
+# 0.5.102
+
+- Fixed a real bilingual bug reported with a live screenshot: on every tool page, the H1 title,
+  description, and note were hardcoded to Arabic only in `scripts/generate-product-pages.mjs`
+  (never had an English version generated at all), so switching the site language to English left
+  these three elements stuck in Arabic while everything else on the page (nav, buttons, related
+  tools) correctly switched. Fixed by generating both languages into the same
+  `<span data-copy="ar">`/`<span data-copy="en">` structure already used correctly elsewhere on
+  the same page (e.g. the related-tools section), reusing the existing generic CSS toggle rule --
+  no CSS or client-side JS changes needed. Verified on the exact reported page
+  (`compress-image-to-target-size`) and spot-checked several others after regenerating all 614
+  pages; `npm run validate` passes all 8 suites.
+
 # 0.5.101
 
 - Added a private browser-side SEO checker for titles, descriptions, headings, images, links, canonical and social metadata.
