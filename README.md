@@ -2,7 +2,7 @@
 
 منصة ثنائية اللغة (عربي/إنجليزي) لأدوات ومحولات مجانية تعمل **بالكامل داخل المتصفح** — بدون رفع ملفات لسيرفر في الكتالوج العام.
 
-**الموقع المباشر:** [https://adawaty-five.vercel.app/](https://adawaty-five.vercel.app/)  
+**الموقع المباشر:** [https://adawaty.tools
 **مرآة GitHub Pages:** [https://abdelaziz-maysara-hm.github.io/adawaty/](https://abdelaziz-maysara-hm.github.io/adawaty/)
 
 ## نظرة عامة
