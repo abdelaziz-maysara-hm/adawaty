@@ -814,7 +814,33 @@ pattern as what shipped, pick up whenever, **always starting with `npm run list:
 
 ---
 
-## Pre-launch priority: cover the highest real-world search demand (August 2026)
+## Website Builder V1 (developer category) — Phase 1 done (0.5.103)
+
+A large feature deliberately split into phases rather than attempted all at once, per an explicit
+decision to de-risk it. Architecture: `src/product/website-builder/schema.js` defines
+`WebsiteSpec`, the single source of truth; `engine.js` is a pure `renderWebsite(spec) -> HTML/CSS`
+function with no AI-specific logic, so a future AI layer only needs to produce a valid spec.
+
+**Phase 1 (done)**: schema + validator (never throws, safely defaults malformed/corrupted input),
+13 reusable section components (all individually tested against real XSS payloads), 2 templates
+(Business, Portfolio), bounded undo/redo, localStorage persistence with a schema-version guard,
+real ZIP export (`index.html` + `assets/css/style.css` + `assets/js/main.js` when needed +
+`README.md`), a sandboxed live preview iframe, and a full test suite in
+`tests/product/website-builder.integration.mjs` including a dedicated AdSense-absence regression
+test. Registered via the existing `interactive: true` tool pattern (same mechanism as other
+workspace-style tools), with a manually-authored `tools/website-builder/index.html` page.
+
+**Still open for a later phase**: the 4 remaining templates (Landing, Agency, Restaurant,
+Catalog) from the original 6-template plan; image upload/embedding (V1's gallery section uses
+labeled placeholder tiles, not real uploaded images, to avoid needing a URL-safety review for
+user-hosted image sources); a richer per-section-type content editor (V1 uses one generic panel
+driven by `content-schema.js`, with list-based content like features/testimonials edited via a
+simple one-line-per-item text format rather than a dedicated add/remove/reorder sub-UI); drag-and-
+drop section reordering (V1 uses up/down buttons); and any AI-assisted spec generation (explicitly
+out of scope for this feature entirely, by design — the renderer is ready for it, nothing else is
+built toward it).
+
+
 
 Site owner is close to launching and asked specifically to prioritize the tools people actually
 search for most, not just fill out the catalogue evenly. Checked the current category

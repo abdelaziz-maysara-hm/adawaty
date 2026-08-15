@@ -70,6 +70,12 @@ const browserOnlyTools = new Set([
     // own correctness -- excluded on the same "no live network calls in
     // tests" principle either way.
     'seo-checker',
+    // website-builder is an interactive workspace tool (interactive: true,
+    // like visual-pdf-editor) with no process/calculate handler by design
+    // -- it has its own dedicated UI, not a form-and-result flow. Unlike
+    // visual-pdf-editor, it has no file input, so it isn't automatically
+    // excluded via nonFileTools and needs an explicit entry here.
+    'website-builder',
 ]);
 
 const inputOverrides = Object.freeze({
@@ -203,8 +209,8 @@ assert.deepEqual(
         .join('\n')}`,
 );
 
-assert.equal(nonFileTools.length, 411);
-assert.equal(browserOnlyTools.size, 25);
+assert.equal(nonFileTools.length, 412);
+assert.equal(browserOnlyTools.size, 26);
 assert.equal(executableWithoutBrowser.length, 386);
 
 const journeys = [

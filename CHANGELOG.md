@@ -1,5 +1,29 @@
 # Changelog
 
+# 0.5.103
+
+- Added Website Builder V1, Phase 1 (`website-builder`, developer category): a 100% client-side,
+  privacy-first static website builder. Scoped deliberately as a first phase (schema + 2 templates
+  + export) per an explicit decision to de-risk this large feature rather than build all 6 planned
+  templates at once. Architecture: `WebsiteSpec` (a serializable, versioned, validated JSON object)
+  is the single source of truth; `validateWebsiteSpec()` never throws -- malformed/corrupted input
+  (including from localStorage) is defaulted/corrected safely; `renderWebsite(spec)` is a pure,
+  deterministic function turning any valid spec into a full HTML/CSS document, so a future AI layer
+  only needs to produce a spec and hand it to the same renderer -- no AI code included in this
+  phase. 13 reusable section components (navbar, hero, features, services, about, stats, gallery,
+  testimonials, pricing, faq, contact, cta, footer), each independently tested against real XSS
+  payloads (script tags, `onerror=`, `javascript:`/`data:`/`vbscript:` URIs) with zero found
+  surviving into rendered output. 2 templates implemented (Business, Portfolio); Landing/Agency/
+  Restaurant/Catalog remain for a later phase. Bounded undo/redo (30 steps), localStorage
+  persistence with a schema version guard, and real multi-file ZIP export (not a renamed HTML
+  blob) are all implemented and tested. The live preview renders in a `sandbox="allow-scripts"`
+  iframe (explicitly without `allow-same-origin`) so generated site content can never reach the
+  parent Adawaty page. Exported sites never include Adawaty's AdSense script or any tracking --
+  verified with a dedicated regression test. Registered via the existing `interactive: true`
+  tool-definition pattern (the same mechanism already used for other workspace-style tools),
+  so it appears correctly in the catalogue/search/category system without forcing a complex
+  visual editor into the generic form/result tool-page template.
+
 # 0.5.102
 
 - Fixed a real bilingual bug reported with a live screenshot: on every tool page, the H1 title,

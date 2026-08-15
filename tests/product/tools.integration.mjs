@@ -183,7 +183,12 @@ const toolPages = await Promise.all(
 for (const [index, page] of toolPages.entries()) {
     assert.match(page, new RegExp(`data-tool-page="${tools[index].id}"`));
     if (tools[index].interactive) {
-        assert.match(page, /src\/product\/visual-pdf-editor\.js/);
+        // Interactive tools each own a dedicated JS module rather than the
+        // generic tool-page.js form renderer -- verified generically here
+        // (any src/product/*.js module script) rather than hardcoding one
+        // specific tool's filename, since more than one interactive tool
+        // now exists (website-builder, and future ones).
+        assert.match(page, /<script type="module" src="\.\.\/\.\.\/src\/product\/[\w-]+\.js/);
     } else {
         assert.match(page, /src\/product\/tool-page\.js/);
     }
