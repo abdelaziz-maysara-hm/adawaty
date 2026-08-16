@@ -25,6 +25,7 @@ const copy = Object.freeze({
         desktop: 'سطح المكتب', tablet: 'تابلت', mobile: 'موبايل', undo: 'تراجع', redo: 'إعادة', exportZip: 'تحميل ZIP', reset: 'بدء مشروع جديد',
         resetConfirm: 'هل تريد بدء مشروع جديد؟ سيتم فقد التغييرات الحالية.',
         editSection: 'تعديل القسم', save: 'حفظ', cancel: 'إلغاء',
+        editFooter: 'تعديل الفوتر', editNavigation: 'تعديل شريط التنقل', navigation: 'شريط التنقل', footer: 'الفوتر',
         exporting: 'جارٍ التجهيز...', restored: 'تم استرجاع مشروعك المحفوظ.',
         showForm: 'إظهار نموذج التواصل',
         removeImage: 'إزالة الصورة', invalidImage: 'الملف المختار ليس صورة صالحة، أو حجمه كبير جدًا.',
@@ -46,6 +47,7 @@ const copy = Object.freeze({
         desktop: 'Desktop', tablet: 'Tablet', mobile: 'Mobile', undo: 'Undo', redo: 'Redo', exportZip: 'Download ZIP', reset: 'Start New Project',
         resetConfirm: 'Start a new project? Your current changes will be lost.',
         editSection: 'Edit Section', save: 'Save', cancel: 'Cancel',
+        editFooter: 'Edit Footer', editNavigation: 'Edit Navigation', navigation: 'Navigation', footer: 'Footer',
         exporting: 'Preparing...', restored: 'Your saved project was restored.',
         showForm: 'Show contact form',
         removeImage: 'Remove image', invalidImage: 'The selected file isn\u2019t a valid image, or it\u2019s too large.',
@@ -110,6 +112,8 @@ const el = Object.freeze({
     fontFamily: document.querySelector('#field-font-family'),
     sectionList: document.querySelector('#section-manager-list'),
     addSectionType: document.querySelector('#add-section-type'),
+    editNavigationButton: document.querySelector('#edit-navigation-button'),
+    editFooterButton: document.querySelector('#edit-footer-button'),
     addSectionButton: document.querySelector('#add-section-button'),
     undoButton: document.querySelector('#builder-undo'),
     redoButton: document.querySelector('#builder-redo'),
@@ -125,7 +129,7 @@ const el = Object.freeze({
 });
 
 let state = null;
-let editingSectionId = null;
+let editingTarget = null; // { kind: 'section', id } | { kind: 'footer' } | { kind: 'navigation' }
 let previewObjectUrl = '';
 let saveTimer = null;
 
@@ -254,12 +258,13 @@ function refreshAll() {
 }
 
 /** Builds the section editor panel's form fields from content-schema.js for the given section. */
+/** Opens the shared editor panel for a real section (spec.sections[id]). */
 function openSectionEditor(sectionId) {
     const spec = state.getSpec();
     const section = spec.sections.find((candidate) => candidate.id === sectionId);
     if (!section) return;
 
-    editingSectionId = sectionId;
+    editingTarget = { kind: 'section', id: sectionId };
     el.editorTitle.textContent = `${t('editSection')}: ${t('sectionNames')[section.type] ?? section.type}`;
 
     const schema = getSchemaForSection(section.type);
@@ -271,8 +276,33 @@ function openSectionEditor(sectionId) {
     el.editorPanel.setAttribute('aria-hidden', 'false');
 }
 
+/**
+ * Opens the same shared editor panel for the footer or the navigation
+ * bar -- both are fixed, single, non-reorderable parts of every site
+ * (not entries in spec.sections[]), but users still need a way to edit
+ * their content. A real gap found via user testing: there was previously
+ * no UI at all to edit the footer or the nav's links/CTA button.
+ */
+function openFixedTargetEditor(kind) {
+    const spec = state.getSpec();
+    const schema = getSchemaForSection(kind);
+    const content = kind === 'footer' ? spec.footer.content : spec.navigation;
+
+    editingTarget = { kind };
+    el.editorTitle.textContent = kind === 'footer'
+        ? t('editFooter')
+        : t('editNavigation');
+
+    el.editorFields.replaceChildren(
+        ...schema.map((field) => buildEditorField(field, content)),
+    );
+
+    el.editorPanel.classList.add('is-open');
+    el.editorPanel.setAttribute('aria-hidden', 'false');
+}
+
 function closeSectionEditor() {
-    editingSectionId = null;
+    editingTarget = null;
     el.editorPanel.classList.remove('is-open');
     el.editorPanel.setAttribute('aria-hidden', 'true');
 }
@@ -502,8 +532,8 @@ function buildEditorField(field, content) {
     return wrap;
 }
 
-function readEditorFields(section) {
-    const schema = getSchemaForSection(section.type);
+function readEditorFields(sectionType) {
+    const schema = getSchemaForSection(sectionType);
     const patch = {};
 
     for (const field of schema) {
@@ -566,14 +596,36 @@ function wireTemplatePicker() {
 }
 
 function wireSidebar() {
+    // Site name and the navbar's displayed logo text were two separate
+    // fields that never stayed in sync -- a real bug found via user
+    // testing: editing "Site name" in the sidebar had no visible effect
+    // on the prominent brand text shown at the top of the generated site,
+    // because that text comes from navigation.logoText, a field the UI
+    // never exposed or updated. Keeping them in sync here is the direct,
+    // simple fix; a separate "different display name" control can be
+    // added later if it's ever actually needed.
     el.siteName.addEventListener('input', () => {
-        state.updateSite({ name: el.siteName.value });
+        state.commit((spec) => ({
+            ...spec,
+            site: { ...spec.site, name: el.siteName.value },
+            navigation: { ...spec.navigation, logoText: el.siteName.value },
+        }));
     });
     el.siteLanguage.addEventListener('change', () => {
         state.updateSite({ language: el.siteLanguage.value, direction: el.siteLanguage.value === 'ar' ? 'rtl' : 'ltr' });
     });
-    el.themeModeLight.addEventListener('click', () => state.updateTheme({ mode: 'light' }));
-    el.themeModeDark.addEventListener('click', () => state.updateTheme({ mode: 'dark' }));
+    // Background/text aren't exposed via their own color pickers yet, so
+    // switching mode must also update them to sensible defaults for that
+    // mode -- otherwise they stay stuck at whatever the *previous* mode's
+    // values were (a real bug found via user testing: DEFAULT_THEME bakes
+    // in explicit light-mode hex values, so buildThemeCss()'s mode-based
+    // fallback in engine.js never actually triggers once a spec exists).
+    el.themeModeLight.addEventListener('click', () => {
+        state.updateTheme({ mode: 'light', background: '#ffffff', text: '#111827' });
+    });
+    el.themeModeDark.addEventListener('click', () => {
+        state.updateTheme({ mode: 'dark', background: '#0b1120', text: '#e5e7eb' });
+    });
     el.primaryColor.addEventListener('input', () => state.updateTheme({ primary: el.primaryColor.value }));
     el.secondaryColor.addEventListener('input', () => state.updateTheme({ secondary: el.secondaryColor.value }));
     el.fontFamily.addEventListener('change', () => state.updateTheme({ fontFamily: el.fontFamily.value }));
@@ -582,16 +634,29 @@ function wireSidebar() {
         const type = el.addSectionType.value;
         state.addSection(type, {});
     });
+
+    el.editNavigationButton.addEventListener('click', () => openFixedTargetEditor('navigation'));
+    el.editFooterButton.addEventListener('click', () => openFixedTargetEditor('footer'));
 }
 
 function wireSectionEditor() {
     el.editorSave.addEventListener('click', () => {
-        if (!editingSectionId) return;
-        const spec = state.getSpec();
-        const section = spec.sections.find((candidate) => candidate.id === editingSectionId);
-        if (!section) return;
-        const patch = readEditorFields(section);
-        state.updateSectionContent(editingSectionId, patch);
+        if (!editingTarget) return;
+
+        if (editingTarget.kind === 'section') {
+            const spec = state.getSpec();
+            const section = spec.sections.find((candidate) => candidate.id === editingTarget.id);
+            if (!section) return;
+            const patch = readEditorFields(section.type);
+            state.updateSectionContent(editingTarget.id, patch);
+        } else if (editingTarget.kind === 'footer') {
+            const patch = readEditorFields('footer');
+            state.updateFooter({ content: { ...state.getSpec().footer.content, ...patch } });
+        } else if (editingTarget.kind === 'navigation') {
+            const patch = readEditorFields('navigation');
+            state.updateNavigation(patch);
+        }
+
         closeSectionEditor();
     });
     el.editorCancel.addEventListener('click', closeSectionEditor);

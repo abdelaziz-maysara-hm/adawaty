@@ -240,6 +240,45 @@ function assertNoAdsenseMarkers(text, label) {
 }
 
 {
+    // Real bug found via user testing: nav links (and hero/CTA/pricing
+    // buttons) used short hardcoded anchors like "#work"/"#about" that
+    // never matched any real element, since every section gets an
+    // auto-generated unique id (e.g. "about-abc123-2"), not a plain word.
+    // Clicking a nav link therefore scrolled nowhere -- every internal
+    // anchor link in every template must resolve to a real id in the same
+    // document (a <section id="..."> or the fixed <main id="top">).
+    const templates = [
+        ['business', createBusinessSpec],
+        ['portfolio', createPortfolioSpec],
+        ['landing', createLandingSpec],
+        ['agency', createAgencySpec],
+        ['restaurant', createRestaurantSpec],
+        ['catalog', createCatalogSpec],
+    ];
+
+    for (const [name, factory] of templates) {
+        const spec = factory({ name: 'Test', language: 'en' });
+        const result = renderWebsite(spec);
+
+        const validTargetIds = new Set([
+            'top',
+            ...[...result.html.matchAll(/<section[^>]*\bid="([^"]+)"/g)].map((match) => match[1]),
+        ]);
+
+        // Every internal (same-document) anchor href anywhere in the page
+        // -- nav links, hero/CTA/pricing buttons -- must resolve.
+        const internalHrefs = [...result.html.matchAll(/href="#([^"]+)"/g)].map((match) => match[1]);
+        assert.ok(internalHrefs.length > 0, `${name} must contain at least one internal anchor link to test`);
+        for (const href of internalHrefs) {
+            assert.ok(
+                validTargetIds.has(href),
+                `${name}: internal link "#${href}" does not match any real element id in the rendered page`,
+            );
+        }
+    }
+}
+
+{
     // User-supplied HTML/script content must never survive into the rendered document unescaped.
     const spec = createBusinessSpec({ name: 'Test', language: 'en' });
     const malicious = {
@@ -299,6 +338,26 @@ function assertNoAdsenseMarkers(text, label) {
     assert.equal(state.getSpec().theme.mode, 'dark');
     state.undo();
     assert.equal(state.getSpec().theme.mode, 'light');
+
+    // Real gaps found via user testing: there was previously no UI at all
+    // to edit the footer or the navigation bar's links/CTA button, and
+    // separately, editing "Site name" never updated the navbar's visible
+    // logo text (two disconnected fields showing the same thing).
+    state.updateFooter({ content: { ...state.getSpec().footer.content, links: [{ label: 'Privacy', href: '/privacy' }] } });
+    assert.deepEqual(state.getSpec().footer.content.links, [{ label: 'Privacy', href: '/privacy' }]);
+
+    state.updateNavigation({ ctaLabel: 'Book a Call', ctaHref: 'https://example.com/book' });
+    assert.equal(state.getSpec().navigation.ctaLabel, 'Book a Call');
+    assert.equal(state.undo(), true, 'the navigation edit must be undoable like any other change');
+    assert.notEqual(state.getSpec().navigation.ctaLabel, 'Book a Call');
+
+    state.commit((spec) => ({
+        ...spec,
+        site: { ...spec.site, name: 'Renamed Co' },
+        navigation: { ...spec.navigation, logoText: 'Renamed Co' },
+    }));
+    assert.equal(state.getSpec().site.name, 'Renamed Co');
+    assert.equal(state.getSpec().navigation.logoText, 'Renamed Co', 'site name and nav logo text must stay in sync');
 
     state.reset(createDefaultSpec('portfolio'));
     assert.equal(state.canUndo(), false);

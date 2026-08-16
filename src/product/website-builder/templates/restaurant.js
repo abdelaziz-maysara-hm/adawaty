@@ -1,10 +1,20 @@
 import { createDefaultSpec, generateSectionId } from '../schema.js';
 
-/** A restaurant site: story, menu highlights as features, gallery of dishes, hours/location in contact. */
+/**
+ * A restaurant site: story, menu highlights as features, gallery of
+ * dishes, hours/location in contact. Section IDs referenced by nav links
+ * or buttons are generated once and reused consistently (see
+ * portfolio.js for why this matters).
+ */
 function createRestaurantSpec(overrides = {}) {
     const base = createDefaultSpec('restaurant');
     const language = overrides.language === 'ar' ? 'ar' : 'en';
     const t = (ar, en) => (language === 'ar' ? ar : en);
+
+    const menuId = generateSectionId('features');
+    const aboutId = generateSectionId('about');
+    const galleryId = generateSectionId('gallery');
+    const contactId = generateSectionId('contact');
 
     return Object.freeze({
         ...base,
@@ -18,13 +28,13 @@ function createRestaurantSpec(overrides = {}) {
             ...base.navigation,
             logoText: overrides.name || t('مطعمنا', 'Our Restaurant'),
             links: Object.freeze([
-                Object.freeze({ label: t('القائمة', 'Menu'), href: '#menu' }),
-                Object.freeze({ label: t('عن المطعم', 'About'), href: '#about' }),
-                Object.freeze({ label: t('الأطباق', 'Gallery'), href: '#gallery' }),
-                Object.freeze({ label: t('احجز طاولة', 'Reservations'), href: '#contact' }),
+                Object.freeze({ label: t('القائمة', 'Menu'), href: `#${menuId}` }),
+                Object.freeze({ label: t('عن المطعم', 'About'), href: `#${aboutId}` }),
+                Object.freeze({ label: t('الأطباق', 'Gallery'), href: `#${galleryId}` }),
+                Object.freeze({ label: t('احجز طاولة', 'Reservations'), href: `#${contactId}` }),
             ]),
             ctaLabel: t('احجز الآن', 'Book a Table'),
-            ctaHref: '#contact',
+            ctaHref: `#${contactId}`,
         }),
         sections: Object.freeze([
             Object.freeze({
@@ -33,14 +43,14 @@ function createRestaurantSpec(overrides = {}) {
                     headline: t('تجربة طعام لا تُنسى', 'An Unforgettable Dining Experience'),
                     subheadline: t('نكهات أصيلة ومكونات طازجة في أجواء دافئة.', 'Authentic flavors and fresh ingredients in a warm atmosphere.'),
                     primaryButtonLabel: t('احجز طاولة', 'Reserve a Table'),
-                    primaryButtonHref: '#contact',
+                    primaryButtonHref: `#${contactId}`,
                     secondaryButtonLabel: t('شاهد القائمة', 'View Menu'),
-                    secondaryButtonHref: '#menu',
+                    secondaryButtonHref: `#${menuId}`,
                 }),
                 settings: Object.freeze({}),
             }),
             Object.freeze({
-                id: generateSectionId('features'), type: 'features', variant: 'grid',
+                id: menuId, type: 'features', variant: 'grid',
                 content: Object.freeze({
                     title: t('أشهر أطباقنا', 'Signature Dishes'),
                     subtitle: t('نختار أفضل المكونات كل يوم.', 'We pick the finest ingredients every day.'),
@@ -50,10 +60,10 @@ function createRestaurantSpec(overrides = {}) {
                         Object.freeze({ icon: '🍰', title: t('حلويات', 'Desserts'), description: t('نهاية مثالية لوجبتك.', 'The perfect ending to your meal.') }),
                     ]),
                 }),
-                settings: Object.freeze({ id: 'menu' }),
+                settings: Object.freeze({}),
             }),
             Object.freeze({
-                id: generateSectionId('about'), type: 'about', variant: 'default',
+                id: aboutId, type: 'about', variant: 'default',
                 content: Object.freeze({
                     title: t('قصتنا', 'Our Story'),
                     paragraphs: Object.freeze([
@@ -63,7 +73,7 @@ function createRestaurantSpec(overrides = {}) {
                 settings: Object.freeze({}),
             }),
             Object.freeze({
-                id: generateSectionId('gallery'), type: 'gallery', variant: 'default',
+                id: galleryId, type: 'gallery', variant: 'default',
                 content: Object.freeze({
                     title: t('من مطبخنا', 'From Our Kitchen'),
                     items: Object.freeze([
@@ -85,7 +95,7 @@ function createRestaurantSpec(overrides = {}) {
                 settings: Object.freeze({}),
             }),
             Object.freeze({
-                id: generateSectionId('contact'), type: 'contact', variant: 'default',
+                id: contactId, type: 'contact', variant: 'default',
                 content: Object.freeze({
                     title: t('احجز طاولتك', 'Reserve Your Table'),
                     subtitle: t('نتطلع لاستضافتك.', 'We look forward to hosting you.'),

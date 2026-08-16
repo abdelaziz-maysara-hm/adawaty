@@ -1,10 +1,24 @@
 import { createDefaultSpec, generateSectionId } from '../schema.js';
 
-/** A personal portfolio: hero, gallery of work, about, skills-as-features, testimonials, contact. */
+/**
+ * A personal portfolio: hero, gallery of work, about, skills-as-features,
+ * testimonials, contact.
+ *
+ * Section IDs referenced by nav links or buttons are generated once and
+ * reused consistently (nav href, hero button href, and the section's own
+ * `id`) -- a real bug found via user testing: anchor links previously
+ * assumed short fixed ids like "#work"/"#about" that never actually
+ * matched the real auto-generated section ids, so every nav link silently
+ * pointed at nothing.
+ */
 function createPortfolioSpec(overrides = {}) {
     const base = createDefaultSpec('portfolio');
     const language = overrides.language === 'ar' ? 'ar' : 'en';
     const t = (ar, en) => (language === 'ar' ? ar : en);
+
+    const galleryId = generateSectionId('gallery');
+    const aboutId = generateSectionId('about');
+    const contactId = generateSectionId('contact');
 
     return Object.freeze({
         ...base,
@@ -18,12 +32,12 @@ function createPortfolioSpec(overrides = {}) {
             ...base.navigation,
             logoText: overrides.name || t('اسمي', 'My Name'),
             links: Object.freeze([
-                Object.freeze({ label: t('أعمالي', 'Work'), href: '#work' }),
-                Object.freeze({ label: t('عني', 'About'), href: '#about' }),
-                Object.freeze({ label: t('تواصل', 'Contact'), href: '#contact' }),
+                Object.freeze({ label: t('أعمالي', 'Work'), href: `#${galleryId}` }),
+                Object.freeze({ label: t('عني', 'About'), href: `#${aboutId}` }),
+                Object.freeze({ label: t('تواصل', 'Contact'), href: `#${contactId}` }),
             ]),
             ctaLabel: t('تواصل معي', 'Contact Me'),
-            ctaHref: '#contact',
+            ctaHref: `#${contactId}`,
         }),
         sections: Object.freeze([
             Object.freeze({
@@ -32,12 +46,12 @@ function createPortfolioSpec(overrides = {}) {
                     headline: t('مرحبًا، أنا مصمم/مطوّر', 'Hi, I\u2019m a Designer & Developer'),
                     subheadline: t('أصنع تجارب رقمية جميلة وعملية.', 'I craft beautiful, practical digital experiences.'),
                     primaryButtonLabel: t('شاهد أعمالي', 'View My Work'),
-                    primaryButtonHref: '#work',
+                    primaryButtonHref: `#${galleryId}`,
                 }),
                 settings: Object.freeze({}),
             }),
             Object.freeze({
-                id: generateSectionId('gallery'), type: 'gallery', variant: 'default',
+                id: galleryId, type: 'gallery', variant: 'default',
                 content: Object.freeze({
                     title: t('أعمالي', 'Selected Work'),
                     items: Object.freeze([
@@ -46,10 +60,10 @@ function createPortfolioSpec(overrides = {}) {
                         Object.freeze({ caption: t('مشروع ثلاثة', 'Project Three') }),
                     ]),
                 }),
-                settings: Object.freeze({ id: 'work' }),
+                settings: Object.freeze({}),
             }),
             Object.freeze({
-                id: generateSectionId('about'), type: 'about', variant: 'default',
+                id: aboutId, type: 'about', variant: 'default',
                 content: Object.freeze({
                     title: t('عني', 'About Me'),
                     paragraphs: Object.freeze([
@@ -79,7 +93,7 @@ function createPortfolioSpec(overrides = {}) {
                 settings: Object.freeze({}),
             }),
             Object.freeze({
-                id: generateSectionId('contact'), type: 'contact', variant: 'default',
+                id: contactId, type: 'contact', variant: 'default',
                 content: Object.freeze({
                     title: t('لنعمل معًا', 'Let\u2019s Work Together'),
                     email: 'hello@example.com',

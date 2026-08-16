@@ -25,6 +25,11 @@ const FIELD_LABELS = Object.freeze({
     plans: Object.freeze({ ar: 'الباقات', en: 'Plans' }),
     imageDataUrl: Object.freeze({ ar: 'الصورة', en: 'Image' }),
     imageAlt: Object.freeze({ ar: 'وصف الصورة (لإمكانية الوصول)', en: 'Image description (for accessibility)' }),
+    name: Object.freeze({ ar: 'الاسم المعروض', en: 'Displayed name' }),
+    links: Object.freeze({ ar: 'الروابط', en: 'Links' }),
+    logoText: Object.freeze({ ar: 'نص الشعار', en: 'Logo text' }),
+    ctaLabel: Object.freeze({ ar: 'نص زر التنقل', en: 'Nav button label' }),
+    ctaHref: Object.freeze({ ar: 'رابط زر التنقل', en: 'Nav button link' }),
 });
 
 /** field types: 'text' | 'textarea' | 'url' | 'checkbox' | 'image' (single uploaded image) | 'lines' (one paragraph per line) | 'itemList' (structured list, one-line-per-item text format) | 'imageList' (structured list where each item also has its own uploaded image, needs its own row-based editor UI) */
@@ -101,6 +106,20 @@ const SECTION_SCHEMAS = Object.freeze({
         Object.freeze({ key: 'subtitle', type: 'textarea' }),
         Object.freeze({ key: 'buttonLabel', type: 'text' }),
         Object.freeze({ key: 'buttonHref', type: 'url' }),
+    ]),
+    footer: Object.freeze([
+        Object.freeze({ key: 'name', type: 'text' }),
+        Object.freeze({
+            key: 'links', type: 'itemList', itemFields: ['label', 'href'], hint: { ar: 'سطر لكل رابط: النص :: الرابط', en: 'One per line: Label :: URL' },
+        }),
+    ]),
+    navigation: Object.freeze([
+        Object.freeze({ key: 'logoText', type: 'text' }),
+        Object.freeze({
+            key: 'links', type: 'itemList', itemFields: ['label', 'href'], hint: { ar: 'سطر لكل رابط: النص :: الرابط', en: 'One per line: Label :: URL' },
+        }),
+        Object.freeze({ key: 'ctaLabel', type: 'text' }),
+        Object.freeze({ key: 'ctaHref', type: 'url' }),
     ]),
 });
 

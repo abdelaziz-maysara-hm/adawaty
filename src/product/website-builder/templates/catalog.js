@@ -6,11 +6,18 @@ import { createDefaultSpec, generateSectionId } from '../schema.js';
  * cart -- it reuses the "pricing" component (name/price/features/button)
  * as simple product cards, since that's exactly the shape a product
  * listing needs without inventing a dedicated products component.
+ *
+ * Section IDs referenced by nav links or buttons are generated once and
+ * reused consistently (see portfolio.js for why this matters).
  */
 function createCatalogSpec(overrides = {}) {
     const base = createDefaultSpec('catalog');
     const language = overrides.language === 'ar' ? 'ar' : 'en';
     const t = (ar, en) => (language === 'ar' ? ar : en);
+
+    const productsId = generateSectionId('pricing');
+    const aboutId = generateSectionId('about');
+    const contactId = generateSectionId('contact');
 
     return Object.freeze({
         ...base,
@@ -24,12 +31,12 @@ function createCatalogSpec(overrides = {}) {
             ...base.navigation,
             logoText: overrides.name || t('متجري', 'My Store'),
             links: Object.freeze([
-                Object.freeze({ label: t('المنتجات', 'Products'), href: '#products' }),
-                Object.freeze({ label: t('من نحن', 'About'), href: '#about' }),
-                Object.freeze({ label: t('تواصل', 'Contact'), href: '#contact' }),
+                Object.freeze({ label: t('المنتجات', 'Products'), href: `#${productsId}` }),
+                Object.freeze({ label: t('من نحن', 'About'), href: `#${aboutId}` }),
+                Object.freeze({ label: t('تواصل', 'Contact'), href: `#${contactId}` }),
             ]),
             ctaLabel: t('تواصل للطلب', 'Contact to Order'),
-            ctaHref: '#contact',
+            ctaHref: `#${contactId}`,
         }),
         sections: Object.freeze([
             Object.freeze({
@@ -38,7 +45,7 @@ function createCatalogSpec(overrides = {}) {
                     headline: t('منتجات مختارة بعناية', 'Carefully Selected Products'),
                     subheadline: t('جودة تثق بها في كل مرة.', 'Quality you can trust every time.'),
                     primaryButtonLabel: t('تصفح المنتجات', 'Browse Products'),
-                    primaryButtonHref: '#products',
+                    primaryButtonHref: `#${productsId}`,
                 }),
                 settings: Object.freeze({}),
             }),
@@ -55,26 +62,26 @@ function createCatalogSpec(overrides = {}) {
                 settings: Object.freeze({}),
             }),
             Object.freeze({
-                id: generateSectionId('pricing'), type: 'pricing', variant: 'default',
+                id: productsId, type: 'pricing', variant: 'default',
                 content: Object.freeze({
                     title: t('منتجاتنا', 'Our Products'),
                     subtitle: t('لعرض المنتج فقط — تواصل معنا لإتمام الطلب.', 'For display only \u2014 contact us to place an order.'),
                     plans: Object.freeze([
                         Object.freeze({
-                            name: t('المنتج الأول', 'Product One'), price: '$29', features: Object.freeze([t('وصف مختصر للمنتج', 'A short product description'), t('متوفر بعدة ألوان', 'Available in multiple colors')]), buttonLabel: t('تواصل للطلب', 'Contact to Order'), buttonHref: '#contact',
+                            name: t('المنتج الأول', 'Product One'), price: '$29', features: Object.freeze([t('وصف مختصر للمنتج', 'A short product description'), t('متوفر بعدة ألوان', 'Available in multiple colors')]), buttonLabel: t('تواصل للطلب', 'Contact to Order'), buttonHref: `#${contactId}`,
                         }),
                         Object.freeze({
-                            name: t('المنتج الثاني', 'Product Two'), price: '$49', highlighted: true, features: Object.freeze([t('الأكثر مبيعًا', 'Best seller'), t('جودة ممتازة', 'Excellent quality')]), buttonLabel: t('تواصل للطلب', 'Contact to Order'), buttonHref: '#contact',
+                            name: t('المنتج الثاني', 'Product Two'), price: '$49', highlighted: true, features: Object.freeze([t('الأكثر مبيعًا', 'Best seller'), t('جودة ممتازة', 'Excellent quality')]), buttonLabel: t('تواصل للطلب', 'Contact to Order'), buttonHref: `#${contactId}`,
                         }),
                         Object.freeze({
-                            name: t('المنتج الثالث', 'Product Three'), price: '$39', features: Object.freeze([t('خيار اقتصادي', 'Budget-friendly option')]), buttonLabel: t('تواصل للطلب', 'Contact to Order'), buttonHref: '#contact',
+                            name: t('المنتج الثالث', 'Product Three'), price: '$39', features: Object.freeze([t('خيار اقتصادي', 'Budget-friendly option')]), buttonLabel: t('تواصل للطلب', 'Contact to Order'), buttonHref: `#${contactId}`,
                         }),
                     ]),
                 }),
-                settings: Object.freeze({ id: 'products' }),
+                settings: Object.freeze({}),
             }),
             Object.freeze({
-                id: generateSectionId('about'), type: 'about', variant: 'default',
+                id: aboutId, type: 'about', variant: 'default',
                 content: Object.freeze({
                     title: t('من نحن', 'About Us'),
                     paragraphs: Object.freeze([
@@ -84,7 +91,7 @@ function createCatalogSpec(overrides = {}) {
                 settings: Object.freeze({}),
             }),
             Object.freeze({
-                id: generateSectionId('contact'), type: 'contact', variant: 'default',
+                id: contactId, type: 'contact', variant: 'default',
                 content: Object.freeze({
                     title: t('اطلب الآن', 'Place an Order'),
                     subtitle: t('تواصل معنا لإتمام طلبك.', 'Contact us to complete your order.'),

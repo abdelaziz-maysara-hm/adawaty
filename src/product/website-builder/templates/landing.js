@@ -1,10 +1,19 @@
 import { createDefaultSpec, generateSectionId } from '../schema.js';
 
-/** A focused, conversion-oriented landing page for a single product or offer. */
+/**
+ * A focused, conversion-oriented landing page for a single product or
+ * offer. Section IDs referenced by nav links or buttons are generated
+ * once and reused consistently (see portfolio.js for why this matters).
+ */
 function createLandingSpec(overrides = {}) {
     const base = createDefaultSpec('landing');
     const language = overrides.language === 'ar' ? 'ar' : 'en';
     const t = (ar, en) => (language === 'ar' ? ar : en);
+
+    const featuresId = generateSectionId('features');
+    const pricingId = generateSectionId('pricing');
+    const faqId = generateSectionId('faq');
+    const contactId = generateSectionId('contact');
 
     return Object.freeze({
         ...base,
@@ -18,12 +27,12 @@ function createLandingSpec(overrides = {}) {
             ...base.navigation,
             logoText: overrides.name || t('منتجي', 'My Product'),
             links: Object.freeze([
-                Object.freeze({ label: t('المميزات', 'Features'), href: '#features' }),
-                Object.freeze({ label: t('الأسعار', 'Pricing'), href: '#pricing' }),
-                Object.freeze({ label: t('الأسئلة', 'FAQ'), href: '#faq' }),
+                Object.freeze({ label: t('المميزات', 'Features'), href: `#${featuresId}` }),
+                Object.freeze({ label: t('الأسعار', 'Pricing'), href: `#${pricingId}` }),
+                Object.freeze({ label: t('الأسئلة', 'FAQ'), href: `#${faqId}` }),
             ]),
             ctaLabel: t('ابدأ مجانًا', 'Start Free'),
-            ctaHref: '#pricing',
+            ctaHref: `#${pricingId}`,
         }),
         sections: Object.freeze([
             Object.freeze({
@@ -32,9 +41,9 @@ function createLandingSpec(overrides = {}) {
                     headline: t('المنتج الذي كنت تنتظره', 'The Product You\u2019ve Been Waiting For'),
                     subheadline: t('حل بسيط وسريع يساعدك على إنجاز المزيد بجهد أقل.', 'A simple, fast solution that helps you get more done with less effort.'),
                     primaryButtonLabel: t('جرّبه مجانًا', 'Try It Free'),
-                    primaryButtonHref: '#pricing',
+                    primaryButtonHref: `#${pricingId}`,
                     secondaryButtonLabel: t('شاهد كيف يعمل', 'See How It Works'),
-                    secondaryButtonHref: '#features',
+                    secondaryButtonHref: `#${featuresId}`,
                 }),
                 settings: Object.freeze({}),
             }),
@@ -50,7 +59,7 @@ function createLandingSpec(overrides = {}) {
                 settings: Object.freeze({}),
             }),
             Object.freeze({
-                id: generateSectionId('features'), type: 'features', variant: 'grid',
+                id: featuresId, type: 'features', variant: 'grid',
                 content: Object.freeze({
                     title: t('لماذا تختارنا', 'Why Choose Us'),
                     items: Object.freeze([
@@ -71,22 +80,22 @@ function createLandingSpec(overrides = {}) {
                 settings: Object.freeze({}),
             }),
             Object.freeze({
-                id: generateSectionId('pricing'), type: 'pricing', variant: 'default',
+                id: pricingId, type: 'pricing', variant: 'default',
                 content: Object.freeze({
                     title: t('خطط بسيطة وشفافة', 'Simple, Transparent Pricing'),
                     plans: Object.freeze([
                         Object.freeze({
-                            name: t('أساسي', 'Basic'), price: t('مجانًا', 'Free'), features: Object.freeze([t('حتى 3 مشاريع', 'Up to 3 projects'), t('دعم عبر البريد', 'Email support')]), buttonLabel: t('ابدأ الآن', 'Get Started'), buttonHref: '#contact',
+                            name: t('أساسي', 'Basic'), price: t('مجانًا', 'Free'), features: Object.freeze([t('حتى 3 مشاريع', 'Up to 3 projects'), t('دعم عبر البريد', 'Email support')]), buttonLabel: t('ابدأ الآن', 'Get Started'), buttonHref: `#${contactId}`,
                         }),
                         Object.freeze({
-                            name: t('احترافي', 'Pro'), price: '$19', period: t('شهريًا', 'month'), highlighted: true, features: Object.freeze([t('مشاريع غير محدودة', 'Unlimited projects'), t('دعم أولوية', 'Priority support'), t('تقارير متقدمة', 'Advanced reports')]), buttonLabel: t('ابدأ الآن', 'Get Started'), buttonHref: '#contact',
+                            name: t('احترافي', 'Pro'), price: '$19', period: t('شهريًا', 'month'), highlighted: true, features: Object.freeze([t('مشاريع غير محدودة', 'Unlimited projects'), t('دعم أولوية', 'Priority support'), t('تقارير متقدمة', 'Advanced reports')]), buttonLabel: t('ابدأ الآن', 'Get Started'), buttonHref: `#${contactId}`,
                         }),
                     ]),
                 }),
                 settings: Object.freeze({}),
             }),
             Object.freeze({
-                id: generateSectionId('faq'), type: 'faq', variant: 'default',
+                id: faqId, type: 'faq', variant: 'default',
                 content: Object.freeze({
                     title: t('الأسئلة الشائعة', 'FAQ'),
                     items: Object.freeze([
@@ -101,12 +110,12 @@ function createLandingSpec(overrides = {}) {
                     title: t('جاهز تبدأ؟', 'Ready to get started?'),
                     subtitle: t('انضم لآلاف المستخدمين اليوم.', 'Join thousands of users today.'),
                     buttonLabel: t('ابدأ مجانًا', 'Start Free'),
-                    buttonHref: '#contact',
+                    buttonHref: `#${contactId}`,
                 }),
                 settings: Object.freeze({}),
             }),
             Object.freeze({
-                id: generateSectionId('contact'), type: 'contact', variant: 'default',
+                id: contactId, type: 'contact', variant: 'default',
                 content: Object.freeze({
                     title: t('تواصل معنا', 'Get in Touch'),
                     email: 'hello@example.com',

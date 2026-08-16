@@ -1,10 +1,20 @@
 import { createDefaultSpec, generateSectionId } from '../schema.js';
 
-/** A creative/professional services agency: services, portfolio gallery, stats, team, testimonials. */
+/**
+ * A creative/professional services agency: services, portfolio gallery,
+ * stats, team, testimonials. Section IDs referenced by nav links or
+ * buttons are generated once and reused consistently (see portfolio.js
+ * for why this matters).
+ */
 function createAgencySpec(overrides = {}) {
     const base = createDefaultSpec('agency');
     const language = overrides.language === 'ar' ? 'ar' : 'en';
     const t = (ar, en) => (language === 'ar' ? ar : en);
+
+    const servicesId = generateSectionId('services');
+    const galleryId = generateSectionId('gallery');
+    const aboutId = generateSectionId('about');
+    const contactId = generateSectionId('contact');
 
     return Object.freeze({
         ...base,
@@ -18,13 +28,13 @@ function createAgencySpec(overrides = {}) {
             ...base.navigation,
             logoText: overrides.name || t('وكالتنا', 'Our Agency'),
             links: Object.freeze([
-                Object.freeze({ label: t('خدماتنا', 'Services'), href: '#services' }),
-                Object.freeze({ label: t('أعمالنا', 'Work'), href: '#work' }),
-                Object.freeze({ label: t('من نحن', 'About'), href: '#about' }),
-                Object.freeze({ label: t('تواصل', 'Contact'), href: '#contact' }),
+                Object.freeze({ label: t('خدماتنا', 'Services'), href: `#${servicesId}` }),
+                Object.freeze({ label: t('أعمالنا', 'Work'), href: `#${galleryId}` }),
+                Object.freeze({ label: t('من نحن', 'About'), href: `#${aboutId}` }),
+                Object.freeze({ label: t('تواصل', 'Contact'), href: `#${contactId}` }),
             ]),
             ctaLabel: t('ابدأ مشروعك', 'Start a Project'),
-            ctaHref: '#contact',
+            ctaHref: `#${contactId}`,
         }),
         sections: Object.freeze([
             Object.freeze({
@@ -33,12 +43,12 @@ function createAgencySpec(overrides = {}) {
                     headline: t('نصمم تجارب رقمية مميزة', 'We Design Standout Digital Experiences'),
                     subheadline: t('وكالة إبداعية متخصصة في العلامات التجارية والمواقع والتطبيقات.', 'A creative agency specializing in branding, websites, and apps.'),
                     primaryButtonLabel: t('شاهد أعمالنا', 'View Our Work'),
-                    primaryButtonHref: '#work',
+                    primaryButtonHref: `#${galleryId}`,
                 }),
                 settings: Object.freeze({}),
             }),
             Object.freeze({
-                id: generateSectionId('services'), type: 'services', variant: 'default',
+                id: servicesId, type: 'services', variant: 'default',
                 content: Object.freeze({
                     title: t('خدماتنا', 'What We Do'),
                     items: Object.freeze([
@@ -50,7 +60,7 @@ function createAgencySpec(overrides = {}) {
                 settings: Object.freeze({}),
             }),
             Object.freeze({
-                id: generateSectionId('gallery'), type: 'gallery', variant: 'default',
+                id: galleryId, type: 'gallery', variant: 'default',
                 content: Object.freeze({
                     title: t('أعمالنا المختارة', 'Selected Work'),
                     items: Object.freeze([
@@ -59,7 +69,7 @@ function createAgencySpec(overrides = {}) {
                         Object.freeze({ caption: t('حملة تسويقية', 'Marketing Campaign') }),
                     ]),
                 }),
-                settings: Object.freeze({ id: 'work' }),
+                settings: Object.freeze({}),
             }),
             Object.freeze({
                 id: generateSectionId('stats'), type: 'stats', variant: 'default',
@@ -73,7 +83,7 @@ function createAgencySpec(overrides = {}) {
                 settings: Object.freeze({}),
             }),
             Object.freeze({
-                id: generateSectionId('about'), type: 'about', variant: 'default',
+                id: aboutId, type: 'about', variant: 'default',
                 content: Object.freeze({
                     title: t('من نحن', 'About Us'),
                     paragraphs: Object.freeze([
@@ -93,7 +103,7 @@ function createAgencySpec(overrides = {}) {
                 settings: Object.freeze({}),
             }),
             Object.freeze({
-                id: generateSectionId('contact'), type: 'contact', variant: 'default',
+                id: contactId, type: 'contact', variant: 'default',
                 content: Object.freeze({
                     title: t('لنبدأ مشروعك القادم', 'Let\u2019s Start Your Next Project'),
                     email: 'hello@example.com',

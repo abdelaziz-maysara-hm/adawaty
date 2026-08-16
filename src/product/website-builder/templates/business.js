@@ -1,10 +1,20 @@
 import { createDefaultSpec, generateSectionId } from '../schema.js';
 
-/** A general-purpose business site: hero, services, about, stats, testimonials, FAQ, contact. */
+/**
+ * A general-purpose business site: hero, services, about, stats,
+ * testimonials, FAQ, contact.
+ *
+ * Section IDs referenced by nav links or buttons are generated once and
+ * reused consistently (see portfolio.js for why this matters).
+ */
 function createBusinessSpec(overrides = {}) {
     const base = createDefaultSpec('business');
     const language = overrides.language === 'ar' ? 'ar' : 'en';
     const t = (ar, en) => (language === 'ar' ? ar : en);
+
+    const servicesId = generateSectionId('services');
+    const aboutId = generateSectionId('about');
+    const contactId = generateSectionId('contact');
 
     return Object.freeze({
         ...base,
@@ -19,12 +29,12 @@ function createBusinessSpec(overrides = {}) {
             logoText: overrides.name || t('شركتي', 'My Company'),
             links: Object.freeze([
                 Object.freeze({ label: t('الرئيسية', 'Home'), href: '#top' }),
-                Object.freeze({ label: t('خدماتنا', 'Services'), href: '#services' }),
-                Object.freeze({ label: t('من نحن', 'About'), href: '#about' }),
-                Object.freeze({ label: t('تواصل معنا', 'Contact'), href: '#contact' }),
+                Object.freeze({ label: t('خدماتنا', 'Services'), href: `#${servicesId}` }),
+                Object.freeze({ label: t('من نحن', 'About'), href: `#${aboutId}` }),
+                Object.freeze({ label: t('تواصل معنا', 'Contact'), href: `#${contactId}` }),
             ]),
             ctaLabel: t('احصل على عرض سعر', 'Get a Quote'),
-            ctaHref: '#contact',
+            ctaHref: `#${contactId}`,
         }),
         sections: Object.freeze([
             Object.freeze({
@@ -33,14 +43,14 @@ function createBusinessSpec(overrides = {}) {
                     headline: t('نساعدك على النمو', 'We Help You Grow'),
                     subheadline: t('حلول احترافية مصممة خصيصًا لاحتياجات عملك.', 'Professional solutions tailored to your business needs.'),
                     primaryButtonLabel: t('ابدأ الآن', 'Get Started'),
-                    primaryButtonHref: '#contact',
+                    primaryButtonHref: `#${contactId}`,
                     secondaryButtonLabel: t('اعرف المزيد', 'Learn More'),
-                    secondaryButtonHref: '#about',
+                    secondaryButtonHref: `#${aboutId}`,
                 }),
                 settings: Object.freeze({}),
             }),
             Object.freeze({
-                id: generateSectionId('services'), type: 'services', variant: 'default',
+                id: servicesId, type: 'services', variant: 'default',
                 content: Object.freeze({
                     title: t('خدماتنا', 'Our Services'),
                     subtitle: t('كل ما تحتاجه في مكان واحد.', 'Everything you need in one place.'),
@@ -53,7 +63,7 @@ function createBusinessSpec(overrides = {}) {
                 settings: Object.freeze({}),
             }),
             Object.freeze({
-                id: generateSectionId('about'), type: 'about', variant: 'default',
+                id: aboutId, type: 'about', variant: 'default',
                 content: Object.freeze({
                     title: t('من نحن', 'About Us'),
                     paragraphs: Object.freeze([
@@ -94,7 +104,7 @@ function createBusinessSpec(overrides = {}) {
                 settings: Object.freeze({}),
             }),
             Object.freeze({
-                id: generateSectionId('contact'), type: 'contact', variant: 'default',
+                id: contactId, type: 'contact', variant: 'default',
                 content: Object.freeze({
                     title: t('تواصل معنا', 'Get in Touch'),
                     subtitle: t('يسعدنا التواصل معك.', 'We\u2019d love to hear from you.'),

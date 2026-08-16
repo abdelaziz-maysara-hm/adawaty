@@ -1,5 +1,42 @@
 # Changelog
 
+# 0.5.107
+
+- Website Builder: fixed 4 real bugs found through actual user testing of the merged feature.
+  1. **Dark theme didn't apply.** `background`/`text` were baked into `DEFAULT_THEME` as explicit
+     light-mode hex values, so `buildThemeCss()`'s mode-based fallback in `engine.js` never
+     actually triggered once any spec existed -- switching to Dark only changed `surface`/`border`
+     (the two properties computed unconditionally from `mode`), leaving the two most visually
+     dominant colors stuck. Fixed by having the theme-mode toggle buttons also set `background`/
+     `text` to the correct values for the newly selected mode, since neither has its own color
+     picker yet.
+  2. **A much bigger issue than initially reported: every nav link, hero/CTA button, and pricing
+     button href in all 6 templates was broken**, not just the ones flagged as pointing "back to
+     the builder as if it were a frame". Every template assumed short fixed anchors like
+     `#work`/`#about`/`#services`, but every section actually gets an auto-generated unique id
+     (e.g. `about-abc123-2`) -- the short anchors never matched anything, and a same-document
+     anchor click resolving to nothing inside a sandboxed iframe is exactly the kind of edge case
+     that can produce odd fallback navigation behavior. Fixed all 6 templates
+     (`business`/`portfolio`/`landing`/`agency`/`restaurant`/`catalog`) by generating each
+     referenced section's id once and reusing that same value consistently in the section's own
+     `id`, the matching nav link's `href`, and any hero/CTA/pricing button pointing at it. Added a
+     permanent regression test that renders every template and asserts every internal `href="#..."`
+     anywhere in the page resolves to a real element id -- verified this test genuinely catches the
+     bug class by running it against a deliberately reintroduced broken case first.
+  3. **The prominent "My Name" text at the top of a generated site couldn't be edited.** The
+     sidebar's "Site name" field only ever patched `site.name`; the navbar's displayed brand text
+     comes from the separate `navigation.logoText` field, which the UI never exposed or kept in
+     sync. Fixed by having the site-name input update both fields together.
+  4. **There was no way to edit the footer or the navigation bar's links/CTA button at all.**
+     Both are fixed, single, non-reorderable parts of every site (not entries in
+     `spec.sections[]`), so they never appeared in the section manager list. Added `footer` and
+     `navigation` entries to `content-schema.js`, generalized the section editor panel
+     (`openSectionEditor`/`readEditorFields`) to a shared `editingTarget` concept covering
+     sections, footer, and navigation uniformly, and added "Edit Navigation"/"Edit Footer" buttons
+     to the sidebar.
+- Added dedicated tests for all 4 fixes, including a full footer/navigation edit-then-undo
+  round trip through `state.js`. `npm run validate` passes all 9 suites (614 tools).
+
 # 0.5.106
 
 - Website Builder: added real image upload to the Gallery section's individual items, completing
