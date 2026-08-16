@@ -11,6 +11,10 @@ import { escapeHtml, safeUrl, safeHexColor } from '../../src/product/website-bui
 import { renderWebsite, renderDocument } from '../../src/product/website-builder/engine.js';
 import { createBusinessSpec } from '../../src/product/website-builder/templates/business.js';
 import { createPortfolioSpec } from '../../src/product/website-builder/templates/portfolio.js';
+import { createLandingSpec } from '../../src/product/website-builder/templates/landing.js';
+import { createAgencySpec } from '../../src/product/website-builder/templates/agency.js';
+import { createRestaurantSpec } from '../../src/product/website-builder/templates/restaurant.js';
+import { createCatalogSpec } from '../../src/product/website-builder/templates/catalog.js';
 import { createBuilderState } from '../../src/product/website-builder/state.js';
 import {
     serializeItemList, parseItemList, serializeLines, parseLines,
@@ -124,14 +128,37 @@ function assertNoAdsenseMarkers(text, label) {
 }
 
 {
-    // Both templates must render without throwing, and produce every important section.
-    for (const [name, factory] of [['business', createBusinessSpec], ['portfolio', createPortfolioSpec]]) {
-        const spec = factory({ name: 'Test', language: 'en' });
-        const result = renderWebsite(spec);
-        assert.ok(result.html.length > 0, `${name} template must render non-empty HTML`);
-        assert.ok(result.html.includes('site-nav'), `${name} template must include a navbar`);
-        assert.ok(result.html.includes('site-footer'), `${name} template must include a footer`);
-        assertNoAdsenseMarkers(result.html, `${name} template output`);
+    // All 6 templates must render without throwing, and produce every important section.
+    const templates = [
+        ['business', createBusinessSpec],
+        ['portfolio', createPortfolioSpec],
+        ['landing', createLandingSpec],
+        ['agency', createAgencySpec],
+        ['restaurant', createRestaurantSpec],
+        ['catalog', createCatalogSpec],
+    ];
+    for (const [name, factory] of templates) {
+        for (const language of ['en', 'ar']) {
+            const spec = factory({ name: 'Test', language });
+            const { valid } = validateWebsiteSpec(spec);
+            assert.equal(valid, true, `${name} (${language}) must produce a spec that validates cleanly`);
+            const result = renderWebsite(spec);
+            assert.ok(result.html.length > 0, `${name} template must render non-empty HTML`);
+            assert.ok(result.html.includes('site-nav'), `${name} template must include a navbar`);
+            assert.ok(result.html.includes('site-footer'), `${name} template must include a footer`);
+            assert.ok(result.html.includes(`lang="${language}"`), `${name} (${language}) must render the correct lang attribute`);
+            assertNoAdsenseMarkers(result.html, `${name} (${language}) template output`);
+        }
+    }
+}
+
+{
+    // Catalog is explicitly display-only per spec: no checkout/payment/cart language or behavior.
+    const spec = createCatalogSpec({ name: 'Test Shop', language: 'en' });
+    const result = renderWebsite(spec);
+    const forbidden = ['checkout', 'add to cart', 'add-to-cart', 'proceed to payment', 'credit card', 'card number'];
+    for (const phrase of forbidden) {
+        assert.ok(!result.html.toLowerCase().includes(phrase), `catalog template must not contain checkout/payment language ("${phrase}")`);
     }
 }
 

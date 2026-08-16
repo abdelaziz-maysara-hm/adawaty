@@ -1,5 +1,21 @@
 # Changelog
 
+# 0.5.104
+
+- Website Builder V1, Phase 2: implemented the remaining 4 of 6 planned templates (Landing,
+  Agency, Restaurant, Product Catalog), completing the original 6-template scope. Each composes
+  the same 13 already-tested components differently (varying hero/testimonials variants, section
+  order, and content) so the 6 generated sites feel meaningfully different rather than being one
+  layout with swapped text. `catalog` is explicitly display-only per the original spec -- it reuses
+  the `pricing` component as simple product cards (name/price/features/button) rather than
+  inventing a separate products component, since that's exactly the shape a display-only listing
+  needs. Added a dedicated regression test confirming the catalog template's output never contains
+  checkout/payment/cart language, on top of re-running every existing safety check (XSS, AdSense-
+  absence, lang/dir correctness) across all 6 templates in both languages. Wired all 4 new
+  templates into the builder's template-picker UI. `SITE_TYPES` in `schema.js` already listed all
+  6 site types from Phase 1, so no schema change was needed here. `npm run validate` passes all 9
+  suites (614 tools).
+
 # 0.5.103
 
 - Added Website Builder V1, Phase 1 (`website-builder`, developer category): a 100% client-side,

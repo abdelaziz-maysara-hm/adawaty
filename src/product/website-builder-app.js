@@ -5,6 +5,10 @@ import { renderDocument, buildThemeCss } from './website-builder/engine.js';
 import { exportWebsiteZip } from './website-builder/exporter.js';
 import { createBusinessSpec } from './website-builder/templates/business.js';
 import { createPortfolioSpec } from './website-builder/templates/portfolio.js';
+import { createLandingSpec } from './website-builder/templates/landing.js';
+import { createAgencySpec } from './website-builder/templates/agency.js';
+import { createRestaurantSpec } from './website-builder/templates/restaurant.js';
+import { createCatalogSpec } from './website-builder/templates/catalog.js';
 import { getSchemaForSection, FIELD_LABELS, serializeItemList, parseItemList, serializeLines, parseLines } from './website-builder/content-schema.js';
 import { SECTION_TYPES } from './website-builder/schema.js';
 
@@ -351,11 +355,19 @@ function startProject(templateFactory) {
     refreshAll();
 }
 
+const TEMPLATE_FACTORIES = Object.freeze({
+    business: createBusinessSpec,
+    portfolio: createPortfolioSpec,
+    landing: createLandingSpec,
+    agency: createAgencySpec,
+    restaurant: createRestaurantSpec,
+    catalog: createCatalogSpec,
+});
+
 function wireTemplatePicker() {
     document.querySelectorAll('[data-template]').forEach((card) => {
         card.addEventListener('click', () => {
-            const templateId = card.dataset.template;
-            const factory = templateId === 'portfolio' ? createPortfolioSpec : createBusinessSpec;
+            const factory = TEMPLATE_FACTORIES[card.dataset.template] ?? createBusinessSpec;
             startProject(factory);
         });
     });
