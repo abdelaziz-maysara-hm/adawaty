@@ -170,6 +170,28 @@ function assertNoAdsenseMarkers(text, label) {
     assert.ok(mixedGallery.includes('<img class="gallery-placeholder"'), 'the uploaded item must render as a real image');
     assert.ok(mixedGallery.includes('<div class="gallery-placeholder"'), 'the not-yet-uploaded item must fall back to a placeholder');
 
+    // Gallery items can optionally link out to an external URL (e.g. a
+    // live case study) -- only items with an href get wrapped in a link;
+    // items without one must not. Checked per-item, not with a greedy
+    // match across the whole rendered HTML, which would give a false
+    // pass/fail depending on item order.
+    const linkedGallery = renderGallery({
+        id: 'g3',
+        content: {
+            items: [
+                { caption: 'Linked Project', href: 'https://github.com/example/project' },
+                { caption: 'Unlinked Project' },
+            ],
+        },
+    });
+    const [firstItem, secondItem] = linkedGallery.split('<li class="gallery-item">').slice(1);
+    assert.ok(firstItem.includes('<a class="gallery-link" href="https://github.com/example/project"'), 'an item with href must be wrapped in a real link');
+    assert.ok(firstItem.includes('target="_blank" rel="noopener noreferrer"'), 'external gallery links must use rel="noopener noreferrer"');
+    assert.ok(!secondItem.includes('gallery-link'), 'an item without href must not be wrapped in a link');
+
+    const maliciousLinkGallery = renderGallery({ id: 'g4', content: { items: [{ caption: 'Evil', href: 'javascript:alert(1)' }] } });
+    assert.ok(!maliciousLinkGallery.includes('javascript:'), 'a malicious gallery item href must be neutralized');
+
     for (const payload of attackPayloads) {
         const hero = renderHero({ id: 'h2', variant: 'split', content: { headline: 'Hi', imageDataUrl: payload } });
         const about = renderAbout({ id: 'a2', content: { title: 'About', imageDataUrl: payload } });

@@ -26,6 +26,7 @@ const copy = Object.freeze({
         resetConfirm: 'هل تريد بدء مشروع جديد؟ سيتم فقد التغييرات الحالية.',
         editSection: 'تعديل القسم', save: 'حفظ', cancel: 'إلغاء',
         editFooter: 'تعديل الفوتر', editNavigation: 'تعديل شريط التنقل', navigation: 'شريط التنقل', footer: 'الفوتر',
+        previewError: 'حدث خطأ أثناء تحديث المعاينة. جرّب التراجع عن آخر تغيير.',
         exporting: 'جارٍ التجهيز...', restored: 'تم استرجاع مشروعك المحفوظ.',
         showForm: 'إظهار نموذج التواصل',
         removeImage: 'إزالة الصورة', invalidImage: 'الملف المختار ليس صورة صالحة، أو حجمه كبير جدًا.',
@@ -48,6 +49,7 @@ const copy = Object.freeze({
         resetConfirm: 'Start a new project? Your current changes will be lost.',
         editSection: 'Edit Section', save: 'Save', cancel: 'Cancel',
         editFooter: 'Edit Footer', editNavigation: 'Edit Navigation', navigation: 'Navigation', footer: 'Footer',
+        previewError: 'Something went wrong updating the preview. Try undoing the last change.',
         exporting: 'Preparing...', restored: 'Your saved project was restored.',
         showForm: 'Show contact form',
         removeImage: 'Remove image', invalidImage: 'The selected file isn\u2019t a valid image, or it\u2019s too large.',
@@ -130,7 +132,6 @@ const el = Object.freeze({
 
 let state = null;
 let editingTarget = null; // { kind: 'section', id } | { kind: 'footer' } | { kind: 'navigation' }
-let previewObjectUrl = '';
 let saveTimer = null;
 
 function setStatus(message) {
@@ -146,20 +147,27 @@ function debounce(fn, delayMs) {
 }
 
 function updatePreview() {
-    const spec = state.getSpec();
-    const document_ = renderDocument(spec, { css: 'preview.css', js: 'preview.js' });
-    const themeCss = buildThemeCss(spec.theme);
+    try {
+        const spec = state.getSpec();
+        const document_ = renderDocument(spec, { css: 'preview.css', js: 'preview.js' });
+        const themeCss = buildThemeCss(spec.theme);
 
-    // Inline the theme + base styles directly into the iframe document via
-    // srcdoc, rather than fetching separate files -- keeps the preview
-    // self-contained and avoids extra network requests on every keystroke.
-    const withInlineStyles = document_.replace(
-        '<link rel="stylesheet" href="preview.css">',
-        `<style>${themeCss}\n${window.__builderBaseCss ?? ''}</style>`,
-    );
+        // Inline the theme + base styles directly into the iframe document via
+        // srcdoc, rather than fetching separate files -- keeps the preview
+        // self-contained and avoids extra network requests on every keystroke.
+        const withInlineStyles = document_.replace(
+            '<link rel="stylesheet" href="preview.css">',
+            `<style>${themeCss}\n${window.__builderBaseCss ?? ''}</style>`,
+        );
 
-    if (previewObjectUrl) URL.revokeObjectURL(previewObjectUrl);
-    el.frame.srcdoc = withInlineStyles;
+        el.frame.srcdoc = withInlineStyles;
+    } catch (error) {
+        // A rendering failure must never silently leave the preview blank
+        // with no signal, and must never block the rest of refreshAll()
+        // (sidebar sync, auto-save) from completing.
+        console.error('Website Builder preview render failed:', error);
+        setStatus(t('previewError'));
+    }
 }
 
 const scheduleSave = debounce(() => {
@@ -433,10 +441,17 @@ function buildImageListRow(item = {}) {
 
     const captionInput = document.createElement('input');
     captionInput.type = 'text';
-    captionInput.placeholder = FIELD_LABELS.imageDataUrl?.[getUiLanguage()] ?? 'Caption';
+    captionInput.placeholder = FIELD_LABELS.caption?.[getUiLanguage()] ?? 'Caption';
     captionInput.value = item.caption ?? '';
     captionInput.dataset.role = 'caption';
     row.append(captionInput);
+
+    const hrefInput = document.createElement('input');
+    hrefInput.type = 'url';
+    hrefInput.placeholder = FIELD_LABELS.href?.[getUiLanguage()] ?? 'Link (optional)';
+    hrefInput.value = item.href ?? '';
+    hrefInput.dataset.role = 'href';
+    row.append(hrefInput);
 
     const removeRowButton = document.createElement('button');
     removeRowButton.type = 'button';
@@ -551,6 +566,7 @@ function readEditorFields(sectionType) {
             patch[field.key] = Array.from(wrap.querySelectorAll('.image-list-row')).map((row) => ({
                 imageDataUrl: row.dataset.imageValue ?? '',
                 caption: row.querySelector('[data-role="caption"]')?.value ?? '',
+                href: row.querySelector('[data-role="href"]')?.value ?? '',
             }));
         } else if (field.type === 'itemList') {
             patch[field.key] = parseItemList(wrap.querySelector('textarea').value, field.itemFields);

@@ -25,6 +25,8 @@ const FIELD_LABELS = Object.freeze({
     plans: Object.freeze({ ar: 'الباقات', en: 'Plans' }),
     imageDataUrl: Object.freeze({ ar: 'الصورة', en: 'Image' }),
     imageAlt: Object.freeze({ ar: 'وصف الصورة (لإمكانية الوصول)', en: 'Image description (for accessibility)' }),
+    caption: Object.freeze({ ar: 'التعليق', en: 'Caption' }),
+    href: Object.freeze({ ar: 'رابط خارجي (اختياري)', en: 'External link (optional)' }),
     name: Object.freeze({ ar: 'الاسم المعروض', en: 'Displayed name' }),
     links: Object.freeze({ ar: 'الروابط', en: 'Links' }),
     logoText: Object.freeze({ ar: 'نص الشعار', en: 'Logo text' }),
@@ -71,7 +73,7 @@ const SECTION_SCHEMAS = Object.freeze({
     gallery: Object.freeze([
         Object.freeze({ key: 'title', type: 'text' }),
         Object.freeze({
-            key: 'items', type: 'imageList', itemFields: ['caption'],
+            key: 'items', type: 'imageList', itemFields: ['caption', 'href'],
         }),
     ]),
     testimonials: Object.freeze([

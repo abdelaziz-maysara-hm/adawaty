@@ -1,5 +1,34 @@
 # Changelog
 
+# 0.5.108
+
+- Website Builder: found and fixed a likely explanation for stale/inconsistent behavior reported
+  after testing the live site -- `tools/website-builder/index.html` loads its JS/CSS with a
+  cache-busting query string (`?v=wb1`) that was never bumped despite multiple rounds of real
+  fixes to `website-builder-app.js` since the initial merge (dark theme, nav-link resolution,
+  footer/navigation editors). A browser that first visited the page before any of those fixes
+  landed would keep serving its cached copy indefinitely, since the URL never changed. Bumped to
+  `?v=wb2`. Also hardened `updatePreview()` with a try/catch so any future unexpected rendering
+  error surfaces a clear status message instead of silently leaving the preview blank with no
+  signal, and removed a genuinely dead `previewObjectUrl` variable left over from an earlier blob-
+  URL approach before the preview switched to `srcdoc`.
+- Website Builder: added optional external links to Gallery items, per a clarified request --
+  not a full multi-page site (explicitly out of scope), but letting a portfolio/agency piece link
+  out to an external URL (a live case study, a GitHub repo, etc.). Reuses the existing `safeUrl()`
+  validation already proven for every other link in the builder. Linked tiles render as
+  `target="_blank" rel="noopener noreferrer"` (opens in a new tab, and the `noopener noreferrer`
+  is a real security measure preventing the opened page from gaining a `window.opener` reference
+  -- relevant here since the target is always an untrusted user-provided URL). Added a URL input
+  to the gallery item row editor alongside the existing image/caption fields. Along the way, fixed
+  a real small bug found while touching this code: the caption input's placeholder text was
+  incorrectly pulling the "Image" field label instead of a proper "Caption" label -- added the
+  missing label and fixed the placeholder.
+- Added tests for both: a gallery item with an href renders as a real link with the correct
+  security attributes, an item without one does not (checked per-item, not with a greedy
+  whole-document match, which would give a false pass/fail depending on item order), and a
+  malicious href is neutralized the same way every other link in the builder already is.
+  `npm run validate` passes all 9 suites (614 tools).
+
 # 0.5.107
 
 - Website Builder: fixed 4 real bugs found through actual user testing of the merged feature.
