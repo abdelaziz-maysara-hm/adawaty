@@ -1,7 +1,82 @@
 # Changelog
 
+# 0.5.106
+
+- Website Builder: added real image upload to the Gallery section's individual items, completing
+  image upload for all 3 image-capable sections (Hero and About got it in 0.5.105). Gallery items
+  needed a genuinely different editor than the single-image case: each item now gets its own row
+  (thumbnail + file picker + caption + remove button) with an "Add item" button, rather than the
+  simple one-line-per-item text format used elsewhere in `content-schema.js` -- that format has no
+  natural slot for a per-item file upload control. Reused the exact same `safeImageDataUrl()`
+  validation (raster formats only, SVG deliberately excluded) and the same `fileToDataUrl()`
+  helper already proven for Hero/About, rather than writing a second validation path. Verified a
+  gallery can correctly mix uploaded and not-yet-uploaded items in the same list (uploaded items
+  render as real `<img>`, others fall back to the existing placeholder) -- added as a dedicated
+  test case, since this specific scenario (partial upload) wasn't covered by the single-image
+  tests. Confirmed the 4 templates that use a gallery section (Portfolio, Agency, Restaurant,
+  Catalog) still render correctly now that gallery items default to placeholders exactly as
+  before. `npm run validate` passes all 9 suites (614 tools).
+
+# 0.5.105
+
+- Website Builder: added real image upload for Hero and About sections (the biggest practical gap
+  left after Phase 2 -- the generator previously only had labeled placeholder tiles, never a real
+  user photo). Designed and tested the safety layer first, before writing any UI or component code:
+  `safeImageDataUrl()` in `render-utils.js` only trusts raster image data URLs (PNG/JPEG/GIF/WebP)
+  up to ~2MB, deliberately rejecting `image/svg+xml` despite it being a genuine image format --
+  SVG can embed `<script>` tags and event-handler attributes, a well-documented real XSS vector.
+  Verified against real attack payloads before use: an SVG data URL with an `onload` handler, a
+  `data:text/html` payload disguised with an image-sounding name, and an oversized value are all
+  rejected; genuine PNG/JPEG data URLs are accepted. Updated `hero.js`, `about.js`, and
+  `gallery.js` to render a real `<img>` when a valid image is present and fall back to the
+  existing placeholder otherwise -- re-verified all three together against the same attack
+  payloads combined, confirming nothing leaks into rendered output. Added upload UI to the section
+  editor panel (file picker, live thumbnail preview, remove button, alt-text field for
+  accessibility) with the exact same validation re-applied client-side for immediate feedback
+  before a rejected file could reach state. Along the way, caught and removed a redundant unused
+  `<label>` element the dispatcher was creating before handing off to the image field's own
+  builder. Added dedicated tests for `safeImageDataUrl()` and for all 3 updated components against
+  the same real attack payloads. `npm run validate` passes all 9 suites (614 tools).
+
+# 0.5.104
+
+- Website Builder V1, Phase 2: implemented the remaining 4 of 6 planned templates (Landing,
+  Agency, Restaurant, Product Catalog), completing the original 6-template scope. Each composes
+  the same 13 already-tested components differently (varying hero/testimonials variants, section
+  order, and content) so the 6 generated sites feel meaningfully different rather than being one
+  layout with swapped text. `catalog` is explicitly display-only per the original spec -- it reuses
+  the `pricing` component as simple product cards (name/price/features/button) rather than
+  inventing a separate products component, since that's exactly the shape a display-only listing
+  needs. Added a dedicated regression test confirming the catalog template's output never contains
+  checkout/payment/cart language, on top of re-running every existing safety check (XSS, AdSense-
+  absence, lang/dir correctness) across all 6 templates in both languages. Wired all 4 new
+  templates into the builder's template-picker UI. `SITE_TYPES` in `schema.js` already listed all
+  6 site types from Phase 1, so no schema change was needed here. `npm run validate` passes all 9
+  suites (614 tools).
+
 # 0.5.103
 
+- Added Website Builder V1, Phase 1 (`website-builder`, developer category): a 100% client-side,
+  privacy-first static website builder. Scoped deliberately as a first phase (schema + 2 templates
+  + export) per an explicit decision to de-risk this large feature rather than build all 6 planned
+  templates at once. Architecture: `WebsiteSpec` (a serializable, versioned, validated JSON object)
+  is the single source of truth; `validateWebsiteSpec()` never throws -- malformed/corrupted input
+  (including from localStorage) is defaulted/corrected safely; `renderWebsite(spec)` is a pure,
+  deterministic function turning any valid spec into a full HTML/CSS document, so a future AI layer
+  only needs to produce a spec and hand it to the same renderer -- no AI code included in this
+  phase. 13 reusable section components (navbar, hero, features, services, about, stats, gallery,
+  testimonials, pricing, faq, contact, cta, footer), each independently tested against real XSS
+  payloads (script tags, `onerror=`, `javascript:`/`data:`/`vbscript:` URIs) with zero found
+  surviving into rendered output. 2 templates implemented (Business, Portfolio); Landing/Agency/
+  Restaurant/Catalog remain for a later phase. Bounded undo/redo (30 steps), localStorage
+  persistence with a schema version guard, and real multi-file ZIP export (not a renamed HTML
+  blob) are all implemented and tested. The live preview renders in a `sandbox="allow-scripts"`
+  iframe (explicitly without `allow-same-origin`) so generated site content can never reach the
+  parent Adawaty page. Exported sites never include Adawaty's AdSense script or any tracking --
+  verified with a dedicated regression test. Registered via the existing `interactive: true`
+  tool-definition pattern (the same mechanism already used for other workspace-style tools),
+  so it appears correctly in the catalogue/search/category system without forcing a complex
+  visual editor into the generic form/result tool-page template.
 - Removed `visual-pdf-editor` entirely, per explicit site owner request (not currently needed, not
   working as intended): deleted its source files (`src/product/visual-pdf-editor.js`,
   `src/css/visual-pdf-editor.css`, `src/product/definitions/visual-pdf-editor-tool.js`), its

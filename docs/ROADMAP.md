@@ -814,7 +814,53 @@ pattern as what shipped, pick up whenever, **always starting with `npm run list:
 
 ---
 
-## Pre-launch priority: cover the highest real-world search demand (August 2026)
+## Website Builder V1 (developer category) — Phase 1 + 2 done, real image upload complete (0.5.106)
+
+A large feature deliberately split into phases rather than attempted all at once, per an explicit
+decision to de-risk it. Architecture: `src/product/website-builder/schema.js` defines
+`WebsiteSpec`, the single source of truth; `engine.js` is a pure `renderWebsite(spec) -> HTML/CSS`
+function with no AI-specific logic, so a future AI layer only needs to produce a valid spec.
+
+**Phase 1 (done, 0.5.103)**: schema + validator (never throws, safely defaults malformed/corrupted
+input), 13 reusable section components (all individually tested against real XSS payloads), 2
+templates (Business, Portfolio), bounded undo/redo, localStorage persistence with a schema-version
+guard, real ZIP export (`index.html` + `assets/css/style.css` + `assets/js/main.js` when needed +
+`README.md`), a sandboxed live preview iframe, and a full test suite in
+`tests/product/website-builder.integration.mjs` including a dedicated AdSense-absence regression
+test. Registered via the existing `interactive: true` tool pattern (same mechanism as other
+workspace-style tools), with a manually-authored `tools/website-builder/index.html` page.
+
+**Phase 2 (done, 0.5.104)**: the remaining 4 of 6 originally-planned templates (Landing, Agency,
+Restaurant, Product Catalog), completing the full 6-template scope. `catalog` reuses the existing
+`pricing` component as display-only product cards rather than a new component, deliberately
+keeping it checkout/payment-free per the original spec — verified with a dedicated regression test
+checking for absence of checkout/payment/cart language, not just absence of a real payment
+integration.
+
+**Still open for a later phase**: a richer per-section-type content editor generally beyond
+images (list-based text content like features/testimonials/pricing/FAQ items still uses the
+simple one-line-per-item text format in `content-schema.js` rather than a dedicated per-item
+add/remove/reorder sub-UI, the same treatment Gallery got for images in 0.5.106); drag-and-drop
+section reordering (V1 uses up/down buttons, matching the original spec's explicit preference for
+reliability and accessibility over a heavy drag-and-drop dependency); and any AI-assisted spec
+generation (explicitly out of scope for this feature entirely, by design — the renderer is ready
+for it, nothing else is built toward it).
+
+**Verification note, disclosed honestly**: `exportWebsiteZip()` itself (the top-level function
+that combines rendering, the same-origin CSS fetch, and ZIP packaging) has not been run end-to-end
+in a real browser or a persistent local server in this sandbox — every piece it composes *has*
+been verified independently and thoroughly (the render output, the relative-URL resolution logic
+confirmed mathematically correct, `fetch()` against a real HTTP server confirmed working for this
+exact file, the ZIP folder/file structure confirmed with real JSZip and an independent `unzip`
+tool), but the literal ~15-line function tying them together specifically has not been executed as
+one unit against a live server. Attempted this directly (started a local HTTP server, used
+`fetch()` overrides to run the real unmodified module) but hit repeated background-process
+persistence issues across separate sandbox tool calls unrelated to the code itself. Not treated as
+a blocking risk given how simple and low-branching the composition is and how thoroughly each
+piece is independently verified, but disclosed rather than silently assumed correct — worth a
+real-browser smoke test as part of the manual acceptance check before merging.
+
+
 
 Site owner is close to launching and asked specifically to prioritize the tools people actually
 search for most, not just fill out the catalogue evenly. Checked the current category
