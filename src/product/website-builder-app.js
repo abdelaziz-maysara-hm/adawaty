@@ -28,6 +28,7 @@ const copy = Object.freeze({
         exporting: 'جارٍ التجهيز...', restored: 'تم استرجاع مشروعك المحفوظ.',
         showForm: 'إظهار نموذج التواصل',
         removeImage: 'إزالة الصورة', invalidImage: 'الملف المختار ليس صورة صالحة، أو حجمه كبير جدًا.',
+        addItem: 'إضافة عنصر',
         sectionNames: Object.freeze({
             hero: 'رئيسي', features: 'مميزات', services: 'خدمات', about: 'من نحن', stats: 'إحصائيات',
             gallery: 'معرض صور', testimonials: 'آراء العملاء', pricing: 'الأسعار', faq: 'أسئلة شائعة',
@@ -48,6 +49,7 @@ const copy = Object.freeze({
         exporting: 'Preparing...', restored: 'Your saved project was restored.',
         showForm: 'Show contact form',
         removeImage: 'Remove image', invalidImage: 'The selected file isn\u2019t a valid image, or it\u2019s too large.',
+        addItem: 'Add item',
         sectionNames: Object.freeze({
             hero: 'Hero', features: 'Features', services: 'Services', about: 'About', stats: 'Stats',
             gallery: 'Gallery', testimonials: 'Testimonials', pricing: 'Pricing', faq: 'FAQ',
@@ -360,9 +362,97 @@ function buildImageEditorField(field, content) {
     return wrap;
 }
 
+/** Builds one row for the image-list editor: a small thumbnail/upload button, a caption input, and a remove button. */
+function buildImageListRow(item = {}) {
+    const row = document.createElement('div');
+    row.className = 'image-list-row';
+
+    const preview = document.createElement('img');
+    preview.className = 'image-list-thumb';
+    const existing = safeImageDataUrl(item.imageDataUrl);
+    if (existing) {
+        preview.src = existing;
+        row.dataset.imageValue = existing;
+    } else {
+        preview.hidden = true;
+    }
+    row.append(preview);
+
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/png,image/jpeg,image/gif,image/webp';
+    fileInput.addEventListener('change', async () => {
+        const file = fileInput.files?.[0];
+        if (!file) return;
+        try {
+            const dataUrl = await fileToDataUrl(file);
+            const validated = safeImageDataUrl(dataUrl);
+            if (!validated) {
+                window.alert(t('invalidImage'));
+                fileInput.value = '';
+                return;
+            }
+            row.dataset.imageValue = validated;
+            preview.src = validated;
+            preview.hidden = false;
+        } catch {
+            window.alert(t('invalidImage'));
+        }
+    });
+    row.append(fileInput);
+
+    const captionInput = document.createElement('input');
+    captionInput.type = 'text';
+    captionInput.placeholder = FIELD_LABELS.imageDataUrl?.[getUiLanguage()] ?? 'Caption';
+    captionInput.value = item.caption ?? '';
+    captionInput.dataset.role = 'caption';
+    row.append(captionInput);
+
+    const removeRowButton = document.createElement('button');
+    removeRowButton.type = 'button';
+    removeRowButton.className = 'icon-button button-quiet';
+    removeRowButton.textContent = '×';
+    removeRowButton.setAttribute('aria-label', t('remove'));
+    removeRowButton.addEventListener('click', () => row.remove());
+    row.append(removeRowButton);
+
+    return row;
+}
+
+function buildImageListEditorField(field, content) {
+    const wrap = document.createElement('div');
+    wrap.className = 'field-row';
+    wrap.dataset.fieldKey = field.key;
+    wrap.dataset.fieldType = 'imageList';
+
+    const label = document.createElement('label');
+    label.textContent = FIELD_LABELS[field.key]?.[getUiLanguage()] ?? field.key;
+    wrap.append(label);
+
+    const rowsContainer = document.createElement('div');
+    rowsContainer.className = 'image-list-rows';
+    const items = Array.isArray(content[field.key]) ? content[field.key] : [];
+    items.forEach((item) => rowsContainer.append(buildImageListRow(item)));
+    wrap.append(rowsContainer);
+
+    const addRowButton = document.createElement('button');
+    addRowButton.type = 'button';
+    addRowButton.className = 'button button-quiet';
+    addRowButton.textContent = t('addItem');
+    addRowButton.addEventListener('click', () => {
+        rowsContainer.append(buildImageListRow({}));
+    });
+    wrap.append(addRowButton);
+
+    return wrap;
+}
+
 function buildEditorField(field, content) {
     if (field.type === 'image') {
         return buildImageEditorField(field, content);
+    }
+    if (field.type === 'imageList') {
+        return buildImageListEditorField(field, content);
     }
 
     const wrap = document.createElement('div');
@@ -427,6 +517,11 @@ function readEditorFields(section) {
             if (field.altKey) {
                 patch[field.altKey] = wrap.querySelector(`[data-alt-for="${field.key}"]`)?.value ?? '';
             }
+        } else if (field.type === 'imageList') {
+            patch[field.key] = Array.from(wrap.querySelectorAll('.image-list-row')).map((row) => ({
+                imageDataUrl: row.dataset.imageValue ?? '',
+                caption: row.querySelector('[data-role="caption"]')?.value ?? '',
+            }));
         } else if (field.type === 'itemList') {
             patch[field.key] = parseItemList(wrap.querySelector('textarea').value, field.itemFields);
         } else if (field.type === 'lines') {

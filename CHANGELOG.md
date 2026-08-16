@@ -1,5 +1,22 @@
 # Changelog
 
+# 0.5.106
+
+- Website Builder: added real image upload to the Gallery section's individual items, completing
+  image upload for all 3 image-capable sections (Hero and About got it in 0.5.105). Gallery items
+  needed a genuinely different editor than the single-image case: each item now gets its own row
+  (thumbnail + file picker + caption + remove button) with an "Add item" button, rather than the
+  simple one-line-per-item text format used elsewhere in `content-schema.js` -- that format has no
+  natural slot for a per-item file upload control. Reused the exact same `safeImageDataUrl()`
+  validation (raster formats only, SVG deliberately excluded) and the same `fileToDataUrl()`
+  helper already proven for Hero/About, rather than writing a second validation path. Verified a
+  gallery can correctly mix uploaded and not-yet-uploaded items in the same list (uploaded items
+  render as real `<img>`, others fall back to the existing placeholder) -- added as a dedicated
+  test case, since this specific scenario (partial upload) wasn't covered by the single-image
+  tests. Confirmed the 4 templates that use a gallery section (Portfolio, Agency, Restaurant,
+  Catalog) still render correctly now that gallery items default to placeholders exactly as
+  before. `npm run validate` passes all 9 suites (614 tools).
+
 # 0.5.105
 
 - Website Builder: added real image upload for Hero and About sections (the biggest practical gap

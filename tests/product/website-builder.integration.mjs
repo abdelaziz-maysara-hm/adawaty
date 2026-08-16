@@ -155,6 +155,21 @@ function assertNoAdsenseMarkers(text, label) {
     const galleryWithImage = renderGallery({ id: 'g', content: { items: [{ caption: 'Item', imageDataUrl: validPng }] } });
     assert.ok(galleryWithImage.includes('<img class="gallery-placeholder"'));
 
+    // Gallery items are edited per-item (image + caption per row) rather
+    // than the simpler one-line-per-item text format used elsewhere, so a
+    // gallery can naturally mix uploaded and not-yet-uploaded items.
+    const mixedGallery = renderGallery({
+        id: 'g2',
+        content: {
+            items: [
+                { caption: 'Uploaded', imageDataUrl: validPng },
+                { caption: 'Not yet uploaded' },
+            ],
+        },
+    });
+    assert.ok(mixedGallery.includes('<img class="gallery-placeholder"'), 'the uploaded item must render as a real image');
+    assert.ok(mixedGallery.includes('<div class="gallery-placeholder"'), 'the not-yet-uploaded item must fall back to a placeholder');
+
     for (const payload of attackPayloads) {
         const hero = renderHero({ id: 'h2', variant: 'split', content: { headline: 'Hi', imageDataUrl: payload } });
         const about = renderAbout({ id: 'a2', content: { title: 'About', imageDataUrl: payload } });

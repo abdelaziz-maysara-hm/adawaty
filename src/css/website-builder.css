@@ -40,6 +40,12 @@
 .field-row textarea { resize: vertical; min-height: 60px; }
 .image-field-preview { width: 100%; max-height: 140px; object-fit: cover; border-radius: 10px; border: 1px solid var(--border); }
 .image-field-preview[hidden] { display: none; }
+.image-list-rows { display: grid; gap: 8px; }
+.image-list-row { display: flex; align-items: center; gap: 6px; padding: 6px; border: 1px solid var(--border); border-radius: 10px; }
+.image-list-thumb { width: 40px; height: 40px; object-fit: cover; border-radius: 6px; flex: 0 0 auto; }
+.image-list-thumb[hidden] { display: none; }
+.image-list-row input[type="file"] { max-width: 90px; font-size: .72rem; }
+.image-list-row input[type="text"] { flex: 1 1 auto; min-width: 0; }
 .color-row { display: flex; align-items: center; gap: 8px; }
 .color-row input[type="color"] { width: 36px; height: 36px; padding: 0; border: 1px solid var(--border); border-radius: 8px; background: none; }
 .color-row span { color: var(--muted); font-size: .85rem; }

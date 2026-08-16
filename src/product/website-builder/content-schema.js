@@ -27,7 +27,7 @@ const FIELD_LABELS = Object.freeze({
     imageAlt: Object.freeze({ ar: 'وصف الصورة (لإمكانية الوصول)', en: 'Image description (for accessibility)' }),
 });
 
-/** field types: 'text' | 'textarea' | 'url' | 'checkbox' | 'lines' (one paragraph per line) | 'itemList' (structured list, format described per section) */
+/** field types: 'text' | 'textarea' | 'url' | 'checkbox' | 'image' (single uploaded image) | 'lines' (one paragraph per line) | 'itemList' (structured list, one-line-per-item text format) | 'imageList' (structured list where each item also has its own uploaded image, needs its own row-based editor UI) */
 const SECTION_SCHEMAS = Object.freeze({
     hero: Object.freeze([
         Object.freeze({ key: 'headline', type: 'text' }),
@@ -66,7 +66,7 @@ const SECTION_SCHEMAS = Object.freeze({
     gallery: Object.freeze([
         Object.freeze({ key: 'title', type: 'text' }),
         Object.freeze({
-            key: 'items', type: 'itemList', itemFields: ['caption'], hint: { ar: 'سطر لكل صورة: التعليق', en: 'One per line: caption' },
+            key: 'items', type: 'imageList', itemFields: ['caption'],
         }),
     ]),
     testimonials: Object.freeze([
