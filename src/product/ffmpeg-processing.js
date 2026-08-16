@@ -134,6 +134,43 @@ async function splitVideoIntoSegments(file, segmentSeconds, extensionName = 'mp4
         await Promise.allSettled([inputFilename, ...paths].map((path) => ffmpeg.deleteFile(path)));
     }
 }
+/**
+ * Splits a video at explicit custom timestamps (in seconds) rather than
+ * fixed intervals, using the same ffmpeg `segment` muxer as
+ * splitVideoIntoSegments() above via `-segment_times`. Deliberately
+ * reuses this exact mechanism rather than a naive per-segment `-ss`/`-t`
+ * approach: verified directly that the segment muxer fails *safely* on a
+ * video with very sparse keyframes (falls back to fewer/no splits,
+ * keeping every stream intact) where a naive `-ss`/`-t` approach was
+ * confirmed to silently produce a video-stream-less (audio-only) output
+ * for an unreachable cut point instead of erroring or refusing.
+ */
+async function splitVideoAtCustomTimestamps(file, timestampsSeconds, extensionName = 'mp4', mimeType = 'video/mp4') {
+    await inspectVideoFile(file);
+    const { ffmpeg, fetchFile } = await getRuntime();
+    const token = crypto.randomUUID();
+    const inputFilename = `input-${token}.${extension(file)}`;
+    const outputPrefix = `segment-${token}-`;
+    const outputPattern = `${outputPrefix}%03d.${extensionName}`;
+    try {
+        await ffmpeg.writeFile(inputFilename, await fetchFile(file));
+        const exitCode = await ffmpeg.exec([
+            '-i', inputFilename, '-map', '0', '-c', 'copy', '-f', 'segment',
+            '-segment_times', timestampsSeconds.join(','), '-reset_timestamps', '1', outputPattern,
+        ]);
+        if (exitCode !== 0) throw new Error('Unable to split this video format.');
+        const entries = await ffmpeg.listDir('/');
+        const paths = entries.map((entry) => entry.name).filter((name) => name.startsWith(outputPrefix)).sort();
+        if (paths.length < 2) throw new Error('None of the requested cut points could be applied to this video.');
+        const blobs = [];
+        for (const path of paths) blobs.push(new Blob([await ffmpeg.readFile(path)], { type: mimeType }));
+        return blobs;
+    } finally {
+        const entries = await ffmpeg.listDir('/').catch(() => []);
+        const paths = entries.map((entry) => entry.name).filter((name) => name.startsWith(outputPrefix));
+        await Promise.allSettled([inputFilename, ...paths].map((path) => ffmpeg.deleteFile(path)));
+    }
+}
 async function processVideo(file, args, outputFilename, mimeType = 'video/mp4') {
     await inspectVideoFile(file);
     return processMedia(file, args, outputFilename, mimeType);
@@ -154,6 +191,7 @@ export {
     processMedia,
     processMediaFiles,
     splitVideoIntoSegments,
+    splitVideoAtCustomTimestamps,
     processVideo,
 };
 

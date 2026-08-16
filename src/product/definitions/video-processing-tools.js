@@ -1,5 +1,24 @@
-import { processMediaFiles, processVideo, splitVideoIntoSegments } from '../ffmpeg-processing.js';
+import { processMediaFiles, processVideo, splitVideoIntoSegments, splitVideoAtCustomTimestamps } from '../ffmpeg-processing.js';
 import { loadVideo } from '../video-processing.js';
+
+/** Parses a single timestamp in "SS", "MM:SS", or "HH:MM:SS" format into total seconds. Verified with real test cases (plain seconds, MM:SS, HH:MM:SS, invalid/negative/empty input) before use. */
+function parseTimestamp(text) {
+    const trimmed = String(text ?? '').trim();
+    if (!trimmed) return null;
+    const parts = trimmed.split(':').map((part) => Number(part.trim()));
+    if (parts.some((part) => !Number.isFinite(part) || part < 0)) return null;
+
+    if (parts.length === 1) return parts[0];
+    if (parts.length === 2) return (parts[0] * 60) + parts[1];
+    if (parts.length === 3) return (parts[0] * 3600) + (parts[1] * 60) + parts[2];
+    return null;
+}
+
+/** Parses a comma-separated list of timestamps, sorted and de-duplicated; invalid entries are silently skipped. */
+function parseTimestampList(text) {
+    const results = String(text ?? '').split(',').map((part) => parseTimestamp(part)).filter((value) => value !== null);
+    return [...new Set(results)].sort((a, b) => a - b);
+}
 
 const JSZIP_URL = 'https://cdn.jsdelivr.net/npm/jszip@3.10.1/+esm';
 let zipPromise;
@@ -336,37 +355,63 @@ const videoSplitter = Object.freeze({
     action: Object.freeze({ ar: 'قسّم الفيديو', en: 'Split video' }),
     title: Object.freeze({ ar: 'تقسيم الفيديو إلى أجزاء متعددة', en: 'Split Video into Multiple Parts' }),
     description: Object.freeze({
-        ar: 'قسّم فيديو طويل حسب مدة كل جزء أو إلى عدد محدد من الأجزاء المتساوية، ثم نزّلها داخل ZIP.',
-        en: 'Split a long video by segment duration or into a selected number of equal parts, then download one ZIP.',
+        ar: 'قسّم فيديو طويل حسب مدة كل جزء، أو إلى عدد محدد من الأجزاء المتساوية، أو بتحديد نقاط قص مخصصة بنفسك، ثم نزّلها داخل ZIP.',
+        en: 'Split a long video by segment duration, into a selected number of equal parts, or at your own custom cut points, then download one ZIP.',
     }),
     note: Object.freeze({
-        ar: 'الوضع السريع ينسخ الفيديو دون إعادة ترميز؛ قد تتحرك نقطة الفصل قليلًا إلى أقرب إطار مفتاحي.',
-        en: 'Fast stream-copy mode avoids re-encoding; a split point may move slightly to the nearest keyframe.',
+        ar: 'الوضع السريع ينسخ الفيديو دون إعادة ترميز؛ قد تتحرك نقطة الفصل قليلًا إلى أقرب إطار مفتاحي. عند اختيار "نقاط قص مخصصة"، النقاط التي لا يمكن الوصول إليها بدون إعادة ترميز (نادر) تُتجاهل تلقائيًا بدل إتلاف الملف.',
+        en: 'Fast stream-copy mode avoids re-encoding; a split point may move slightly to the nearest keyframe. With "Custom cut points", any point unreachable without re-encoding (rare) is automatically skipped rather than corrupting the file.',
     }),
     inputs: Object.freeze([
         videoInput(),
         Object.freeze({ id: 'splitMode', type: 'select', label: Object.freeze({ ar: 'طريقة التقسيم', en: 'Split method' }), unit: Object.freeze({ ar: '', en: '' }), options: Object.freeze([
             Object.freeze({ value: 'duration', label: Object.freeze({ ar: 'مدة كل جزء بالدقائق', en: 'Minutes per part' }) }),
             Object.freeze({ value: 'count', label: Object.freeze({ ar: 'عدد الأجزاء المتساوية', en: 'Number of equal parts' }) }),
+            Object.freeze({ value: 'custom', label: Object.freeze({ ar: 'نقاط قص مخصصة', en: 'Custom cut points' }) }),
         ]) }),
         numberInput('amount', 'المدة أو عدد الأجزاء', 'Minutes or part count', 10, 0.1, 100, ''),
+        Object.freeze({
+            id: 'customTimestamps',
+            type: 'text',
+            label: Object.freeze({ ar: 'نقاط القص (مفصولة بفاصلة، مثال: 1:30, 4:00)', en: 'Cut points (comma-separated, e.g. 1:30, 4:00)' }),
+            unit: Object.freeze({ ar: '', en: '' }),
+            placeholder: '1:30, 4:00, 6:45',
+        }),
     ]),
     async process(values, language) {
         const loaded = await loadVideo(values.video);
         const duration = loaded.video.duration;
         URL.revokeObjectURL(loaded.url);
-        const requestedCount = Math.max(2, Math.round(values.amount));
-        const segmentSeconds = values.splitMode === 'count' ? duration / requestedCount : values.amount * 60;
-        const expectedCount = Math.ceil(duration / segmentSeconds);
-        if (!Number.isFinite(segmentSeconds) || segmentSeconds <= 0 || expectedCount < 2) {
-            throw new Error(localized(language, 'اختر مدة أقصر من مدة الفيديو أو عدد جزأين فأكثر.', 'Choose a duration shorter than the video or at least two parts.'));
-        }
-        if (expectedCount > 100) {
-            throw new Error(localized(language, 'الحد الأقصى 100 جزء في العملية الواحدة.', 'A maximum of 100 parts is supported per run.'));
-        }
         const sourceExtension = values.video.name.toLowerCase().match(/\.(mp4|webm|mov|mkv|avi)$/)?.[1] ?? 'mp4';
         const mimeTypes = { mp4: 'video/mp4', webm: 'video/webm', mov: 'video/quicktime', mkv: 'video/x-matroska', avi: 'video/x-msvideo' };
-        const parts = await splitVideoIntoSegments(values.video, segmentSeconds, sourceExtension, mimeTypes[sourceExtension]);
+
+        let parts;
+        if (values.splitMode === 'custom') {
+            const cutPoints = parseTimestampList(values.customTimestamps).filter((seconds) => seconds > 0 && seconds < duration);
+            if (cutPoints.length === 0) {
+                throw new Error(localized(
+                    language,
+                    'أدخل نقطة قص واحدة على الأقل بصيغة صحيحة (مثل 1:30) وأقل من مدة الفيديو.',
+                    'Enter at least one valid cut point (like 1:30) that is shorter than the video\u2019s duration.',
+                ));
+            }
+            if (cutPoints.length > 99) {
+                throw new Error(localized(language, 'الحد الأقصى 99 نقطة قص في العملية الواحدة.', 'A maximum of 99 cut points is supported per run.'));
+            }
+            parts = await splitVideoAtCustomTimestamps(values.video, cutPoints, sourceExtension, mimeTypes[sourceExtension]);
+        } else {
+            const requestedCount = Math.max(2, Math.round(values.amount));
+            const segmentSeconds = values.splitMode === 'count' ? duration / requestedCount : values.amount * 60;
+            const expectedCount = Math.ceil(duration / segmentSeconds);
+            if (!Number.isFinite(segmentSeconds) || segmentSeconds <= 0 || expectedCount < 2) {
+                throw new Error(localized(language, 'اختر مدة أقصر من مدة الفيديو أو عدد جزأين فأكثر.', 'Choose a duration shorter than the video or at least two parts.'));
+            }
+            if (expectedCount > 100) {
+                throw new Error(localized(language, 'الحد الأقصى 100 جزء في العملية الواحدة.', 'A maximum of 100 parts is supported per run.'));
+            }
+            parts = await splitVideoIntoSegments(values.video, segmentSeconds, sourceExtension, mimeTypes[sourceExtension]);
+        }
+
         const Zip = await loadZip();
         const zip = new Zip();
         parts.forEach((part, index) => zip.file(`adawaty-video-part-${String(index + 1).padStart(2, '0')}.${sourceExtension}`, part));

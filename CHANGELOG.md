@@ -1,5 +1,29 @@
 # Changelog
 
+# 0.5.110
+
+- Video Splitter: added a "Custom cut points" mode (comma-separated timestamps like
+  `1:30, 4:00, 6:45`) alongside the existing duration/equal-parts modes, per a specific
+  follow-up request after confirming which features already existed (Video Splitter and the
+  video+audio merger were both already live; MP3/AAC/OGG audio-extraction formats were already
+  live too, alongside WAV -- verified all of these directly rather than assuming from an
+  out-of-date roadmap note).
+  - Designed and tested a flexible `parseTimestamp`/`parseTimestampList` helper (accepting
+    `SS`, `MM:SS`, or `HH:MM:SS`, comma-separated, de-duplicated and sorted) with real edge
+    cases before use.
+  - **Found a real, previously-latent bug while testing the naive implementation approach**: a
+    manual per-segment `-ss`/`-t` stream-copy split silently produced a **video-stream-less,
+    audio-only output** for a segment whose start point fell in a region with no reachable
+    keyframe (confirmed reproducible with a real, if unusual, source video -- one keyframe across
+    a 6-second clip) -- no error, just a corrupted result. Confirmed the codebase's existing
+    `splitVideoIntoSegments()` (already powering the shipped duration/count modes, using ffmpeg's
+    `segment` muxer with `-segment_time`) fails *safely* against the same problematic video
+    instead -- it produces fewer segments rather than a broken one. Built the new custom-points
+    mode (`splitVideoAtCustomTimestamps()`, using the same muxer's `-segment_times` option) on
+    this proven-safe mechanism rather than the naive approach, and re-verified it against the same
+    edge-case video before shipping.
+  - `npm run validate` passes all 9 suites (614 tools).
+
 # 0.5.109
 
 - Website Builder: found and fixed the real root cause of "clicking a nav link inside the preview

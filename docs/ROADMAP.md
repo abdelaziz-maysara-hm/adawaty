@@ -263,12 +263,14 @@ find . -name "*.html" -not -path "./node_modules/*" | xargs grep -L "adsbygoogle
 - **العلامة المائية لـPDF (pdf-watermark):** كانت قطرية بس (زاوية ثابتة -35 درجة في الكود). بقى فيه اختيار (قطري/أفقي/رأسي).
 
 ### ⚠️ محتاج تفاصيل أكتر منك
-- **ترقيم صفحات PDF فوق 6 صفحات:** راجعت كود `pdf-page-number-adder` بالكامل ومفيش حد أقصى مبرمج على 6 صفحات — الكود بيلف على كل الصفحات مهما كان عددها. **محتاج تفاصيل**: إيه اللي بيحصل بالظبط بعد الصفحة 6؟ (رسالة خطأ؟ الأرقام بتختفي؟ بتتكرر؟) ومعاها اسم الملف أو عدد صفحاته لو ممكن.
+- **ترقيم صفحات PDF فوق 6 صفحات:** راجعت كود `pdf-page-number-adder` بالكامل ومفيش حد أقصى مبرمج على 6 صفحات — الكود بيلف على كل الصفحات مهما كان عددها. صاحب المشروع أكّد لاحقًا (16 أغسطس 2026) إن المشكلة اتظبطت من تلقاء نفسها / لم تعد قائمة — لم يُتخذ أي إجراء برمجي إضافي.
 
-### 📋 طلبات مميزات جديدة (مؤجلة، محتاجة جلسة عمل منفصلة نظرًا لحجمها)
-- **قاطع فيديو (Video Splitter)** — تقسيم فيديو لأجزاء، أداة جديدة كاملة
-- **دمج صوت مع فيديو (Audio+Video merger)** — أداة جديدة كاملة
-- **صيغ إضافية لاستخراج الصوت** (MP3 بجانب WAV الحالي)
+### ✅ اتأكد إنها موجودة فعلًا (16 أغسطس 2026) — كانت ملاحظات الروادماب قديمة
+- **قاطع فيديو (Video Splitter)** — موجود بالفعل (`video-splitter`)، وتمت إضافة وضع "نقاط قص مخصصة" له في نفس التاريخ (انظر قسم Video Tools أعلاه والـCHANGELOG 0.5.110).
+- **دمج صوت مع فيديو** — موجود بالفعل باسم `add-audio-to-video`.
+- **صيغ إضافية لاستخراج الصوت** — `video-audio-extractor` يدعم بالفعل WAV وMP3 وAAC وOGG، تم التحقق المباشر من نجاح ترميز MP3 بـffmpeg حقيقي.
+
+### 📋 لسه مفتوح
 - **توافق MPC Player مع فيديو بعد حذف الصوت** — يحتاج فحص الحاوية (container)/الترميز الناتج، الـWindows Media Player بيشتغل فمشكلة توافق محدد بـMPC مش عطل عام
 
 ### 🐌 الأداء (بطء الضغط/التحويل/تغيير الأبعاد)
@@ -587,7 +589,14 @@ same OCR technique -- confirmed real burned-in subtitle text was present at the 
 timestamp, not just that the command exited cleanly; also exported `getRuntime()` from
 `ffmpeg-processing.js` so this tool could write a non-media `.srt` file to ffmpeg's virtual
 filesystem directly, since the generic `processMediaFiles` helper validates every input as
-audio/video).
+audio/video), `video-splitter` custom cut points (0.5.110 -- added a third split mode, comma-
+separated custom timestamps, alongside the existing duration/equal-parts modes; found and avoided
+a real latent bug along the way: a naive per-segment `-ss`/`-t` stream-copy split silently
+produced a video-stream-less, audio-only output for a segment starting where no keyframe was
+reachable, confirmed reproducible with a real sparse-keyframe test video, while the codebase's
+existing `segment`-muxer-based approach already used by the duration/count modes was confirmed to
+fail *safely* (fewer segments, not a corrupted one) against the same video -- built the new mode
+on that same proven-safe mechanism via `-segment_times` rather than the naive approach).
 Every ffmpeg filter command was run against a real generated test video through the sandbox's
 system ffmpeg binary before being written into a tool, including re-running the *exact* generated
 command strings (not hand-retyped) end-to-end — catching the merge audio-mismatch failure this
