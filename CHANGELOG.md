@@ -1,5 +1,31 @@
 # Changelog
 
+# 0.5.112
+
+- Added `video-merge-with-audio`, a companion to the existing silent `video-merge` (which is
+  silent by deliberate design -- concat fails outright if audio tracks mismatch, a realistic case
+  for arbitrary uploads, documented since 0.5.55). Kept the original tool as-is per explicit
+  request, rather than replacing it, since it's still the reliable fallback when audio tracks are
+  genuinely incompatible.
+  - Verified the with-audio concat (`[0:v][0:a][1:v][1:a]concat=n=2:v=1:a=1`) against two real
+    generated clips with different tones (440Hz and 880Hz) -- confirmed both video and audio
+    streams survive, and confirmed via raw PCM byte inspection (not just a summary volume check,
+    which turned out to be misleading due to AAC encoding artifacts) that real waveform data is
+    genuinely present, not silence or corruption.
+  - Explicitly tested the failure case this tool depends on for its fallback message: merging a
+    clip with audio against a clip with **no** audio track reproducibly fails with ffmpeg exit
+    code 234 (confirmed directly, not assumed) -- confirming `processMediaFiles`'s existing
+    `exitCode !== 0` check correctly catches this and the tool's specific, helpful error message
+    (pointing back to the original silent `video-merge` as a fallback) will actually trigger.
+  - Along the way, explored and tested a more ambitious auto-detect-and-pad-with-silence approach
+    (`anullsrc` generating a matching silent track for whichever clip lacks real audio) and
+    confirmed it works correctly too, including verifying via raw PCM inspection that the silent
+    portion is genuinely all-zero bytes -- but didn't ship it for this tool, since reliably
+    detecting audio-stream presence per input ahead of time via ffmpeg.wasm's API would need
+    meaningfully more infrastructure than the simpler "try with-audio merge, fall back to a clear
+    error" approach that's already fully tested and directly addresses the request.
+- `npm run validate` passes all 9 suites (616 tools).
+
 # 0.5.111
 
 - Security & Encoding: added `pbkdf2-generator` (Web Crypto's native `deriveBits`, no new

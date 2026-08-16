@@ -596,7 +596,13 @@ produced a video-stream-less, audio-only output for a segment starting where no 
 reachable, confirmed reproducible with a real sparse-keyframe test video, while the codebase's
 existing `segment`-muxer-based approach already used by the duration/count modes was confirmed to
 fail *safely* (fewer segments, not a corrupted one) against the same video -- built the new mode
-on that same proven-safe mechanism via `-segment_times` rather than the naive approach).
+on that same proven-safe mechanism via `-segment_times` rather than the naive approach),
+`video-merge-with-audio` (0.5.112 -- a companion to the original silent `video-merge`, kept as-is
+per explicit request since it's still the reliable fallback for genuinely incompatible audio
+tracks; verified the with-audio concat against two real clips with different tones via raw PCM
+byte inspection, not just a summary volume check which turned out to be misleading due to AAC
+encoding artifacts; explicitly tested and confirmed the exact failure mode -- ffmpeg exit code
+234 when one clip lacks audio -- that the tool's fallback error message depends on).
 Every ffmpeg filter command was run against a real generated test video through the sandbox's
 system ffmpeg binary before being written into a tool, including re-running the *exact* generated
 command strings (not hand-retyped) end-to-end — catching the merge audio-mismatch failure this

@@ -318,10 +318,62 @@ const videoLooper = videoTool({
     },
 });
 
+const videoMergerWithAudio = videoTool({
+    id: 'video-merge-with-audio',
+    icon: 'MERGE+AUDIO',
+    action: Object.freeze({ ar: 'ادمج مع الصوت', en: 'Merge with audio' }),
+    title: Object.freeze({ ar: 'دمج فيديوهين مع الحفاظ على الصوت', en: 'Video Merger (Keep Audio)' }),
+    description: Object.freeze({
+        ar: 'اربط مقطعي فيديو بالترتيب في ملف واحد متصل، مع الحفاظ على الصوت من الاثنين.',
+        en: 'Join two video clips in order into one continuous file, keeping the audio from both.',
+    }),
+    note: Object.freeze({
+        ar: 'يتطلب أن يحتوي المقطعان على مسار صوت. لو أحد المقطعين بلا صوت أو فشلت العملية، استخدم أداة "دمج مقطعي فيديو" العادية (بدون صوت) بدلًا من هذه.',
+        en: 'Both clips must have an audio track. If one clip has no audio or the merge fails, use the regular "Video Merger" tool (no audio) instead.',
+    }),
+    inputs: Object.freeze([
+        videoInput('videoFirst', 'الفيديو الأول', 'First video'),
+        videoInput('videoSecond', 'الفيديو الثاني', 'Second video'),
+    ]),
+    async process(values, language) {
+        let blob;
+        try {
+            blob = await processMediaFiles(
+                [values.videoFirst, values.videoSecond],
+                ([first, second]) => [
+                    '-i', first,
+                    '-i', second,
+                    '-filter_complex', '[0:v][0:a][1:v][1:a]concat=n=2:v=1:a=1[outv][outa]',
+                    '-map', '[outv]',
+                    '-map', '[outa]',
+                    '-movflags', '+faststart',
+                ],
+                'merged-with-audio.mp4',
+                'video/mp4',
+            );
+        } catch {
+            throw new Error(localized(
+                language,
+                'تعذّر الدمج مع الصوت، غالبًا لأن أحد المقطعين لا يحتوي على مسار صوت متوافق. جرّب أداة "دمج مقطعي فيديو" العادية بدلًا من هذه.',
+                'Could not merge with audio, most likely because one clip has no compatible audio track. Try the regular "Video Merger" tool instead.',
+            ));
+        }
+
+        return output(
+            blob,
+            'adawaty-merged-video-with-audio.mp4',
+            language,
+            'الفيديو المدموج مع الصوت جاهز',
+            'The merged video with audio is ready',
+        );
+    },
+});
+
 const videoExtraToolDefinitions = Object.freeze({
     [videoRotator.id]: videoRotator,
     [videoCropper.id]: videoCropper,
     [videoMerger.id]: videoMerger,
+    [videoMergerWithAudio.id]: videoMergerWithAudio,
     [videoWatermark.id]: videoWatermark,
     [videoReverser.id]: videoReverser,
     [videoLooper.id]: videoLooper,
