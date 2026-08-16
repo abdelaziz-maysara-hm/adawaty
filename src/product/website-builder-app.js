@@ -146,6 +146,37 @@ function debounce(fn, delayMs) {
     };
 }
 
+/**
+ * A script injected only into the LIVE PREVIEW's srcdoc (never into the
+ * exported site, which doesn't need it -- a real standalone file has no
+ * base-URL ambiguity). Root cause found via user testing: an iframe using
+ * `srcdoc` inherits the EMBEDDING PAGE's URL as its base for relative-URL
+ * resolution in some browsers. A same-page anchor link that doesn't
+ * match any element in the iframe's own document (e.g. a stale saved
+ * project with pre-fix, non-matching "#work"/"#about" hrefs) could
+ * therefore resolve as an attempted navigation to the *parent Adawaty
+ * page's own URL* plus that fragment -- and since that's a real,
+ * same-origin-resolvable address, some browsers load it *inside the
+ * iframe itself* rather than failing safely, which is exactly the
+ * "clicking a link shows the whole Adawaty site inside the preview"
+ * symptom reported. Intercepting the click and handling the scroll
+ * manually, before the browser's native anchor-navigation logic ever
+ * runs, sidesteps the base-URL ambiguity entirely rather than depending
+ * on a specific browser's srcdoc quirks.
+ */
+const PREVIEW_ANCHOR_SCRIPT = `<script>
+(function () {
+  document.addEventListener('click', function (event) {
+    var link = event.target.closest('a[href^="#"]');
+    if (!link) return;
+    event.preventDefault();
+    var id = link.getAttribute('href').slice(1);
+    var target = id ? document.getElementById(id) : null;
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+})();
+<\/script>`;
+
 function updatePreview() {
     try {
         const spec = state.getSpec();
@@ -155,10 +186,12 @@ function updatePreview() {
         // Inline the theme + base styles directly into the iframe document via
         // srcdoc, rather than fetching separate files -- keeps the preview
         // self-contained and avoids extra network requests on every keystroke.
-        const withInlineStyles = document_.replace(
-            '<link rel="stylesheet" href="preview.css">',
-            `<style>${themeCss}\n${window.__builderBaseCss ?? ''}</style>`,
-        );
+        const withInlineStyles = document_
+            .replace(
+                '<link rel="stylesheet" href="preview.css">',
+                `<style>${themeCss}\n${window.__builderBaseCss ?? ''}</style>`,
+            )
+            .replace('</body>', `${PREVIEW_ANCHOR_SCRIPT}\n</body>`);
 
         el.frame.srcdoc = withInlineStyles;
     } catch (error) {

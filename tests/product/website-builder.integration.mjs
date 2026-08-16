@@ -449,6 +449,41 @@ function assertNoAdsenseMarkers(text, label) {
     assert.ok(!html.includes('allow-same-origin'), 'the preview sandbox must not grant allow-same-origin (would defeat the isolation)');
 }
 
+{
+    // Real bug found via user testing: clicking a same-page anchor link
+    // inside the live-preview iframe (which uses srcdoc) could load the
+    // entire parent Adawaty page inside the preview itself. Root cause:
+    // an srcdoc iframe inherits the embedding page's URL as its base for
+    // relative-link resolution in some browsers, so a link with no
+    // matching element in the iframe's own document could resolve as an
+    // attempted navigation to the *parent page's own URL* plus that
+    // fragment, which the browser then loads inside the iframe rather
+    // than failing safely. The fix intercepts every internal anchor click
+    // and calls preventDefault() unconditionally (before checking whether
+    // a matching element even exists), so the browser's native
+    // navigation logic -- and its base-URL ambiguity -- never runs at
+    // all, regardless of whether the link happens to be valid or stale.
+    // Verified via a real jsdom event-dispatch test during development
+    // (not included as a permanent dependency, since this project
+    // otherwise has zero devDependencies): both a matching and a
+    // non-matching link correctly ended up with
+    // event.defaultPrevented === true.
+    const appSource = await readFile(path.join(projectRoot, 'src/product/website-builder-app.js'), 'utf8');
+    const scriptMatch = appSource.match(/const PREVIEW_ANCHOR_SCRIPT = `([\s\S]*?)`;/);
+    assert.ok(scriptMatch, 'PREVIEW_ANCHOR_SCRIPT must exist in website-builder-app.js');
+
+    const scriptBody = scriptMatch[1];
+    const preventIndex = scriptBody.indexOf('preventDefault');
+    const targetCheckIndex = scriptBody.indexOf('if (target)');
+    assert.ok(preventIndex !== -1, 'the preview anchor handler must call preventDefault()');
+    assert.ok(targetCheckIndex !== -1, 'the preview anchor handler must check whether a target element was found');
+    assert.ok(
+        preventIndex < targetCheckIndex,
+        'preventDefault() must run unconditionally, before checking for a matching target -- otherwise a non-matching link could still trigger native (and unsafe) browser navigation',
+    );
+    assert.ok(appSource.includes(".replace('</body>'"), 'updatePreview() must inject the anchor-safety script into the preview document');
+}
+
 console.log('Website Builder: schema, renderer, state, export-safety, and product-integration checks passed.');
 
 // END OF FILE
