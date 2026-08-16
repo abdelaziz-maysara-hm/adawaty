@@ -846,6 +846,20 @@ reliability and accessibility over a heavy drag-and-drop dependency); and any AI
 generation (explicitly out of scope for this feature entirely, by design — the renderer is ready
 for it, nothing else is built toward it).
 
+**Verification note, disclosed honestly**: `exportWebsiteZip()` itself (the top-level function
+that combines rendering, the same-origin CSS fetch, and ZIP packaging) has not been run end-to-end
+in a real browser or a persistent local server in this sandbox — every piece it composes *has*
+been verified independently and thoroughly (the render output, the relative-URL resolution logic
+confirmed mathematically correct, `fetch()` against a real HTTP server confirmed working for this
+exact file, the ZIP folder/file structure confirmed with real JSZip and an independent `unzip`
+tool), but the literal ~15-line function tying them together specifically has not been executed as
+one unit against a live server. Attempted this directly (started a local HTTP server, used
+`fetch()` overrides to run the real unmodified module) but hit repeated background-process
+persistence issues across separate sandbox tool calls unrelated to the code itself. Not treated as
+a blocking risk given how simple and low-branching the composition is and how thoroughly each
+piece is independently verified, but disclosed rather than silently assumed correct — worth a
+real-browser smoke test as part of the manual acceptance check before merging.
+
 
 
 Site owner is close to launching and asked specifically to prioritize the tools people actually
