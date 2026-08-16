@@ -197,6 +197,24 @@ for (const [index, page] of toolPages.entries()) {
     assert.match(page, /"isAccessibleForFree":true/);
     assert.match(page, /href="\.\.\/\.\.\/all-tools\/"/);
     assert.doesNotMatch(page, /TODO|PLACEHOLDER/i);
+
+    // FAQ content depth (added after Google deprecated FAQ rich results
+    // search-appearance on 2026-05-07 -- this is for genuine page-content
+    // depth and user value, not a rich-snippet bet). Only checked for
+    // non-interactive (generator-produced) pages: interactive tools like
+    // website-builder have a manually-authored page that doesn't go
+    // through this template at all, a deliberate, separate exemption
+    // (see the interactive-tool branch above). The Arabic question
+    // deliberately uses "استخدام [tool name] مجاني" (masculine noun
+    // "usage") rather than an adjective agreeing directly with the tool's
+    // own name, since tool titles vary in grammatical gender and a direct
+    // agreement (e.g. "[tool name] مجانية") broke for masculine-titled
+    // tools -- verified this exact safe phrasing is present on every page.
+    if (!tools[index].interactive) {
+        assert.match(page, /product-faq/);
+        assert.match(page, /"@type":"FAQPage"/);
+        assert.match(page, /هل استخدام[^"]*مجاني بالكامل؟/);
+    }
 }
 
 assert.equal(getToolDefinition('missing-tool'), null);

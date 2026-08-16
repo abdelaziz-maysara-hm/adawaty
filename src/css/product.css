@@ -52,6 +52,51 @@
     transition: border-color 0.15s ease, background 0.15s ease;
 }
 
+.product-faq {
+    margin-top: 40px;
+}
+
+.product-faq h2 {
+    font-size: 1.3rem;
+    margin-bottom: 16px;
+}
+
+.product-faq .faq-item {
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.product-faq .faq-item summary {
+    cursor: pointer;
+    font-weight: 600;
+    list-style: none;
+}
+
+.product-faq .faq-item summary::-webkit-details-marker {
+    display: none;
+}
+
+.product-faq .faq-item summary::before {
+    content: '+';
+    display: inline-block;
+    width: 1.1em;
+    color: var(--brand);
+    font-weight: 800;
+}
+
+.product-faq .faq-item[open] summary::before {
+    content: '\2212';
+}
+
+.product-faq .faq-item p {
+    margin: 10px 0 0;
+    color: var(--muted);
+    line-height: 1.7;
+}
+
 .product-related-card:hover {
     border-color: var(--brand, #55d8c1);
     background: rgba(85, 216, 193, 0.06);

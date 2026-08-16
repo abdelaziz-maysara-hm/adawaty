@@ -47,6 +47,83 @@ function safeJson(value) {
     return JSON.stringify(value).replaceAll('<', '\\u003c');
 }
 
+/**
+ * Generates 3 genuinely true, tool-specific FAQ items reflecting this
+ * site's actual, verified architecture (100% client-side, no account, no
+ * server upload) rather than generic filler. FAQPage rich results (the
+ * visible expandable dropdown in Google Search) were deprecated by
+ * Google on 2026-05-07 across all sites, so this is NOT expected to
+ * produce a search-result rich snippet -- the value here is genuine page
+ * content depth (a real ranking-relevant signal, unlike a thin form-only
+ * page) and answering real first-time-visitor questions, not a rich-
+ * result bet. The JSON-LD is still included since it's a harmless, valid
+ * schema.org type that costs nothing and may still help automated
+ * content understanding (including AI-search summarization), even
+ * without a visible SERP feature.
+ */
+function buildFaqItems(tool) {
+    const isFileTool = tool.inputs.some((input) => input.type === 'file');
+    const nameAr = tool.title.ar;
+    const nameEn = tool.title.en;
+
+    const items = [
+        {
+            questionAr: `هل استخدام ${nameAr} مجاني بالكامل؟`,
+            questionEn: `Is ${nameEn} completely free?`,
+            answerAr: 'نعم، بدون أي رسوم مخفية أو حاجة لإنشاء حساب أو تثبيت أي برنامج.',
+            answerEn: 'Yes, with no hidden fees, no account required, and nothing to install.',
+        },
+        isFileTool
+            ? {
+                questionAr: `هل يتم رفع ملفي إلى خادم خارجي؟`,
+                questionEn: `Is my file uploaded to an external server?`,
+                answerAr: `لا، تعمل أداة ${nameAr} بالكامل داخل متصفحك؛ ملفك لا يغادر جهازك أبدًا ولا يُرسل لأي خادم.`,
+                answerEn: `No, ${nameEn} runs entirely inside your browser; your file never leaves your device or gets sent to any server.`,
+            }
+            : {
+                questionAr: `هل يتم إرسال بياناتي إلى خادم خارجي؟`,
+                questionEn: `Is my data sent to an external server?`,
+                answerAr: `لا، تعمل أداة ${nameAr} بالكامل داخل متصفحك، ولا تُرسل أي بيانات تدخلها إلى أي خادم.`,
+                answerEn: `No, ${nameEn} runs entirely inside your browser, and nothing you enter is sent to any server.`,
+            },
+        {
+            questionAr: `هل أحتاج إلى تثبيت برنامج لاستخدام ${nameAr}؟`,
+            questionEn: `Do I need to install anything to use ${nameEn}?`,
+            answerAr: 'لا، تعمل الأداة مباشرة من داخل متصفحك على الكمبيوتر أو الهاتف، بدون أي تثبيت.',
+            answerEn: 'No, it runs directly in your browser on desktop or mobile, with nothing to install.',
+        },
+    ];
+
+    return items;
+}
+
+function buildFaqSection(faqItems) {
+    const itemsHtml = faqItems.map((item) => `
+    <details class="faq-item">
+      <summary><span data-copy="ar">${item.questionAr}</span><span data-copy="en">${item.questionEn}</span></summary>
+      <p><span data-copy="ar">${item.answerAr}</span><span data-copy="en">${item.answerEn}</span></p>
+    </details>`).join('');
+
+    return `<section class="product-faq">
+    <h2><span data-copy="ar">الأسئلة الشائعة</span><span data-copy="en">Frequently Asked Questions</span></h2>${itemsHtml}
+  </section>`;
+}
+
+function buildFaqStructuredData(faqItems) {
+    return safeJson({
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faqItems.map((item) => ({
+            '@type': 'Question',
+            name: item.questionEn,
+            acceptedAnswer: {
+                '@type': 'Answer',
+                text: item.answerEn,
+            },
+        })),
+    });
+}
+
 function createToolPage(tool) {
     const title = escapeHtml(tool.title.ar);
     const titleEn = escapeHtml(tool.title.en);
@@ -96,6 +173,9 @@ function createToolPage(tool) {
             name: related.title.ar,
         })),
     }) : '';
+    const faqItems = buildFaqItems(tool);
+    const faqSectionHtml = buildFaqSection(faqItems);
+    const faqData = buildFaqStructuredData(faqItems);
 
     return `<!doctype html>
 <html lang="ar" dir="rtl" data-language="ar">
@@ -134,6 +214,7 @@ function createToolPage(tool) {
     <script type="application/ld+json">${structuredData}</script>
     <script type="application/ld+json">${breadcrumbData}</script>
     ${relatedData ? `<script type="application/ld+json">${relatedData}</script>` : ''}
+    <script type="application/ld+json">${faqData}</script>
     <link rel="stylesheet" href="../../src/css/main.css">
     <link rel="stylesheet" href="../../src/css/product.css">
     <script type="module" src="../../src/product/tool-page.js?v=${assetVersion}"></script>
@@ -182,6 +263,7 @@ function createToolPage(tool) {
                 </a>`).join('\n                ')}
             </div>
         </section>` : ''}
+        ${faqSectionHtml}
     </main>
     <footer class="site-footer"><div class="footer-row shell"><p>Adawaty</p><p>© <span id="current-year"></span></p></div></footer>
 </body>

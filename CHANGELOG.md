@@ -1,5 +1,44 @@
 # Changelog
 
+# 0.5.113
+
+- Added genuine, tool-specific FAQ content (visible on-page content + FAQPage JSON-LD) to all 616
+  generator-produced tool pages, addressing a real content-depth gap (form-only pages with no
+  explanatory text). **Important context found before implementing**: Google deprecated the FAQ
+  rich-results search-appearance feature entirely on 2026-05-07, across all sites without
+  exception (it had already been restricted to government/health sites only since August 2023) --
+  this was confirmed via a live search before writing any code, since the original premise ("this
+  will show an expandable dropdown under your search result and boost click-through") is no longer
+  true for any site as of a few months ago. Corrected course and reframed the actual value: genuine
+  page-content depth (a real ranking-relevant signal a bare form page lacks) and answering real
+  first-time-visitor questions, not a rich-snippet bet. The FAQPage JSON-LD is still included since
+  it's a harmless, valid schema.org type that costs nothing and may still help automated content
+  understanding, including AI-search summarization, even without a visible SERP feature.
+  - 3 FAQ items per page, generated from each tool's own title/category/input-shape rather than
+    identical boilerplate: "Is [tool] free?", "Is my file/data uploaded to a server?" (worded
+    differently for file-based vs. non-file tools), "Do I need to install anything?" -- all
+    genuinely true statements reflecting this site's actual, verified 100%-client-side
+    architecture, not generic filler.
+  - **Found and fixed a real Arabic grammar bug during review of the actual generated output**:
+    the first question's direct construction ("[nameAr] مجانية بالكامل؟") made a feminine adjective
+    agree with the tool's own name, which is grammatically wrong for masculine-titled tools (e.g.
+    "مولّد" for `pbkdf2-generator`) -- confirmed by inspecting real generated pages, not assumed.
+    Fixed by rephrasing to "هل استخدام [nameAr] مجاني بالكامل؟" ("is the *usage* of [tool] free"),
+    where the masculine noun "استخدام" is what "مجاني" (also masculine) agrees with, sidestepping
+    the tool name's own variable gender entirely. Re-verified across 4 tools with genuinely
+    different Arabic name genders/structures (`video-splitter`, `video-merge-with-audio`,
+    `bcrypt-generator`, `age-calculator`) after the fix.
+  - Added CSS for the FAQ section (`<details>`/`<summary>` native accordion, zero JS) matching the
+    site's existing card/border visual language.
+  - Verified all 4 JSON-LD blocks per sample page (SoftwareApplication, BreadcrumbList, ItemList,
+    the new FAQPage) parse as valid JSON via an independent Python check, not just visual
+    inspection.
+  - Added a permanent regression test asserting FAQ content and FAQPage schema on every non-
+    interactive tool page (correctly scoped to exclude `website-builder`, whose manually-authored
+    page doesn't go through this generator template at all -- the test initially caught this
+    exemption correctly when first run, confirming it does what it's supposed to).
+  - `npm run validate` passes all 9 suites (616 tools).
+
 # 0.5.112
 
 - Added `video-merge-with-audio`, a companion to the existing silent `video-merge` (which is
