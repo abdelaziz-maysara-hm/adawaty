@@ -1,5 +1,18 @@
 # Changelog
 
+# 0.5.111
+
+- Security & Encoding: added `pbkdf2-generator` (Web Crypto's native `deriveBits`, no new
+  dependency). Verified against the official RFC 7914 Section 11 test vector before writing the
+  tool -- fetched the RFC directly from the RFC Editor rather than relying on a secondary source,
+  since an earlier manual transcription from a search-result snippet had appeared to mismatch on
+  first attempt; re-checked against the authoritative document and confirmed the Web Crypto
+  computation was correct all along (the transcription was the error, caught before it could lead
+  to a false "this doesn't work" conclusion). The exact test case (`P="passwd"`, `S="salt"`,
+  `c=1`, `dkLen=64`, SHA-256) produced an exact byte-for-byte match with the RFC's own published
+  output. Re-verified the same match through the actual shipped tool code (not just the standalone
+  algorithm) before registering it. `npm run validate` passes all 9 suites (615 tools).
+
 # 0.5.110
 
 - Video Splitter: added a "Custom cut points" mode (comma-separated timestamps like

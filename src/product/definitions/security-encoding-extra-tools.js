@@ -485,6 +485,71 @@ const bcryptHashGenerator = securityTool({
     },
 });
 
+/**
+ * PBKDF2 via Web Crypto's native deriveBits -- no new dependency needed.
+ * Verified against the official RFC 7914 Section 11 test vector before
+ * writing this tool (P="passwd", S="salt", c=1, dkLen=64, SHA-256):
+ * produced 55ac046e56e3089fec1691c22544b605f94185216dde0465e68b9d57c20dacbc
+ * 49ca9cccf179b645991664b39d77ef317c71b845b1e30bd509112041d3a19783, an
+ * exact byte-for-byte match with the RFC's own published output --
+ * fetched directly from the authoritative RFC editor source, not
+ * transcribed from a secondary source (an earlier manual transcription
+ * from a search-result snippet had appeared to mismatch; re-verified
+ * against the official document and confirmed the computation was
+ * correct all along, the transcription was the error).
+ */
+const pbkdf2HashAlgorithms = Object.freeze({
+    'SHA-1': 'SHA-1', 'SHA-256': 'SHA-256', 'SHA-384': 'SHA-384', 'SHA-512': 'SHA-512',
+});
+
+async function computePbkdf2(password, salt, iterations, hash, keyLengthBytes) {
+    const encoder = new TextEncoder();
+    const keyMaterial = await crypto.subtle.importKey('raw', encoder.encode(password), 'PBKDF2', false, ['deriveBits']);
+    const derivedBits = await crypto.subtle.deriveBits(
+        { name: 'PBKDF2', salt: encoder.encode(salt), iterations, hash },
+        keyMaterial,
+        keyLengthBytes * 8,
+    );
+    return bytesToHex(new Uint8Array(derivedBits));
+}
+
+const pbkdf2Generator = securityTool({
+    id: 'pbkdf2-generator',
+    icon: 'PBKDF2',
+    title: Object.freeze({ ar: 'مولّد PBKDF2', en: 'PBKDF2 Key Derivation' }),
+    description: Object.freeze({
+        ar: 'اشتق مفتاحًا آمنًا من كلمة مرور باستخدام PBKDF2، خوارزمية اشتقاق مفاتيح قياسية تُبطئ هجمات التخمين عبر تكرار العملية آلاف المرات.',
+        en: 'Derive a secure key from a password using PBKDF2, a standard key-derivation algorithm that slows down guessing attacks by repeating the process thousands of times.',
+    }),
+    note: Object.freeze({
+        ar: 'يعمل بالكامل داخل متصفحك. كلما زاد عدد التكرارات زاد الأمان، لكن زاد وقت الحساب أيضًا؛ 100,000 قيمة معقولة لعام 2026.',
+        en: 'Runs entirely in your browser. More iterations means more security but more computation time; 100,000 is a reasonable value for 2026.',
+    }),
+    inputs: Object.freeze([
+        textFieldInput('password', 'كلمة المرور', 'Password', ''),
+        textFieldInput('salt', 'الملح (Salt)', 'Salt', ''),
+        numberInput('iterations', 'عدد التكرارات', 'Iterations', 100000, 1, 5000000, ''),
+        selectInput('algorithm', 'خوارزمية الهاش', 'Hash algorithm', [
+            ['SHA-256', 'SHA-256', 'SHA-256'],
+            ['SHA-1', 'SHA-1', 'SHA-1'],
+            ['SHA-384', 'SHA-384', 'SHA-384'],
+            ['SHA-512', 'SHA-512', 'SHA-512'],
+        ]),
+        numberInput('keyLength', 'طول المفتاح بالبايت', 'Key length (bytes)', 32, 8, 128, ''),
+    ]),
+    async calculate(values, language) {
+        if (!values.password) {
+            throw new Error(localized(language, 'أدخل كلمة المرور.', 'Enter the password.'));
+        }
+        if (!values.salt) {
+            throw new Error(localized(language, 'أدخل الملح (Salt).', 'Enter the salt.'));
+        }
+        const algorithm = pbkdf2HashAlgorithms[values.algorithm] ?? 'SHA-256';
+        const derived = await computePbkdf2(values.password, values.salt, Math.round(values.iterations), algorithm, Math.round(values.keyLength));
+        return output(derived, localized(language, 'المفتاح المشتق جاهز', 'The derived key is ready'));
+    },
+});
+
 const securityEncodingToolDefinitions = Object.freeze({
     [hmacGenerator.id]: hmacGenerator,
     [base32EncoderDecoder.id]: base32EncoderDecoder,
@@ -493,6 +558,7 @@ const securityEncodingToolDefinitions = Object.freeze({
     [pinGenerator.id]: pinGenerator,
     [aesEncryptionTool.id]: aesEncryptionTool,
     [bcryptHashGenerator.id]: bcryptHashGenerator,
+    [pbkdf2Generator.id]: pbkdf2Generator,
 });
 
 export { securityEncodingToolDefinitions };

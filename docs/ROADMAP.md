@@ -700,20 +700,22 @@ the identical ISO-BMFF `ftyp` container structure and the file's actual brand st
 wasn't in the first version's narrower accepted-brand list. Fixed by widening to the full real
 HEIF specification brand set and re-verifying against the same real file before shipping.
 
-**Still open** (~82 items after the above): DES/3DES/RSA encrypt-decrypt and RSA/AES key
+**Also done since the above was written**: `bcrypt-generator` (0.5.70), `file-signature-viewer`
+(0.5.71), `pbkdf2-generator` (0.5.111, verified against the official RFC 7914 test vector,
+byte-for-byte match with the RFC's own published output).
+
+**Still open** (~79 items after the above): DES/3DES/RSA encrypt-decrypt and RSA/AES key
 generation (Web Crypto supports AES-GCM/CBC and RSA-OAEP/PSS natively — verify the exact API
 shape before building, same rigor as everything above, but no new dependency expected);
-bcrypt/Argon2/scrypt password hashing (Web Crypto does *not* support these — would need a
-dedicated library, a deliberate dependency decision like `piexifjs`/`pdf-encrypt-lite` before
-this session's earlier tools); certificate/CSR/PEM/DER/PFX tooling (X.509 parsing — check for an
-existing lightweight library rather than hand-rolling ASN.1 parsing); OAuth/OpenID token
-tooling (mostly straightforward JWT-adjacent parsing, likely quick once scoped); file-signature/
-magic-number/MIME detection (similar pattern to the already-shipped `image-validator`, likely a
-genuine quick win); SSH key viewer/fingerprint (needs an SSH key format parser); PBKDF2 (Web
-Crypto supports this natively via `deriveBits`, likely another quick win); a batch UUID/NanoID
-generator (trivial, wraps the existing single-item generators); and a combined `security-toolkit`
-landing page. No architecture blockers identified on most of these — same pattern as what
-shipped, pick up whenever, **starting with `npm run list:tools` before writing any code, per the
+Argon2/scrypt password hashing (Web Crypto does *not* support these — would need a
+dedicated library, a deliberate dependency decision like `piexifjs`/`pdf-encrypt-lite`/`bcryptjs`
+before this session's earlier tools); certificate/CSR/PEM/DER/PFX tooling (X.509 parsing — check
+for an existing lightweight library rather than hand-rolling ASN.1 parsing); OAuth/OpenID token
+tooling (mostly straightforward JWT-adjacent parsing, likely quick once scoped); SSH key viewer/
+fingerprint (needs an SSH key format parser); a batch UUID/NanoID generator (trivial, wraps the
+existing single-item generators); and a combined `security-toolkit` landing page. No architecture
+blockers identified on most of these — same pattern as what shipped, pick up whenever,
+**starting with `npm run list:tools` before writing any code, per the
 0.5.67 timing correction above.**
 
 ### Developer Tools (Part 9, ~100 tools) — in progress
