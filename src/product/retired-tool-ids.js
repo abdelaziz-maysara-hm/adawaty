@@ -32,6 +32,11 @@
     'billable-hours-target-calculator', 'estimate-at-completion-calculator',
     'agile-sprint-velocity-calculator', 'agile-team-capacity-calculator',
     'project-duration-throughput-calculator',
+    // Removed per explicit site owner request (August 2026): not currently
+    // needed and not working as intended. Do not re-add without a
+    // deliberate decision to rebuild it -- the source files were deleted
+    // entirely, not just unregistered.
+    'visual-pdf-editor',
 ]);
 
 export { retiredToolIds };

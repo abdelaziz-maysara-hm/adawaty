@@ -187,7 +187,7 @@ for (const [index, page] of toolPages.entries()) {
         // generic tool-page.js form renderer -- verified generically here
         // (any src/product/*.js module script) rather than hardcoding one
         // specific tool's filename, since more than one interactive tool
-        // now exists (website-builder, and future ones).
+        // can exist over time (website-builder, and future ones).
         assert.match(page, /<script type="module" src="\.\.\/\.\.\/src\/product\/[\w-]+\.js/);
     } else {
         assert.match(page, /src\/product\/tool-page\.js/);
@@ -198,11 +198,6 @@ for (const [index, page] of toolPages.entries()) {
     assert.match(page, /href="\.\.\/\.\.\/all-tools\/"/);
     assert.doesNotMatch(page, /TODO|PLACEHOLDER/i);
 }
-
-const visualEditorPage = toolPages[toolIds.indexOf('visual-pdf-editor')];
-assert.match(visualEditorPage, /id="overlay-layer"/);
-assert.match(visualEditorPage, /id="save-pdf"/);
-assert.match(visualEditorPage, /visual-pdf-editor\.css/);
 
 assert.equal(getToolDefinition('missing-tool'), null);
 

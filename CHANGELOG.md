@@ -23,6 +23,16 @@
   tool-definition pattern (the same mechanism already used for other workspace-style tools),
   so it appears correctly in the catalogue/search/category system without forcing a complex
   visual editor into the generic form/result tool-page template.
+- Removed `visual-pdf-editor` entirely, per explicit site owner request (not currently needed, not
+  working as intended): deleted its source files (`src/product/visual-pdf-editor.js`,
+  `src/css/visual-pdf-editor.css`, `src/product/definitions/visual-pdf-editor-tool.js`), its
+  manually-authored page (`tools/visual-pdf-editor/`), and its registration in
+  `tool-definitions.js`. Added `visual-pdf-editor` to `retired-tool-ids.js` so it can't be
+  accidentally re-added without a deliberate decision. Fixed 2 test assertions in
+  `tests/product/tools.integration.mjs` that had hardcoded assumptions specific to this tool
+  (generalized the interactive-tool page check to work for any interactive tool's own script,
+  and removed the tool-specific assertion block entirely). Verified no other page linked to it.
+  `npm run validate` passes all 8 suites (613 tools).
 
 # 0.5.102
 

@@ -89,7 +89,6 @@ import { subtitleBurnToolDefinitions } from './definitions/subtitle-burn-tool.js
 import { memeToolDefinitions } from './definitions/meme-generator-tool.js';
 import { pdfContentToolDefinitions } from './definitions/pdf-content-tools.js';
 import { pdfEditorToolDefinitions } from './definitions/pdf-editor-tools.js';
-import { visualPdfEditorToolDefinitions } from './definitions/visual-pdf-editor-tool.js';
 import { websiteBuilderToolDefinitions } from './definitions/website-builder-tool.js';
 import { ocrToolDefinitions } from './definitions/ocr-tools.js';
 import { videoFileToolDefinitions } from './definitions/video-file-tools.js';
@@ -1168,7 +1167,6 @@ const allToolDefinitions = Object.freeze({
     ...memeToolDefinitions,
     ...pdfContentToolDefinitions,
     ...pdfEditorToolDefinitions,
-    ...visualPdfEditorToolDefinitions,
     ...websiteBuilderToolDefinitions,
     ...ocrToolDefinitions,
     ...videoFileToolDefinitions,
