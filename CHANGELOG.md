@@ -1,5 +1,40 @@
 # Changelog
 
+# 0.5.109
+
+- Website Builder: found and fixed the real root cause of "clicking a nav link inside the preview
+  loads the whole Adawaty site inside the preview itself" -- a precise reproduction from user
+  testing (clicking "work"/"about"/any nav link inside the previewed template) made this
+  diagnosable. Root cause: the live preview's `<iframe>` uses `srcdoc`, and per browser behavior,
+  a `srcdoc` iframe inherits the *embedding page's own URL* as its base for relative-link
+  resolution unless told otherwise. A same-page anchor link with no matching element in the
+  iframe's own document (exactly the case for a project saved *before* the 0.5.107 nav-link-
+  resolution fix, whose stale saved data still has non-matching "#work"/"#about" hrefs baked in)
+  could therefore resolve as an attempted navigation to the *parent Adawaty page's own URL* plus
+  that fragment -- and since that's a real, same-origin address, the browser loaded it inside the
+  iframe rather than failing safely, exactly matching the reported symptom. Fixed by intercepting
+  every internal anchor click in the preview and calling `preventDefault()` *unconditionally*,
+  before even checking whether a matching element exists, so the browser's native navigation
+  logic -- and its base-URL ambiguity -- never runs at all, regardless of whether the specific
+  link happens to be valid or stale. Verified with a real `jsdom` DOM event-dispatch test during
+  development (both a matching and a non-matching link correctly ended up with
+  `event.defaultPrevented === true`) -- not added as a permanent project dependency, since this
+  project otherwise has zero devDependencies; a lighter structural test was added to the
+  permanent suite instead, verifying `preventDefault()` runs before the target-element check in
+  the actual shipped source. Confirmed this structural test genuinely catches a regression by
+  deliberately reintroducing the exact broken ordering and watching the test fail, then restoring
+  the fix and confirming it passes again.
+- This same root cause likely explains why the dark-theme fix from 0.5.107 appeared not to be
+  working in the same testing session: once a preview link triggers the recursive-load bug, the
+  iframe stops showing the user's actual generated site at all, so no theme change -- correct or
+  not -- would be visible on top of it. Existing saved projects created before the underlying
+  nav-link fix will still have stale non-matching hrefs baked into their data (this fix prevents
+  the alarming symptom, but doesn't retroactively repair old saved specs); starting a new project
+  regenerates correct data from the now-fixed templates.
+- Bumped the cache-busting query string again (`?v=wb2` -> `?v=wb3` for the JS file) since it
+  changed again in this fix.
+- `npm run validate` passes all 9 suites (614 tools).
+
 # 0.5.108
 
 - Website Builder: found and fixed a likely explanation for stale/inconsistent behavior reported
