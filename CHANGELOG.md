@@ -1,5 +1,26 @@
 # Changelog
 
+# 0.5.105
+
+- Website Builder: added real image upload for Hero and About sections (the biggest practical gap
+  left after Phase 2 -- the generator previously only had labeled placeholder tiles, never a real
+  user photo). Designed and tested the safety layer first, before writing any UI or component code:
+  `safeImageDataUrl()` in `render-utils.js` only trusts raster image data URLs (PNG/JPEG/GIF/WebP)
+  up to ~2MB, deliberately rejecting `image/svg+xml` despite it being a genuine image format --
+  SVG can embed `<script>` tags and event-handler attributes, a well-documented real XSS vector.
+  Verified against real attack payloads before use: an SVG data URL with an `onload` handler, a
+  `data:text/html` payload disguised with an image-sounding name, and an oversized value are all
+  rejected; genuine PNG/JPEG data URLs are accepted. Updated `hero.js`, `about.js`, and
+  `gallery.js` to render a real `<img>` when a valid image is present and fall back to the
+  existing placeholder otherwise -- re-verified all three together against the same attack
+  payloads combined, confirming nothing leaks into rendered output. Added upload UI to the section
+  editor panel (file picker, live thumbnail preview, remove button, alt-text field for
+  accessibility) with the exact same validation re-applied client-side for immediate feedback
+  before a rejected file could reach state. Along the way, caught and removed a redundant unused
+  `<label>` element the dispatcher was creating before handing off to the image field's own
+  builder. Added dedicated tests for `safeImageDataUrl()` and for all 3 updated components against
+  the same real attack payloads. `npm run validate` passes all 9 suites (614 tools).
+
 # 0.5.104
 
 - Website Builder V1, Phase 2: implemented the remaining 4 of 6 planned templates (Landing,

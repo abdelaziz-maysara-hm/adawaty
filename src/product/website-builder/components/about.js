@@ -1,4 +1,11 @@
-import { escapeHtml } from '../render-utils.js';
+import { escapeHtml, escapeAttr, safeImageDataUrl } from '../render-utils.js';
+
+function renderVisual(content) {
+    const safeImage = safeImageDataUrl(content.imageDataUrl);
+    return safeImage
+        ? `<img class="about-visual" src="${escapeAttr(safeImage)}" alt="${escapeAttr(content.imageAlt || '')}">`
+        : '<div class="about-visual" aria-hidden="true"></div>';
+}
 
 function renderAbout(section) {
     const { content } = section;
@@ -11,7 +18,7 @@ function renderAbout(section) {
       <h2>${escapeHtml(content.title || '')}</h2>
       ${paragraphsHtml}
     </div>
-    <div class="about-visual" aria-hidden="true"></div>
+    ${renderVisual(content)}
   </div>
 </section>`;
 }

@@ -1,14 +1,19 @@
-import { escapeHtml, escapeAttr } from '../render-utils.js';
+import { escapeHtml, escapeAttr, safeImageDataUrl } from '../render-utils.js';
 
 /**
- * Gallery items reference images by a caption/placeholder color only in
- * V1 -- there is no image upload pipeline yet, so each item renders as a
- * labeled placeholder tile rather than an <img> pointing at a URL a user
- * typed in (which would otherwise need its own URL-safety handling).
+ * Gallery items reference images either as a real uploaded data URL
+ * (validated via safeImageDataUrl -- raster formats only, since SVG data
+ * URLs can carry executable content) or, if none was uploaded, fall back
+ * to a labeled placeholder tile.
  */
 function renderGalleryItem(item) {
+    const safeImage = safeImageDataUrl(item.imageDataUrl);
+    const visual = safeImage
+        ? `<img class="gallery-placeholder" src="${escapeAttr(safeImage)}" alt="${escapeAttr(item.caption || '')}">`
+        : `<div class="gallery-placeholder" role="img" aria-label="${escapeAttr(item.caption || '')}"></div>`;
+
     return `<li class="gallery-item">
-      <div class="gallery-placeholder" role="img" aria-label="${escapeAttr(item.caption || '')}"></div>
+      ${visual}
       ${item.caption ? `<span class="gallery-caption">${escapeHtml(item.caption)}</span>` : ''}
     </li>`;
 }

@@ -23,6 +23,8 @@ const FIELD_LABELS = Object.freeze({
     paragraphs: Object.freeze({ ar: 'الفقرات (سطر لكل فقرة)', en: 'Paragraphs (one per line)' }),
     items: Object.freeze({ ar: 'العناصر', en: 'Items' }),
     plans: Object.freeze({ ar: 'الباقات', en: 'Plans' }),
+    imageDataUrl: Object.freeze({ ar: 'الصورة', en: 'Image' }),
+    imageAlt: Object.freeze({ ar: 'وصف الصورة (لإمكانية الوصول)', en: 'Image description (for accessibility)' }),
 });
 
 /** field types: 'text' | 'textarea' | 'url' | 'checkbox' | 'lines' (one paragraph per line) | 'itemList' (structured list, format described per section) */
@@ -34,6 +36,7 @@ const SECTION_SCHEMAS = Object.freeze({
         Object.freeze({ key: 'primaryButtonHref', type: 'url' }),
         Object.freeze({ key: 'secondaryButtonLabel', type: 'text' }),
         Object.freeze({ key: 'secondaryButtonHref', type: 'url' }),
+        Object.freeze({ key: 'imageDataUrl', type: 'image', altKey: 'imageAlt' }),
     ]),
     features: Object.freeze([
         Object.freeze({ key: 'title', type: 'text' }),
@@ -52,6 +55,7 @@ const SECTION_SCHEMAS = Object.freeze({
     about: Object.freeze([
         Object.freeze({ key: 'title', type: 'text' }),
         Object.freeze({ key: 'paragraphs', type: 'lines' }),
+        Object.freeze({ key: 'imageDataUrl', type: 'image', altKey: 'imageAlt' }),
     ]),
     stats: Object.freeze([
         Object.freeze({ key: 'title', type: 'text' }),

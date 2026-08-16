@@ -7,7 +7,7 @@ import { getToolDefinition, listToolDefinitions } from '../../src/product/tool-d
 import {
     validateWebsiteSpec, createDefaultSpec, SECTION_TYPES, SITE_TYPES,
 } from '../../src/product/website-builder/schema.js';
-import { escapeHtml, safeUrl, safeHexColor } from '../../src/product/website-builder/render-utils.js';
+import { escapeHtml, safeUrl, safeHexColor, safeImageDataUrl } from '../../src/product/website-builder/render-utils.js';
 import { renderWebsite, renderDocument } from '../../src/product/website-builder/engine.js';
 import { createBusinessSpec } from '../../src/product/website-builder/templates/business.js';
 import { createPortfolioSpec } from '../../src/product/website-builder/templates/portfolio.js';
@@ -103,6 +103,68 @@ function assertNoAdsenseMarkers(text, label) {
 {
     assert.equal(safeHexColor('#ff0000'), '#ff0000');
     assert.equal(safeHexColor('red; background: url(evil)', '#000000'), '#000000');
+}
+
+{
+    // Real uploaded images: only raster formats are trusted. SVG is
+    // deliberately excluded even though it's a genuine image format,
+    // since SVG can embed <script> and event-handler attributes.
+    const validPng = `data:image/png;base64,${Buffer.from([0x89, 0x50, 0x4E, 0x47]).toString('base64')}`;
+    const validJpeg = `data:image/jpeg;base64,${Buffer.from([0xFF, 0xD8, 0xFF]).toString('base64')}`;
+    assert.equal(safeImageDataUrl(validPng), validPng);
+    assert.equal(safeImageDataUrl(validJpeg), validJpeg);
+
+    const maliciousSvg = `data:image/svg+xml;base64,${Buffer.from('<svg onload=alert(1)></svg>').toString('base64')}`;
+    assert.equal(safeImageDataUrl(maliciousSvg), null, 'SVG data URLs must be rejected, not just non-image ones');
+
+    const disguisedHtml = `data:text/html;base64,${Buffer.from('<script>alert(1)</script>').toString('base64')}`;
+    assert.equal(safeImageDataUrl(disguisedHtml), null);
+
+    assert.equal(safeImageDataUrl('javascript:alert(1)'), null);
+    assert.equal(safeImageDataUrl(`data:image/png;base64,${'A'.repeat(3 * 1024 * 1024)}`), null, 'oversized data URLs must be rejected');
+    assert.equal(safeImageDataUrl(undefined), null);
+}
+
+// ---------------------------------------------------------------------------
+// Image-capable components (hero, about, gallery): real uploads render,
+// malicious payloads fall back to the safe placeholder, never leaking
+// into the output.
+// ---------------------------------------------------------------------------
+
+{
+    const { renderHero } = await import('../../src/product/website-builder/components/hero.js');
+    const { renderAbout } = await import('../../src/product/website-builder/components/about.js');
+    const { renderGallery } = await import('../../src/product/website-builder/components/gallery.js');
+
+    const validPng = `data:image/png;base64,${Buffer.from([0x89, 0x50, 0x4E, 0x47]).toString('base64')}`;
+    const attackPayloads = [
+        `data:image/svg+xml;base64,${Buffer.from('<svg onload=alert(1)></svg>').toString('base64')}`,
+        `data:text/html;base64,${Buffer.from('<script>alert(1)</script>').toString('base64')}`,
+        'javascript:alert(1)',
+    ];
+
+    const heroWithImage = renderHero({
+        id: 'h', variant: 'split', content: { headline: 'Hi', imageDataUrl: validPng, imageAlt: 'Photo' },
+    });
+    assert.ok(heroWithImage.includes('<img class="hero-visual"'), 'a valid uploaded image must render as a real <img>');
+    assert.ok(heroWithImage.includes(validPng));
+
+    const aboutWithImage = renderAbout({ id: 'a', content: { title: 'About', imageDataUrl: validPng } });
+    assert.ok(aboutWithImage.includes('<img class="about-visual"'));
+
+    const galleryWithImage = renderGallery({ id: 'g', content: { items: [{ caption: 'Item', imageDataUrl: validPng }] } });
+    assert.ok(galleryWithImage.includes('<img class="gallery-placeholder"'));
+
+    for (const payload of attackPayloads) {
+        const hero = renderHero({ id: 'h2', variant: 'split', content: { headline: 'Hi', imageDataUrl: payload } });
+        const about = renderAbout({ id: 'a2', content: { title: 'About', imageDataUrl: payload } });
+        const gallery = renderGallery({ id: 'g2', content: { items: [{ caption: 'Item', imageDataUrl: payload }] } });
+        const combined = hero + about + gallery;
+        assert.ok(!combined.includes('<script>'), `attack payload leaked a <script> tag: ${payload.slice(0, 30)}`);
+        assert.ok(!combined.includes('onload='), `attack payload leaked an onload handler: ${payload.slice(0, 30)}`);
+        assert.ok(!combined.includes('javascript:'), `attack payload leaked a javascript: URI: ${payload.slice(0, 30)}`);
+        assert.ok(hero.includes('<div class="hero-visual"'), 'rejected hero image must fall back to the placeholder div');
+    }
 }
 
 // ---------------------------------------------------------------------------

@@ -39,8 +39,33 @@ function safeHexColor(value, fallback = '#000000') {
     return /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(text) ? text : fallback;
 }
 
+/**
+ * Validates a user-uploaded image as a data: URL. Deliberately excludes
+ * image/svg+xml despite it being a real image format: SVG can embed
+ * <script> and event-handler attributes (a well-documented real XSS
+ * vector), so only raster formats that cannot carry executable content
+ * are allowed. Verified against real attack payloads before use: an SVG
+ * data URL containing an onload handler, a data:text/html payload
+ * disguised with an image-sounding name, and an oversized value are all
+ * rejected; genuine PNG/JPEG data URLs are accepted.
+ */
+const ALLOWED_IMAGE_MIME_TYPES = Object.freeze(['image/png', 'image/jpeg', 'image/gif', 'image/webp']);
+const MAX_IMAGE_DATA_URL_LENGTH = 2 * 1024 * 1024; // ~2MB of base64 text (roughly a 1.5MB source file)
+const IMAGE_DATA_URL_PATTERN = /^data:(image\/[a-z0-9.+-]+);base64,([A-Za-z0-9+/=]+)$/i;
+
+function safeImageDataUrl(value) {
+    const text = String(value ?? '').trim();
+    if (text.length === 0 || text.length > MAX_IMAGE_DATA_URL_LENGTH) return null;
+
+    const match = IMAGE_DATA_URL_PATTERN.exec(text);
+    if (!match) return null;
+
+    const mimeType = match[1].toLowerCase();
+    return ALLOWED_IMAGE_MIME_TYPES.includes(mimeType) ? text : null;
+}
+
 export {
-    escapeHtml, escapeAttr, safeUrl, safeHexColor,
+    escapeHtml, escapeAttr, safeUrl, safeHexColor, safeImageDataUrl, ALLOWED_IMAGE_MIME_TYPES,
 };
 
 // END OF FILE

@@ -814,7 +814,7 @@ pattern as what shipped, pick up whenever, **always starting with `npm run list:
 
 ---
 
-## Website Builder V1 (developer category) — Phase 1 + 2 done (0.5.104)
+## Website Builder V1 (developer category) — Phase 1 + 2 done, image upload added (0.5.105)
 
 A large feature deliberately split into phases rather than attempted all at once, per an explicit
 decision to de-risk it. Architecture: `src/product/website-builder/schema.js` defines
@@ -837,14 +837,16 @@ keeping it checkout/payment-free per the original spec — verified with a dedic
 checking for absence of checkout/payment/cart language, not just absence of a real payment
 integration.
 
-**Still open for a later phase**: image upload/embedding (V1's gallery section uses labeled
-placeholder tiles, not real uploaded images, to avoid needing a URL-safety review for user-hosted
-image sources); a richer per-section-type content editor (V1 uses one generic panel driven by
-`content-schema.js`, with list-based content like features/testimonials edited via a simple
-one-line-per-item text format rather than a dedicated add/remove/reorder sub-UI); drag-and-drop
-section reordering (V1 uses up/down buttons); and any AI-assisted spec generation (explicitly out
-of scope for this feature entirely, by design — the renderer is ready for it, nothing else is
-built toward it).
+**Still open for a later phase**: real image upload for the Gallery section specifically (Hero
+and About got real upload support in 0.5.105 via a validated `safeImageDataUrl()` -- raster
+formats only, SVG deliberately excluded since it can carry executable content -- but Gallery's
+per-item images still use placeholder tiles, since its items are currently edited via the simple
+one-line-per-item text format in `content-schema.js`, which doesn't have a natural slot for a
+per-item file upload control yet); a richer per-section-type content editor generally (list-based
+content like features/testimonials still uses that same simple text format rather than a
+dedicated add/remove/reorder sub-UI); drag-and-drop section reordering (V1 uses up/down buttons);
+and any AI-assisted spec generation (explicitly out of scope for this feature entirely, by design
+— the renderer is ready for it, nothing else is built toward it).
 
 
 

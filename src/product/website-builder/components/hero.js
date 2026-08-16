@@ -1,4 +1,11 @@
-import { escapeHtml, safeUrl } from '../render-utils.js';
+import { escapeHtml, escapeAttr, safeUrl, safeImageDataUrl } from '../render-utils.js';
+
+function renderVisual(content) {
+    const safeImage = safeImageDataUrl(content.imageDataUrl);
+    return safeImage
+        ? `<img class="hero-visual" src="${escapeAttr(safeImage)}" alt="${escapeAttr(content.imageAlt || '')}">`
+        : '<div class="hero-visual" aria-hidden="true"></div>';
+}
 
 function renderButtons(content) {
     const primary = content.primaryButtonLabel
@@ -20,7 +27,7 @@ function renderSplitHero(section) {
       <p class="hero-subheadline">${escapeHtml(content.subheadline || '')}</p>
       <div class="hero-actions">${renderButtons(content)}</div>
     </div>
-    <div class="hero-visual" aria-hidden="true"></div>
+    ${renderVisual(content)}
   </div>
 </section>`;
 }

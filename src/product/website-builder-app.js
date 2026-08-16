@@ -10,6 +10,7 @@ import { createAgencySpec } from './website-builder/templates/agency.js';
 import { createRestaurantSpec } from './website-builder/templates/restaurant.js';
 import { createCatalogSpec } from './website-builder/templates/catalog.js';
 import { getSchemaForSection, FIELD_LABELS, serializeItemList, parseItemList, serializeLines, parseLines } from './website-builder/content-schema.js';
+import { safeImageDataUrl } from './website-builder/render-utils.js';
 import { SECTION_TYPES } from './website-builder/schema.js';
 
 const copy = Object.freeze({
@@ -26,6 +27,7 @@ const copy = Object.freeze({
         editSection: 'تعديل القسم', save: 'حفظ', cancel: 'إلغاء',
         exporting: 'جارٍ التجهيز...', restored: 'تم استرجاع مشروعك المحفوظ.',
         showForm: 'إظهار نموذج التواصل',
+        removeImage: 'إزالة الصورة', invalidImage: 'الملف المختار ليس صورة صالحة، أو حجمه كبير جدًا.',
         sectionNames: Object.freeze({
             hero: 'رئيسي', features: 'مميزات', services: 'خدمات', about: 'من نحن', stats: 'إحصائيات',
             gallery: 'معرض صور', testimonials: 'آراء العملاء', pricing: 'الأسعار', faq: 'أسئلة شائعة',
@@ -45,6 +47,7 @@ const copy = Object.freeze({
         editSection: 'Edit Section', save: 'Save', cancel: 'Cancel',
         exporting: 'Preparing...', restored: 'Your saved project was restored.',
         showForm: 'Show contact form',
+        removeImage: 'Remove image', invalidImage: 'The selected file isn\u2019t a valid image, or it\u2019s too large.',
         sectionNames: Object.freeze({
             hero: 'Hero', features: 'Features', services: 'Services', about: 'About', stats: 'Stats',
             gallery: 'Gallery', testimonials: 'Testimonials', pricing: 'Pricing', faq: 'FAQ',
@@ -272,7 +275,96 @@ function closeSectionEditor() {
     el.editorPanel.setAttribute('aria-hidden', 'true');
 }
 
+function fileToDataUrl(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = () => reject(new Error('Unable to read the selected file.'));
+        reader.readAsDataURL(file);
+    });
+}
+
+/**
+ * Builds the upload UI for an 'image' field: a file input, a live
+ * thumbnail once a value exists, and a remove button. The current value
+ * is tracked on wrap.dataset.imageValue (file inputs can't have their
+ * value set programmatically) and re-validated with the same
+ * safeImageDataUrl() the renderer itself trusts, so a rejected file never
+ * silently ends up looking like it was accepted.
+ */
+function buildImageEditorField(field, content) {
+    const wrap = document.createElement('div');
+    wrap.className = 'field-row';
+    wrap.dataset.fieldKey = field.key;
+    wrap.dataset.fieldType = 'image';
+
+    const label = document.createElement('label');
+    label.textContent = FIELD_LABELS[field.key]?.[getUiLanguage()] ?? field.key;
+    wrap.append(label);
+
+    const preview = document.createElement('img');
+    preview.className = 'image-field-preview';
+    const existing = safeImageDataUrl(content[field.key]);
+    if (existing) {
+        preview.src = existing;
+        wrap.dataset.imageValue = existing;
+    } else {
+        preview.hidden = true;
+    }
+    wrap.append(preview);
+
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/png,image/jpeg,image/gif,image/webp';
+    fileInput.addEventListener('change', async () => {
+        const file = fileInput.files?.[0];
+        if (!file) return;
+        try {
+            const dataUrl = await fileToDataUrl(file);
+            const validated = safeImageDataUrl(dataUrl);
+            if (!validated) {
+                window.alert(t('invalidImage'));
+                fileInput.value = '';
+                return;
+            }
+            wrap.dataset.imageValue = validated;
+            preview.src = validated;
+            preview.hidden = false;
+        } catch {
+            window.alert(t('invalidImage'));
+        }
+    });
+    wrap.append(fileInput);
+
+    if (field.altKey) {
+        const altInput = document.createElement('input');
+        altInput.type = 'text';
+        altInput.placeholder = FIELD_LABELS[field.altKey]?.[getUiLanguage()] ?? field.altKey;
+        altInput.value = content[field.altKey] ?? '';
+        altInput.dataset.altFor = field.key;
+        wrap.append(altInput);
+    }
+
+    const removeButton = document.createElement('button');
+    removeButton.type = 'button';
+    removeButton.className = 'button button-quiet';
+    removeButton.textContent = t('removeImage');
+    removeButton.addEventListener('click', () => {
+        delete wrap.dataset.imageValue;
+        preview.hidden = true;
+        preview.src = '';
+        fileInput.value = '';
+    });
+    wrap.append(removeButton);
+
+    return wrap;
+}
+
 function buildEditorField(field, content) {
+    if (field.type === 'image') {
+        return buildImageEditorField(field, content);
+    }
+
     const wrap = document.createElement('div');
     wrap.className = 'field-row';
     wrap.dataset.fieldKey = field.key;
@@ -330,6 +422,11 @@ function readEditorFields(section) {
 
         if (field.type === 'checkbox') {
             patch[field.key] = wrap.querySelector('input').checked;
+        } else if (field.type === 'image') {
+            patch[field.key] = wrap.dataset.imageValue ?? '';
+            if (field.altKey) {
+                patch[field.altKey] = wrap.querySelector(`[data-alt-for="${field.key}"]`)?.value ?? '';
+            }
         } else if (field.type === 'itemList') {
             patch[field.key] = parseItemList(wrap.querySelector('textarea').value, field.itemFields);
         } else if (field.type === 'lines') {
