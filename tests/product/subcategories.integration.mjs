@@ -1,7 +1,13 @@
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 import { listToolDefinitions } from '../../src/product/tool-definitions.js';
 import { SUBCATEGORIES, getSubcategories, getSubcategoryForTool } from '../../src/product/subcategories.js';
+
+const currentDir = path.dirname(fileURLToPath(import.meta.url));
+const projectRoot = path.resolve(currentDir, '../..');
 
 const tools = listToolDefinitions();
 const idsByCategory = new Map();
@@ -52,6 +58,28 @@ assert.equal(getSubcategoryForTool('developer', 'json-formatter'), 'json');
 assert.equal(getSubcategoryForTool('developer', 'website-builder'), null);
 // An unknown category (no taxonomy at all) also returns null safely.
 assert.equal(getSubcategoryForTool('health', 'bmi-calculator'), null);
+
+// catalogue-page.js's priorityGroups (the "most likely searched first"
+// tiebreaker used when browsing/sorting a category) is a plain array of
+// string literals, not an importable data structure -- parsed from
+// source text here rather than imported, since the module itself
+// expects a browser DOM (querySelector calls run at import time). A
+// stale/typo'd id here is a real, previously-latent bug found while
+// extending this list: "grammar-checker" and "text-summarizer" were
+// referenced but never existed as real tools -- harmless in practice
+// (a missing id just never matches, so it silently fell through to the
+// alphabetical fallback) but still a genuine data error worth catching
+// automatically going forward.
+{
+    const source = await readFile(path.join(projectRoot, 'src/product/catalogue-page.js'), 'utf8');
+    const match = source.match(/const priorityGroups = Object\.freeze\(\[([\s\S]*?)\]\);/);
+    assert.ok(match, 'catalogue-page.js must define priorityGroups');
+    const referencedIds = [...match[1].matchAll(/'([a-z0-9-]+)'/g)].map((m) => m[1]);
+    assert.ok(referencedIds.length > 0, 'priorityGroups must reference at least one tool id');
+    const realIds = new Set(tools.map((tool) => tool.id));
+    const missing = referencedIds.filter((id) => !realIds.has(id));
+    assert.deepEqual(missing, [], `priorityGroups references non-existent tool id(s): ${missing.join(', ')}`);
+}
 
 console.log(`Sub-category taxonomy verified across ${Object.keys(SUBCATEGORIES).length} categories, ${tools.length} total tools checked for id/category consistency.`);
 

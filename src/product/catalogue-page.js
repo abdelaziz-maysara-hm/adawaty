@@ -58,9 +58,25 @@ const priorityGroups = Object.freeze([
     ['image-compressor', 'compress-image-to-target-size', 'image-resizer', 'image-cropper', 'image-format-converter', 'jpg-to-png-converter', 'png-to-jpg-converter', 'image-to-text-ocr'],
     ['video-compressor', 'video-trimmer', 'video-splitter', 'video-merge', 'video-audio-remover', 'add-audio-to-video', 'video-audio-extractor', 'video-format-converter'],
     ['audio-compressor-dynamics', 'audio-trimmer', 'audio-splitter', 'audio-merger', 'audio-noise-remover', 'audio-format-converter', 'mp3-to-wav-converter', 'wav-to-mp3-converter'],
-    ['word-counter', 'character-counter', 'text-case-converter', 'duplicate-line-remover', 'text-diff-checker', 'grammar-checker', 'text-summarizer'],
-    ['seo-checker', 'keyword-density-checker', 'serp-snippet-preview', 'meta-tag-generator', 'open-graph-generator', 'robots-txt-generator', 'sitemap-entry-generator'],
-    ['password-generator', 'password-strength-checker', 'password-breach-checker', 'hash-generator', 'sri-hash-generator', 'csp-header-generator'],
+    // "grammar-checker" and "text-summarizer" were removed here: neither
+    // exists as a real registered tool id, so they were silent dead
+    // entries in the priority map (harmless -- a missing id just never
+    // matches anything -- but worth cleaning up since we're extending
+    // this exact list). word-counter and text-case-converter still lead
+    // the group; text-diff-checker and duplicate-line-remover follow.
+    ['word-counter', 'character-counter', 'text-case-converter', 'duplicate-line-remover', 'text-diff-checker', 'lorem-ipsum-generator', 'find-and-replace-tool'],
+    ['seo-checker', 'keyword-density-checker', 'serp-snippet-preview', 'meta-tag-generator', 'open-graph-generator', 'robots-txt-generator', 'sitemap-entry-generator', 'utm-link-builder', 'click-through-rate-calculator'],
+    ['password-generator', 'password-strength-checker', 'password-breach-checker', 'hash-generator', 'sri-hash-generator', 'csp-header-generator', 'ipv4-subnet-calculator', 'mac-address-formatter'],
+    // Everyday-life calculators: these categories had no explicit
+    // priority ordering at all before -- consistently among the highest-
+    // volume, most well-known search terms for each domain.
+    ['bmi-calculator', 'calorie-deficit-calculator', 'tdee-calculator', 'bmr-calculator', 'ideal-weight-calculator', 'pregnancy-due-date-calculator', 'body-fat-calculator', 'water-intake-calculator'],
+    ['mortgage-calculator', 'loan-calculator', 'compound-interest-calculator', 'tip-calculator', 'roi-calculator', 'vat-calculator', 'savings-goal-calculator', 'net-worth-calculator'],
+    ['percentage-calculator', 'quadratic-equation-calculator', 'standard-deviation-calculator', 'z-score-calculator', 'pythagorean-theorem-calculator', 'permutation-calculator', 'combination-calculator', 'probability-calculator'],
+    ['qr-code-generator', 'length-converter', 'weight-converter', 'temperature-converter', 'time-unit-converter', 'area-converter', 'volume-converter', 'speed-converter'],
+    ['age-calculator', 'date-difference-calculator', 'business-days-calculator', 'timezone-converter', 'work-hours-calculator', 'age-at-date-calculator', 'date-add-subtract-calculator'],
+    ['hex-to-rgb-converter', 'rgb-to-hex-converter', 'css-box-shadow-generator', 'wcag-contrast-checker', 'css-linear-gradient-generator', 'css-border-radius-generator'],
+    ['json-formatter', 'uuid-generator', 'base64-encoder-decoder', 'regex-tester', 'url-encoder-decoder', 'jwt-decoder', 'html-to-markdown-converter', 'json-validator'],
 ]);
 const priorityOrder = new Map(priorityGroups.flat().map((id, index) => [id, index]));
 let activeCategory = fixedCategory;

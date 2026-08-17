@@ -1,5 +1,29 @@
 # Changelog
 
+# 0.5.118
+
+- Extended `catalogue-page.js`'s `priorityGroups` (the "most likely searched first" default sort
+  used when browsing a category, used as a proxy for real search-volume data since no live
+  Search Console query data is wired into the build) with informed keyword-based rankings for
+  categories that had none before: health (`bmi-calculator`, `tdee-calculator`, ...), finance
+  (`mortgage-calculator`, `loan-calculator`, ...), math (`percentage-calculator`,
+  `quadratic-equation-calculator`, ...), converter (`qr-code-generator`, unit converters), date-time
+  (`age-calculator`, ...), color-css (`hex-to-rgb-converter`, ...), and broader developer/security
+  coverage (`json-formatter`, `uuid-generator`, `ipv4-subnet-calculator`, ...).
+  - **Found and fixed a real, previously-latent data bug while extending this list**:
+    `grammar-checker` and `text-summarizer` were referenced in the existing priority array but
+    never existed as real registered tools -- harmless in practice (a missing id just silently
+    never matches, falling through to the alphabetical tiebreaker) but a genuine stale-data error.
+    Removed both.
+  - Verified every single tool id referenced in the now-expanded array (109 total references)
+    against the real tool catalogue programmatically -- confirmed zero missing/non-existent ids,
+    not just visual review.
+  - Added a permanent regression test to `subcategories.integration.mjs` parsing the actual
+    `priorityGroups` source text and checking every referenced id is real -- confirmed it
+    genuinely catches this exact bug class by deliberately reintroducing a fake id, watching the
+    test fail, then restoring and confirming it passes again.
+  - `npm run validate` passes all 10 suites (618 tools).
+
 # 0.5.117
 
 - Category browsing: added sub-category filtering and progressive "Show more" loading, replacing
