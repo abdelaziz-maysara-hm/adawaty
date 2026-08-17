@@ -2,6 +2,7 @@ import './site-navigation.js?v=s7b42';
 import { listToolDefinitions } from './tool-definitions.js?v=s7b46';
 import { categoryLabels as categories } from './category-labels.js?v=s7b37';
 import { rankTools, scoreToolMatch } from './smart-search.js?v=s7b47';
+import { getSubcategories, getSubcategoryForTool } from './subcategories.js?v=s7b48';
 
 const copy = Object.freeze({
     ar: Object.freeze({
@@ -13,6 +14,8 @@ const copy = Object.freeze({
         empty: '\u0644\u0627 \u062a\u0648\u062c\u062f \u0623\u062f\u0648\u0627\u062a \u0645\u0637\u0627\u0628\u0642\u0629 \u0644\u0628\u062d\u062b\u0643.',
         open: '\u0627\u0641\u062a\u062d \u0627\u0644\u0623\u062f\u0627\u0629',
         language: 'English',
+        loadMore: '\u0639\u0631\u0636 \u0627\u0644\u0645\u0632\u064a\u062f',
+        allSub: '\u0627\u0644\u0643\u0644',
     }),
     en: Object.freeze({
         all: 'All tools',
@@ -23,6 +26,8 @@ const copy = Object.freeze({
         empty: 'No tools match your search.',
         open: 'Open tool',
         language: '\u0627\u0644\u0639\u0631\u0628\u064a\u0629',
+        loadMore: 'Show more',
+        allSub: 'All',
     }),
 });
 
@@ -30,6 +35,8 @@ const root = document.querySelector('[data-catalogue-page]');
 const grid = document.querySelector('#catalogue-grid');
 const search = document.querySelector('#catalogue-search');
 const filters = document.querySelector('#catalogue-filters');
+const subfilters = document.querySelector('#catalogue-subfilters');
+const loadMoreButton = document.querySelector('#catalogue-load-more');
 const count = document.querySelector('#catalogue-count');
 const empty = document.querySelector('#catalogue-empty');
 const languageToggle = document.querySelector('#catalogue-language-toggle');
@@ -38,6 +45,14 @@ const basePath = root?.dataset.basePath ?? '../';
 const fixedCategory = root?.dataset.category ?? '';
 const tools = listToolDefinitions();
 const isProcessingTool = (tool) => typeof tool.process === 'function' || tool.interactive === true;
+// Cards rendered per "page": keeps the initial DOM insert light even for
+// the biggest categories (developer has 135+ tools) while staying a
+// single URL/page -- Google's current guidance favors one page over
+// classic pagination when it can be kept fast; a "Show more" button
+// (not infinite scroll, so browser history/back-button behavior stays
+// predictable) is the practical middle ground.
+const PAGE_SIZE = 30;
+let visibleCount = PAGE_SIZE;
 const priorityGroups = Object.freeze([
     ['pdf-merge', 'pdf-splitter', 'pdf-compressor', 'pdf-to-word-converter', 'word-to-pdf-converter', 'pdf-to-jpg-converter', 'jpg-to-pdf-converter', 'pdf-editor'],
     ['image-compressor', 'compress-image-to-target-size', 'image-resizer', 'image-cropper', 'image-format-converter', 'jpg-to-png-converter', 'png-to-jpg-converter', 'image-to-text-ocr'],
@@ -49,6 +64,7 @@ const priorityGroups = Object.freeze([
 ]);
 const priorityOrder = new Map(priorityGroups.flat().map((id, index) => [id, index]));
 let activeCategory = fixedCategory;
+let activeSubcategory = '';
 let language = document.documentElement.dataset.language === 'en' ? 'en' : 'ar';
 const initialQuery = new URLSearchParams(window.location.search).get('q')?.trim() ?? '';
 if (initialQuery) {
@@ -65,10 +81,13 @@ function escapeHtml(value) {
 }
 
 function categoryMatch(tool) {
-    return !activeCategory
+    const matchesCategory = !activeCategory
         || (activeCategory === 'processing' && isProcessingTool(tool))
         || (activeCategory === 'calculators' && !isProcessingTool(tool))
         || tool.category === activeCategory;
+    if (!matchesCategory) return false;
+    if (!activeSubcategory) return true;
+    return getSubcategoryForTool(activeCategory, tool.id) === activeSubcategory;
 }
 
 function defaultToolOrder(first, second) {
@@ -127,10 +146,35 @@ function renderFilters() {
     ].join('');
 }
 
+/**
+ * Shows a second-row filter for sub-categories of the currently active
+ * top-level category (works the same whether that category came from a
+ * dedicated /categories/pdf/-style page or from clicking a filter chip
+ * on the all-tools page). Hidden entirely for categories with no defined
+ * sub-categories (most of the smaller ones), or when "All tools" is
+ * active.
+ */
+function renderSubfilters() {
+    const groups = activeCategory ? getSubcategories(activeCategory) : [];
+    if (groups.length === 0) {
+        subfilters.hidden = true;
+        subfilters.innerHTML = '';
+        return;
+    }
+    subfilters.hidden = false;
+    subfilters.innerHTML = [
+        `<button class="catalogue-subfilter${activeSubcategory ? '' : ' is-active'}" data-subcategory="" type="button">${copy[language].allSub}</button>`,
+        ...groups.map(([subcategoryId, label]) => (
+            `<button class="catalogue-subfilter${activeSubcategory === subcategoryId ? ' is-active' : ''}" data-subcategory="${escapeHtml(subcategoryId)}" type="button">${escapeHtml(label[language])}</button>`
+        )),
+    ].join('');
+}
+
 function renderTools() {
-    const visibleTools = getVisibleTools();
-    count.textContent = `${visibleTools.length} ${copy[language].count}`;
-    empty.hidden = visibleTools.length > 0;
+    const allVisibleTools = getVisibleTools();
+    const visibleTools = allVisibleTools.slice(0, visibleCount);
+    count.textContent = `${allVisibleTools.length} ${copy[language].count}`;
+    empty.hidden = allVisibleTools.length > 0;
     empty.textContent = copy[language].empty;
     grid.innerHTML = visibleTools.map((tool) => `
         <a class="catalogue-card" href="${basePath}tools/${escapeHtml(tool.id)}/">
@@ -141,6 +185,9 @@ function renderTools() {
             <strong>${copy[language].open} <span aria-hidden="true">\u2190</span></strong>
         </a>
     `).join('');
+
+    loadMoreButton.hidden = allVisibleTools.length <= visibleCount;
+    loadMoreButton.textContent = copy[language].loadMore;
 }
 
 function applyLanguage() {
@@ -158,6 +205,7 @@ function applyLanguage() {
         document.title = `${heading.textContent.trim()} | ${language === 'ar' ? 'أدواتي' : 'Adawaty'}`;
     }
     renderFilters();
+    renderSubfilters();
     renderTools();
 }
 
@@ -167,11 +215,33 @@ filters.addEventListener('click', (event) => {
         return;
     }
     activeCategory = button.dataset.category;
+    activeSubcategory = '';
+    visibleCount = PAGE_SIZE;
     renderFilters();
+    renderSubfilters();
     renderTools();
 });
 
-search.addEventListener('input', renderTools);
+subfilters.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-subcategory]');
+    if (!button) {
+        return;
+    }
+    activeSubcategory = button.dataset.subcategory;
+    visibleCount = PAGE_SIZE;
+    renderSubfilters();
+    renderTools();
+});
+
+loadMoreButton.addEventListener('click', () => {
+    visibleCount += PAGE_SIZE;
+    renderTools();
+});
+
+search.addEventListener('input', () => {
+    visibleCount = PAGE_SIZE;
+    renderTools();
+});
 languageToggle.addEventListener('click', () => {
     language = language === 'ar' ? 'en' : 'ar';
     applyLanguage();

@@ -1,5 +1,40 @@
 # Changelog
 
+# 0.5.117
+
+- Category browsing: added sub-category filtering and progressive "Show more" loading, replacing
+  the previous behavior of rendering every tool in a category on one long unfiltered page (135
+  tools at once for `developer`, for example). Researched current Google pagination guidance
+  before choosing an approach: `rel=next`/`rel=prev` was confirmed dead as a ranking signal since
+  2019 (not worth implementing), and Google's current guidance favors a single fast page over
+  classic multi-page pagination when technically feasible -- landed on a "Show more" button (30
+  tools per reveal, not infinite scroll, so back-button/history behavior stays predictable) rather
+  than real paginated URLs.
+  - Added `src/product/subcategories.js`: a standalone tool-id -> sub-category taxonomy for the 7
+    largest categories (`developer`, `image`, `math`, `text`, `pdf`, `finance`, `converter`),
+    designed from the real tool inventory rather than guessed, covering 96-100% of each category's
+    tools (the remaining few per category are genuinely standalone/miscellaneous, like
+    `website-builder` or `qr-code-generator`, left uncategorized rather than forced into an
+    awkward group). Kept as a separate data file instead of adding a field to every individual
+    tool definition, which would have meant touching 400+ tools across ~30 files.
+  - Verified this data thoroughly before wiring it into the UI: every listed tool id checked
+    against the real catalogue (exists, correct category, no duplicates within a category) --
+    zero errors found.
+  - Updated `catalogue-page.js`: sub-category filter chips appear only for categories with a
+    defined taxonomy (hidden automatically for smaller categories like `health`/`islamic` with no
+    entry in the new file); combined category + sub-category filtering; "Show more" reveals 30
+    more tools at a time and hides itself once everything is visible; search and any filter change
+    reset back to the first page.
+  - Verified the new filtering logic (not just reviewed) with real data: category-only filtering
+    matches the exact real per-category count, sub-category filtering matches only that group's
+    tools, a tool from a *different* sub-category within the same parent category is correctly
+    excluded, and the show-more slicing math is correct.
+  - Added a permanent regression test (`tests/product/subcategories.integration.mjs`) checking
+    every sub-category id/label/coverage floor (85% minimum) and spot-checking
+    `getSubcategoryForTool()` behavior, including the "no taxonomy defined" and "tool
+    deliberately uncategorized" cases returning safely rather than throwing.
+  - `npm run validate` passes all 10 suites (618 tools).
+
 # 0.5.116
 
 - Security & Encoding: added `aes-key-generator` (128/192/256-bit, hex or Base64 output, Web
