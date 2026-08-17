@@ -1,5 +1,16 @@
 # Changelog
 
+# 0.5.114
+
+- `nanoid-generator`: added a "Number of IDs" field (1-100), matching the batch capability
+  `uuid-generator` already had. Checked first rather than building a separate "batch" tool per a
+  stale roadmap note: `uuid-generator` already supported generating up to 100 at once, so only
+  `nanoid-generator` genuinely needed this. Reused the exact Arabic count-message phrasing already
+  used by the shipped `uuid-generator` ("${count} معرّف", not pluralized for 3-10) for consistency
+  rather than introducing a different convention. Verified batch output produces the correct
+  count, correct per-ID length, and all-unique IDs through the actual module. `npm run validate`
+  passes all 9 suites (616 tools).
+
 # 0.5.113
 
 - Added genuine, tool-specific FAQ content (visible on-page content + FAQPage JSON-LD) to all 616

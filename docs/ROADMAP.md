@@ -718,8 +718,7 @@ dedicated library, a deliberate dependency decision like `piexifjs`/`pdf-encrypt
 before this session's earlier tools); certificate/CSR/PEM/DER/PFX tooling (X.509 parsing — check
 for an existing lightweight library rather than hand-rolling ASN.1 parsing); OAuth/OpenID token
 tooling (mostly straightforward JWT-adjacent parsing, likely quick once scoped); SSH key viewer/
-fingerprint (needs an SSH key format parser); a batch UUID/NanoID generator (trivial, wraps the
-existing single-item generators); and a combined `security-toolkit` landing page. No architecture
+fingerprint (needs an SSH key format parser); a combined `security-toolkit` landing page. No architecture
 blockers identified on most of these — same pattern as what shipped, pick up whenever,
 **starting with `npm run list:tools` before writing any code, per the
 0.5.67 timing correction above.**

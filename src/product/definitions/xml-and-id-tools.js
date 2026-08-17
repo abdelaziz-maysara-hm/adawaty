@@ -94,8 +94,8 @@ const nanoidGenerator = Object.freeze({
     icon: 'ID',
     title: Object.freeze({ ar: 'مولّد Nano ID', en: 'Nano ID Generator' }),
     description: Object.freeze({
-        ar: 'أنشئ معرّفًا فريدًا عشوائيًا وآمنًا بطول قابل للتخصيص، بديل أقصر من UUID لأغراض كثيرة.',
-        en: 'Generate a cryptographically random, URL-safe unique ID with a customizable length \u2014 a shorter alternative to UUID for many uses.',
+        ar: 'أنشئ معرّفًا واحدًا أو عدة معرّفات فريدة عشوائية وآمنة بطول قابل للتخصيص، بديل أقصر من UUID لأغراض كثيرة.',
+        en: 'Generate one or many cryptographically random, URL-safe unique IDs with a customizable length \u2014 a shorter alternative to UUID for many uses.',
     }),
     note: Object.freeze({
         ar: 'يستخدم مولّد أرقام عشوائية آمن تشفيريًا (crypto.getRandomValues) داخل متصفحك.',
@@ -103,12 +103,15 @@ const nanoidGenerator = Object.freeze({
     }),
     inputs: Object.freeze([
         numberInput('length', 'طول المعرّف', 'ID length', 21, { min: 4, max: 128, unit: { ar: 'حرف', en: 'chars' } }),
+        numberInput('count', 'عدد المعرّفات', 'Number of IDs', 1, { min: 1, max: 100, unit: { ar: '', en: '' } }),
     ]),
     calculate(values, language) {
         const length = Math.round(values.length);
+        const count = Math.round(values.count ?? 1);
+        const identifiers = Array.from({ length: count }, () => generateRandomId(length, NANOID_ALPHABET));
         return output(
-            generateRandomId(length, NANOID_ALPHABET),
-            localized(language, 'المعرّف الجديد جاهز', 'The new ID is ready'),
+            identifiers.join('\n'),
+            localized(language, `${count} معرّف جاهز`, `${count} ID${count === 1 ? '' : 's'} ready`),
         );
     },
 });
