@@ -710,9 +710,15 @@ HEIF specification brand set and re-verifying against the same real file before 
 (0.5.71), `pbkdf2-generator` (0.5.111, verified against the official RFC 7914 test vector,
 byte-for-byte match with the RFC's own published output).
 
-**Still open** (~79 items after the above): DES/3DES/RSA encrypt-decrypt and RSA/AES key
-generation (Web Crypto supports AES-GCM/CBC and RSA-OAEP/PSS natively — verify the exact API
-shape before building, same rigor as everything above, but no new dependency expected);
+**Also done**: `rsa-key-generator` (0.5.115, RSA-OAEP 2048/4096-bit, verified against openssl
+including a full encrypt-with-openssl/decrypt-with-openssl interop round trip using the generated
+keys, not just a self-consistency check).
+
+**Still open** (~78 items after the above): DES/3DES/RSA encrypt-decrypt directly in-browser (as
+opposed to key generation alone, now done) and a standalone AES raw-key generator (the existing
+`aes-encryption-tool` is password-based/PBKDF2-derived, not a raw-key generator) — both use Web
+Crypto natively (AES-GCM/CBC, RSA-OAEP/PSS — verify the exact API shape before building, same
+rigor as everything above, but no new dependency expected);
 Argon2/scrypt password hashing (Web Crypto does *not* support these — would need a
 dedicated library, a deliberate dependency decision like `piexifjs`/`pdf-encrypt-lite`/`bcryptjs`
 before this session's earlier tools); certificate/CSR/PEM/DER/PFX tooling (X.509 parsing — check

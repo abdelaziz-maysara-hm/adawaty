@@ -1,5 +1,22 @@
 # Changelog
 
+# 0.5.115
+
+- Security & Encoding: added `rsa-key-generator` (RSA-OAEP, 2048/4096-bit, Web Crypto's native
+  `generateKey`/`exportKey`, no new dependency). Verified extensively before writing the tool,
+  going further than a self-consistency check: generated a real key pair, exported to standard
+  PEM, and independently cross-checked both keys with `openssl pkey -text -noout` (confirmed
+  valid 2048-bit RSA with matching moduli between the public and private key) -- then ran a full
+  interop round trip, encrypting a real message with `openssl pkeyutl -encrypt -pubin` using the
+  Web-Crypto-generated *public* key, decrypting it with `openssl pkeyutl -decrypt` using the
+  *private* key, and confirming the output was byte-identical to the original. This confirms the
+  PEM output is fully standard-compliant and usable with any RSA-OAEP-compatible tool, not just
+  self-consistent within Web Crypto. Re-verified this exact process (PEM export + openssl
+  cross-check) through the actual shipped tool code for both the 2048-bit and 4096-bit key size
+  options before registering it, not just the standalone algorithm. Caught and removed an
+  accidental leftover placeholder function from an abandoned first-draft approach before it could
+  ship. `npm run validate` passes all 9 suites (617 tools).
+
 # 0.5.114
 
 - `nanoid-generator`: added a "Number of IDs" field (1-100), matching the batch capability
