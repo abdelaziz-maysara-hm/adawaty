@@ -1,5 +1,22 @@
 # Changelog
 
+# 0.5.116
+
+- Security & Encoding: added `aes-key-generator` (128/192/256-bit, hex or Base64 output, Web
+  Crypto's native `generateKey`/`exportKey`, no new dependency). Complements the existing
+  `aes-encryption-tool`, which is password-based (PBKDF2-derived), not a raw-key generator.
+  Verified with a full interop round trip before writing the tool: generated a real 256-bit key,
+  used it to AES-256-GCM-encrypt a real message via Web Crypto, then decrypted that exact
+  ciphertext using **Python's independent `cryptography` library** with only the exported raw
+  key/IV/tag -- confirmed byte-identical plaintext. Deliberately did not rely on the `openssl enc`
+  CLI for this check after confirming `openssl enc -ciphers` lists no GCM mode at all in this
+  environment's OpenSSL 3.0.13 build (`enc` doesn't handle AEAD tags in this version) -- would
+  have produced a false negative unrelated to the actual key's correctness, so switched to a tool
+  that genuinely supports the cipher mode being tested. Re-verified both output encodings (hex:
+  exactly 64 hex characters for a 256-bit key; Base64: decodes to exactly 16 bytes for a 128-bit
+  key) through the actual shipped tool code before registering it. `npm run validate` passes all
+  9 suites (618 tools).
+
 # 0.5.115
 
 - Security & Encoding: added `rsa-key-generator` (RSA-OAEP, 2048/4096-bit, Web Crypto's native

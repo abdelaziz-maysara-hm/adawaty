@@ -712,12 +712,14 @@ byte-for-byte match with the RFC's own published output).
 
 **Also done**: `rsa-key-generator` (0.5.115, RSA-OAEP 2048/4096-bit, verified against openssl
 including a full encrypt-with-openssl/decrypt-with-openssl interop round trip using the generated
-keys, not just a self-consistency check).
+keys, not just a self-consistency check), `aes-key-generator` (0.5.116, 128/192/256-bit hex/
+Base64, verified with a full interop round trip using Python's independent `cryptography` library
+after confirming `openssl enc` doesn't support GCM mode in this environment and would have given
+a false negative).
 
-**Still open** (~78 items after the above): DES/3DES/RSA encrypt-decrypt directly in-browser (as
-opposed to key generation alone, now done) and a standalone AES raw-key generator (the existing
-`aes-encryption-tool` is password-based/PBKDF2-derived, not a raw-key generator) — both use Web
-Crypto natively (AES-GCM/CBC, RSA-OAEP/PSS — verify the exact API shape before building, same
+**Still open** (~77 items after the above): DES/3DES/RSA encrypt-decrypt directly in-browser (as
+opposed to key generation alone, now done for both RSA and AES) — using Web Crypto natively
+(AES-GCM/CBC, RSA-OAEP/PSS — verify the exact API shape before building, same
 rigor as everything above, but no new dependency expected);
 Argon2/scrypt password hashing (Web Crypto does *not* support these — would need a
 dedicated library, a deliberate dependency decision like `piexifjs`/`pdf-encrypt-lite`/`bcryptjs`
