@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-language="ar">
+<head>
+<meta charset="UTF-8"><meta name="referrer" content="strict-origin-when-cross-origin"><meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=()"><meta http-equiv="Cache-Control" content="no-cache"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#07111f">
+<meta name="description" content="Crop, rotate, adjust colors, apply filters, and add a watermark to your photo in one continuous session, then download the result."><title>Photo Editor | Adawaty</title>
+<link rel="canonical" href="https://www.adawaty.tools/tools/photo-editor/"><meta property="og:type" content="website"><meta property="og:title" content="Photo Editor"><meta property="og:description" content="Crop, rotate, adjust colors, apply filters, and add a watermark to your photo, then download the result.">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Photo Editor","alternateName":"محرر الصور","url":"https://www.adawaty.tools/tools/photo-editor/","applicationCategory":"DesignApplication","operatingSystem":"Any","isAccessibleForFree":true,"inLanguage":["ar","en"]}</script>
+<link rel="stylesheet" href="../../src/css/main.css"><link rel="stylesheet" href="../../src/css/product.css"><link rel="stylesheet" href="../../src/css/photo-editor.css?v=pe1"><script type="module" src="../../src/product/photo-editor-app.js?v=pe1"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9572691438076734" crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="site-header"><nav class="navigation shell" aria-label="Main navigation"><a class="brand" href="../../"><span class="brand-mark">A</span><span class="brand-copy"><strong>Adawaty</strong><span>Private browser tools</span></span></a><div class="nav-actions"><button class="button" id="tool-language-toggle" type="button">English</button></div></nav></header>
+<main class="editor-page shell" data-tool-page="photo-editor">
+<div class="editor-heading">
+  <a class="product-back" href="../../all-tools/"><span aria-hidden="true">←</span><span data-copy="ar">كل الأدوات</span><span data-copy="en">All tools</span></a>
+  <span class="editor-privacy"><span data-copy="ar">معالجة خاصة داخل متصفحك</span><span data-copy="en">Private, in-browser processing</span></span>
+  <h1><span data-copy="ar">محرر الصور</span><span data-copy="en">Photo Editor</span></h1>
+  <p><span data-copy="ar">قص، دوّر، اضبط الألوان، طبّق فلاتر، وأضف علامة مائية على صورتك في جلسة واحدة متصلة، ثم نزّل النتيجة.</span><span data-copy="en">Crop, rotate, adjust colors, apply filters, and add a watermark to your photo in one continuous session, then download the result.</span></p>
+  <p class="editor-status" id="editor-status" role="status" aria-live="polite"></p>
+</div>
+
+<section class="editor-upload" id="editor-upload">
+  <div class="editor-drop-zone" id="editor-drop-zone">
+    <strong><span data-copy="ar">اختر صورة</span><span data-copy="en">Choose an image</span></strong>
+    <span><span data-copy="ar">أو اسحب صورة وأفلتها هنا</span><span data-copy="en">or drag and drop an image here</span></span>
+  </div>
+  <input type="file" id="editor-file-input" accept="image/*" hidden>
+</section>
+
+<section class="editor-workspace" id="editor-workspace" hidden>
+  <div class="editor-toolbar">
+    <button class="button button-quiet" type="button" id="editor-undo" disabled><span data-copy="ar">تراجع</span><span data-copy="en">Undo</span></button>
+    <button class="button button-quiet" type="button" id="editor-redo" disabled><span data-copy="ar">إعادة</span><span data-copy="en">Redo</span></button>
+    <div class="editor-toolbar-spacer"></div>
+    <button class="button button-quiet" type="button" id="editor-reset"><span data-copy="ar">بدء من جديد</span><span data-copy="en">Start Over</span></button>
+    <select id="editor-download-format" aria-label="Download format">
+      <option value="image/png">PNG</option>
+      <option value="image/jpeg">JPEG</option>
+      <option value="image/webp">WebP</option>
+    </select>
+    <button class="button button-primary" type="button" id="editor-download"><span data-copy="ar">تحميل</span><span data-copy="en">Download</span></button>
+  </div>
+
+  <div class="editor-workspace-grid">
+    <div class="editor-canvas-shell">
+      <div class="editor-canvas-wrap" id="editor-canvas-wrap">
+        <img id="editor-preview-image" alt="">
+        <div class="editor-crop-overlay" id="editor-crop-overlay" hidden>
+          <div class="editor-crop-mask"></div>
+          <div class="editor-crop-box" id="editor-crop-box">
+            <div class="editor-crop-handle" data-handle="nw"></div>
+            <div class="editor-crop-handle" data-handle="n"></div>
+            <div class="editor-crop-handle" data-handle="ne"></div>
+            <div class="editor-crop-handle" data-handle="w"></div>
+            <div class="editor-crop-handle" data-handle="e"></div>
+            <div class="editor-crop-handle" data-handle="sw"></div>
+            <div class="editor-crop-handle" data-handle="s"></div>
+            <div class="editor-crop-handle" data-handle="se"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <aside class="editor-sidebar" aria-label="Photo editing controls">
+      <div class="sidebar-section">
+        <strong><span data-copy="ar">التحويل</span><span data-copy="en">Transform</span></strong>
+        <div class="editor-transform-row">
+          <button class="button button-quiet" type="button" id="editor-crop-button"><span data-copy="ar">قص</span><span data-copy="en">Crop</span></button>
+          <button class="button button-quiet" type="button" id="editor-apply-crop" hidden><span data-copy="ar">تطبيق القص</span><span data-copy="en">Apply Crop</span></button>
+          <button class="button button-quiet" type="button" id="editor-cancel-crop" hidden><span data-copy="ar">إلغاء</span><span data-copy="en">Cancel</span></button>
+          <button class="button button-quiet" type="button" id="editor-rotate"><span data-copy="ar">تدوير</span><span data-copy="en">Rotate</span></button>
+          <button class="button button-quiet" type="button" id="editor-flip-h"><span data-copy="ar">قلب أفقي</span><span data-copy="en">Flip H</span></button>
+          <button class="button button-quiet" type="button" id="editor-flip-v"><span data-copy="ar">قلب رأسي</span><span data-copy="en">Flip V</span></button>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <strong><span data-copy="ar">التعديلات</span><span data-copy="en">Adjustments</span></strong>
+        <div class="editor-field-row">
+          <label for="editor-brightness"><span data-copy="ar">السطوع</span><span data-copy="en">Brightness</span></label>
+          <input type="range" id="editor-brightness" min="0" max="300" value="100">
+        </div>
+        <div class="editor-field-row">
+          <label for="editor-contrast"><span data-copy="ar">التباين</span><span data-copy="en">Contrast</span></label>
+          <input type="range" id="editor-contrast" min="0" max="300" value="100">
+        </div>
+        <div class="editor-field-row">
+          <label for="editor-saturation"><span data-copy="ar">التشبع</span><span data-copy="en">Saturation</span></label>
+          <input type="range" id="editor-saturation" min="0" max="300" value="100">
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <strong><span data-copy="ar">الفلاتر</span><span data-copy="en">Filters</span></strong>
+        <div class="editor-field-row">
+          <label for="editor-grayscale"><span data-copy="ar">رمادي</span><span data-copy="en">Grayscale</span></label>
+          <input type="range" id="editor-grayscale" min="0" max="100" value="0">
+        </div>
+        <div class="editor-field-row">
+          <label for="editor-sepia"><span data-copy="ar">سيبيا</span><span data-copy="en">Sepia</span></label>
+          <input type="range" id="editor-sepia" min="0" max="100" value="0">
+        </div>
+        <div class="editor-field-row">
+          <label for="editor-invert"><span data-copy="ar">عكس الألوان</span><span data-copy="en">Invert</span></label>
+          <input type="range" id="editor-invert" min="0" max="100" value="0">
+        </div>
+        <div class="editor-field-row">
+          <label for="editor-blur"><span data-copy="ar">تمويه</span><span data-copy="en">Blur</span></label>
+          <input type="range" id="editor-blur" min="0" max="20" value="0">
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <strong><span data-copy="ar">علامة مائية</span><span data-copy="en">Watermark</span></strong>
+        <div class="editor-field-row">
+          <label for="editor-watermark-text"><span data-copy="ar">النص</span><span data-copy="en">Text</span></label>
+          <input type="text" id="editor-watermark-text" maxlength="120">
+        </div>
+        <div class="editor-field-row">
+          <label for="editor-watermark-position"><span data-copy="ar">الموضع</span><span data-copy="en">Position</span></label>
+          <select id="editor-watermark-position">
+            <option value="bottom-right"><span data-copy="ar">أسفل اليمين</span><span data-copy="en">Bottom right</span></option>
+            <option value="bottom-left"><span data-copy="ar">أسفل اليسار</span><span data-copy="en">Bottom left</span></option>
+            <option value="top-right"><span data-copy="ar">أعلى اليمين</span><span data-copy="en">Top right</span></option>
+            <option value="top-left"><span data-copy="ar">أعلى اليسار</span><span data-copy="en">Top left</span></option>
+            <option value="center"><span data-copy="ar">المنتصف</span><span data-copy="en">Center</span></option>
+          </select>
+        </div>
+        <div class="editor-field-row">
+          <label for="editor-watermark-color"><span data-copy="ar">اللون</span><span data-copy="en">Color</span></label>
+          <div class="editor-color-row"><input type="color" id="editor-watermark-color" value="#ffffff"></div>
+        </div>
+        <div class="editor-field-row">
+          <label for="editor-watermark-opacity"><span data-copy="ar">الشفافية</span><span data-copy="en">Opacity</span></label>
+          <input type="range" id="editor-watermark-opacity" min="5" max="100" value="70">
+        </div>
+        <div class="editor-field-row">
+          <label for="editor-watermark-size"><span data-copy="ar">حجم الخط</span><span data-copy="en">Font size</span></label>
+          <input type="range" id="editor-watermark-size" min="12" max="200" value="32">
+        </div>
+        <button class="button button-quiet" type="button" id="editor-remove-watermark"><span data-copy="ar">إزالة العلامة المائية</span><span data-copy="en">Remove Watermark</span></button>
+      </div>
+    </aside>
+  </div>
+</section>
+</main>
+<footer class="site-footer"><div class="footer-row shell"><p>Adawaty</p><p>© <span id="current-year"></span></p></div></footer>
+</body></html>

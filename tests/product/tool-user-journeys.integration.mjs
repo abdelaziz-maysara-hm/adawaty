@@ -76,6 +76,11 @@ const browserOnlyTools = new Set([
     // visual-pdf-editor, it has no file input, so it isn't automatically
     // excluded via nonFileTools and needs an explicit entry here.
     'website-builder',
+    // photo-editor is the same class of interactive workspace tool as
+    // website-builder, with no process/calculate handler by design and
+    // no file input (the file is chosen inside its own UI), so it also
+    // needs an explicit entry here.
+    'photo-editor',
 ]);
 
 const inputOverrides = Object.freeze({
@@ -209,8 +214,8 @@ assert.deepEqual(
         .join('\n')}`,
 );
 
-assert.equal(nonFileTools.length, 415);
-assert.equal(browserOnlyTools.size, 26);
+assert.equal(nonFileTools.length, 416);
+assert.equal(browserOnlyTools.size, 27);
 assert.equal(executableWithoutBrowser.length, 389);
 
 const journeys = [

@@ -1,5 +1,57 @@
 # Changelog
 
+# 0.5.119
+
+- Added `photo-editor` (interactive workspace tool, `image` category): crop, rotate, flip, brightness/
+  contrast/saturation adjustment, grayscale/sepia/invert/blur filters, and a text watermark, all in
+  one continuous editing session with undo/redo, then a multi-format (PNG/JPEG/WebP) download.
+  Scoped deliberately after reviewing why an earlier interactive tool (`visual-pdf-editor`) was
+  removed -- it didn't do what it promised functionally, not a performance problem -- so this tool's
+  scope was fixed explicitly up front (the 8 features above) and nothing beyond that was implied:
+  no layers, no AI background removal, no free-draw brush.
+  - **Reused the site's own already-shipped, already-proven image-processing pipeline rather than
+    writing new pixel-manipulation code**: every operation routes through the same `renderImage()`
+    in `src/product/image-processing.js` that already powers `image-cropper`, `image-rotate-flip`,
+    `image-color-adjuster`, `image-grayscale-converter`, `image-sepia-filter`, `image-color-
+    inverter`, `image-blur-tool`, and `image-watermark-tool`. Cross-checked every parameter name/
+    shape (`source`, `rotation`, `flipX`/`flipY`, `filter`, `watermark`) directly against those
+    tools' existing calls before writing `engine.js`'s thin wrapper, rather than guessing the
+    function's contract.
+  - `PhotoEditSpec` (`spec.js`) mirrors the Website Builder's `WebsiteSpec` pattern: one flat,
+    versioned object is the single source of truth; `validatePhotoEditSpec()` never throws,
+    clamping or dropping malformed/malicious values instead (verified against a real attack case:
+    a `<script>` watermark text and a `javascript:` watermark color). The watermark text is
+    deliberately *not* HTML-escaped, unlike the Website Builder's components -- it only ever
+    reaches Canvas `fillText()`, which draws literal characters with no HTML/script interpretation
+    at all, so escaping would be pointless defensive code for a risk that doesn't exist here.
+  - `state.js` reuses the same bounded undo/redo pattern (30 steps) as the Website Builder.
+    Rotating a pending crop clears it, since its coordinates would be geometrically invalid once
+    the image's own width/height swap after a 90-degree turn.
+  - **Found and fixed a real bug in the crop-overlay coordinate math through testing, before it
+    ever reached the interactive UI**: the first version of the resize-handle logic delegated
+    edge-of-image clamping to a generic "fit this box in the image" function, which is correct for
+    *moving* a box but wrong for *resizing* one from a corner handle -- a real test case (dragging
+    the bottom-right corner of a crop box past the image's right edge) showed the box's anchored
+    top-left corner incorrectly shifting instead of the width/height simply capping at the edge.
+    Rewrote the resize logic to be handle-aware (the anchor implied by which handle is being
+    dragged never moves; only the growing dimension is capped), and added the exact failing case
+    as a permanent regression test.
+  - Live preview applies CSS `filter`/`transform` directly to the displayed `<img>` for instant,
+    zero-re-encoding feedback while adjusting sliders (matching how the Website Builder keeps its
+    own preview lightweight); the real `renderImage()` canvas pipeline only runs when applying a
+    crop or exporting the final file.
+  - **Honest disclosure**: the crop overlay's pure coordinate-transformation math (resize/move/
+    clamp logic) is thoroughly tested with real numbers, including the bug found above. The actual
+    interactive drag behavior in a real browser (pointer events on the resize handles) has not
+    been exercised end-to-end, since this sandbox has no real browser to test mouse/touch
+    interaction in. Worth a real-browser smoke test on the crop handles specifically as part of
+    manual acceptance, the same disclosure pattern used for the Website Builder's export function.
+  - New test file `tests/product/photo-editor.integration.mjs`: spec validation (including the
+    attack-payload case), state undo/redo (including the crop-clears-on-rotate behavior and
+    bounded history), the crop coordinate math (including the exact SE/NW-handle boundary bug
+    case), and product-catalogue registration.
+  - `npm run validate` passes all 11 suites (619 tools).
+
 # 0.5.118
 
 - Extended `catalogue-page.js`'s `priorityGroups` (the "most likely searched first" default sort
