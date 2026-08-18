@@ -1,5 +1,22 @@
 # Changelog
 
+# 0.5.120
+
+- Photo Editor: fixed a real gap found via user testing -- the watermark had no visible effect at
+  all in the editing session, since only the final download ran the actual Canvas
+  `renderImage()`/`fillText()` pipeline that draws it. The "Position" control specifically felt
+  broken because there was nothing to see it affect until after downloading. Added a live HTML
+  overlay preview (positioned text matching the same 5 corner/center placements the real render
+  uses) that updates instantly while typing, dragging the opacity/size sliders, or changing
+  position/color -- committing to undo history only once the user settles on a value, the same
+  two-tier `input`/`change` pattern already used for the adjustment sliders. The preview's font
+  size is scaled to the image's current on-screen display size so it stays visually proportional
+  even though the underlying value is stored in natural-image pixels. Disclosed as a preview, not
+  a pixel-identical rendering: DOM text and Canvas `fillText()` can differ slightly in exact font
+  rendering. Bumped the cache-busting query string (`?v=pe1` -> `?v=pe2`). Added a permanent
+  regression test checking the preview element exists on the page. `npm run validate` passes all
+  11 suites (619 tools).
+
 # 0.5.119
 
 - Added `photo-editor` (interactive workspace tool, `image` category): crop, rotate, flip, brightness/

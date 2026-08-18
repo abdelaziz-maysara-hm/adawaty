@@ -229,6 +229,12 @@ const projectRoot = path.resolve(currentDir, '../..');
     assert.ok(html.includes('data-tool-page="photo-editor"'));
     assert.ok(html.includes('id="editor-preview-image"'));
     assert.ok(html.includes('id="editor-crop-box"'));
+    // Real gap found via user testing: the watermark had no visible
+    // effect at all until the file was downloaded, since only the final
+    // export ran the actual Canvas rendering pipeline. A live HTML
+    // preview overlay was added specifically so the Position/Color/
+    // Opacity/Font size controls are immediately visible.
+    assert.ok(html.includes('id="editor-watermark-preview"'), 'the page must include a live watermark preview element, not just apply the watermark at export time');
 }
 
 console.log('Photo Editor: spec validation, undo/redo state, crop coordinate math, and product-integration checks passed.');

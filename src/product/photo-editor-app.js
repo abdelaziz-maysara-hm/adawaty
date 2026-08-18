@@ -52,6 +52,7 @@ const el = Object.freeze({
     previewImage: document.querySelector('#editor-preview-image'),
     cropOverlay: document.querySelector('#editor-crop-overlay'),
     cropBox: document.querySelector('#editor-crop-box'),
+    watermarkPreview: document.querySelector('#editor-watermark-preview'),
     cropButton: document.querySelector('#editor-crop-button'),
     applyCropButton: document.querySelector('#editor-apply-crop'),
     cancelCropButton: document.querySelector('#editor-cancel-crop'),
@@ -96,6 +97,33 @@ function updateLivePreview() {
     const flipXScale = spec.flipX ? -1 : 1;
     const flipYScale = spec.flipY ? -1 : 1;
     el.previewImage.style.transform = `rotate(${spec.rotation}deg) scale(${flipXScale}, ${flipYScale})`;
+    updateWatermarkPreview(spec.watermark);
+}
+
+/**
+ * Renders a live HTML overlay approximating the watermark before any
+ * download -- a real gap found via user testing: the watermark
+ * previously had no visible effect at all until the file was actually
+ * downloaded, since only the final export ran the real Canvas
+ * renderImage() pipeline that draws it. This overlay is a preview only
+ * (plain positioned text, not pixel-identical to the Canvas-rendered
+ * result -- font rendering can differ slightly between a CSS/DOM text
+ * node and Canvas fillText()), but it makes the Position/Color/Opacity/
+ * Font size controls immediately visible instead of feeling like they
+ * do nothing.
+ */
+function updateWatermarkPreview(watermark) {
+    if (!watermark) {
+        el.watermarkPreview.hidden = true;
+        return;
+    }
+    const scale = currentImage ? getDisplayScale() : 1;
+    el.watermarkPreview.hidden = false;
+    el.watermarkPreview.textContent = watermark.text;
+    el.watermarkPreview.dataset.position = watermark.position;
+    el.watermarkPreview.style.color = watermark.color;
+    el.watermarkPreview.style.opacity = String(watermark.opacity);
+    el.watermarkPreview.style.fontSize = `${Math.max(8, watermark.fontSize * scale)}px`;
 }
 
 function updateToolbarState() {
@@ -303,6 +331,13 @@ function readWatermarkFromForm() {
 function wireWatermark() {
     const fields = [el.watermarkText, el.watermarkPosition, el.watermarkColor, el.watermarkOpacity, el.watermarkSize];
     for (const field of fields) {
+        // 'input' gives instant preview feedback while typing/dragging/
+        // picking a color, without flooding the undo history; 'change'
+        // commits once the user settles on a value -- the same two-tier
+        // pattern already used for the adjustment sliders.
+        field.addEventListener('input', () => {
+            updateWatermarkPreview(readWatermarkFromForm());
+        });
         field.addEventListener('change', () => {
             state.setWatermark(readWatermarkFromForm());
         });
