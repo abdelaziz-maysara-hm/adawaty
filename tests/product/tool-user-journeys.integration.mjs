@@ -81,6 +81,11 @@ const browserOnlyTools = new Set([
     // no file input (the file is chosen inside its own UI), so it also
     // needs an explicit entry here.
     'photo-editor',
+    // mic-test is a live-microphone interactive workspace tool, same
+    // class as website-builder/photo-editor: no process/calculate
+    // handler by design, and no file input at all (it operates on a
+    // live getUserMedia stream, not an uploaded file).
+    'mic-test',
 ]);
 
 const inputOverrides = Object.freeze({
@@ -214,8 +219,8 @@ assert.deepEqual(
         .join('\n')}`,
 );
 
-assert.equal(nonFileTools.length, 416);
-assert.equal(browserOnlyTools.size, 27);
+assert.equal(nonFileTools.length, 417);
+assert.equal(browserOnlyTools.size, 28);
 assert.equal(executableWithoutBrowser.length, 389);
 
 const journeys = [

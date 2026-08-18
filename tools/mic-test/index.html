@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-language="ar">
+<head>
+<meta charset="UTF-8"><meta name="referrer" content="strict-origin-when-cross-origin"><meta http-equiv="Permissions-Policy" content="camera=(), geolocation=(), payment=(), usb=()"><meta http-equiv="Cache-Control" content="no-cache"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#07111f">
+<meta name="description" content="Test your microphone live and watch the real-time volume level before a call or recording, with an instant warning if your audio is clipping."><title>Mic Test &amp; Level Meter | Adawaty</title>
+<link rel="canonical" href="https://www.adawaty.tools/tools/mic-test/"><meta property="og:type" content="website"><meta property="og:title" content="Mic Test &amp; Level Meter"><meta property="og:description" content="Test your microphone live and watch the real-time volume level before a call or recording.">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Mic Test & Level Meter","alternateName":"اختبار الميكروفون وعداد المستوى","url":"https://www.adawaty.tools/tools/mic-test/","applicationCategory":"MultimediaApplication","operatingSystem":"Any","isAccessibleForFree":true,"inLanguage":["ar","en"]}</script>
+<link rel="stylesheet" href="../../src/css/main.css"><link rel="stylesheet" href="../../src/css/product.css"><link rel="stylesheet" href="../../src/css/mic-test.css?v=mt1"><script type="module" src="../../src/product/mic-test-app.js?v=mt1"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9572691438076734" crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="site-header"><nav class="navigation shell" aria-label="Main navigation"><a class="brand" href="../../"><span class="brand-mark">A</span><span class="brand-copy"><strong>Adawaty</strong><span>Private browser tools</span></span></a><div class="nav-actions"><button class="button" id="tool-language-toggle" type="button">English</button></div></nav></header>
+<main class="mic-test-page shell" data-tool-page="mic-test">
+<div class="mic-test-heading">
+  <a class="product-back" href="../../all-tools/"><span aria-hidden="true">←</span><span data-copy="ar">كل الأدوات</span><span data-copy="en">All tools</span></a>
+  <span class="mic-test-privacy"><span data-copy="ar">معالجة خاصة داخل متصفحك</span><span data-copy="en">Private, in-browser processing</span></span>
+  <h1><span data-copy="ar">اختبار الميكروفون وعداد المستوى</span><span data-copy="en">Mic Test &amp; Level Meter</span></h1>
+  <p><span data-copy="ar">اختبر ميكروفونك مباشرة وشاهد مستوى الصوت لحظيًا قبل مكالمة أو تسجيل، مع تنبيه فوري لو الصوت مشوَّه.</span><span data-copy="en">Test your microphone live and watch the real-time volume level before a call or recording, with an instant warning if your audio is clipping.</span></p>
+  <p class="mic-test-privacy-note"><span data-copy="ar">الصوت يُعالج داخل متصفحك فقط للحظات، ولا يُسجَّل أو يُرسَل لأي مكان.</span><span data-copy="en">Audio is processed in your browser only, moment to moment -- nothing is recorded or sent anywhere.</span></p>
+</div>
+
+<section class="mic-test-panel">
+  <select id="mic-device" class="mic-device-select" aria-label="Choose microphone" hidden></select>
+
+  <div class="mic-meter-shell">
+    <div class="mic-meter-track">
+      <div class="mic-meter-fill" id="mic-meter-fill"></div>
+      <div class="mic-peak-marker" id="mic-peak-marker"></div>
+    </div>
+    <div class="mic-meter-scale">
+      <span>-60dB</span><span>-40dB</span><span>-20dB</span><span>0dB</span>
+    </div>
+  </div>
+
+  <p class="mic-db-readout" id="mic-db-readout">—</p>
+  <p class="mic-clip-warning" id="mic-clip-warning" hidden><span data-copy="ar">⚠️ تشويه! خفّض مستوى الإدخال</span><span data-copy="en">⚠️ Clipping! Lower your input level</span></p>
+  <p class="mic-status" id="mic-status" role="status" aria-live="polite"></p>
+
+  <div class="mic-controls">
+    <button class="button button-primary" type="button" id="mic-start"><span data-copy="ar">ابدأ الاختبار</span><span data-copy="en">Start Test</span></button>
+    <button class="button button-quiet" type="button" id="mic-stop" hidden><span data-copy="ar">إيقاف</span><span data-copy="en">Stop</span></button>
+  </div>
+</section>
+</main>
+<footer class="site-footer"><div class="footer-row shell"><p>Adawaty</p><p>© <span id="current-year"></span></p></div></footer>
+</body></html>

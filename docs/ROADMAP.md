@@ -631,7 +631,18 @@ can do, pushing anything needing an external codec/encoder library later:
    - **Done, file-based** (fits the existing "upload → process → download" tool pattern with zero
      new infrastructure): Waveform Viewer (renders a PNG of the full waveform) and Silence/Noise
      Detector (reports silent stretches as text, detection-only, no file modification).
-   - **Needs a live-microphone UI decision before starting**: Voice Recorder, Mic Test, and Level
+   - **Done, live-microphone** (0.5.123): `mic-test` (Mic Test & Level Meter), using the
+     `interactive: true` tool pattern that didn't exist yet when this section was first written
+     -- confirmed the "no interactive-tool infrastructure yet anywhere in the product" note below
+     was stale before starting, since Website Builder and Photo Editor had both already shipped
+     using exactly this pattern. `getUserMedia` + `AnalyserNode` drive a live real-time meter with
+     a peak-hold marker and a clipping warning; level math (RMS/dB/clipping detection) verified
+     against known signals (a 50%-amplitude sine wave's RMS matched the independently-checkable
+     `amplitude/sqrt(2)` relationship to within 0.03%) before any UI was built on top of it.
+   - **Still open, same now-available infrastructure**: Voice Recorder (needs `MediaRecorder`,
+     not just `AnalyserNode`, plus a save/download flow -- a reasonable next step given the level-
+     meter half of this problem is now solved and proven).
+   - (superseded) Original note, kept for history: Voice Recorder, Mic Test, and Level
      Meter all need `getUserMedia` + `MediaRecorder`/`AnalyserNode` driving a *live, interactive*
      UI (start/stop button, running timer, real-time meter) — the current tool-page renderer
      (`src/product/tool-page.js`) only supports static forms (`select`/`textarea`/`text`/`number`/

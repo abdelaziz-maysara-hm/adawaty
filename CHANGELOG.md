@@ -1,5 +1,36 @@
 # Changelog
 
+# 0.5.123
+
+- Added `mic-test` (interactive workspace tool, `audio` category): a live microphone level meter
+  with real-time dB readout, a peak-hold marker, and a clipping/distortion warning -- test your mic
+  before a call or recording. Newly *possible* rather than newly prioritized: an older roadmap note
+  had explicitly blocked this exact tool on "no interactive-tool infrastructure exists yet
+  anywhere in the product" -- confirmed stale before starting, since that infrastructure now exists
+  and has shipped twice (Website Builder, Photo Editor).
+  - `getUserMedia` + `AnalyserNode` drive the live level display; nothing is ever recorded, saved,
+    or sent anywhere -- the audio only ever exists as momentary in-memory samples read for display.
+  - Level calculation (`src/product/mic-test/levels.js`) kept as pure, testable functions
+    separate from the live-mic wiring, since that's the part most likely to have a subtle,
+    hard-to-notice bug. Verified against known signals with independently-checkable math before
+    writing any UI: true silence produces exactly RMS 0 (mapped to a -60dB floor rather than
+    -Infinity); a full-scale square wave produces RMS close to 1; a 50%-amplitude sine wave
+    produces RMS close to 0.3535, matching the well-known `RMS = amplitude / sqrt(2)` relationship
+    for a sine wave to within 0.03% -- not just an internally-consistent result, an independently
+    verifiable mathematical fact; a clean sine is never flagged as clipping, a signal with many
+    samples pinned near the byte extremes is.
+  - The mic stream is explicitly stopped on `pagehide` and on `visibilitychange` (tab hidden), not
+    just when the user clicks Stop -- a live microphone must never keep running silently in a
+    background or closed tab. Verified the shipped app script actually registers both listeners,
+    not just reviewed the code.
+  - Device list (when more than one microphone is available) only populates with real labels after
+    permission is granted, matching how browsers withhold device labels pre-permission by design;
+    device enumeration failing is treated as non-fatal and never blocks the meter itself from
+    working.
+  - New test file `tests/product/mic-test.integration.mjs`: the level-calculation math against
+    known signals, the pagehide/visibilitychange safety checks, and product-catalogue
+    registration. `npm run validate` passes all 12 suites (620 tools).
+
 # 0.5.122
 
 - Site-wide performance: eliminated a render-blocking network request from **every page on the
