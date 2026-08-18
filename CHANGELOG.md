@@ -1,5 +1,57 @@
 # Changelog
 
+# 0.5.122
+
+- Site-wide performance: eliminated a render-blocking network request from **every page on the
+  site** (~654 pages -- all generator-produced tool/category/roundup pages plus the manually-
+  maintained homepage), found while doing a real Core Web Vitals-oriented audit rather than
+  guessing at what might be slow.
+  - **The finding**: every page loaded an inline `<script>` (setting `lang`/`dir`/`data-language`
+    to prevent a flash of wrong-language content) immediately followed by a *separate*, render-
+    blocking `<script src="language-bootstrap.js">` tag with no `async`/`defer`. That external
+    file's first function, `bootstrapLanguage()`, did the *exact same thing* the preceding inline
+    script had already just done -- by the time the external file's code ran, `document.
+    documentElement.lang/dir/dataset.language` were already set. Confirmed this specific
+    redundancy directly by reading the file, not assumed. The file's other two responsibilities
+    (injecting a FOUC-prevention CSS rule, and bootstrapping Google Analytics) were genuinely
+    necessary and timing-sensitive -- confirmed by checking the actual `<head>` order: this script
+    loads *before* `main.css` even starts fetching, so its FOUC-prevention role is real, not
+    redundant with `main.css`'s own copy of the same CSS rule.
+  - **The fix**: inlined the file's necessary content (the FOUC-CSS injection and the GA bootstrap)
+    directly into the existing inline script, dropping the redundant `bootstrapLanguage()` call
+    entirely, and removed the separate `<script src="language-bootstrap.js">` tag -- eliminating
+    one full render-blocking network round-trip per page load while preserving the *exact* same
+    synchronous execution timing the FOUC-prevention logic depends on (an inline script that
+    already fires before `main.css` continues to fire at that same point; nothing was changed to
+    `async`/`defer`, which would have reintroduced the very flash-of-content problem this pattern
+    exists to prevent).
+  - **Verified functionally with `jsdom`, not just reviewed**: extracted the actual merged script
+    from a real generated page and ran it in a simulated browser environment for both the
+    first-visit case (browser language, no stored preference) and the returning-visitor case (a
+    stored `en` preference overriding an `ar` browser language) -- confirmed `lang`/`dir`/
+    `dataset.language`/the injected FOUC `<style>` tag/the `gtag` stub/the async GA script tag all
+    end up exactly as intended in both cases.
+  - Applied the identical fix by hand to `index.html` (the homepage, manually maintained, not
+    covered by the generator script) for consistency -- it's usually the single most-visited,
+    most performance-scrutinized page on a site.
+  - Updated `scripts/generate-product-pages.mjs` (all 3 template locations that previously
+    produced the separate script tag) and deleted the now-fully-unused `src/product/language-
+    bootstrap.js` file.
+  - Updated `tests/pages/github-pages.integration.mjs`, whose existing FOUC-ordering assertions
+    had gone from testing something real to accidentally passing as a false positive after this
+    change (checking `indexOf('language-bootstrap.js') < indexOf('main.css')` when the string no
+    longer appears at all just returns `-1 < somePosition`, trivially true) -- rewrote them to
+    check the actual merged inline script's content and ordering instead.
+  - **Found and fixed a separate, smaller issue while doing this same audit**: 3 orphaned tool
+    page directories on disk (`json-to-csv`, `json-sort`, `csv-to-json`) with no corresponding
+    registered tool -- leftover from a rename to `json-to-csv-converter`/`csv-to-json-converter`/
+    `json-key-sorter` that never cleaned up the old folders (confirmed the renamed versions exist
+    and are properly registered before deleting the orphans). Unlinked, duplicate-content pages
+    like these are a real (if minor) technical-SEO concern on their own. A full sweep confirmed
+    these were the only 3 orphans across all 622 directories on disk.
+  - `npm run validate` passes all 11 suites (619 tools), including the full 204-file JS syntax
+    check.
+
 # 0.5.121
 
 - Photo Editor: added a real layer system -- the foundational piece for the "small Photoshop"

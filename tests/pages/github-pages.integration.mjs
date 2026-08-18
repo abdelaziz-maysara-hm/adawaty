@@ -166,22 +166,37 @@ assert.match(roundupScript, /element\.hidden = element\.dataset\.copy !== select
 assert.match(roundupScript, /document\.title =/);
 assert.match(roundupScript, /roundup-page h1/);
 
-const languageBootstrap = await readFile(
-    new URL('../../src/product/language-bootstrap.js', import.meta.url),
-    'utf8',
-);
 const favicon = await readFile(
     new URL('../../favicon.svg', import.meta.url),
     'utf8',
 );
-assert.match(languageBootstrap, /adawaty-language/);
-assert.match(languageBootstrap, /root\.dataset\.language = language/);
+// language-bootstrap.js was inlined directly into every generated page
+// (and into index.html by hand, since it's manually maintained) to
+// eliminate an unnecessary render-blocking network request on every
+// page load -- the file itself no longer exists or is referenced
+// anywhere. Verify the merged inline script now carries both concerns
+// it used to split across two files (language detection + the FOUC-
+// prevention CSS injection, which must still run before main.css can
+// possibly apply its own copy of the same rule) and that this single
+// inline script still appears before main.css in both the homepage and
+// the catalogue page.
+assert.match(indexHtml, /adawaty-language/);
+assert.match(indexHtml, /r\.dataset\.language\s*=\s*l/);
+assert.match(indexHtml, /data-language="en"\].*data-copy="ar"/);
 assert.ok(
-    indexHtml.indexOf('language-bootstrap.js') < indexHtml.indexOf('src/css/main.css'),
+    !indexHtml.includes('language-bootstrap.js'),
+    'the separate language-bootstrap.js file reference must be gone, its content is now inlined',
+);
+assert.ok(
+    indexHtml.indexOf('adawaty-language') < indexHtml.indexOf('src/css/main.css'),
     'Home language bootstrap must run before styles are applied.',
 );
 assert.ok(
-    catalogueHtml.indexOf('language-bootstrap.js') < catalogueHtml.indexOf('src/css/main.css'),
+    !catalogueHtml.includes('language-bootstrap.js'),
+    'the separate language-bootstrap.js file reference must be gone, its content is now inlined',
+);
+assert.ok(
+    catalogueHtml.indexOf('adawaty-language') < catalogueHtml.indexOf('src/css/main.css'),
     'Catalogue language bootstrap must run before styles are applied.',
 );
 assert.match(indexHtml, /rel="icon" href="\.\/favicon\.svg"/);
