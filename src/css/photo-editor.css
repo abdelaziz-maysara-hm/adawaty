@@ -64,6 +64,20 @@
 .editor-color-row input[type="color"] { width: 36px; height: 36px; padding: 0; border: 1px solid var(--border); border-radius: 8px; background: none; }
 .editor-transform-row { display: flex; gap: 8px; flex-wrap: wrap; }
 
+.editor-layer-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.editor-layer-item { display: flex; align-items: center; gap: 4px; padding: 6px 8px; border: 1px solid var(--border); border-radius: 10px; background: rgba(255, 255, 255, .02); }
+.editor-layer-item.is-selected { border-color: var(--brand); background: rgba(85, 216, 193, .08); }
+.editor-layer-item .icon-button { width: 26px; height: 26px; padding: 0; display: grid; place-items: center; border-radius: 6px; font-size: .8rem; }
+.editor-layer-label { flex: 1 1 auto; text-align: start; background: none; border: 0; color: var(--text); font: inherit; cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.editor-layer-editor[hidden] { display: none; }
+.editor-layer-editor {
+    position: fixed; inset-inline-end: 0; top: 0; bottom: 0; width: min(360px, 92vw);
+    background: rgba(6, 16, 28, .98); border-inline-start: 1px solid var(--border);
+    box-shadow: var(--shadow); padding: 20px; overflow-y: auto; z-index: 60; display: grid; gap: 14px; align-content: start;
+}
+.editor-layer-editor-header { display: flex; align-items: center; justify-content: space-between; }
+
 @media (max-width: 900px) {
     .editor-workspace-grid { grid-template-columns: 1fr; }
     .editor-sidebar { position: static; max-height: none; order: 2; }

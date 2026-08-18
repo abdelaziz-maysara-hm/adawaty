@@ -1,4 +1,4 @@
-import { validatePhotoEditSpec, createDefaultSpec } from './spec.js';
+import { validatePhotoEditSpec, createDefaultSpec, generateLayerId } from './spec.js';
 
 const MAX_HISTORY = 30;
 
@@ -95,6 +95,50 @@ function createEditorState(naturalWidth, naturalHeight, initialSpec) {
         commit((spec) => ({ ...spec, watermark }));
     }
 
+    // --- Layer management. Every method funnels through commit(), so
+    // every layer operation is undoable through the exact same unified
+    // history as every other kind of edit -- no separate undo system. ---
+
+    function addLayer(region, adjustments = {}) {
+        const layer = {
+            id: generateLayerId(), region, visible: true, opacity: 1, ...adjustments,
+        };
+        commit((spec) => ({ ...spec, layers: [...spec.layers, layer] }));
+        return layer.id;
+    }
+
+    function removeLayer(layerId) {
+        commit((spec) => ({ ...spec, layers: spec.layers.filter((layer) => layer.id !== layerId) }));
+    }
+
+    function updateLayer(layerId, patch) {
+        commit((spec) => ({
+            ...spec,
+            layers: spec.layers.map((layer) => (layer.id === layerId ? { ...layer, ...patch } : layer)),
+        }));
+    }
+
+    function toggleLayerVisibility(layerId) {
+        commit((spec) => ({
+            ...spec,
+            layers: spec.layers.map((layer) => (layer.id === layerId ? { ...layer, visible: !layer.visible } : layer)),
+        }));
+    }
+
+    /** Moves a layer up or down in paint order (later in the array = painted later = on top). */
+    function moveLayer(layerId, direction) {
+        commit((spec) => {
+            const index = spec.layers.findIndex((layer) => layer.id === layerId);
+            if (index === -1) return spec;
+            const targetIndex = direction === 'up' ? index + 1 : index - 1;
+            if (targetIndex < 0 || targetIndex >= spec.layers.length) return spec;
+
+            const layers = [...spec.layers];
+            [layers[index], layers[targetIndex]] = [layers[targetIndex], layers[index]];
+            return { ...spec, layers };
+        });
+    }
+
     return Object.freeze({
         getSpec,
         subscribe,
@@ -110,6 +154,11 @@ function createEditorState(naturalWidth, naturalHeight, initialSpec) {
         toggleFlipX,
         toggleFlipY,
         setWatermark,
+        addLayer,
+        removeLayer,
+        updateLayer,
+        toggleLayerVisibility,
+        moveLayer,
     });
 }
 

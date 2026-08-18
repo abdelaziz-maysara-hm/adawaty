@@ -5,7 +5,7 @@
 <meta name="description" content="Crop, rotate, adjust colors, apply filters, and add a watermark to your photo in one continuous session, then download the result."><title>Photo Editor | Adawaty</title>
 <link rel="canonical" href="https://www.adawaty.tools/tools/photo-editor/"><meta property="og:type" content="website"><meta property="og:title" content="Photo Editor"><meta property="og:description" content="Crop, rotate, adjust colors, apply filters, and add a watermark to your photo, then download the result.">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Photo Editor","alternateName":"محرر الصور","url":"https://www.adawaty.tools/tools/photo-editor/","applicationCategory":"DesignApplication","operatingSystem":"Any","isAccessibleForFree":true,"inLanguage":["ar","en"]}</script>
-<link rel="stylesheet" href="../../src/css/main.css"><link rel="stylesheet" href="../../src/css/product.css"><link rel="stylesheet" href="../../src/css/photo-editor.css?v=pe2"><script type="module" src="../../src/product/photo-editor-app.js?v=pe2"></script>
+<link rel="stylesheet" href="../../src/css/main.css"><link rel="stylesheet" href="../../src/css/product.css"><link rel="stylesheet" href="../../src/css/photo-editor.css?v=pe3"><script type="module" src="../../src/product/photo-editor-app.js?v=pe3"></script>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9572691438076734" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -141,9 +141,56 @@
         </div>
         <button class="button button-quiet" type="button" id="editor-remove-watermark"><span data-copy="ar">إزالة العلامة المائية</span><span data-copy="en">Remove Watermark</span></button>
       </div>
+
+      <div class="sidebar-section">
+        <strong><span data-copy="ar">الطبقات</span><span data-copy="en">Layers</span></strong>
+        <ul class="editor-layer-list" id="editor-layer-list"></ul>
+        <button class="button button-quiet" type="button" id="editor-add-layer"><span data-copy="ar">+ إضافة طبقة</span><span data-copy="en">+ Add Layer</span></button>
+      </div>
     </aside>
   </div>
 </section>
 </main>
+
+<div class="editor-layer-editor" id="editor-layer-editor" hidden>
+  <div class="editor-layer-editor-header">
+    <strong id="editor-layer-editor-title"></strong>
+    <button class="icon-button button-quiet" type="button" id="editor-layer-close" aria-label="Close"><span data-copy="ar">إغلاق</span><span data-copy="en">×</span></button>
+  </div>
+  <div class="editor-field-row">
+    <label for="editor-layer-brightness"><span data-copy="ar">السطوع</span><span data-copy="en">Brightness</span></label>
+    <input type="range" id="editor-layer-brightness" min="0" max="300" value="100">
+  </div>
+  <div class="editor-field-row">
+    <label for="editor-layer-contrast"><span data-copy="ar">التباين</span><span data-copy="en">Contrast</span></label>
+    <input type="range" id="editor-layer-contrast" min="0" max="300" value="100">
+  </div>
+  <div class="editor-field-row">
+    <label for="editor-layer-saturation"><span data-copy="ar">التشبع</span><span data-copy="en">Saturation</span></label>
+    <input type="range" id="editor-layer-saturation" min="0" max="300" value="100">
+  </div>
+  <div class="editor-field-row">
+    <label for="editor-layer-grayscale"><span data-copy="ar">رمادي</span><span data-copy="en">Grayscale</span></label>
+    <input type="range" id="editor-layer-grayscale" min="0" max="100" value="0">
+  </div>
+  <div class="editor-field-row">
+    <label for="editor-layer-sepia"><span data-copy="ar">سيبيا</span><span data-copy="en">Sepia</span></label>
+    <input type="range" id="editor-layer-sepia" min="0" max="100" value="0">
+  </div>
+  <div class="editor-field-row">
+    <label for="editor-layer-invert"><span data-copy="ar">عكس الألوان</span><span data-copy="en">Invert</span></label>
+    <input type="range" id="editor-layer-invert" min="0" max="100" value="0">
+  </div>
+  <div class="editor-field-row">
+    <label for="editor-layer-blur"><span data-copy="ar">تمويه</span><span data-copy="en">Blur</span></label>
+    <input type="range" id="editor-layer-blur" min="0" max="20" value="0">
+  </div>
+  <div class="editor-field-row">
+    <label for="editor-layer-opacity"><span data-copy="ar">شفافية الطبقة</span><span data-copy="en">Layer opacity</span></label>
+    <input type="range" id="editor-layer-opacity" min="5" max="100" value="100">
+  </div>
+  <button class="button button-quiet" type="button" id="editor-layer-delete"><span data-copy="ar">حذف الطبقة</span><span data-copy="en">Delete Layer</span></button>
+</div>
+
 <footer class="site-footer"><div class="footer-row shell"><p>Adawaty</p><p>© <span id="current-year"></span></p></div></footer>
 </body></html>

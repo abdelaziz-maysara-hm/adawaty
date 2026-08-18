@@ -1,5 +1,56 @@
 # Changelog
 
+# 0.5.121
+
+- Photo Editor: added a real layer system -- the foundational piece for the "small Photoshop"
+  direction, chosen deliberately as the first phase after an explicit conversation about scope:
+  a full Photoshop-equivalent (layers, multiple selection tools, a free-draw brush, full
+  typography, blend modes, etc.) is a multi-year product, not a single-session feature, so layers
+  were picked as the one piece every other planned capability (local adjustments, and eventually
+  text/brush layers) can build on top of, rather than promising all of it at once.
+  - Add multiple independent regions in the same session (up to 20), each with its own copy of
+    the same 7 adjustments already available globally (brightness/contrast/saturation/grayscale/
+    sepia/invert/blur), its own opacity, and a visibility toggle -- reusing the exact same
+    draggable/resizable region-selection overlay already built for cropping, generalized to serve
+    both purposes rather than duplicated.
+  - `spec.js`: extended `PhotoEditSpec` with a `layers` array; each layer validated with the same
+    rigor as every other field (malformed/malicious values clamped or dropped, capped at 20,
+    unique auto-generated ids). Verified with 8 real test cases including a region-less layer
+    being dropped and an out-of-bounds region being clamped to the image.
+  - `state.js`: layer operations (add/remove/update/reorder/toggle-visibility) all funnel through
+    the exact same `commit()` used by every other edit, so they share one unified undo/redo
+    history rather than a separate parallel one -- undoing a layer deletion works exactly like
+    undoing a brightness change. Verified with 9 real scenarios including the reorder-then-undo
+    case and an out-of-bounds move being a safe no-op.
+  - `engine.js`: layer compositing renders the base image and each visible layer's own filtered
+    render (sharing the same crop/rotation/flip so their pixel grids align), then draws only each
+    layer's region on top of the base at its own opacity, with the watermark always drawn last so
+    it stays on top of everything. **Verified the entire composite algorithm with real image data
+    via `node-canvas`** (not just reviewed): multiple regions, exact opacity-blend math (a 50%
+    blue-over-white layer produced exactly `[127,127,255]`, matching the arithmetic precisely),
+    the area between two layers staying untouched, and the watermark correctly on top -- all 5
+    checks passed with exact values, not approximate ones.
+  - UI: a layer list (visibility toggle, reorder, delete) and a shared adjustment panel that opens
+    for whichever layer is selected. Live preview switches automatically: with no layers, the
+    existing instant CSS-filter preview is used (unchanged, zero cost); once a layer exists, a CSS
+    filter on the whole image can no longer represent a region-restricted effect, so the preview
+    switches to actually running the composite renderer and swapping the displayed image --
+    disclosed as commit-on-release rather than instant-while-dragging, a deliberate simplification
+    given how much more expensive a real composite render is than a CSS filter tweak.
+  - Fixed a real double-watermark bug caught during this same work: when the composite-render
+    preview path is active, the separate DOM watermark-preview overlay (added in 0.5.120) would
+    have shown *on top of* the already-baked-in real watermark, visibly duplicating it -- the
+    overlay is now hidden specifically on that path.
+  - Bumped the cache-busting query string (`?v=pe2` -> `?v=pe3`).
+  - Added layer-specific tests to `tests/product/photo-editor.integration.mjs`: spec validation (8
+    cases), state management (including the unified-undo-history and reorder cases), and page
+    element checks for the new layer UI.
+  - **Not included in this phase, and not implied by "layers" alone**: a text tool, a free-draw
+    brush, non-rectangular (freeform/lasso) selection, and blend modes beyond simple opacity --
+    each remains a separate, explicitly-scoped follow-up, per the same discipline that shaped this
+    feature in the first place.
+  - `npm run validate` passes all 11 suites (619 tools).
+
 # 0.5.120
 
 - Photo Editor: fixed a real gap found via user testing -- the watermark had no visible effect at

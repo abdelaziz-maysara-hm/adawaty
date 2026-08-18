@@ -19,6 +19,9 @@ const copy = Object.freeze({
         undo: 'تراجع', redo: 'إعادة', reset: 'بدء من جديد', download: 'تحميل',
         format: 'صيغة التحميل', exporting: 'جارٍ التجهيز...', invalidFile: 'اختر ملف صورة صالح.',
         statusReady: 'جاهز',
+        layers: 'الطبقات', layer: 'طبقة', addLayer: 'إضافة طبقة', toggleVisibility: 'إظهار/إخفاء',
+        moveUp: 'تحريك لأعلى', moveDown: 'تحريك لأسفل', deleteLayer: 'حذف الطبقة', closeLayerEditor: 'إغلاق',
+        layerOpacity: 'شفافية الطبقة',
     }),
     en: Object.freeze({
         chooseFile: 'Choose an image', dropHint: 'or drag and drop an image here',
@@ -32,6 +35,9 @@ const copy = Object.freeze({
         undo: 'Undo', redo: 'Redo', reset: 'Start Over', download: 'Download',
         format: 'Download format', exporting: 'Preparing...', invalidFile: 'Please choose a valid image file.',
         statusReady: 'Ready',
+        layers: 'Layers', layer: 'Layer', addLayer: 'Add Layer', toggleVisibility: 'Show/Hide',
+        moveUp: 'Move up', moveDown: 'Move down', deleteLayer: 'Delete Layer', closeLayerEditor: 'Close',
+        layerOpacity: 'Layer opacity',
     }),
 });
 
@@ -54,6 +60,20 @@ const el = Object.freeze({
     cropBox: document.querySelector('#editor-crop-box'),
     watermarkPreview: document.querySelector('#editor-watermark-preview'),
     cropButton: document.querySelector('#editor-crop-button'),
+    addLayerButton: document.querySelector('#editor-add-layer'),
+    layerList: document.querySelector('#editor-layer-list'),
+    layerEditor: document.querySelector('#editor-layer-editor'),
+    layerEditorTitle: document.querySelector('#editor-layer-editor-title'),
+    layerBrightness: document.querySelector('#editor-layer-brightness'),
+    layerContrast: document.querySelector('#editor-layer-contrast'),
+    layerSaturation: document.querySelector('#editor-layer-saturation'),
+    layerGrayscale: document.querySelector('#editor-layer-grayscale'),
+    layerSepia: document.querySelector('#editor-layer-sepia'),
+    layerInvert: document.querySelector('#editor-layer-invert'),
+    layerBlur: document.querySelector('#editor-layer-blur'),
+    layerOpacity: document.querySelector('#editor-layer-opacity'),
+    layerDeleteButton: document.querySelector('#editor-layer-delete'),
+    layerCloseButton: document.querySelector('#editor-layer-close'),
     applyCropButton: document.querySelector('#editor-apply-crop'),
     cancelCropButton: document.querySelector('#editor-cancel-crop'),
     rotateButton: document.querySelector('#editor-rotate'),
@@ -83,21 +103,58 @@ const el = Object.freeze({
 let currentFile = null;
 let currentImage = null; // decoded HTMLImageElement, for natural dimensions
 let state = null;
-let isCropping = false;
 let cropDragMode = null; // null | 'move' | a handle string like 'se'
+let selectedLayerId = null; // which layer's adjustment sliders are currently shown in the shared layer-editor panel
 
 function setStatus(message) {
     if (el.statusMessage) el.statusMessage.textContent = message;
 }
 
-/** Live preview via CSS filter/transform on the <img> itself -- instant, no re-encoding, matching how the Website Builder's preview stays lightweight. */
+let compositePreviewUrl = '';
+let compositeRenderToken = 0;
+
+/**
+ * Live preview via CSS filter/transform on the <img> itself when there
+ * are no layers -- instant, no re-encoding, matching how the Website
+ * Builder's preview stays lightweight. Once a layer exists, a CSS
+ * filter on the whole image can no longer represent a region-specific
+ * effect, so the preview switches to actually running the composite
+ * renderer (engine.js's renderEditedImage()) and swapping the <img>
+ * src -- slightly slower, but the only way to show a real region-
+ * restricted result short of reimplementing the compositor twice.
+ */
 function updateLivePreview() {
     const spec = state.getSpec();
-    el.previewImage.style.filter = buildFilterString(spec);
-    const flipXScale = spec.flipX ? -1 : 1;
-    const flipYScale = spec.flipY ? -1 : 1;
-    el.previewImage.style.transform = `rotate(${spec.rotation}deg) scale(${flipXScale}, ${flipYScale})`;
-    updateWatermarkPreview(spec.watermark);
+
+    if (spec.layers.length === 0) {
+        updateWatermarkPreview(spec.watermark);
+        el.previewImage.style.filter = buildFilterString(spec);
+        const flipXScale = spec.flipX ? -1 : 1;
+        const flipYScale = spec.flipY ? -1 : 1;
+        el.previewImage.style.transform = `rotate(${spec.rotation}deg) scale(${flipXScale}, ${flipYScale})`;
+        return;
+    }
+
+    // The composite render below already bakes the real watermark into
+    // the image, so the approximate DOM overlay must be hidden here --
+    // otherwise the watermark would visibly appear twice.
+    updateWatermarkPreview(null);
+    el.previewImage.style.filter = 'none';
+    el.previewImage.style.transform = 'none';
+    updateCompositePreview(spec);
+}
+
+async function updateCompositePreview(spec) {
+    const token = (compositeRenderToken += 1);
+    try {
+        const { blob } = await renderEditedImage(currentFile, spec, { type: 'image/png' });
+        if (token !== compositeRenderToken) return; // a newer render started meanwhile; discard this one
+        if (compositePreviewUrl) URL.revokeObjectURL(compositePreviewUrl);
+        compositePreviewUrl = URL.createObjectURL(blob);
+        el.previewImage.src = compositePreviewUrl;
+    } catch (error) {
+        console.error('Photo Editor composite preview failed:', error);
+    }
 }
 
 /**
@@ -158,6 +215,94 @@ function syncControlsFromState() {
         // through the dedicated remove button's own click handler.
         el.watermarkText.value = '';
     }
+
+    renderLayerList();
+}
+
+/** Renders the layer list: one row per layer with a visibility toggle, a click-to-edit name/summary, reorder buttons, and a delete button. */
+function renderLayerList() {
+    const spec = state.getSpec();
+    el.layerList.replaceChildren(
+        ...spec.layers.map((layer, index) => {
+            const item = document.createElement('li');
+            item.className = 'editor-layer-item';
+            if (layer.id === selectedLayerId) item.classList.add('is-selected');
+
+            const visibilityButton = document.createElement('button');
+            visibilityButton.type = 'button';
+            visibilityButton.className = 'icon-button button-quiet';
+            visibilityButton.textContent = layer.visible ? '👁' : '—';
+            visibilityButton.setAttribute('aria-label', t('toggleVisibility'));
+            visibilityButton.addEventListener('click', () => state.toggleLayerVisibility(layer.id));
+            item.append(visibilityButton);
+
+            const label = document.createElement('button');
+            label.type = 'button';
+            label.className = 'editor-layer-label';
+            label.textContent = layer.name || `${t('layer')} ${index + 1}`;
+            label.addEventListener('click', () => openLayerEditor(layer.id));
+            item.append(label);
+
+            const upButton = document.createElement('button');
+            upButton.type = 'button';
+            upButton.className = 'icon-button button-quiet';
+            upButton.textContent = '↑';
+            upButton.setAttribute('aria-label', t('moveUp'));
+            upButton.disabled = index === spec.layers.length - 1; // last in array = topmost = nothing above it
+            upButton.addEventListener('click', () => state.moveLayer(layer.id, 'up'));
+            item.append(upButton);
+
+            const downButton = document.createElement('button');
+            downButton.type = 'button';
+            downButton.className = 'icon-button button-quiet';
+            downButton.textContent = '↓';
+            downButton.setAttribute('aria-label', t('moveDown'));
+            downButton.disabled = index === 0;
+            downButton.addEventListener('click', () => state.moveLayer(layer.id, 'down'));
+            item.append(downButton);
+
+            return item;
+        }),
+    );
+
+    // If the currently-open layer editor's layer no longer exists (e.g.
+    // deleted via undo/redo landing on a state without it), close it
+    // rather than leaving it open on stale data.
+    if (selectedLayerId && !spec.layers.some((layer) => layer.id === selectedLayerId)) {
+        closeLayerEditor();
+    } else if (selectedLayerId) {
+        syncLayerEditorFromState();
+    }
+}
+
+function openLayerEditor(layerId) {
+    selectedLayerId = layerId;
+    el.layerEditor.hidden = false;
+    syncLayerEditorFromState();
+    renderLayerList();
+}
+
+function closeLayerEditor() {
+    selectedLayerId = null;
+    el.layerEditor.hidden = true;
+}
+
+function getSelectedLayer() {
+    return state.getSpec().layers.find((layer) => layer.id === selectedLayerId) ?? null;
+}
+
+function syncLayerEditorFromState() {
+    const layer = getSelectedLayer();
+    if (!layer) return;
+    el.layerEditorTitle.textContent = layer.name || t('layer');
+    el.layerBrightness.value = layer.brightness;
+    el.layerContrast.value = layer.contrast;
+    el.layerSaturation.value = layer.saturation;
+    el.layerGrayscale.value = layer.grayscale;
+    el.layerSepia.value = layer.sepia;
+    el.layerInvert.value = layer.invert;
+    el.layerBlur.value = layer.blur;
+    el.layerOpacity.value = Math.round(layer.opacity * 100);
 }
 
 async function loadImageFile(file) {
@@ -213,28 +358,46 @@ function getDisplayScale() {
     return el.previewImage.clientWidth / currentImage.naturalWidth;
 }
 
-function startCropping() {
-    isCropping = true;
-    const spec = state.getSpec();
-    const naturalBox = spec.crop ?? {
-        x: 0, y: 0, width: currentImage.naturalWidth, height: currentImage.naturalHeight,
-    };
-    renderCropOverlay(naturalBox);
+/**
+ * The same draggable/resizable region overlay serves two purposes:
+ * cropping the whole image, and selecting a region for a new layer.
+ * `selectionMode` distinguishes them (null | 'crop' | 'layer') so the
+ * exact same drag/resize interaction and coordinate math (crop-math.js)
+ * is reused rather than duplicated for layers.
+ */
+let selectionMode = null;
+
+function startRegionSelection(mode) {
+    selectionMode = mode;
+    const naturalBox = mode === 'crop'
+        ? (state.getSpec().crop ?? {
+            x: 0, y: 0, width: currentImage.naturalWidth, height: currentImage.naturalHeight,
+        })
+        : {
+            x: Math.round(currentImage.naturalWidth * 0.25),
+            y: Math.round(currentImage.naturalHeight * 0.25),
+            width: Math.round(currentImage.naturalWidth * 0.5),
+            height: Math.round(currentImage.naturalHeight * 0.5),
+        };
+    renderRegionOverlay(naturalBox);
     el.cropOverlay.hidden = false;
     el.cropButton.hidden = true;
+    el.addLayerButton.hidden = true;
     el.applyCropButton.hidden = false;
+    el.applyCropButton.textContent = mode === 'crop' ? t('applyCrop') : t('addLayer');
     el.cancelCropButton.hidden = false;
 }
 
-function stopCropping() {
-    isCropping = false;
+function stopRegionSelection() {
+    selectionMode = null;
     el.cropOverlay.hidden = true;
     el.cropButton.hidden = false;
+    el.addLayerButton.hidden = false;
     el.applyCropButton.hidden = true;
     el.cancelCropButton.hidden = true;
 }
 
-function renderCropOverlay(naturalBox) {
+function renderRegionOverlay(naturalBox) {
     const scale = getDisplayScale();
     const displayed = naturalToDisplayed(naturalBox, scale);
     el.cropBox.style.left = `${displayed.x}px`;
@@ -245,19 +408,25 @@ function renderCropOverlay(naturalBox) {
 }
 
 function wireCropInteraction() {
-    el.cropButton.addEventListener('click', startCropping);
-    el.cancelCropButton.addEventListener('click', stopCropping);
+    el.cropButton.addEventListener('click', () => startRegionSelection('crop'));
+    el.addLayerButton.addEventListener('click', () => startRegionSelection('layer'));
+    el.cancelCropButton.addEventListener('click', stopRegionSelection);
     el.applyCropButton.addEventListener('click', () => {
         const naturalBox = JSON.parse(el.cropBox.dataset.naturalBox || '{}');
-        state.setCrop(naturalBox);
-        stopCropping();
+        if (selectionMode === 'crop') {
+            state.setCrop(naturalBox);
+        } else if (selectionMode === 'layer') {
+            const newLayerId = state.addLayer(naturalBox);
+            selectedLayerId = newLayerId;
+        }
+        stopRegionSelection();
     });
 
     let dragStartPointer = null;
     let dragStartBox = null;
 
     function onPointerDown(event) {
-        if (!isCropping) return;
+        if (!selectionMode) return;
         const handle = event.target.dataset.handle;
         cropDragMode = handle || (event.target === el.cropBox ? 'move' : null);
         if (!cropDragMode) return;
@@ -276,7 +445,7 @@ function wireCropInteraction() {
             ? moveBox(dragStartBox, deltaX, deltaY, currentImage.naturalWidth, currentImage.naturalHeight)
             : resizeBoxFromHandle(dragStartBox, cropDragMode, deltaX, deltaY, currentImage.naturalWidth, currentImage.naturalHeight);
 
-        renderCropOverlay(nextBox);
+        renderRegionOverlay(nextBox);
     }
 
     function onPointerUp() {
@@ -346,6 +515,40 @@ function wireWatermark() {
         el.watermarkText.value = '';
         state.setWatermark(null);
     });
+}
+
+/**
+ * Wires the shared layer-editor panel's sliders. Unlike the global
+ * adjustment sliders (which get an instant CSS-filter preview on every
+ * 'input' tick), a layer's effect is region-restricted and can only be
+ * shown accurately by actually running the composite renderer -- doing
+ * that on every slider-drag tick would be far too slow. So layer
+ * sliders only commit (and therefore only re-render the composite
+ * preview) on 'change', once the user releases the slider -- a
+ * disclosed, reasonable simplification rather than false instant
+ * feedback.
+ */
+function wireLayerPanel() {
+    const bindings = [
+        [el.layerBrightness, 'brightness'], [el.layerContrast, 'contrast'], [el.layerSaturation, 'saturation'],
+        [el.layerGrayscale, 'grayscale'], [el.layerSepia, 'sepia'], [el.layerInvert, 'invert'], [el.layerBlur, 'blur'],
+    ];
+    for (const [input, key] of bindings) {
+        input.addEventListener('change', () => {
+            if (!selectedLayerId) return;
+            state.updateLayer(selectedLayerId, { [key]: Number(input.value) });
+        });
+    }
+    el.layerOpacity.addEventListener('change', () => {
+        if (!selectedLayerId) return;
+        state.updateLayer(selectedLayerId, { opacity: Number(el.layerOpacity.value) / 100 });
+    });
+    el.layerDeleteButton.addEventListener('click', () => {
+        if (!selectedLayerId) return;
+        state.removeLayer(selectedLayerId);
+        closeLayerEditor();
+    });
+    el.layerCloseButton.addEventListener('click', closeLayerEditor);
 }
 
 function wireToolbar() {
@@ -418,6 +621,7 @@ function init() {
     wireTransforms();
     wireAdjustmentSliders();
     wireWatermark();
+    wireLayerPanel();
     wireToolbar();
 }
 

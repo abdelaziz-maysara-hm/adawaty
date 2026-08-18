@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 
 import { getToolDefinition, listToolDefinitions } from '../../src/product/tool-definitions.js';
 import {
-    validatePhotoEditSpec, createDefaultSpec, buildFilterString, normalizeCrop,
+    validatePhotoEditSpec, createDefaultSpec, buildFilterString, normalizeCrop, normalizeLayer, MAX_LAYERS,
 } from '../../src/product/photo-editor/spec.js';
 import { createEditorState, MAX_HISTORY } from '../../src/product/photo-editor/state.js';
 import {
@@ -66,6 +66,103 @@ const projectRoot = path.resolve(currentDir, '../..');
 }
 
 // ---------------------------------------------------------------------------
+// Layer spec validation
+// ---------------------------------------------------------------------------
+
+{
+    assert.equal(createDefaultSpec().layers.length, 0, 'a fresh spec must start with no layers');
+}
+
+{
+    const layer = normalizeLayer({
+        region: {
+            x: 10, y: 10, width: 100, height: 100,
+        },
+        brightness: 150,
+        blur: 5,
+    }, 500, 400);
+    assert.ok(layer);
+    assert.equal(layer.brightness, 150);
+    assert.equal(layer.blur, 5);
+    assert.equal(layer.visible, true, 'a new layer must default to visible');
+    assert.equal(layer.opacity, 1, 'a new layer must default to full opacity');
+    assert.equal(buildFilterString(layer), 'brightness(150%) blur(5px)', 'buildFilterString must work for a layer the same way it does for the global spec');
+}
+
+{
+    // A layer with no region at all is meaningless and must be dropped, not kept with garbage coordinates.
+    const layer = normalizeLayer({ brightness: 150 }, 500, 400);
+    assert.equal(layer, null);
+}
+
+{
+    // Malformed/malicious layer values must be clamped safely, the same as the global spec.
+    const layer = normalizeLayer({
+        region: {
+            x: -50, y: -50, width: 99999, height: 99999,
+        },
+        brightness: 'evil',
+        opacity: 5,
+    }, 500, 400);
+    assert.equal(layer.region.x, 0);
+    assert.equal(layer.region.y, 0);
+    assert.ok(layer.region.x + layer.region.width <= 500);
+    assert.ok(layer.region.y + layer.region.height <= 400);
+    assert.equal(layer.brightness, 100, 'a non-numeric layer brightness must default to neutral');
+    assert.equal(layer.opacity, 1, 'an out-of-range opacity must be clamped to the valid maximum');
+}
+
+{
+    const spec = validatePhotoEditSpec({
+        layers: [
+            {
+                region: {
+                    x: 0, y: 0, width: 100, height: 100,
+                },
+                blur: 5,
+            },
+            {
+                region: {
+                    x: 200, y: 200, width: 100, height: 100,
+                },
+                grayscale: 100,
+            },
+        ],
+    }, 500, 400);
+    assert.equal(spec.layers.length, 2);
+}
+
+{
+    const manyLayers = Array.from({ length: MAX_LAYERS + 10 }, () => ({
+        region: {
+            x: 0, y: 0, width: 10, height: 10,
+        },
+    }));
+    const spec = validatePhotoEditSpec({ layers: manyLayers }, 500, 400);
+    assert.equal(spec.layers.length, MAX_LAYERS, `layer count must be capped at ${MAX_LAYERS}`);
+}
+
+{
+    const spec = validatePhotoEditSpec({
+        layers: [
+            { region: {
+                x: 0, y: 0, width: 10, height: 10,
+            } },
+            { region: {
+                x: 0, y: 0, width: 10, height: 10,
+            } },
+        ],
+    }, 500, 400);
+    assert.notEqual(spec.layers[0].id, spec.layers[1].id, 'auto-generated layer ids must be unique');
+}
+
+{
+    // An invalid (non-array) layers value must safely become an empty array, not throw or leak garbage through.
+    const spec = validatePhotoEditSpec({ layers: 'not-an-array' }, 500, 400);
+    assert.deepEqual(spec.layers, []);
+}
+
+// ---------------------------------------------------------------------------
 // Editor state (undo/redo)
 // ---------------------------------------------------------------------------
 
@@ -122,6 +219,63 @@ const projectRoot = path.resolve(currentDir, '../..');
     });
     const crop = state.getSpec().crop;
     assert.ok(crop.x + crop.width <= 500 && crop.y + crop.height <= 400);
+}
+
+// ---------------------------------------------------------------------------
+// Layer state management (add / remove / toggle / reorder / undo)
+// ---------------------------------------------------------------------------
+
+{
+    const state = createEditorState(500, 400);
+    const id1 = state.addLayer({
+        x: 10, y: 10, width: 100, height: 100,
+    }, { blur: 5 });
+    assert.equal(state.getSpec().layers.length, 1);
+    assert.equal(state.getSpec().layers[0].blur, 5);
+
+    const id2 = state.addLayer({
+        x: 200, y: 200, width: 50, height: 50,
+    }, { grayscale: 100 });
+    assert.equal(state.getSpec().layers.length, 2);
+
+    state.toggleLayerVisibility(id1);
+    assert.equal(state.getSpec().layers.find((layer) => layer.id === id1).visible, false);
+    state.toggleLayerVisibility(id1);
+    assert.equal(state.getSpec().layers.find((layer) => layer.id === id1).visible, true);
+
+    state.updateLayer(id1, { brightness: 150 });
+    assert.equal(state.getSpec().layers.find((layer) => layer.id === id1).brightness, 150);
+
+    assert.deepEqual(state.getSpec().layers.map((layer) => layer.id), [id1, id2]);
+    state.moveLayer(id1, 'up');
+    assert.deepEqual(state.getSpec().layers.map((layer) => layer.id), [id2, id1], 'moving a layer up must change its paint order');
+
+    state.removeLayer(id2);
+    assert.equal(state.getSpec().layers.length, 1);
+    assert.equal(state.getSpec().layers[0].id, id1);
+
+    // Layer operations go through the exact same unified undo/redo
+    // history as every other edit -- not a separate history.
+    assert.equal(state.undo(), true);
+    assert.equal(state.getSpec().layers.length, 2, 'undo must restore a removed layer');
+    assert.equal(state.redo(), true);
+    assert.equal(state.getSpec().layers.length, 1, 'redo must re-apply the removal');
+
+    state.reset();
+    assert.equal(state.getSpec().layers.length, 0, 'reset must clear layers along with everything else');
+}
+
+{
+    // Moving the bottom layer further down, or the top layer further up, is a safe no-op.
+    const state = createEditorState(500, 400);
+    const a = state.addLayer({
+        x: 0, y: 0, width: 10, height: 10,
+    });
+    const b = state.addLayer({
+        x: 0, y: 0, width: 10, height: 10,
+    });
+    state.moveLayer(a, 'down');
+    assert.deepEqual(state.getSpec().layers.map((layer) => layer.id), [a, b], 'moving the bottom-most layer further down must be a no-op, not throw or corrupt order');
 }
 
 // ---------------------------------------------------------------------------
@@ -235,6 +389,9 @@ const projectRoot = path.resolve(currentDir, '../..');
     // preview overlay was added specifically so the Position/Color/
     // Opacity/Font size controls are immediately visible.
     assert.ok(html.includes('id="editor-watermark-preview"'), 'the page must include a live watermark preview element, not just apply the watermark at export time');
+    assert.ok(html.includes('id="editor-add-layer"'), 'the page must include an Add Layer control');
+    assert.ok(html.includes('id="editor-layer-list"'), 'the page must include a layer list');
+    assert.ok(html.includes('id="editor-layer-editor"'), 'the page must include the per-layer adjustment editor panel');
 }
 
 console.log('Photo Editor: spec validation, undo/redo state, crop coordinate math, and product-integration checks passed.');
