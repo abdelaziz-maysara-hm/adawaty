@@ -1,5 +1,33 @@
 # Changelog
 
+# 0.5.124
+
+- Found and fixed a real SEO coverage gap in response to a direct question ("did the new tools get
+  the same SEO treatment as the rest of the site?") -- checked rather than assumed, and the answer
+  was *partially*: `website-builder`, `photo-editor`, and `mic-test` all had the core basics
+  (meta description, canonical URL, Open Graph tags, `SoftwareApplication` JSON-LD, a sitemap
+  entry) but were **missing the FAQ content and FAQPage schema** every generator-produced tool page
+  got in 0.5.113. Root cause: FAQ generation lives in `scripts/generate-product-pages.mjs`, and
+  interactive tools are manually-authored pages that bypass that generator entirely by design (see
+  the `interactive: true` pattern) -- so every interactive tool shipped since 0.5.113 silently
+  missed this, with nothing flagging it.
+  - Added genuinely tool-specific FAQ content (not copy-pasted filler) to all 3 pages: the standard
+    "is it free" / "do I need to install anything" pair, plus a question tailored to what each tool
+    actually does -- "is my *project* uploaded anywhere" for Website Builder, "is my *photo*
+    uploaded anywhere" for Photo Editor, and specifically **"is my audio recorded or saved
+    anywhere?"** for Mic Test, since that's the single most likely real concern a first-time visitor
+    would have about a tool that requests microphone access.
+  - Verified all 6 new JSON-LD `FAQPage` blocks (2 per tool: the existing `SoftwareApplication`
+    schema plus the new one) parse as valid JSON via an independent Python check across all 3
+    pages, not just visual inspection.
+  - Added a permanent regression test (`tests/product/interactive-tools-faq.integration.mjs`) that
+    checks *every* tool with `interactive: true` for FAQ content, valid FAQPage JSON-LD, and at
+    least 2 real (non-empty) questions -- so a *future* interactive tool can't ship this same gap
+    silently again. Confirmed the test genuinely catches the regression by deliberately corrupting
+    one page's FAQ schema, watching the test fail with a clear per-tool message, then restoring it
+    and confirming it passes again.
+  - `npm run validate` passes all 13 suites (620 tools).
+
 # 0.5.123
 
 - Added `mic-test` (interactive workspace tool, `audio` category): a live microphone level meter
