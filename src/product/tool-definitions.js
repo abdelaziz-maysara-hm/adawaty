@@ -92,6 +92,8 @@ import { pdfEditorToolDefinitions } from './definitions/pdf-editor-tools.js';
 import { websiteBuilderToolDefinitions } from './definitions/website-builder-tool.js';
 import { photoEditorToolDefinitions } from './definitions/photo-editor-tool.js';
 import { micTestToolDefinitions } from './definitions/mic-test-tool.js';
+import { backgroundRemoverToolDefinitions } from './definitions/background-remover-tool.js';
+import { addBackgroundToolDefinitions } from './definitions/add-background-tools.js';
 import { ocrToolDefinitions } from './definitions/ocr-tools.js';
 import { videoFileToolDefinitions } from './definitions/video-file-tools.js';
 import { videoProcessingToolDefinitions } from './definitions/video-processing-tools.js';
@@ -1172,6 +1174,8 @@ const allToolDefinitions = Object.freeze({
     ...websiteBuilderToolDefinitions,
     ...photoEditorToolDefinitions,
     ...micTestToolDefinitions,
+    ...backgroundRemoverToolDefinitions,
+    ...addBackgroundToolDefinitions,
     ...ocrToolDefinitions,
     ...videoFileToolDefinitions,
     ...videoProcessingToolDefinitions,

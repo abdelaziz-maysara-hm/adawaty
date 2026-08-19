@@ -1,5 +1,55 @@
 # Changelog
 
+# 0.5.126
+
+- Added `background-remover` (interactive workspace tool, `image` category) and 3 companion tools
+  -- `add-solid-background`, `add-gradient-background`, `add-image-background` -- for building a
+  complete "remove background, then add a new one" workflow entirely client-side.
+  - **`background-remover`**: AI-powered background removal running fully in the browser via
+    `rembg-web` (MIT license) + `onnxruntime-web`, using the `u2netp.onnx` model (Apache-2.0).
+    Chose this stack only after checking license terms directly rather than assuming from
+    marketing copy: `@imgly/background-removal`, an initially obvious choice, turned out to be
+    AGPL-3.0 (a real network-use source-disclosure obligation); `RMBG-1.4`/`RMBG-2.0` (BRIA AI),
+    the model most guides point to, requires a paid commercial license for any site carrying ads.
+    `u2netp.onnx` (Apache-2.0, downloaded from a `danielgatis/rembg` GitHub Release and verified
+    byte-for-byte against its published SHA256) has neither restriction. Chose the ~4.6 MB "p"
+    (portable) variant over the ~176 MB full model deliberately, given this site's own philosophy
+    of fast, lightweight tools. Full trail documented in `models/README.md`.
+    - **Verified the model itself before writing any UI**: `onnx.checker.check_model()` confirmed
+      a structurally valid graph; a real inference run on a synthetic test image (a red circle
+      "subject" on a blue background) produced mask value `1.0` at the subject's center and `0.0`
+      at a background corner, confirming the model genuinely distinguishes foreground from
+      background rather than just that the file loads.
+    - **Deliberately disabled WASM multi-threading** (`numThreads: 1`) and forced
+      `executionProviders: ['wasm']` (plain CPU, never WebGPU/WebNN/JSEP). Real multi-threading
+      needs `SharedArrayBuffer`, which needs `Cross-Origin-Opener-Policy`/`Cross-Origin-Embedder-
+      Policy` response headers on every page -- and `COEP: require-corp` site-wide is a real risk
+      to this site's AdSense integration, since COEP restricts which cross-origin resources may
+      load at all. A slower, single-threaded, CPU-only execution path was chosen deliberately over
+      adding those headers, not an oversight. This also kept the same-origin vendor bundle to the
+      ~15 MB base WASM variant instead of needing the much larger `.jsep` variant.
+    - Same-origin hosting throughout (the model in `/models/`, the runtime in
+      `src/vendor/onnxruntime-web/` and `src/vendor/rembg-web/`), matching how `ffmpeg.wasm` is
+      already served same-origin elsewhere on this site -- no third-party CDN dependency.
+    - **Honest disclosure**: the model, its license, and its raw inference behavior were verified
+      directly and rigorously. The full browser integration (same-origin model fetch + actual
+      UI flow end-to-end) has not been exercised in a real browser, since this sandbox has none --
+      worth a real-browser smoke test before fully trusting it, the same disclosure pattern used
+      for the Photo Editor's crop-drag interaction and the Website Builder's export function.
+  - **`add-solid-background` / `add-gradient-background` / `add-image-background`**: ordinary
+    form-based tools (not interactive workspaces -- no AI involved, just Canvas compositing), built
+    as three separate single-purpose tools rather than one tool with a type selector, matching this
+    site's existing pattern. Verified the shared composite technique (draw background first, then
+    draw the transparent foreground on top) with real transparent image data via `node-canvas`
+    before writing any tool code: a corner that was transparent in the foreground correctly shows
+    the background color, and an opaque foreground pixel correctly stays unchanged.
+  - Found and removed a small piece of dead code while reviewing `add-background-tools.js`: an
+    `outputType()` helper and a computed-but-unused `type` variable, left over from an earlier
+    draft, neither of which was actually used since the tools always output JPEG.
+  - New test files: `tests/product/add-background.integration.mjs` (hex-color input safety against
+    malicious values like `javascript:alert(1)`, and product registration for all 3 tools).
+  - `npm run validate` passes all 15 suites (624 tools).
+
 # 0.5.125
 
 - Verified (rather than assumed) AdSense script coverage in response to a direct request: checked

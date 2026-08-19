@@ -86,6 +86,10 @@ const browserOnlyTools = new Set([
     // handler by design, and no file input at all (it operates on a
     // live getUserMedia stream, not an uploaded file).
     'mic-test',
+    // background-remover is the same class of interactive workspace
+    // tool: no process/calculate handler by design, and no file input
+    // (the file is chosen inside its own upload UI).
+    'background-remover',
 ]);
 
 const inputOverrides = Object.freeze({
@@ -219,8 +223,8 @@ assert.deepEqual(
         .join('\n')}`,
 );
 
-assert.equal(nonFileTools.length, 417);
-assert.equal(browserOnlyTools.size, 28);
+assert.equal(nonFileTools.length, 418);
+assert.equal(browserOnlyTools.size, 29);
 assert.equal(executableWithoutBrowser.length, 389);
 
 const journeys = [
