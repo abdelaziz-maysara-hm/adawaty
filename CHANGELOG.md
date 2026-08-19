@@ -1,5 +1,22 @@
 # Changelog
 
+# 0.5.125
+
+- Verified (rather than assumed) AdSense script coverage in response to a direct request: checked
+  every single one of the 651 pages on disk, not a sample -- confirmed the script was already
+  present on all of them, including the site's own generator template (so any future generator-
+  produced tool gets it automatically with zero extra work) and all 3 manually-authored
+  interactive tool pages (`website-builder`, `photo-editor`, `mic-test`, which don't get anything
+  "for free" from the generator and needed it added by hand when each shipped).
+  - Added a permanent regression test (`tests/product/ads-coverage.integration.mjs`) that walks
+    every `index.html` on disk and checks both that the AdSense script is present and that it
+    carries the correct publisher client id, plus a check that the generator source itself still
+    contains the script in all 3 of its page templates -- so this guarantee can't silently regress
+    for a future page the way the FAQ coverage gap did for interactive tools in 0.5.124. Confirmed
+    the test genuinely catches a regression by deliberately breaking one page's script, watching
+    the test fail with the exact file path, then restoring it and confirming it passes again.
+  - `npm run validate` passes all 14 suites (620 tools).
+
 # 0.5.124
 
 - Found and fixed a real SEO coverage gap in response to a direct question ("did the new tools get
