@@ -1,5 +1,32 @@
 # Changelog
 
+# 0.5.128
+
+- Fixed a real bug in all 3 Add Background tools (`add-solid-background`, `add-gradient-background`,
+  `add-image-background`), found via direct user testing on the live site: clicking "Generate"
+  appeared to do nothing at all -- no error, no download, no visible result.
+  - **Root cause**: `result()` returned `{ blob, filename, message }`, but `tool-page.js`'s
+    result-rendering code specifically reads `output.download.blob`, `output.download.filename`,
+    and `output.preview` -- none of which existed on that shape. The tool's actual image
+    processing was working correctly the whole time; only the *result display* was broken,
+    because `output.download?.blob` silently evaluated to `undefined` and the download button
+    logic never ran. Confirmed this diagnosis by reading `tool-page.js`'s actual rendering code
+    directly (not guessed), then fixed `result()` to return the exact shape every other image
+    tool on this site already uses (`value`/`label`/`details`/`download`/`preview`), and updated
+    `compositeOntoBackground()` and all 3 call sites to thread the image dimensions through to it.
+  - **Also fixed, from the same user report**: the foreground image input only accepted PNG/WebP.
+    Widened to also accept GIF and AVIF -- both genuinely support transparency. Deliberately did
+    *not* widen to JPEG/BMP: those have no alpha channel at all, so accepting them would silently
+    produce a misleading "background added" result with nothing actually composited through.
+  - Verified the fix directly: called the corrected `result()` with real values and confirmed
+    all 6 expected fields are present and correctly shaped -- not just reviewed, actually run.
+  - Extended `tests/product/add-background.integration.mjs` with the result-shape check (the
+    actual root-cause bug) and the widened-format check. Confirmed the new test genuinely catches
+    this exact regression class by deliberately reintroducing the original buggy `result()`,
+    watching the test fail with a clear diff, then restoring the fix and confirming it passes
+    again -- the same verification discipline used throughout this project.
+  - `npm run validate` passes all 15 suites (625 tools).
+
 # 0.5.127
 
 - Added `text-summarizer` (interactive workspace tool, `text` category): AI-powered text

@@ -36,11 +36,13 @@ function selectInput(id, ar, en, options) {
     });
 }
 
-function result(blob, filename, language, label) {
+function result(blob, filename, width, height, language, label) {
     return {
-        blob,
-        filename,
-        message: localized(language, label.ar, label.en),
+        value: `${width} × ${height}`,
+        label: localized(language, label.ar, label.en),
+        details: `${(blob.size / 1024).toFixed(1)} KB`,
+        download: { blob, filename },
+        preview: blob,
     };
 }
 
@@ -73,7 +75,7 @@ async function compositeOntoBackground(foregroundFile, drawBackground, type, qua
     context.drawImage(foregroundImage, 0, 0);
 
     const blob = await canvasToBlob(canvas, type, quality);
-    return blob;
+    return { blob, width: canvas.width, height: canvas.height };
 }
 
 const addSolidBackground = Object.freeze({
@@ -91,17 +93,17 @@ const addSolidBackground = Object.freeze({
         en: 'Runs entirely in your browser; your image is never uploaded to any server. Only works correctly with images that already have a transparent background.',
     }),
     inputs: Object.freeze([
-        fileInput('image', 'الصورة (بخلفية شفافة)', 'Image (with transparent background)', 'image/png,image/webp'),
+        fileInput('image', 'الصورة (بخلفية شفافة)', 'Image (with transparent background)', 'image/png,image/webp,image/gif,image/avif'),
         textInput('color', 'لون الخلفية', 'Background color', '#ffffff'),
     ]),
     async process(values, language) {
         await inspectImage(values.image);
         const color = safeHexColor(values.color, '#ffffff');
-        const blob = await compositeOntoBackground(
+        const { blob, width, height } = await compositeOntoBackground(
             values.image,
-            (context, width, height) => {
+            (context, canvasWidth, canvasHeight) => {
                 context.fillStyle = color;
-                context.fillRect(0, 0, width, height);
+                context.fillRect(0, 0, canvasWidth, canvasHeight);
             },
             'image/jpeg',
             0.92,
@@ -109,6 +111,8 @@ const addSolidBackground = Object.freeze({
         return result(
             blob,
             outputName(values.image, 'bg-added', 'image/jpeg'),
+            width,
+            height,
             language,
             { ar: 'الصورة بالخلفية الجديدة جاهزة', en: 'The image with the new background is ready' },
         );
@@ -130,7 +134,7 @@ const addGradientBackground = Object.freeze({
         en: 'Runs entirely in your browser; your image is never uploaded to any server. Only works correctly with images that already have a transparent background.',
     }),
     inputs: Object.freeze([
-        fileInput('image', 'الصورة (بخلفية شفافة)', 'Image (with transparent background)', 'image/png,image/webp'),
+        fileInput('image', 'الصورة (بخلفية شفافة)', 'Image (with transparent background)', 'image/png,image/webp,image/gif,image/avif'),
         textInput('colorStart', 'اللون الأول', 'Start color', '#55d8c1'),
         textInput('colorEnd', 'اللون الثاني', 'End color', '#2563eb'),
         selectInput('direction', 'اتجاه التدرج', 'Gradient direction', [
@@ -145,19 +149,19 @@ const addGradientBackground = Object.freeze({
         const colorEnd = safeHexColor(values.colorEnd, '#2563eb');
         const direction = ['vertical', 'horizontal', 'diagonal'].includes(values.direction) ? values.direction : 'vertical';
 
-        const blob = await compositeOntoBackground(
+        const { blob, width, height } = await compositeOntoBackground(
             values.image,
-            (context, width, height) => {
+            (context, canvasWidth, canvasHeight) => {
                 const coords = {
-                    vertical: [0, 0, 0, height],
-                    horizontal: [0, 0, width, 0],
-                    diagonal: [0, 0, width, height],
+                    vertical: [0, 0, 0, canvasHeight],
+                    horizontal: [0, 0, canvasWidth, 0],
+                    diagonal: [0, 0, canvasWidth, canvasHeight],
                 }[direction];
                 const gradient = context.createLinearGradient(...coords);
                 gradient.addColorStop(0, colorStart);
                 gradient.addColorStop(1, colorEnd);
                 context.fillStyle = gradient;
-                context.fillRect(0, 0, width, height);
+                context.fillRect(0, 0, canvasWidth, canvasHeight);
             },
             'image/jpeg',
             0.92,
@@ -165,6 +169,8 @@ const addGradientBackground = Object.freeze({
         return result(
             blob,
             outputName(values.image, 'bg-added', 'image/jpeg'),
+            width,
+            height,
             language,
             { ar: 'الصورة بالخلفية الجديدة جاهزة', en: 'The image with the new background is ready' },
         );
@@ -186,7 +192,7 @@ const addImageBackground = Object.freeze({
         en: 'Runs entirely in your browser; your images are never uploaded to any server. The background image is stretched to fill the foreground image\'s exact dimensions.',
     }),
     inputs: Object.freeze([
-        fileInput('image', 'الصورة الأمامية (بخلفية شفافة)', 'Foreground image (with transparent background)', 'image/png,image/webp'),
+        fileInput('image', 'الصورة الأمامية (بخلفية شفافة)', 'Foreground image (with transparent background)', 'image/png,image/webp,image/gif,image/avif'),
         fileInput('backgroundImage', 'صورة الخلفية', 'Background image'),
     ]),
     async process(values, language) {
@@ -194,10 +200,10 @@ const addImageBackground = Object.freeze({
         await inspectImage(values.backgroundImage);
         const backgroundImage = await decodeImage(values.backgroundImage);
 
-        const blob = await compositeOntoBackground(
+        const { blob, width, height } = await compositeOntoBackground(
             values.image,
-            (context, width, height) => {
-                context.drawImage(backgroundImage, 0, 0, width, height);
+            (context, canvasWidth, canvasHeight) => {
+                context.drawImage(backgroundImage, 0, 0, canvasWidth, canvasHeight);
             },
             'image/jpeg',
             0.92,
@@ -205,6 +211,8 @@ const addImageBackground = Object.freeze({
         return result(
             blob,
             outputName(values.image, 'bg-added', 'image/jpeg'),
+            width,
+            height,
             language,
             { ar: 'الصورة بالخلفية الجديدة جاهزة', en: 'The image with the new background is ready' },
         );
@@ -217,6 +225,6 @@ const addBackgroundToolDefinitions = Object.freeze({
     [addImageBackground.id]: addImageBackground,
 });
 
-export { addBackgroundToolDefinitions, safeHexColor };
+export { addBackgroundToolDefinitions, safeHexColor, result };
 
 // END OF FILE
