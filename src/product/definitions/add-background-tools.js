@@ -1,6 +1,9 @@
 import {
-    canvasToBlob, decodeImage, inspectImage, outputName,
+    decodeImage, inspectImage, outputName,
 } from '../image-processing.js';
+import {
+    safeHexColor, compositeOntoBackground, hasAnyTransparency,
+} from '../background-compositing.js';
 
 function localized(language, ar, en) {
     return language === 'ar' ? ar : en;
@@ -44,69 +47,6 @@ function result(blob, filename, width, height, language, label) {
         download: { blob, filename },
         preview: blob,
     };
-}
-
-const HEX_COLOR_PATTERN = /^#[0-9a-fA-F]{6}$/;
-
-/** Validates a HEX color, falling back to a safe default rather than ever passing unvalidated input to canvas fillStyle. */
-function safeHexColor(value, fallback) {
-    return HEX_COLOR_PATTERN.test(String(value ?? '').trim()) ? String(value).trim() : fallback;
-}
-
-/**
- * Composites `foregroundImage` (expected to have transparency, e.g. the
- * output of background-remover) onto a background drawn first via
- * `drawBackground(context, width, height)` -- a small callback so the
- * three tools below (solid/gradient/image background) all share this
- * exact composite logic, verified directly with node-canvas before any
- * tool was written on top of it: a transparent foreground correctly
- * shows the background underneath, and an opaque foreground pixel
- * correctly stays opaque and unchanged.
- */
-async function compositeOntoBackground(foregroundFile, drawBackground, type, quality) {
-    const foregroundImage = await decodeImage(foregroundFile);
-    const canvas = document.createElement('canvas');
-    canvas.width = foregroundImage.naturalWidth;
-    canvas.height = foregroundImage.naturalHeight;
-    const context = canvas.getContext('2d');
-    if (!context) throw new Error('Image processing is unavailable in this browser.');
-
-    drawBackground(context, canvas.width, canvas.height);
-    context.drawImage(foregroundImage, 0, 0);
-
-    const blob = await canvasToBlob(canvas, type, quality);
-    return { blob, width: canvas.width, height: canvas.height };
-}
-
-/**
- * Detects whether an image has any genuinely transparent pixels at all --
- * added after real user feedback: uploading a normal, fully-opaque photo
- * (not the output of background-remover) makes these tools appear to "do
- * nothing", since the opaque foreground fully covers the new background
- * with nothing showing through. Not a processing bug -- the composite was
- * always working correctly -- but a real, easy-to-hit confusion worth
- * catching proactively rather than only documenting in the note field.
- *
- * Samples a small downscaled copy (64x64) rather than every pixel of the
- * original: checking for the *presence* of any real transparency doesn't
- * need full resolution, and this keeps the check fast even for large
- * uploads.
- */
-async function hasAnyTransparency(file) {
-    const image = await decodeImage(file);
-    const sampleSize = 64;
-    const canvas = document.createElement('canvas');
-    canvas.width = sampleSize;
-    canvas.height = sampleSize;
-    const context = canvas.getContext('2d');
-    if (!context) return true; // fail open: don't block the tool if the check itself can't run
-
-    context.drawImage(image, 0, 0, sampleSize, sampleSize);
-    const { data } = context.getImageData(0, 0, sampleSize, sampleSize);
-    for (let i = 3; i < data.length; i += 4) {
-        if (data[i] < 255) return true; // found a pixel with real transparency
-    }
-    return false;
 }
 
 /**

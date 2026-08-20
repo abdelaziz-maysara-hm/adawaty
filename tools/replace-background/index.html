@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-language="ar">
+<head>
+<meta charset="UTF-8"><meta name="referrer" content="strict-origin-when-cross-origin"><meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=()"><meta http-equiv="Cache-Control" content="no-cache"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#07111f">
+<meta name="description" content="Upload any image and get a version with a new background (color, gradient, or photo) in one step. The old background is removed automatically with AI when needed."><title>Replace Background | Adawaty</title>
+<link rel="canonical" href="https://www.adawaty.tools/tools/replace-background/"><meta property="og:type" content="website"><meta property="og:title" content="Replace Background"><meta property="og:description" content="Upload any image and get a version with a new background in one step.">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Replace Background","alternateName":"استبدال خلفية الصورة","url":"https://www.adawaty.tools/tools/replace-background/","applicationCategory":"DesignApplication","operatingSystem":"Any","isAccessibleForFree":true,"inLanguage":["ar","en"]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is Replace Background completely free?","acceptedAnswer":{"@type":"Answer","text":"Yes, with no hidden fees, no account required, and nothing to install."}},{"@type":"Question","name":"Is my photo uploaded to an external server?","acceptedAnswer":{"@type":"Answer","text":"No, all processing (including the AI background removal step) happens entirely inside your browser; your photo never leaves your device or gets sent to any server."}},{"@type":"Question","name":"Do I need a pre-cut, transparent image first?","acceptedAnswer":{"@type":"Answer","text":"No, that's the point of this tool: upload any regular photo and it removes the existing background automatically before adding the new one, all in a single step."}}]}</script>
+<link rel="stylesheet" href="../../src/css/main.css"><link rel="stylesheet" href="../../src/css/product.css"><link rel="stylesheet" href="../../src/css/replace-background.css?v=rb1"><script type="module" src="../../src/product/replace-background-app.js?v=rb1"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9572691438076734" crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="site-header"><nav class="navigation shell" aria-label="Main navigation"><a class="brand" href="../../"><span class="brand-mark">A</span><span class="brand-copy"><strong>Adawaty</strong><span>Private browser tools</span></span></a><div class="nav-actions"><button class="button" id="tool-language-toggle" type="button">English</button></div></nav></header>
+<main class="rb-page shell" data-tool-page="replace-background">
+<div class="rb-heading">
+  <a class="product-back" href="../../all-tools/"><span aria-hidden="true">←</span><span data-copy="ar">كل الأدوات</span><span data-copy="en">All tools</span></a>
+  <span class="rb-privacy"><span data-copy="ar">معالجة خاصة داخل متصفحك</span><span data-copy="en">Private, in-browser processing</span></span>
+  <h1><span data-copy="ar">استبدال خلفية الصورة</span><span data-copy="en">Replace Background</span></h1>
+  <p><span data-copy="ar">ارفع أي صورة (حتى لو بلا شفافية)، واحصل على نسخة بخلفية جديدة في خطوة واحدة.</span><span data-copy="en">Upload any image (even without transparency) and get a version with a new background in one step.</span></p>
+</div>
+
+<section class="rb-upload" id="rb-upload">
+  <div class="rb-drop-zone" id="rb-drop-zone">
+    <strong><span data-copy="ar">اختر صورة</span><span data-copy="en">Choose an image</span></strong>
+    <span><span data-copy="ar">أو اسحب صورة وأفلتها هنا</span><span data-copy="en">or drag and drop an image here</span></span>
+  </div>
+  <input type="file" id="rb-file-input" accept="image/*" hidden>
+</section>
+
+<section class="rb-options" id="rb-options" hidden>
+  <div class="rb-options-grid">
+    <div class="rb-preview-shell">
+      <img id="rb-preview-image" alt="">
+    </div>
+
+    <div class="rb-controls">
+      <div class="rb-type-row">
+        <button class="rb-type-button is-active" type="button" data-bg-type="color"><span data-copy="ar">لون واحد</span><span data-copy="en">Solid color</span></button>
+        <button class="rb-type-button" type="button" data-bg-type="gradient"><span data-copy="ar">تدرج لوني</span><span data-copy="en">Gradient</span></button>
+        <button class="rb-type-button" type="button" data-bg-type="image"><span data-copy="ar">صورة</span><span data-copy="en">Image</span></button>
+      </div>
+
+      <div class="rb-field-row" id="rb-color-fields">
+        <label for="rb-color"><span data-copy="ar">لون الخلفية</span><span data-copy="en">Background color</span></label>
+        <input type="color" id="rb-color" value="#ffffff">
+      </div>
+
+      <div class="rb-field-row" id="rb-gradient-fields" hidden>
+        <label for="rb-gradient-start"><span data-copy="ar">اللون الأول</span><span data-copy="en">Start color</span></label>
+        <input type="color" id="rb-gradient-start" value="#55d8c1">
+        <label for="rb-gradient-end"><span data-copy="ar">اللون الثاني</span><span data-copy="en">End color</span></label>
+        <input type="color" id="rb-gradient-end" value="#2563eb">
+        <label for="rb-gradient-direction"><span data-copy="ar">اتجاه التدرج</span><span data-copy="en">Gradient direction</span></label>
+        <select id="rb-gradient-direction">
+          <option value="vertical"><span data-copy="ar">من أعلى لأسفل</span><span data-copy="en">Top to bottom</span></option>
+          <option value="horizontal"><span data-copy="ar">من اليسار لليمين</span><span data-copy="en">Left to right</span></option>
+          <option value="diagonal"><span data-copy="ar">قطري</span><span data-copy="en">Diagonal</span></option>
+        </select>
+      </div>
+
+      <div class="rb-field-row" id="rb-image-fields" hidden>
+        <label for="rb-background-image-input"><span data-copy="ar">اختر صورة الخلفية</span><span data-copy="en">Choose a background image</span></label>
+        <input type="file" id="rb-background-image-input" accept="image/*">
+        <span id="rb-background-image-name" class="rb-file-name"></span>
+      </div>
+
+      <button class="button button-primary" type="button" id="rb-generate"><span data-copy="ar">استبدل الخلفية</span><span data-copy="en">Replace Background</span></button>
+    </div>
+  </div>
+</section>
+
+<section class="rb-processing" id="rb-processing" hidden>
+  <div class="rb-spinner" aria-hidden="true"></div>
+  <p id="rb-processing-message"></p>
+</section>
+
+<section class="rb-result" id="rb-result" hidden>
+  <div class="rb-result-shell">
+    <img id="rb-result-image" alt="">
+  </div>
+  <div class="rb-result-actions">
+    <button class="button button-primary" type="button" id="rb-download"><span data-copy="ar">تحميل الصورة</span><span data-copy="en">Download image</span></button>
+    <button class="button button-quiet" type="button" id="rb-try-another"><span data-copy="ar">جرّب صورة أخرى</span><span data-copy="en">Try another image</span></button>
+  </div>
+</section>
+
+<section class="product-faq">
+  <h2><span data-copy="ar">الأسئلة الشائعة</span><span data-copy="en">Frequently Asked Questions</span></h2>
+  <details class="faq-item">
+    <summary><span data-copy="ar">هل استخدام استبدال الخلفية مجاني بالكامل؟</span><span data-copy="en">Is Replace Background completely free?</span></summary>
+    <p><span data-copy="ar">نعم، بدون أي رسوم مخفية أو حاجة لإنشاء حساب أو تثبيت أي برنامج.</span><span data-copy="en">Yes, with no hidden fees, no account required, and nothing to install.</span></p>
+  </details>
+  <details class="faq-item">
+    <summary><span data-copy="ar">هل يتم رفع صورتي إلى خادم خارجي؟</span><span data-copy="en">Is my photo uploaded to an external server?</span></summary>
+    <p><span data-copy="ar">لا، كل المعالجة (بما فيها خطوة إزالة الخلفية بالذكاء الاصطناعي) تتم بالكامل داخل متصفحك؛ صورتك لا تغادر جهازك أبدًا ولا تُرسل لأي خادم.</span><span data-copy="en">No, all processing (including the AI background removal step) happens entirely inside your browser; your photo never leaves your device or gets sent to any server.</span></p>
+  </details>
+  <details class="faq-item">
+    <summary><span data-copy="ar">هل أحتاج صورة بخلفية شفافة جاهزة مسبقًا؟</span><span data-copy="en">Do I need a pre-cut, transparent image first?</span></summary>
+    <p><span data-copy="ar">لا، ده بالظبط الهدف من الأداة دي: ارفع أي صورة عادية، وهتُزال الخلفية الحالية تلقائيًا قبل إضافة الجديدة، كل ده في خطوة واحدة.</span><span data-copy="en">No, that's the point of this tool: upload any regular photo and it removes the existing background automatically before adding the new one, all in a single step.</span></p>
+  </details>
+</section>
+</main>
+<footer class="site-footer"><div class="footer-row shell"><p>Adawaty</p><p>© <span id="current-year"></span></p></div></footer>
+</body></html>

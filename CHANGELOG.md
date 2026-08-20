@@ -1,5 +1,35 @@
 # Changelog
 
+# 0.5.130
+
+- Added `replace-background` (interactive workspace tool, `image` category): the combined
+  "remove + replace in one step" tool a user explicitly asked for after trying the standalone Add
+  Background tools with a regular, non-transparent photo (which correctly produces no visible
+  change, by design -- an opaque foreground has nowhere for a new background to show through).
+  Upload any image, pick a new background (color/gradient/photo), and the old background is
+  removed automatically with AI only when the image doesn't already have transparency.
+  - **Pure orchestration, zero new pixel-manipulation logic**: refactored the compositing logic
+    shared by the 3 standalone Add Background tools (`compositeOntoBackground`, `hasAnyTransparency`,
+    `safeHexColor`) out of `add-background-tools.js` into a new shared module,
+    `src/product/background-compositing.js`, so both the standalone tools and this new one use the
+    exact same, already-verified implementation rather than a duplicate. Re-ran the standalone
+    tools' existing test suite immediately after the refactor to confirm nothing broke.
+  - The engine (`src/product/replace-background/engine.js`) checks `hasAnyTransparency()` first;
+    only calls `background-remover`'s already-shipped, already-verified AI removal engine when the
+    image genuinely needs it, then reuses the same compositing function either way.
+  - **Caught and fixed a real bug in my own first draft before it shipped**: the UI's background-
+    image-type path built a plain `new Image()` and used a bare `setTimeout(50ms)` as a
+    stand-in for waiting until it finished decoding -- an unreliable guess (too short for a large
+    image, unnecessary delay for a small one), not a real wait. Replaced it with the same
+    `decodeImage()` helper used everywhere else on this site (a real `Promise` that resolves on
+    the image's actual `load` event), and made the background-building step properly `async`/
+    `await`ed end to end instead.
+  - Added `tests/product/replace-background.integration.mjs`: product registration, page
+    structure (including that all 3 background types are represented, and FAQ content/schema are
+    present), and confirms directly from source that the engine genuinely branches on
+    transparency detection rather than always running AI removal regardless.
+  - `npm run validate` passes all 16 suites (626 tools).
+
 # 0.5.129
 
 - Add Background tools: proactively detect and warn when the uploaded foreground image has no
