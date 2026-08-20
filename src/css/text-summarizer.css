@@ -1,0 +1,33 @@
+.ts-page { padding-block: 24px 60px; }
+.ts-heading { max-width: 720px; margin: 0 auto 24px; text-align: center; }
+.ts-heading h1 { margin: 12px 0 8px; font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1.1; }
+.ts-heading > p { color: var(--muted); font-size: 1rem; line-height: 1.7; }
+.ts-privacy { display: inline-flex; gap: 8px; align-items: center; padding: 8px 13px; border: 1px solid rgba(85, 216, 193, .28); border-radius: 999px; color: var(--brand); background: rgba(85, 216, 193, .08); font-size: .82rem; font-weight: 800; }
+.ts-privacy::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--brand); box-shadow: 0 0 16px var(--brand); }
+
+.ts-unsupported[hidden], .ts-workspace[hidden] { display: none; }
+.ts-unsupported {
+    max-width: 560px; margin: 0 auto; padding: 24px; text-align: center;
+    border: 1px solid rgba(239, 68, 68, .3); border-radius: 18px; background: rgba(239, 68, 68, .06);
+}
+.ts-unsupported p { color: var(--muted); margin-top: 8px; }
+
+.ts-workspace { max-width: 720px; margin: 0 auto; display: grid; gap: 14px; }
+.ts-input {
+    width: 100%; padding: 16px; border: 1px solid var(--border); border-radius: 16px;
+    background: rgba(10, 25, 42, .5); color: var(--text); font: inherit; line-height: 1.7; resize: vertical;
+}
+.ts-status { color: var(--muted); min-height: 1.3em; margin: 0; }
+
+.ts-progress-wrap[hidden] { display: none; }
+.ts-progress-wrap { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border: 1px solid var(--border); border-radius: 14px; background: rgba(10, 25, 42, .5); }
+.ts-spinner { flex: 0 0 auto; width: 22px; height: 22px; border: 3px solid var(--border); border-top-color: var(--brand); border-radius: 50%; animation: ts-spin .9s linear infinite; }
+@keyframes ts-spin { to { transform: rotate(360deg); } }
+.ts-progress-wrap p { margin: 0; color: var(--muted); font-size: .9rem; }
+
+.ts-result-wrap[hidden] { display: none; }
+.ts-result-wrap { padding: 18px; border: 1px solid var(--border); border-radius: 16px; background: rgba(85, 216, 193, .05); }
+.ts-result-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.ts-result-text { margin: 0; line-height: 1.8; white-space: pre-wrap; }
+
+/* END OF FILE */

@@ -1,6 +1,6 @@
 {
   "name": "adawaty",
-  "version": "0.5.126",
+  "version": "0.5.127",
   "private": true,
   "type": "module",
   "description": "A bilingual, extensible platform for free online tools.",
@@ -21,6 +21,7 @@
     "@bunnio/rembg-web": "^1.0.2",
     "@ffmpeg/ffmpeg": "0.12.10",
     "@ffmpeg/util": "0.12.1",
+    "@mlc-ai/web-llm": "^0.2.84",
     "onnxruntime-web": "^1.27.0"
   }
 }

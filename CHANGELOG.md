@@ -1,5 +1,50 @@
 # Changelog
 
+# 0.5.127
+
+- Added `text-summarizer` (interactive workspace tool, `text` category): AI-powered text
+  summarization running entirely client-side via WebLLM + Qwen2.5-0.5B-Instruct, with WebGPU.
+  Built after an explicit conversation about the Cloudflare-AI-suggested alternative (server-side
+  via Workers AI): researched the free tier in detail first (10,000 "Neurons"/day, shared across
+  all visitors, hard-fails once exhausted for the rest of the day -- fine for a prototype, not for
+  a growing public site) and chose to try the browser-only path first, matching the site's
+  existing, already-proven pattern (ffmpeg.wasm, u2netp.onnx background removal).
+  - **Model choice, verified before use**: `Qwen2.5-0.5B-Instruct-q4f16_1-MLC`, ~944 MB, Apache-2.0
+    (confirmed directly -- the Qwen family's 3B and 72B variants carry a separate, more
+    restrictive "Qwen License" instead, so the size choice mattered for licensing too, not just
+    download size), with official multilingual support explicitly including Arabic per the model
+    card. `@mlc-ai/web-llm` itself is also Apache-2.0, confirmed directly from its LICENSE file.
+  - **A real hosting constraint this site hasn't hit before**: unlike `background-remover`'s
+    ~4.6 MB model (small enough to commit to this repo and serve same-origin, matching every other
+    same-origin dependency here), a ~944 MB file cannot be committed to a git repository at all --
+    GitHub rejects files over 100 MB outright. The `@mlc-ai/web-llm` *library* (14 MB) is still
+    vendored same-origin as usual; the *model weights* are fetched from Hugging Face's CDN on
+    first use and cached in IndexedDB afterward, the same approach every production WebLLM
+    deployment uses. Disclosed clearly, including in the tool's own note field: this is a one-time
+    download of public, non-personal model weights (comparable to loading a CDN-hosted JS
+    library), not a transmission of anything the user types -- the actual summarization input and
+    output never leave the browser once the model is loaded, since inference runs on the user's
+    own GPU via WebGPU.
+  - A real, disclosed browser-support gap: WebGPU has roughly 82-84% global browser support as of
+    mid-2026, meaning some visitors genuinely cannot use this tool. Built an explicit
+    `isWebGPUSupported()` check with a clear, translated "your browser doesn't support this" notice
+    shown instead of the workspace -- not a silent failure or a broken button.
+  - **Honest disclosure**: this tool's actual model download and WebGPU inference have not been
+    exercised end-to-end in a real browser, since this sandbox has no WebGPU-capable browser to
+    test in. The license/package verification (reading LICENSE files directly, confirming the
+    model is in WebLLM's prebuilt catalog) and the JS syntax/registration checks are real and
+    complete; the live model-loading and summarization behavior specifically need a real-browser
+    smoke test before fully trusting them, the same disclosure pattern used for the Photo Editor's
+    crop-drag interaction and the Background Remover's end-to-end run.
+  - Deliberately scoped as a *fixed-purpose* summarizer (a non-editable system prompt), not a
+    general chat interface -- matching this site's single-purpose-tool philosophy rather than
+    quietly becoming a chatbot.
+  - The server-side "advanced/cloud" option discussed alongside this (Cloudflare Workers AI, for
+    visitors who explicitly opt in) was **not** built in this session: it requires the user's own
+    Cloudflare account and API credentials, which aren't available in this environment. Left as a
+    clearly separate, explicitly user-driven follow-up.
+  - `npm run validate` passes all 15 suites (625 tools).
+
 # 0.5.126
 
 - Added `background-remover` (interactive workspace tool, `image` category) and 3 companion tools

@@ -93,6 +93,7 @@ import { websiteBuilderToolDefinitions } from './definitions/website-builder-too
 import { photoEditorToolDefinitions } from './definitions/photo-editor-tool.js';
 import { micTestToolDefinitions } from './definitions/mic-test-tool.js';
 import { backgroundRemoverToolDefinitions } from './definitions/background-remover-tool.js';
+import { textSummarizerToolDefinitions } from './definitions/text-summarizer-tool.js';
 import { addBackgroundToolDefinitions } from './definitions/add-background-tools.js';
 import { ocrToolDefinitions } from './definitions/ocr-tools.js';
 import { videoFileToolDefinitions } from './definitions/video-file-tools.js';
@@ -1194,6 +1195,7 @@ const allToolDefinitions = Object.freeze({
     ...roadmapBatch2Definitions,
     ...jsonTreeViewerDefinitions,
     ...wordToPdfDefinitions,
+    ...textSummarizerToolDefinitions,
 });
 
 const retiredToolIdSet = new Set(retiredToolIds);

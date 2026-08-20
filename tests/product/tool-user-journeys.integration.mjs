@@ -90,6 +90,10 @@ const browserOnlyTools = new Set([
     // tool: no process/calculate handler by design, and no file input
     // (the file is chosen inside its own upload UI).
     'background-remover',
+    // text-summarizer is the same class of interactive workspace tool:
+    // no process/calculate handler by design, and no file input (the
+    // text is typed directly into its own UI).
+    'text-summarizer',
 ]);
 
 const inputOverrides = Object.freeze({
@@ -223,8 +227,8 @@ assert.deepEqual(
         .join('\n')}`,
 );
 
-assert.equal(nonFileTools.length, 418);
-assert.equal(browserOnlyTools.size, 29);
+assert.equal(nonFileTools.length, 419);
+assert.equal(browserOnlyTools.size, 30);
 assert.equal(executableWithoutBrowser.length, 389);
 
 const journeys = [
