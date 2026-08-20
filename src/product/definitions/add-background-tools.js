@@ -78,6 +78,52 @@ async function compositeOntoBackground(foregroundFile, drawBackground, type, qua
     return { blob, width: canvas.width, height: canvas.height };
 }
 
+/**
+ * Detects whether an image has any genuinely transparent pixels at all --
+ * added after real user feedback: uploading a normal, fully-opaque photo
+ * (not the output of background-remover) makes these tools appear to "do
+ * nothing", since the opaque foreground fully covers the new background
+ * with nothing showing through. Not a processing bug -- the composite was
+ * always working correctly -- but a real, easy-to-hit confusion worth
+ * catching proactively rather than only documenting in the note field.
+ *
+ * Samples a small downscaled copy (64x64) rather than every pixel of the
+ * original: checking for the *presence* of any real transparency doesn't
+ * need full resolution, and this keeps the check fast even for large
+ * uploads.
+ */
+async function hasAnyTransparency(file) {
+    const image = await decodeImage(file);
+    const sampleSize = 64;
+    const canvas = document.createElement('canvas');
+    canvas.width = sampleSize;
+    canvas.height = sampleSize;
+    const context = canvas.getContext('2d');
+    if (!context) return true; // fail open: don't block the tool if the check itself can't run
+
+    context.drawImage(image, 0, 0, sampleSize, sampleSize);
+    const { data } = context.getImageData(0, 0, sampleSize, sampleSize);
+    for (let i = 3; i < data.length; i += 4) {
+        if (data[i] < 255) return true; // found a pixel with real transparency
+    }
+    return false;
+}
+
+/**
+ * Throws a clear, localized error if the foreground image has no real
+ * transparency at all, rather than silently producing a composite where
+ * the new background never shows through (the exact confusion a real
+ * user hit: "it worked, but no background was added").
+ */
+async function assertHasTransparency(file, language) {
+    if (await hasAnyTransparency(file)) return;
+    throw new Error(localized(
+        language,
+        'الصورة اللي رفعتها ليس لها أي جزء شفاف، لذلك لن تظهر الخلفية الجديدة تحتها. استخدم أداة "إزالة خلفية الصورة" أولًا للحصول على صورة بخلفية شفافة، ثم أعد المحاولة هنا.',
+        'The image you uploaded has no transparent areas, so the new background would never show through underneath it. Use the "Background Remover" tool first to get an image with a transparent background, then try again here.',
+    ));
+}
+
 const addSolidBackground = Object.freeze({
     id: 'add-solid-background',
     category: 'image',
@@ -98,6 +144,7 @@ const addSolidBackground = Object.freeze({
     ]),
     async process(values, language) {
         await inspectImage(values.image);
+        await assertHasTransparency(values.image, language);
         const color = safeHexColor(values.color, '#ffffff');
         const { blob, width, height } = await compositeOntoBackground(
             values.image,
@@ -145,6 +192,7 @@ const addGradientBackground = Object.freeze({
     ]),
     async process(values, language) {
         await inspectImage(values.image);
+        await assertHasTransparency(values.image, language);
         const colorStart = safeHexColor(values.colorStart, '#55d8c1');
         const colorEnd = safeHexColor(values.colorEnd, '#2563eb');
         const direction = ['vertical', 'horizontal', 'diagonal'].includes(values.direction) ? values.direction : 'vertical';
@@ -197,6 +245,7 @@ const addImageBackground = Object.freeze({
     ]),
     async process(values, language) {
         await inspectImage(values.image);
+        await assertHasTransparency(values.image, language);
         await inspectImage(values.backgroundImage);
         const backgroundImage = await decodeImage(values.backgroundImage);
 
@@ -225,6 +274,6 @@ const addBackgroundToolDefinitions = Object.freeze({
     [addImageBackground.id]: addImageBackground,
 });
 
-export { addBackgroundToolDefinitions, safeHexColor, result };
+export { addBackgroundToolDefinitions, safeHexColor, result, assertHasTransparency };
 
 // END OF FILE

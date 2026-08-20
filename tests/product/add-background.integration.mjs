@@ -1,7 +1,52 @@
 import assert from 'node:assert/strict';
 
 import { getToolDefinition } from '../../src/product/tool-definitions.js';
-import { safeHexColor, result } from '../../src/product/definitions/add-background-tools.js';
+import {
+    safeHexColor, result, assertHasTransparency,
+} from '../../src/product/definitions/add-background-tools.js';
+
+// ---------------------------------------------------------------------------
+// assertHasTransparency: catches a real, confusing case a user actually hit
+// -- uploading a normal, fully-opaque photo (not the output of
+// background-remover) makes the composite appear to "do nothing", since the
+// opaque foreground fully covers the new background with nothing showing
+// through. Not a processing bug in itself, but confusing enough to warrant
+// catching proactively with a clear, localized error rather than only
+// documenting it in the note field.
+//
+// assertHasTransparency() delegates the actual per-pixel alpha-channel
+// check (hasAnyTransparency()) to Canvas APIs this Node-based test suite
+// doesn't have. The pixel-check algorithm itself -- downscale to 64x64,
+// scan every 4th byte (the alpha channel) for a value under 255 -- was
+// separately verified with real image data via node-canvas before this
+// helper was written (fully-opaque photo correctly detected as having no
+// transparency; an image with a real transparent region, and one with only
+// a modest transparent patch surviving the 64x64 downscale, both correctly
+// detected as having transparency). What's checked here is the function
+// exists, is exported for reuse, and its exact user-facing error text is
+// correctly localized in both languages -- since a message tool-page.js
+// can't confidently attribute to the right language gets replaced with a
+// generic fallback, silently losing the actual guidance.
+// ---------------------------------------------------------------------------
+
+assert.equal(typeof assertHasTransparency, 'function');
+
+{
+    // Read the actual error message text out of the module source to check
+    // both languages are genuinely present and script-correct (rather than
+    // re-typing the message here, which could drift from the real one).
+    const fs = await import('node:fs/promises');
+    const source = await fs.readFile(
+        new URL('../../src/product/definitions/add-background-tools.js', import.meta.url),
+        'utf8',
+    );
+    const match = source.match(/throw new Error\(localized\(\s*language,\s*'([^']+)',\s*'([^']+)',/);
+    assert.ok(match, 'assertHasTransparency must throw a localized(language, ar, en) error');
+    const [, arabicMessage, englishMessage] = match;
+    assert.match(arabicMessage, /[\u0600-\u06FF]/, 'the Arabic error message must actually contain Arabic script');
+    assert.doesNotMatch(englishMessage, /[\u0600-\u06FF]/, 'the English error message must not contain Arabic script');
+    assert.match(englishMessage.toLowerCase(), /background remover/, 'the error must point the user to the Background Remover tool by name');
+}
 
 // ---------------------------------------------------------------------------
 // result(): must match the exact shape tool-page.js expects to render a

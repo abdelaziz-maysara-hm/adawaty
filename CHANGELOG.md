@@ -1,5 +1,36 @@
 # Changelog
 
+# 0.5.129
+
+- Add Background tools: proactively detect and warn when the uploaded foreground image has no
+  transparency at all, instead of silently producing a composite where the new background never
+  shows through. Found via direct follow-up on the previous fix (0.5.128): after that bug was
+  fixed, a user still reported "it worked, but no background was added" -- confirmed this was
+  expected behavior, not a bug: they'd uploaded a normal, fully-opaque photo straight from their
+  laptop rather than the output of `background-remover`, so the opaque foreground fully covered
+  the canvas with nothing showing through underneath.
+  - Added `hasAnyTransparency()`: samples a downscaled 64x64 copy of the image and scans its
+    alpha channel for any pixel under full opacity. Verified the underlying pixel-check algorithm
+    directly with real image data via `node-canvas` before writing the browser-facing wrapper: a
+    fully-opaque photo correctly detected as having no transparency, an image with a genuine
+    transparent region correctly detected as having transparency, and a large image with only a
+    modest transparent patch still correctly detected after the 64x64 downscale (confirms the
+    sampling approach doesn't miss real transparency for the sake of speed).
+  - Added `assertHasTransparency()`, called right after `inspectImage()` in all 3 tools
+    (`add-solid-background`, `add-gradient-background`, `add-image-background`): throws a clear,
+    localized error naming the `background-remover` tool by name as the fix, rather than letting
+    the person get a "successful" but visually-empty result and wonder what went wrong. Verified
+    the thrown message is genuinely localized in both directions (Arabic script present in the
+    Arabic message, absent from the English one) -- `tool-page.js`'s error-rendering code
+    specifically checks this and silently swaps in a generic fallback message if a mismatch is
+    detected, so getting this wrong would have quietly defeated the whole point of the fix.
+  - Extended `tests/product/add-background.integration.mjs` with checks for the function's
+    existence, its exported reusability, and its message's language-correctness -- the actual
+    per-pixel check itself remains covered by the standalone `node-canvas` verification described
+    above, consistent with how every other Canvas-dependent piece of logic on this site is tested
+    given this environment has no real browser.
+  - `npm run validate` passes all 15 suites (625 tools).
+
 # 0.5.128
 
 - Fixed a real bug in all 3 Add Background tools (`add-solid-background`, `add-gradient-background`,
