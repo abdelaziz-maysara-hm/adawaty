@@ -1,0 +1,23 @@
+# Cloudflare Workers static-asset upload exclusions (gitignore-style
+# syntax). The assets directory is the repo root ("."), so everything
+# here that isn't a genuine site asset must be excluded, or Wrangler
+# tries to upload it as a public file.
+#
+# The specific failure this was added to fix: `npx wrangler deploy`
+# reinstalls Wrangler itself (and its own local runtime dependency,
+# `workerd`, a ~144 MB binary) into node_modules/ as part of running the
+# deploy command -- which then gets swept up as a "site asset" purely
+# because it happens to sit inside the assets directory at deploy time,
+# not because it's anything to do with the actual website. Deleting
+# node_modules in the *build* command doesn't help, since the *deploy*
+# command recreates it afterward; excluding it here is the fix Wrangler
+# itself is designed for.
+
+node_modules/
+.git/
+.github/
+.wrangler/
+cloudflare-worker/
+scripts/
+tests/
+docs/
