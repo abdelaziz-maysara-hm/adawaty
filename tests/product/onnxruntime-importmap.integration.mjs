@@ -95,16 +95,21 @@ for (const pagePath of pagesNeedingImportMap) {
 }
 
 // ---------------------------------------------------------------------------
-// wasmPaths configuration: two more real bugs found via a live browser error
-// report, on top of the import map issue above. Traced onnxruntime-web's own
-// minified source directly (not guessed) to confirm the dynamic import()
-// that consumes wasmPaths executes *inside ort.min.mjs itself*, so a bare
-// filename (not a relative path with any '../' segments) is the only
-// correct value, since every vendored onnxruntime-web file sits in the same
-// directory as ort.min.mjs. Also confirmed the library falls back to its
-// own hardcoded ".jsep.mjs" (WebGPU) filename unless wasmPaths is an
-// explicit object naming both files directly -- a bare string prefix was
-// not enough.
+// wasmPaths configuration: three real bugs found via live browser error
+// reports, fixed one after another. Traced onnxruntime-web's own minified
+// source directly (not guessed) to confirm the dynamic import() that
+// consumes wasmPaths executes *inside ort.min.mjs itself*. Also confirmed
+// the library falls back to its own hardcoded ".jsep.mjs" (WebGPU) filename
+// unless wasmPaths is an explicit object naming both files directly -- a
+// bare string prefix was not enough. The third bug (found after the first
+// two fixes still didn't work in a real browser) was the exact same class
+// as the earlier bare-specifier 'onnxruntime-web' import issue: a bare
+// filename with no leading "/", "./", or "../" is not a valid relative
+// specifier under the ES module spec, so a path like
+// 'ort-wasm-simd-threaded.mjs' (correct about *directory depth*, but with
+// no path prefix at all) was still unresolvable. Fixed with absolute,
+// root-relative URLs ("/src/vendor/...") to remove all "relative to what"
+// ambiguity going forward.
 // ---------------------------------------------------------------------------
 
 {
@@ -117,8 +122,18 @@ for (const pagePath of pagesNeedingImportMap) {
     assert.ok(mjsMatch && wasmMatch, 'wasmPaths must explicitly name both the .mjs and .wasm files');
 
     for (const [key, value] of [['mjs', mjsMatch[1]], ['wasm', wasmMatch[1]]]) {
-        assert.ok(!value.includes('/'), `wasmPaths.${key} ('${value}') must be a bare filename with no path segments -- it resolves relative to ort.min.mjs's own location (all vendored files share one directory), not relative to the page or to engine.js`);
-        const resolvedPath = path.join(projectRoot, 'src/vendor/onnxruntime-web', value);
+        assert.match(
+            value,
+            /^(\/|\.\/|\.\.\/)/,
+            `wasmPaths.${key} ('${value}') must start with '/', './', or '../' -- per the ES module specification, anything else (e.g. a bare filename like 'foo.mjs') is a *bare specifier*, which requires an import map and will fail to resolve otherwise. This is the same bug class already hit once with the plain 'onnxruntime-web' import.`,
+        );
+        // Absolute (root-relative) paths resolve against the site root regardless of which
+        // module/directory depth is doing the resolving -- verify against the actual repo root
+        // rather than assuming a fixed relative depth, since getting that assumption wrong is
+        // exactly how the first two attempts at this fix went wrong.
+        const resolvedPath = value.startsWith('/')
+            ? path.join(projectRoot, value)
+            : path.join(projectRoot, 'src/vendor/onnxruntime-web', value);
         // eslint-disable-next-line no-await-in-loop
         await assert.doesNotReject(readFile(resolvedPath), `wasmPaths.${key} ('${value}') does not resolve to a real vendored file`);
     }

@@ -1,5 +1,5 @@
-import { hasAnyTransparency, compositeOntoBackground } from '../background-compositing.js?v=rb2';
-import { removeBackground } from '../background-remover/engine.js?v=rb2';
+import { hasAnyTransparency, compositeOntoBackground } from '../background-compositing.js?v=rb3';
+import { removeBackground } from '../background-remover/engine.js?v=rb3';
 
 /**
  * The combined "remove + replace in one step" tool: given ANY image

@@ -1,7 +1,7 @@
-import './site-navigation.js?v=rb2';
-import { replaceBackground } from './replace-background/engine.js?v=rb2';
-import { safeHexColor } from './background-compositing.js?v=rb2';
-import { decodeImage } from './image-processing.js?v=rb2';
+import './site-navigation.js?v=rb3';
+import { replaceBackground } from './replace-background/engine.js?v=rb3';
+import { safeHexColor } from './background-compositing.js?v=rb3';
+import { decodeImage } from './image-processing.js?v=rb3';
 
 const copy = Object.freeze({
     ar: Object.freeze({

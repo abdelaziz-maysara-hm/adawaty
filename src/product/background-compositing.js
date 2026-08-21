@@ -1,4 +1,4 @@
-import { canvasToBlob, decodeImage } from './image-processing.js?v=rb2';
+import { canvasToBlob, decodeImage } from './image-processing.js?v=rb3';
 
 /**
  * Shared background-compositing logic used by both the standalone Add

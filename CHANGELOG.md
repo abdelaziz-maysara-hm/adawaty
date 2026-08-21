@@ -1,5 +1,37 @@
 # Changelog
 
+# 0.5.134
+
+- Fixed the third real bug in the same `wasmPaths` configuration line, found via a third live
+  browser error report: `Failed to resolve module specifier 'ort-wasm-simd-threaded.mjs'`.
+  - **This was a genuinely different bug from the previous two fixes (0.5.132), not a leftover of
+    them**: per the ES module specification, a specifier must start with `/`, `./`, or `../` to be
+    treated as a relative/absolute path -- anything else (e.g. a bare filename like
+    `'ort-wasm-simd-threaded.mjs'`, correct about *directory depth* but with no leading path
+    prefix at all) is a *bare specifier*, which requires an import map and cannot resolve
+    otherwise. This is the exact same rule already hit once before with the plain `'onnxruntime-web'`
+    import (0.5.131) -- the previous fix correctly figured out *where* the file lived, but still
+    wrote the value in a syntactically invalid form.
+  - **Fix**: switched `wasmPaths.mjs`/`wasmPaths.wasm` to absolute, root-relative URLs
+    (`/src/vendor/onnxruntime-web/...`) instead of trying to get a relative path exactly right
+    again. This removes the entire "relative to what?" question that caused three wrong guesses in
+    a row (relative to the page, relative to `engine.js`, then a bare filename with no prefix at
+    all): an absolute path resolves identically from the site root regardless of which module or
+    directory depth is doing the resolving.
+  - Updated `tests/product/onnxruntime-importmap.integration.mjs`'s `wasmPaths` check accordingly:
+    the old assertion required a bare filename with no `/` at all, which would have *rejected* the
+    correct absolute-path fix -- replaced it with a check that the value starts with `/`, `./`, or
+    `../` (the actual ES module validity rule) rather than a specific directory-depth assumption
+    that had already been wrong twice. Confirmed the test genuinely catches the exact bug just
+    hit by reverting to the bare-filename value, watching the test fail, then restoring the fix
+    and confirming it passes again.
+  - Bumped the cache-busting version markers across the entire dependent chain again
+    (`?v=br2`→`?v=br3`, `?v=rb2`→`?v=rb3`) in both `background-remover` and `replace-background`
+    (which depends on the same underlying engine file), consistent with 0.5.133's fix for the
+    stale-CDN-cache issue -- this file changed again, so its cache-busting marker needed to change
+    again too.
+  - `npm run validate` passes all 18 suites (626 tools).
+
 # 0.5.133
 
 - Fixed a real, confusing issue reported directly by a live user: after fixing the `wasmPaths`

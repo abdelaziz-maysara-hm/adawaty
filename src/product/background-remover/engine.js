@@ -21,30 +21,31 @@
  * - wasmPaths set explicitly, as an object naming the exact vendored
  *   files, to the same-origin vendor path -- no CDN dependency,
  *   matching how ffmpeg.wasm is already served same-origin elsewhere
- *   on this site. Two real bugs were found here via a live browser
- *   error report and fixed together:
- *   (a) the path depth was wrong twice in a row before landing on the
- *       right answer -- first assumed relative-to-the-page ('../../
- *       src/vendor/...', which produced a doubled '/src/src/vendor/
- *       ...' 404), then assumed relative-to-this-module
- *       (background-remover/engine.js). Both were wrong: traced the
- *       library's own minified source directly (not guessed) and
- *       confirmed the actual dynamic import() that consumes this path
- *       executes *inside ort.min.mjs itself*
- *       (src/vendor/onnxruntime-web/ort.min.mjs) via ES modules'
- *       standard "resolve relative to the executing module" rule --
- *       not relative to the page, and not relative to whichever file
- *       happened to import ort.min.mjs. Since every vendored file
- *       (ort.min.mjs, ort-wasm-simd-threaded.mjs/.wasm) sits in the
- *       same directory, the correct value is just the bare filename,
- *       no "../" at all.
+ *   on this site. Three real bugs were found here via live browser
+ *   error reports and fixed one after another:
+ *   (a) the path depth was wrong twice in a row before landing on
+ *       (b) -- first assumed relative-to-the-page, then relative-to-
+ *       this-module. Both wrong: traced the library's own source to
+ *       confirm the dynamic import() that consumes this path executes
+ *       *inside ort.min.mjs itself*.
  *   (b) passing wasmPaths as a bare string prefix let the library fall
- *       back to its own hardcoded default filename, "ort-wasm-simd-
- *       threaded.jsep.mjs" (the WebGPU/JSEP variant), which was never
- *       vendored here -- producing a 404 regardless of
- *       executionProviders being set to ['wasm']. Fixed by passing an
- *       explicit { mjs, wasm } object naming the exact two files that
- *       were actually vendored (the plain, non-jsep variant).
+ *       back to its own hardcoded default filename, the WebGPU/JSEP
+ *       variant, which was never vendored here. Fixed with an explicit
+ *       { mjs, wasm } object naming the exact two vendored files.
+ *   (c) that object's filenames had no leading "./" -- e.g. just
+ *       'ort-wasm-simd-threaded.mjs' -- which is a genuinely different
+ *       bug from (a)/(b), not a leftover of them: per the ES module
+ *       specification, any specifier that doesn't start with "/", "./",
+ *       or "../" is a *bare* specifier (the same rule already hit once
+ *       before with the plain 'onnxruntime-web' import, fixed via an
+ *       import map), not a relative path, so it can never resolve
+ *       without an import map entry -- and the previous "just the
+ *       filename" fix, however correct about *directory depth*, was
+ *       still syntactically a bare specifier the whole time.
+ *   Fixed all three at once here with absolute, root-relative URLs
+ *   ("/src/vendor/..."): unambiguous regardless of which module or
+ *   directory depth is doing the resolving, so this class of "wrong
+ *   relative to what" mistake can't recur a fourth time.
  */
 
 let configured = false;
@@ -56,8 +57,8 @@ async function configureRuntime() {
     // same convention every other same-origin asset reference uses
     // across this site -- not relative to this module file.
     ort.env.wasm.wasmPaths = {
-        mjs: 'ort-wasm-simd-threaded.mjs',
-        wasm: 'ort-wasm-simd-threaded.wasm',
+        mjs: '/src/vendor/onnxruntime-web/ort-wasm-simd-threaded.mjs',
+        wasm: '/src/vendor/onnxruntime-web/ort-wasm-simd-threaded.wasm',
     };
     ort.env.wasm.numThreads = 1;
     ort.env.wasm.simd = true;

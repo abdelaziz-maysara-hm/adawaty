@@ -1,5 +1,5 @@
 import './site-navigation.js?v=br2';
-import { removeBackground } from './background-remover/engine.js?v=br2';
+import { removeBackground } from './background-remover/engine.js?v=br3';
 
 const copy = Object.freeze({
     ar: Object.freeze({
