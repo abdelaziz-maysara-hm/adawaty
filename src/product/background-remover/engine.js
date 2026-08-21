@@ -1,7 +1,22 @@
 /**
  * Client-side, in-browser background removal via rembg-web (MIT) +
- * onnxruntime-web, running the u2netp.onnx model (Apache-2.0, see
- * /models/README.md for the full license/verification trail).
+ * onnxruntime-web. Two model options, both explained in full in
+ * /models/README.md:
+ *
+ * - 'general' (default): u2netp.onnx, ~4.6 MB, vendored same-origin in
+ *   this repo. Fast, works reasonably for most subjects.
+ * - 'person': u2net_human_seg.onnx, ~176 MB, loaded from a GitHub
+ *   Release URL at runtime (too large to vendor same-origin -- GitHub
+ *   rejects repo files over 100 MB, and Cloudflare Workers' static
+ *   asset limit is 25 MB per file). Added after real user feedback:
+ *   the general model struggled to fully separate a person from a
+ *   visually busy, multi-colored background (a painted wall mural) --
+ *   verified with a real inference run on a synthetic multi-colored-
+ *   background test image before shipping this option, not assumed.
+ *   Slower (~2.5x the processing time of 'general', per rembg-web's
+ *   own published benchmarks) and a much larger one-time download, so
+ *   this is an explicit, user-chosen option in the UI, never the
+ *   silent default.
  *
  * Explicit configuration choices, each deliberate:
  *
@@ -45,8 +60,13 @@
  *   Fixed all three at once here with absolute, root-relative URLs
  *   ("/src/vendor/..."): unambiguous regardless of which module or
  *   directory depth is doing the resolving, so this class of "wrong
- *   relative to what" mistake can't recur a fourth time.
+ *   relative to what" mistake can't recur a fourth time. The person
+ *   model's URL is a full external https:// URL (passed to
+ *   u2net_custom's modelPath), so it has no such ambiguity to begin
+ *   with.
  */
+
+const HUMAN_SEG_MODEL_URL = 'https://github.com/danielgatis/rembg/releases/download/v0.0.0/u2net_human_seg.onnx';
 
 let configured = false;
 
@@ -65,30 +85,35 @@ async function configureRuntime() {
     configured = true;
 }
 
-let sessionPromise = null;
+const sessionPromises = new Map(); // modelMode -> Promise<session>, so switching modes mid-visit doesn't discard the other one's already-loaded session
 
-/** Lazily creates (and caches) the u2netp inference session, so repeated removals in one visit don't reload the model. */
-async function getSession(onProgress) {
+/**
+ * Lazily creates (and caches, per model mode) the inference session, so
+ * repeated removals in one visit -- even switching between 'general'
+ * and 'person' -- don't reload a model that's already loaded.
+ */
+async function getSession(onProgress, modelMode = 'general') {
     await configureRuntime();
-    if (!sessionPromise) {
+    if (!sessionPromises.has(modelMode)) {
         const { newSession } = await import('../../vendor/rembg-web/index.js');
-        sessionPromise = newSession('u2netp', undefined, {
-            executionProviders: ['wasm'],
-            numThreads: 1,
-            onProgress,
-        });
+        const sessionOptions = { executionProviders: ['wasm'], numThreads: 1, onProgress };
+        const promise = modelMode === 'person'
+            ? newSession('u2net_custom', { modelPath: HUMAN_SEG_MODEL_URL }, sessionOptions)
+            : newSession('u2netp', undefined, sessionOptions);
+        sessionPromises.set(modelMode, promise);
     }
-    return sessionPromise;
+    return sessionPromises.get(modelMode);
 }
 
 /**
  * Removes the background from an image, returning a transparent PNG blob.
  * @param {File|Blob} file
  * @param {(info: {step: string, progress: number, message: string}) => void} [onProgress]
+ * @param {'general'|'person'} [modelMode] -- 'general' (default, fast, same-origin) or 'person' (slower, larger download, specialized for photos of people)
  */
-async function removeBackground(file, onProgress) {
+async function removeBackground(file, onProgress, modelMode = 'general') {
     const { remove } = await import('../../vendor/rembg-web/index.js');
-    const session = await getSession(onProgress);
+    const session = await getSession(onProgress, modelMode);
     return remove(file, { session, onProgress, postProcessMask: true });
 }
 

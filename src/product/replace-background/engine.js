@@ -1,5 +1,5 @@
-import { hasAnyTransparency, compositeOntoBackground } from '../background-compositing.js?v=rb3';
-import { removeBackground } from '../background-remover/engine.js?v=rb3';
+import { hasAnyTransparency, compositeOntoBackground } from '../background-compositing.js?v=rb4';
+import { removeBackground } from '../background-remover/engine.js?v=rb4';
 
 /**
  * The combined "remove + replace in one step" tool: given ANY image
@@ -20,14 +20,15 @@ import { removeBackground } from '../background-remover/engine.js?v=rb3';
  * @param {File} file - the source image, transparent or not
  * @param {(context: CanvasRenderingContext2D, width: number, height: number) => void} drawBackground
  * @param {(info: {step: string, progress: number}) => void} [onProgress]
+ * @param {'general'|'person'} [modelMode] -- passed straight through to background-remover's engine when AI removal is needed at all
  * @returns {Promise<{blob: Blob, width: number, height: number, backgroundRemovalRan: boolean}>}
  */
-async function replaceBackground(file, drawBackground, onProgress) {
+async function replaceBackground(file, drawBackground, onProgress, modelMode = 'general') {
     const alreadyTransparent = await hasAnyTransparency(file);
 
     let foregroundFile = file;
     if (!alreadyTransparent) {
-        const removedBlob = await removeBackground(file, onProgress);
+        const removedBlob = await removeBackground(file, onProgress, modelMode);
         // removeBackground() returns a Blob; compositeOntoBackground()
         // (via decodeImage()) accepts any Blob/File via
         // URL.createObjectURL, so passing the Blob straight through

@@ -1,5 +1,5 @@
 import './site-navigation.js?v=br2';
-import { removeBackground } from './background-remover/engine.js?v=br3';
+import { removeBackground } from './background-remover/engine.js?v=br4';
 
 const copy = Object.freeze({
     ar: Object.freeze({
@@ -32,6 +32,7 @@ const el = Object.freeze({
     uploadScreen: document.querySelector('#bgr-upload'),
     dropZone: document.querySelector('#bgr-drop-zone'),
     fileInput: document.querySelector('#bgr-file-input'),
+    modelInputs: document.querySelectorAll('input[name="bgr-model"]'),
     processingScreen: document.querySelector('#bgr-processing'),
     processingMessage: document.querySelector('#bgr-processing-message'),
     progressFill: document.querySelector('#bgr-progress-fill'),
@@ -42,6 +43,13 @@ const el = Object.freeze({
     tryAnotherButton: document.querySelector('#bgr-try-another'),
     statusMessage: document.querySelector('#bgr-status'),
 });
+
+function getSelectedModelMode() {
+    for (const input of el.modelInputs) {
+        if (input.checked) return input.value;
+    }
+    return 'general';
+}
 
 let resultBlob = null;
 let resultUrl = '';
@@ -80,7 +88,7 @@ async function processFile(file) {
     el.processingMessage.textContent = t('processing');
 
     try {
-        resultBlob = await removeBackground(file, updateProgress);
+        resultBlob = await removeBackground(file, updateProgress, getSelectedModelMode());
         if (resultUrl) URL.revokeObjectURL(resultUrl);
         resultUrl = URL.createObjectURL(resultBlob);
         el.afterImage.src = resultUrl;

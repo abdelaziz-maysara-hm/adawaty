@@ -6,9 +6,9 @@
 <link rel="canonical" href="https://www.adawaty.tools/tools/background-remover/"><meta property="og:type" content="website"><meta property="og:title" content="Background Remover"><meta property="og:description" content="Automatically remove the background from any image using AI, entirely in your browser.">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Background Remover","alternateName":"إزالة خلفية الصورة","url":"https://www.adawaty.tools/tools/background-remover/","applicationCategory":"DesignApplication","operatingSystem":"Any","isAccessibleForFree":true,"inLanguage":["ar","en"]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is Background Remover completely free?","acceptedAnswer":{"@type":"Answer","text":"Yes, with no hidden fees, no account required, and nothing to install."}},{"@type":"Question","name":"Is my photo uploaded to an external server?","acceptedAnswer":{"@type":"Answer","text":"No, the AI model runs entirely inside your browser; your photo never leaves your device or gets sent to any server."}},{"@type":"Question","name":"Why does the first use take a moment?","acceptedAnswer":{"@type":"Answer","text":"The first use downloads a small AI model (about 5 MB) that your browser then caches, so every use after that starts instantly."}}]}</script>
-<link rel="stylesheet" href="../../src/css/main.css"><link rel="stylesheet" href="../../src/css/product.css"><link rel="stylesheet" href="../../src/css/background-remover.css?v=br3">
+<link rel="stylesheet" href="../../src/css/main.css"><link rel="stylesheet" href="../../src/css/product.css"><link rel="stylesheet" href="../../src/css/background-remover.css?v=br4">
 <script type="importmap">{"imports":{"onnxruntime-web":"../../src/vendor/onnxruntime-web/ort.min.mjs"}}</script>
-<script type="module" src="../../src/product/background-remover-app.js?v=br3"></script>
+<script type="module" src="../../src/product/background-remover-app.js?v=br4"></script>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9572691438076734" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -23,6 +23,22 @@
 </div>
 
 <section class="bgr-upload" id="bgr-upload">
+  <div class="bgr-model-picker" role="radiogroup" aria-label="Detection mode">
+    <label class="bgr-model-option">
+      <input type="radio" name="bgr-model" id="bgr-model-general" value="general" checked>
+      <span>
+        <strong><span data-copy="ar">عام</span><span data-copy="en">General</span></strong>
+        <small><span data-copy="ar">أسرع، مناسب لمعظم الصور</span><span data-copy="en">Faster, works for most photos</span></small>
+      </span>
+    </label>
+    <label class="bgr-model-option">
+      <input type="radio" name="bgr-model" id="bgr-model-person" value="person">
+      <span>
+        <strong><span data-copy="ar">أشخاص</span><span data-copy="en">People</span></strong>
+        <small><span data-copy="ar">أدق للأشخاص، تحميل أكبر أول مرة (~176 ميجا) وأبطأ شوية</span><span data-copy="en">More accurate for people, larger first-time download (~176 MB) and a bit slower</span></small>
+      </span>
+    </label>
+  </div>
   <div class="bgr-drop-zone" id="bgr-drop-zone">
     <strong><span data-copy="ar">اختر صورة</span><span data-copy="en">Choose an image</span></strong>
     <span><span data-copy="ar">أو اسحب صورة وأفلتها هنا</span><span data-copy="en">or drag and drop an image here</span></span>

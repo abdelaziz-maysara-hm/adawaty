@@ -1,5 +1,47 @@
 # Changelog
 
+# 0.5.135
+
+- Background Remover / Replace Background: added an explicit "General"/"People" detection-mode
+  choice, in direct response to a real quality issue found via user testing on the live site: the
+  general-purpose `u2netp` model struggled to fully separate a person from a visually busy,
+  multi-colored background (a painted wall mural in the actual reported photo) -- it appeared to
+  only remove "the last color" rather than the whole background.
+  - **Diagnosed correctly before building anything**: this was never a bug in the fixed pipeline
+    (0.5.131-0.5.134) -- it's a genuine model-quality limitation of the small, general-purpose
+    model on a specific kind of challenging input. Researched a purpose-built alternative,
+    `u2net_human_seg.onnx` (same U^2-Net architecture as `u2netp`, different weights, trained on
+    the Supervisely Person Dataset specifically for human segmentation), Apache-2.0, from the same
+    verified GitHub Release source as `u2netp.onnx`.
+  - **Verified before shipping, not assumed**: real ONNX inference on a synthetic test image
+    specifically designed to reproduce the reported failure mode (a skin-tone "person" shape
+    centered over two *differently*-colored background regions, mimicking the multi-colored
+    mural) -- the human-seg model correctly distinguished the subject from *both* background
+    colors (mask value `0.87` at the subject, `0.0` at both background corners), confirming it
+    genuinely solves the reported problem before any UI was built around it.
+  - **A real constraint the previous model didn't have**: at ~176 MB, this file cannot be vendored
+    same-origin like `u2netp.onnx` (~4.6 MB) was -- GitHub rejects repository files over 100 MB,
+    and Cloudflare Workers' static-asset limit is 25 MB per file. Loaded from the GitHub Release
+    URL directly at runtime instead, via `rembg-web`'s `u2net_custom` session type (which accepts
+    an arbitrary external `modelPath`) -- the same "public, non-personal model weights fetched
+    once from a CDN and cached client-side" reasoning already used for `text-summarizer`'s Qwen2.5
+    model; the photo being processed still never leaves the browser.
+  - **Deliberately never the silent default**: "General" stays pre-selected in both tools'
+    interfaces; "People" is an explicit, user-chosen option with the ~176 MB download size and
+    slower processing (confirmed ~2.5x slower per `rembg-web`'s own published benchmarks)
+    genuinely disclosed in the UI, not hidden behind a toggle with no context.
+  - Sessions are cached per model mode (not a single shared cache), so switching between General
+    and People mid-visit doesn't discard whichever model was already loaded.
+  - `replace-background`'s engine threads the same mode selection straight through to
+    `background-remover`'s engine rather than duplicating any model-selection logic.
+  - Added `tests/product/background-removal-model-modes.integration.mjs`: confirms the engine
+    genuinely branches on `modelMode`, sessions are cached per mode, both tool pages offer the
+    choice with "General" pre-selected and the download-size tradeoff genuinely disclosed, and
+    `replace-background` threads the selection through rather than dropping it. Confirmed the test
+    catches a real regression by deliberately removing the parameter threading, watching the test
+    fail, then restoring it and confirming it passes again.
+  - `npm run validate` passes all 19 suites (626 tools).
+
 # 0.5.134
 
 - Fixed the third real bug in the same `wasmPaths` configuration line, found via a third live

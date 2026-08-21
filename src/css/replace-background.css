@@ -22,6 +22,17 @@
 .rb-preview-shell img { display: block; max-width: 100%; max-height: 420px; }
 
 .rb-controls { border: 1px solid var(--border); border-radius: 16px; padding: 18px; background: rgba(10, 25, 42, .5); display: grid; gap: 14px; align-content: start; }
+.rb-model-picker { display: flex; gap: 8px; }
+.rb-model-option {
+    flex: 1; display: flex; align-items: flex-start; gap: 6px; padding: 8px 10px;
+    border: 1px solid var(--border); border-radius: 10px; background: rgba(255, 255, 255, .02);
+    cursor: pointer; transition: border-color .15s ease, background .15s ease;
+}
+.rb-model-option:has(input:checked) { border-color: var(--brand); background: rgba(85, 216, 193, .08); }
+.rb-model-option input[type="radio"] { margin-top: 2px; accent-color: var(--brand); flex-shrink: 0; }
+.rb-model-option strong { display: block; font-size: .82rem; }
+.rb-model-option small { display: block; color: var(--muted); font-size: .7rem; line-height: 1.4; margin-top: 1px; }
+
 .rb-type-row { display: flex; gap: 8px; }
 .rb-type-button {
     flex: 1; padding: 8px 10px; border: 1px solid var(--border); border-radius: 10px;

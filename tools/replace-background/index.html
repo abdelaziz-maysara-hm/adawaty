@@ -6,9 +6,9 @@
 <link rel="canonical" href="https://www.adawaty.tools/tools/replace-background/"><meta property="og:type" content="website"><meta property="og:title" content="Replace Background"><meta property="og:description" content="Upload any image and get a version with a new background in one step.">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Replace Background","alternateName":"استبدال خلفية الصورة","url":"https://www.adawaty.tools/tools/replace-background/","applicationCategory":"DesignApplication","operatingSystem":"Any","isAccessibleForFree":true,"inLanguage":["ar","en"]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is Replace Background completely free?","acceptedAnswer":{"@type":"Answer","text":"Yes, with no hidden fees, no account required, and nothing to install."}},{"@type":"Question","name":"Is my photo uploaded to an external server?","acceptedAnswer":{"@type":"Answer","text":"No, all processing (including the AI background removal step) happens entirely inside your browser; your photo never leaves your device or gets sent to any server."}},{"@type":"Question","name":"Do I need a pre-cut, transparent image first?","acceptedAnswer":{"@type":"Answer","text":"No, that's the point of this tool: upload any regular photo and it removes the existing background automatically before adding the new one, all in a single step."}}]}</script>
-<link rel="stylesheet" href="../../src/css/main.css"><link rel="stylesheet" href="../../src/css/product.css"><link rel="stylesheet" href="../../src/css/replace-background.css?v=rb3">
+<link rel="stylesheet" href="../../src/css/main.css"><link rel="stylesheet" href="../../src/css/product.css"><link rel="stylesheet" href="../../src/css/replace-background.css?v=rb4">
 <script type="importmap">{"imports":{"onnxruntime-web":"../../src/vendor/onnxruntime-web/ort.min.mjs"}}</script>
-<script type="module" src="../../src/product/replace-background-app.js?v=rb3"></script>
+<script type="module" src="../../src/product/replace-background-app.js?v=rb4"></script>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9572691438076734" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -36,6 +36,19 @@
     </div>
 
     <div class="rb-controls">
+      <div class="rb-field-row">
+        <label><span data-copy="ar">اكتشاف الخلفية القديمة</span><span data-copy="en">Old background detection</span></label>
+        <div class="rb-model-picker" role="radiogroup" aria-label="Detection mode">
+          <label class="rb-model-option">
+            <input type="radio" name="rb-model" id="rb-model-general" value="general" checked>
+            <span><strong><span data-copy="ar">عام</span><span data-copy="en">General</span></strong><small><span data-copy="ar">أسرع</span><span data-copy="en">Faster</span></small></span>
+          </label>
+          <label class="rb-model-option">
+            <input type="radio" name="rb-model" id="rb-model-person" value="person">
+            <span><strong><span data-copy="ar">أشخاص</span><span data-copy="en">People</span></strong><small><span data-copy="ar">أدق، تحميل أكبر (~176 ميجا)</span><span data-copy="en">More accurate, larger download (~176 MB)</span></small></span>
+          </label>
+        </div>
+      </div>
       <div class="rb-type-row">
         <button class="rb-type-button is-active" type="button" data-bg-type="color"><span data-copy="ar">لون واحد</span><span data-copy="en">Solid color</span></button>
         <button class="rb-type-button" type="button" data-bg-type="gradient"><span data-copy="ar">تدرج لوني</span><span data-copy="en">Gradient</span></button>

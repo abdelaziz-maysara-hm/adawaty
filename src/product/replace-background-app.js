@@ -1,7 +1,7 @@
-import './site-navigation.js?v=rb3';
-import { replaceBackground } from './replace-background/engine.js?v=rb3';
-import { safeHexColor } from './background-compositing.js?v=rb3';
-import { decodeImage } from './image-processing.js?v=rb3';
+import './site-navigation.js?v=rb4';
+import { replaceBackground } from './replace-background/engine.js?v=rb4';
+import { safeHexColor } from './background-compositing.js?v=rb4';
+import { decodeImage } from './image-processing.js?v=rb4';
 
 const copy = Object.freeze({
     ar: Object.freeze({
@@ -45,6 +45,7 @@ const el = Object.freeze({
     optionsScreen: document.querySelector('#rb-options'),
     previewImage: document.querySelector('#rb-preview-image'),
     typeButtons: document.querySelectorAll('[data-bg-type]'),
+    modelInputs: document.querySelectorAll('input[name="rb-model"]'),
     colorFields: document.querySelector('#rb-color-fields'),
     gradientFields: document.querySelector('#rb-gradient-fields'),
     imageFields: document.querySelector('#rb-image-fields'),
@@ -69,6 +70,13 @@ let backgroundImageFile = null;
 let activeType = 'color';
 let resultBlob = null;
 let resultUrl = '';
+
+function getSelectedModelMode() {
+    for (const input of el.modelInputs) {
+        if (input.checked) return input.value;
+    }
+    return 'general';
+}
 
 function showScreen(name) {
     el.uploadScreen.hidden = name !== 'upload';
@@ -148,7 +156,7 @@ async function handleGenerate() {
             el.processingMessage.textContent = info?.step === 'compositing'
                 ? t('compositing')
                 : t('removingBackground');
-        });
+        }, getSelectedModelMode());
 
         resultBlob = output.blob;
         if (resultUrl) URL.revokeObjectURL(resultUrl);
