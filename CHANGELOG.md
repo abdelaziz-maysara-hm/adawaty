@@ -1,5 +1,37 @@
 # Changelog
 
+# 0.5.131
+
+- Fixed a real bug found via user testing on the live site (post-Cloudflare-migration): the AI
+  Background Remover threw "Failed to resolve module specifier 'onnxruntime-web'" and failed with
+  a generic "try a different image or browser" message, confirmed directly from the browser
+  console error the user reported rather than guessed.
+  - **Root cause**: the vendored `rembg-web` library (`src/vendor/rembg-web/index.js`) contains
+    `import * as ort from 'onnxruntime-web';` -- a *bare* module specifier. This syntax is valid
+    and works fine in bundler-based projects (webpack, vite), where the bundler resolves the
+    package name via `node_modules` at build time. This site deliberately has no bundler --
+    `<script type="module">` is loaded directly in the browser -- so a bare specifier like this
+    has nothing to resolve it against and fails at runtime. This had nothing to do with the
+    Cloudflare migration itself; the bug was latent from the moment the library was vendored, it
+    simply hadn't been exercised in a real browser until now.
+  - **Fix**: added a standard `<script type="importmap">` (the browser-native mechanism for
+    exactly this situation) mapping `"onnxruntime-web"` to the same-origin vendored file
+    (`../../src/vendor/onnxruntime-web/ort.min.mjs`), placed in both `background-remover`'s page
+    and `replace-background`'s page (which pulls in the same engine indirectly, through its own
+    engine). Deliberately did not patch the vendored library's source directly, since that edit
+    would be silently lost on any future `npm install`/update of the package.
+  - Verified the rest of `onnxruntime-web`'s own bundled code does NOT have the same problem: it
+    uses `import.meta.url`-relative dynamic imports (resolved at runtime against a real URL, not a
+    bare specifier), which already works correctly without a bundler.
+  - Added a permanent regression test (`tests/product/onnxruntime-importmap.integration.mjs`) that
+    scans every tool page for anything pulling in the background-removal engine (directly or
+    indirectly) and checks it has a correctly-ordered, valid import map pointing to a real file on
+    disk -- so a *future* page using this same engine can't ship without the same fix silently
+    missing again. Confirmed the test genuinely catches this exact regression by deliberately
+    removing the import map from one page, watching the test fail with a clear message, then
+    restoring it and confirming it passes again.
+  - `npm run validate` passes all 17 suites (626 tools).
+
 # 0.5.130
 
 - Added `replace-background` (interactive workspace tool, `image` category): the combined
