@@ -182,7 +182,7 @@ function createToolPage(tool) {
 <head>
     <meta charset="UTF-8">
     <script>(function(){var l='';try{l=localStorage.getItem('adawaty-language')||localStorage.getItem('adawaty-preview-language')||''}catch(e){}if(l!=='ar'&&l!=='en')l=(navigator.language||'').toLowerCase().startsWith('ar')?'ar':'en';var r=document.documentElement;r.lang=l;r.dir=l==='ar'?'rtl':'ltr';r.dataset.language=l;var s=document.createElement('style');s.textContent='[data-language="en"] [data-copy="ar"],[data-language="ar"] [data-copy="en"]{display:none!important}';r.appendChild(s);})();(function(){var i='G-N9X0ZTH17N';window.dataLayer=window.dataLayer||[];function g(){dataLayer.push(arguments)}window.gtag=g;g('js',new Date());g('config',i);var t=document.createElement('script');t.async=true;t.src='https://www.googletagmanager.com/gtag/js?id='+i;document.head.appendChild(t);})();</script>
-    <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../../favicon.svg" type="image/svg+xml"><link rel="shortcut icon" href="../../favicon.ico">
     <meta http-equiv="Cache-Control" content="no-cache">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=()">
@@ -341,7 +341,7 @@ function createCataloguePage({
 <head>
     <meta charset="UTF-8">
     <script>(function(){var l='';try{l=localStorage.getItem('adawaty-language')||localStorage.getItem('adawaty-preview-language')||''}catch(e){}if(l!=='ar'&&l!=='en')l=(navigator.language||'').toLowerCase().startsWith('ar')?'ar':'en';var r=document.documentElement;r.lang=l;r.dir=l==='ar'?'rtl':'ltr';r.dataset.language=l;var s=document.createElement('style');s.textContent='[data-language="en"] [data-copy="ar"],[data-language="ar"] [data-copy="en"]{display:none!important}';r.appendChild(s);})();(function(){var i='G-N9X0ZTH17N';window.dataLayer=window.dataLayer||[];function g(){dataLayer.push(arguments)}window.gtag=g;g('js',new Date());g('config',i);var t=document.createElement('script');t.async=true;t.src='https://www.googletagmanager.com/gtag/js?id='+i;document.head.appendChild(t);})();</script>
-    <link rel="icon" href="${basePath}favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="${basePath}favicon.svg" type="image/svg+xml"><link rel="shortcut icon" href="${basePath}favicon.ico">
     <meta http-equiv="Cache-Control" content="no-cache">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=()">
@@ -447,7 +447,7 @@ function createRoundupPage(entry) {
 <head>
     <meta charset="UTF-8">
     <script>(function(){var l='';try{l=localStorage.getItem('adawaty-language')||localStorage.getItem('adawaty-preview-language')||''}catch(e){}if(l!=='ar'&&l!=='en')l=(navigator.language||'').toLowerCase().startsWith('ar')?'ar':'en';var r=document.documentElement;r.lang=l;r.dir=l==='ar'?'rtl':'ltr';r.dataset.language=l;var s=document.createElement('style');s.textContent='[data-language="en"] [data-copy="ar"],[data-language="ar"] [data-copy="en"]{display:none!important}';r.appendChild(s);})();(function(){var i='G-N9X0ZTH17N';window.dataLayer=window.dataLayer||[];function g(){dataLayer.push(arguments)}window.gtag=g;g('js',new Date());g('config',i);var t=document.createElement('script');t.async=true;t.src='https://www.googletagmanager.com/gtag/js?id='+i;document.head.appendChild(t);})();</script>
-    <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../../favicon.svg" type="image/svg+xml"><link rel="shortcut icon" href="../../favicon.ico">
     <meta http-equiv="Cache-Control" content="no-cache">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=()">

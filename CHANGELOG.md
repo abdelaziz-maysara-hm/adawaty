@@ -1,5 +1,37 @@
 # Changelog
 
+# 0.5.136
+
+- Fixed a real, site-wide gap found via a direct user report: the favicon was missing entirely on
+  every interactive tool page. Checked comprehensively rather than trusting the report at face
+  value -- found two distinct, related issues.
+  - **Issue 1**: all 6 manually-authored interactive tool pages (`background-remover`, `mic-test`,
+    `photo-editor`, `replace-background`, `text-summarizer`, `website-builder`) had zero favicon
+    reference at all -- the exact same class of gap already hit once with FAQ coverage (0.5.124)
+    and once with AdSense script coverage (0.5.125): these pages bypass the generator template
+    entirely by design, so they never got the favicon link "for free" the way generator-produced
+    pages do. Confirmed by diffing the full list of tool directories against pages that actually
+    reference `favicon` at all -- exactly these 6 and no others.
+  - **Issue 2**: the site never had a `favicon.ico` file at all, only `favicon.svg` -- a live
+    browser console (from earlier testing on the same tool) had already separately shown a 404 for
+    `/favicon.ico` specifically, since some browsers/contexts request that path as a fallback
+    regardless of an explicit `<link rel="icon">` pointing elsewhere.
+  - **Fix**: generated a real, valid `favicon.ico` from the existing SVG source (verified the
+    resulting file has a correct ICO header and a genuinely loadable embedded image, not just that
+    a file with that name exists), and added both `<link rel="icon" ... type="image/svg+xml">`
+    (the modern format, already used elsewhere) and `<link rel="shortcut icon" href="...favicon.ico">`
+    (the classic fallback) to all 6 interactive tool pages, the homepage, and all 3 of the
+    generator's page templates (tool/category/roundup) so every future generator-produced page
+    gets both automatically.
+  - Added a permanent, comprehensive regression test (`tests/product/favicon-coverage.integration.mjs`)
+    that walks every one of the 657 pages on disk (not a sample) checking both favicon links are
+    present, validates `favicon.ico`'s own file structure directly (ICO header fields, not just
+    "a file exists"), and confirms the generator template itself references both -- so this can't
+    silently regress for a future page the way it did for these 6. Confirmed the test genuinely
+    catches a regression by deliberately breaking one page's favicon links, watching the test fail
+    with the exact file path, then restoring it and confirming it passes again.
+  - `npm run validate` passes all 20 suites (626 tools).
+
 # 0.5.135
 
 - Background Remover / Replace Background: added an explicit "General"/"People" detection-mode
