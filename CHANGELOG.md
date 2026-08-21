@@ -1,5 +1,30 @@
 # Changelog
 
+# 0.5.133
+
+- Fixed a real, confusing issue reported directly by a live user: after fixing the `wasmPaths`
+  configuration bug (0.5.132), the AI Background Remover *still* appeared broken in a fresh
+  Incognito browser tab -- the exact same error as before the fix.
+  - **Root cause**: only the outer `background-remover-app.js`/`replace-background-app.js`
+    `<script>` tags had a `?v=...` cache-busting query string; every *internal* static import
+    underneath them (`background-remover/engine.js`, `replace-background/engine.js`,
+    `background-compositing.js`) had none at all -- the exact file the `wasmPaths` fix lived in
+    was one of them. Incognito mode clears local browser cache, but not Cloudflare's own CDN edge
+    cache, so a fresh Incognito tab could still receive a stale cached copy of `engine.js` served
+    under its never-changing URL, even after the fix was live in the deployed source.
+  - **Fix**: added a `?v=...` query string to every same-project internal import in the chain, not
+    just the top-level script tags -- confirmed the complete chain by tracing every static import
+    from both app entry points down through `background-compositing.js`, and bumped the page-level
+    `?v=br1`/`?v=rb1` markers to `?v=br2`/`?v=rb2` to match.
+  - Added a permanent regression test (`tests/product/internal-import-cache-busting.integration.mjs`)
+    that scans every file in this specific chain and asserts every same-project relative import
+    carries a version query string -- so a future edit to any of these files can't ship without
+    bumping its own import's version, silently reintroducing this exact "fix committed but never
+    actually served" confusion. Confirmed the test genuinely catches this by deliberately removing
+    one version string, watching the test fail with a clear message, then restoring it and
+    confirming it passes again.
+  - `npm run validate` passes all 18 suites (626 tools).
+
 # 0.5.132
 
 - Fixed the actual failure the AI Background Remover hit after 0.5.131's import-map fix: the
