@@ -1,5 +1,35 @@
 # Changelog
 
+# 0.5.132
+
+- Fixed the actual failure the AI Background Remover hit after 0.5.131's import-map fix: the
+  browser console (reported directly by the user, not guessed) showed a 404 for
+  `https://adawaty.tools/src/src/vendor/onnxruntime-web/ort-wasm-simd-threaded.jsep.mjs` --
+  two distinct, real bugs in the same `wasmPaths` configuration line.
+  - **Bug 1, a doubled `/src/src/` path**: `wasmPaths` was set to `'../../src/vendor/onnxruntime-web/'`,
+    assuming it would be resolved relative to the page (`tools/background-remover/index.html`).
+    Wrong. Traced `onnxruntime-web`'s own minified source directly to find where this value
+    actually gets consumed: a dynamic `import()` call that executes **inside `ort.min.mjs` itself**
+    (`src/vendor/onnxruntime-web/ort.min.mjs`) -- per ES modules' standard resolve-relative-to-the-
+    executing-module rule, not relative to the page, and (a second wrong guess along the way) not
+    relative to whichever file happened to import `ort.min.mjs` either. Since every vendored
+    `onnxruntime-web` file sits in the exact same directory as `ort.min.mjs`, the correct value
+    turned out to be the bare filename with **no path segments at all**.
+  - **Bug 2, the wrong file entirely**: even with the path fixed, passing `wasmPaths` as a plain
+    string prefix (rather than an explicit object) still let the library fall back to its own
+    hardcoded default filename, `"ort-wasm-simd-threaded.jsep.mjs"` -- the WebGPU/JSEP variant,
+    which was never vendored on this site (deliberately, to keep the same-origin bundle small --
+    see 0.5.119's original reasoning). Fixed by passing `wasmPaths` as an explicit
+    `{ mjs, wasm }` object naming the exact two files that were actually vendored (the plain,
+    non-jsep variant), bypassing the library's internal default-filename fallback entirely.
+  - Extended `tests/product/onnxruntime-importmap.integration.mjs` to check `wasmPaths` directly
+    from source: confirmed it's an explicit object (not a bare string), confirmed both filenames
+    contain no path separators, and confirmed both resolve to real files actually present in
+    `src/vendor/onnxruntime-web/`. Confirmed the test genuinely catches the exact original bug by
+    reverting to the previous (wrong) path value, watching the test fail, then restoring the fix
+    and confirming it passes again.
+  - `npm run validate` passes all 17 suites (626 tools).
+
 # 0.5.131
 
 - Fixed a real bug found via user testing on the live site (post-Cloudflare-migration): the AI

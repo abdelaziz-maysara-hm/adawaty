@@ -94,6 +94,36 @@ for (const pagePath of pagesNeedingImportMap) {
     );
 }
 
+// ---------------------------------------------------------------------------
+// wasmPaths configuration: two more real bugs found via a live browser error
+// report, on top of the import map issue above. Traced onnxruntime-web's own
+// minified source directly (not guessed) to confirm the dynamic import()
+// that consumes wasmPaths executes *inside ort.min.mjs itself*, so a bare
+// filename (not a relative path with any '../' segments) is the only
+// correct value, since every vendored onnxruntime-web file sits in the same
+// directory as ort.min.mjs. Also confirmed the library falls back to its
+// own hardcoded ".jsep.mjs" (WebGPU) filename unless wasmPaths is an
+// explicit object naming both files directly -- a bare string prefix was
+// not enough.
+// ---------------------------------------------------------------------------
+
+{
+    const engineSource = await readFile(path.join(projectRoot, 'src/product/background-remover/engine.js'), 'utf8');
+    const wasmPathsMatch = engineSource.match(/wasmPaths\s*=\s*\{([^}]+)\}/);
+    assert.ok(wasmPathsMatch, 'engine.js must configure ort.env.wasm.wasmPaths as an explicit object, not a bare string prefix (the library silently falls back to its own .jsep.mjs default filename otherwise)');
+
+    const mjsMatch = wasmPathsMatch[1].match(/mjs:\s*'([^']+)'/);
+    const wasmMatch = wasmPathsMatch[1].match(/wasm:\s*'([^']+)'/);
+    assert.ok(mjsMatch && wasmMatch, 'wasmPaths must explicitly name both the .mjs and .wasm files');
+
+    for (const [key, value] of [['mjs', mjsMatch[1]], ['wasm', wasmMatch[1]]]) {
+        assert.ok(!value.includes('/'), `wasmPaths.${key} ('${value}') must be a bare filename with no path segments -- it resolves relative to ort.min.mjs's own location (all vendored files share one directory), not relative to the page or to engine.js`);
+        const resolvedPath = path.join(projectRoot, 'src/vendor/onnxruntime-web', value);
+        // eslint-disable-next-line no-await-in-loop
+        await assert.doesNotReject(readFile(resolvedPath), `wasmPaths.${key} ('${value}') does not resolve to a real vendored file`);
+    }
+}
+
 console.log(`onnxruntime-web import map verified across ${pagesNeedingImportMap.length} page(s) that need it: ${pagesNeedingImportMap.map((p) => path.relative(projectRoot, p)).join(', ')}.`);
 
 // END OF FILE
