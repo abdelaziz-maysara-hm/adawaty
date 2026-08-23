@@ -55,16 +55,21 @@ const PAGE_SIZE = 30;
 let visibleCount = PAGE_SIZE;
 const priorityGroups = Object.freeze([
     ['pdf-merge', 'pdf-splitter', 'pdf-compressor', 'pdf-to-word-converter', 'word-to-pdf-converter', 'pdf-to-jpg-converter', 'jpg-to-pdf-converter', 'pdf-editor'],
-    ['image-compressor', 'compress-image-to-target-size', 'image-resizer', 'image-cropper', 'image-format-converter', 'jpg-to-png-converter', 'png-to-jpg-converter', 'image-to-text-ocr'],
+    // 'background-remover' and 'replace-background' added to the front
+    // after researching several independent competitor sites (Erase.bg,
+    // TinyWow, Slazzer, ShortPixel, ImgCruncher, imagy.app, and others):
+    // "Remove background" appears consistently among the top few
+    // featured/most-used tools across every one of them, alongside
+    // compress/resize/convert/crop -- it had been missing from this
+    // list entirely despite that.
+    ['background-remover', 'replace-background', 'image-compressor', 'compress-image-to-target-size', 'image-resizer', 'image-cropper', 'image-format-converter', 'jpg-to-png-converter', 'png-to-jpg-converter', 'image-to-text-ocr'],
     ['video-compressor', 'video-trimmer', 'video-splitter', 'video-merge', 'video-audio-remover', 'add-audio-to-video', 'video-audio-extractor', 'video-format-converter'],
     ['audio-compressor-dynamics', 'audio-trimmer', 'audio-splitter', 'audio-merger', 'audio-noise-remover', 'audio-format-converter', 'mp3-to-wav-converter', 'wav-to-mp3-converter'],
-    // "grammar-checker" and "text-summarizer" were removed here: neither
-    // exists as a real registered tool id, so they were silent dead
-    // entries in the priority map (harmless -- a missing id just never
-    // matches anything -- but worth cleaning up since we're extending
-    // this exact list). word-counter and text-case-converter still lead
-    // the group; text-diff-checker and duplicate-line-remover follow.
-    ['word-counter', 'character-counter', 'text-case-converter', 'duplicate-line-remover', 'text-diff-checker', 'lorem-ipsum-generator', 'find-and-replace-tool'],
+    // 'text-summarizer' is now a real, registered tool (added later in
+    // this project's history) -- added back to the front of this list.
+    // grammar-checker still doesn't exist as a registered tool id, so
+    // it's deliberately left out rather than re-added as a dead entry.
+    ['text-summarizer', 'word-counter', 'character-counter', 'text-case-converter', 'duplicate-line-remover', 'text-diff-checker', 'lorem-ipsum-generator', 'find-and-replace-tool'],
     ['seo-checker', 'keyword-density-checker', 'serp-snippet-preview', 'meta-tag-generator', 'open-graph-generator', 'robots-txt-generator', 'sitemap-entry-generator', 'utm-link-builder', 'click-through-rate-calculator'],
     ['password-generator', 'password-strength-checker', 'password-breach-checker', 'hash-generator', 'sri-hash-generator', 'csp-header-generator', 'ipv4-subnet-calculator', 'mac-address-formatter'],
     // Everyday-life calculators: these categories had no explicit

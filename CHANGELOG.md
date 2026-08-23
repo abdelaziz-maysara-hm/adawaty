@@ -1,5 +1,40 @@
 # Changelog
 
+# 0.5.137
+
+- Site-wide sort ordering: researched real competitor priority ordering rather than relying on
+  assumption alone, in direct response to a request to make the most-searched-for tools appear
+  first within each category (the existing default, alphabetical for anything outside the
+  priority list, was correctly flagged as the visible symptom).
+  - Searched multiple independent, unrelated competitor sites across PDF, image, and developer-tool
+    categories (Erase.bg, TinyWow, Slazzer, ShortPixel, ImgCruncher, imagy.app, iLovePDF, Smallpdf,
+    and a dozen+ developer-tool hubs) specifically for what each one features as its own "Popular"
+    or most-prominent tools -- not a single source's opinion, a genuine cross-competitor pattern
+    check.
+  - **Found and fixed a real, direct gap**: `background-remover` (and the newer `replace-background`)
+    were entirely absent from the image category's priority list, despite "Remove background"
+    appearing consistently among the top few featured tools across nearly every competitor
+    researched -- and despite being a tool this project itself built and spent significant effort
+    getting right. Added both to the front of the image priority group.
+  - **Found and fixed a second, unrelated real bug while touching this file**: `text-summarizer`
+    had been deliberately left out of the text category's priority list months earlier, with a
+    comment explaining it "doesn't exist as a real registered tool id" -- true at the time that
+    comment was written, but no longer true since `text-summarizer` was built and shipped later in
+    this project's history. Added it back to the front of the text priority group and corrected
+    the stale comment.
+  - Confirmed the developer-tools priority group (`json-formatter`, `uuid-generator`,
+    `base64-encoder-decoder`, `regex-tester`, `url-encoder-decoder`, `jwt-decoder`, ...) already
+    matches the competitor-research pattern closely, so it was left unchanged.
+  - **Also fixed, found only via the test suite catching it**: rewording one of these two comments
+    with the tool id in single quotes (e.g. `'grammar-checker'`) triggered a false-positive
+    failure in `tests/product/subcategories.integration.mjs`, which scans this file's *entire
+    source text* (comments included) for anything quoted, to catch stale/typo'd tool-id references
+    in the actual priority list. Reworded the comment to avoid quoting the id at all, rather than
+    weakening the test's regex -- the test's behavior here is correct and valuable (it's exactly
+    what caught the real `text-summarizer` staleness above); the comment's phrasing was the actual
+    problem.
+  - `npm run validate` passes all 20 suites (626 tools).
+
 # 0.5.136
 
 - Fixed a real, site-wide gap found via a direct user report: the favicon was missing entirely on
