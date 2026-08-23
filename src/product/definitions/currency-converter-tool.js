@@ -33,7 +33,7 @@ const currencyOptions = Object.freeze(
     })),
 );
 
-const CLOUD_WORKER_URL = 'https://adawaty-cloud-worker.abdelazizmaysara4.workers.dev/api/currency-rates';
+const CLOUD_WORKER_URL = 'https://adawaty-workers.abdelazizmaysara4.workers.dev/api/currency-rates';
 
 async function fetchUsdRates() {
     // Proxied through the Adawaty Cloud Worker rather than calling

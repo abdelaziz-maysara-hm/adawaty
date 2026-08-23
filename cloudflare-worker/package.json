@@ -1,5 +1,5 @@
 {
-  "name": "adawaty-cloud-worker",
+  "name": "adawaty-workers",
   "private": true,
   "version": "1.0.0",
   "scripts": {

@@ -61,8 +61,8 @@ npx wrangler deploy
 
 لو كل حاجة تمام، هيطلعلك في الآخر سطر شكله كده:
 ```
-Deployed adawaty-cloud-worker triggers (...)
-  https://adawaty-cloud-worker.<اسم-حسابك>.workers.dev
+Deployed adawaty-workers triggers (...)
+  https://adawaty-workers.<اسم-حسابك>.workers.dev
 ```
 
 **انسخ الرابط ده وابعتهولي** — هو ده اللي هستخدمه عشان أوصّل زر "النسخة
@@ -74,7 +74,7 @@ Deployed adawaty-cloud-worker triggers (...)
 
 **تلخيص النص:**
 ```bash
-curl -X POST "https://adawaty-cloud-worker.<اسم-حسابك>.workers.dev" \
+curl -X POST "https://adawaty-workers.<اسم-حسابك>.workers.dev" \
   -H "Content-Type: application/json" \
   -H "Origin: https://adawaty.tools" \
   -d '{"text": "This is a test sentence to check that summarization works correctly.", "language": "en"}'
@@ -83,7 +83,7 @@ curl -X POST "https://adawaty-cloud-worker.<اسم-حسابك>.workers.dev" \
 
 **أسعار صرف العملات:**
 ```bash
-curl "https://adawaty-cloud-worker.<اسم-حسابك>.workers.dev/api/currency-rates?base=USD" \
+curl "https://adawaty-workers.<اسم-حسابك>.workers.dev/api/currency-rates?base=USD" \
   -H "Origin: https://adawaty.tools"
 ```
 المفروض يرجّعلك رد فيه قائمة أسعار صرف (JSON).

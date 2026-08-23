@@ -1,5 +1,18 @@
 # Changelog
 
+# 0.5.139
+
+- Fixed a real, live-blocking mismatch: the currency-converter tool called
+  `adawaty-cloud-worker.abdelazizmaysara4.workers.dev` (the name in `wrangler.jsonc` at the time),
+  but the user actually deployed the Worker through Cloudflare's dashboard "Import a repository"
+  flow under the project name `adawaty-workers` -- a different subdomain entirely. Confirmed
+  directly from the user's screenshot of the deployed project settings rather than assumed.
+  Updated `CLOUD_WORKER_URL` to the real deployed URL, and renamed `wrangler.jsonc`'s and
+  `package.json`'s `name` fields to match (`adawaty-workers`) so a future manual `wrangler deploy`
+  can't accidentally create a second, differently-named Worker instead of updating the one already
+  live.
+  - `npm run validate` passes all 21 suites (627 tools).
+
 # 0.5.138
 
 - Completed and shipped `currency-converter`: found already partially built in the repo (a
