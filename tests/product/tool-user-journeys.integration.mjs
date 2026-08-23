@@ -98,6 +98,17 @@ const browserOnlyTools = new Set([
     // tool: no process/calculate handler by design, and no file input
     // (the file is chosen inside its own upload UI).
     'replace-background',
+    // currency-converter is a different exclusion class from everything
+    // above: it's a normal form-based tool (no interactive workspace,
+    // no DOM/canvas dependency) that genuinely needs a live network
+    // call to work at all -- it fetches current rates through the
+    // Adawaty Cloud Worker (see cloudflare-worker/src/index.js), which
+    // isn't reachable from this Node test harness (no real network
+    // egress to an as-yet-undeployed Worker URL). The pure conversion
+    // math (convertAmount()) was verified directly and separately with
+    // realistic exchange rates before this exclusion was added; only
+    // the live network fetch itself is untestable here.
+    'currency-converter',
 ]);
 
 const inputOverrides = Object.freeze({
@@ -231,8 +242,8 @@ assert.deepEqual(
         .join('\n')}`,
 );
 
-assert.equal(nonFileTools.length, 420);
-assert.equal(browserOnlyTools.size, 31);
+assert.equal(nonFileTools.length, 421);
+assert.equal(browserOnlyTools.size, 32);
 assert.equal(executableWithoutBrowser.length, 389);
 
 const journeys = [

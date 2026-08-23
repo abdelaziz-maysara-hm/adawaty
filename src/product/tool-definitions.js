@@ -95,6 +95,7 @@ import { micTestToolDefinitions } from './definitions/mic-test-tool.js';
 import { backgroundRemoverToolDefinitions } from './definitions/background-remover-tool.js';
 import { textSummarizerToolDefinitions } from './definitions/text-summarizer-tool.js';
 import { replaceBackgroundToolDefinitions } from './definitions/replace-background-tool.js';
+import { currencyConverterToolDefinitions } from './definitions/currency-converter-tool.js';
 import { addBackgroundToolDefinitions } from './definitions/add-background-tools.js';
 import { ocrToolDefinitions } from './definitions/ocr-tools.js';
 import { videoFileToolDefinitions } from './definitions/video-file-tools.js';
@@ -1198,6 +1199,7 @@ const allToolDefinitions = Object.freeze({
     ...wordToPdfDefinitions,
     ...textSummarizerToolDefinitions,
     ...replaceBackgroundToolDefinitions,
+    ...currencyConverterToolDefinitions,
 });
 
 const retiredToolIdSet = new Set(retiredToolIds);

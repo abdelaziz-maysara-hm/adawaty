@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "adawaty-ai-worker",
+  "name": "adawaty-cloud-worker",
   "main": "src/index.js",
   "compatibility_date": "2026-08-15",
   "account_id": "fc087f41c40d7f5084b60bde4f27f14e",

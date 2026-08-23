@@ -1,8 +1,15 @@
-# Adawaty AI Worker — دليل النشر
+# Adawaty Cloud Worker — دليل النشر
 
-ده الباك اند الاختياري (Opt-in) لأداة تلخيص النصوص. الموقع بيستخدم النسخة
-المجانية اللي بتشتغل جوّه المتصفح كافتراضي دايمًا — الـWorker ده بيتفعّل
-بس لو الزائر ضغط بنفسه على زر "جرّب النسخة المتقدمة (سحابية)".
+ده الـWorker السحابي بتاع الموقع، وفيه **جزئين مختلفين تمامًا**:
+
+1. **تلخيص النص (اختياري/Opt-in)**: الموقع بيستخدم النسخة المجانية اللي
+   بتشتغل جوّه المتصفح كافتراضي دايمًا — الجزء ده بيتفعّل بس لو الزائر
+   ضغط بنفسه على زر "جرّب النسخة المتقدمة (سحابية)".
+2. **أسعار صرف العملات (`/api/currency-rates`)**: مش ذكاء اصطناعي خالص —
+   بس وسيط بسيط (Proxy) بيجيب أسعار الصرف من مصدر مجاني خارجي، ويقدّمها
+   للموقع same-origin. بيتفعّل تلقائيًا كل ما حد يستخدم أداة "محول
+   العملات" (مش اختياري زي التلخيص، لأن الأداة دي أساسًا محتاجة بيانات
+   حية عشان تشتغل).
 
 ## قبل ما تبدأ
 
@@ -54,8 +61,8 @@ npx wrangler deploy
 
 لو كل حاجة تمام، هيطلعلك في الآخر سطر شكله كده:
 ```
-Deployed adawaty-ai-worker triggers (...)
-  https://adawaty-ai-worker.<اسم-حسابك>.workers.dev
+Deployed adawaty-cloud-worker triggers (...)
+  https://adawaty-cloud-worker.<اسم-حسابك>.workers.dev
 ```
 
 **انسخ الرابط ده وابعتهولي** — هو ده اللي هستخدمه عشان أوصّل زر "النسخة
@@ -65,14 +72,21 @@ Deployed adawaty-ai-worker triggers (...)
 
 بعد النشر، تقدر تتأكد إن كل حاجة شغالة من الترمينال نفسه:
 
+**تلخيص النص:**
 ```bash
-curl -X POST "https://adawaty-ai-worker.<اسم-حسابك>.workers.dev" \
+curl -X POST "https://adawaty-cloud-worker.<اسم-حسابك>.workers.dev" \
   -H "Content-Type: application/json" \
   -H "Origin: https://adawaty.tools" \
   -d '{"text": "This is a test sentence to check that summarization works correctly.", "language": "en"}'
 ```
-
 المفروض يرجّعلك رد فيه ملخص قصير.
+
+**أسعار صرف العملات:**
+```bash
+curl "https://adawaty-cloud-worker.<اسم-حسابك>.workers.dev/api/currency-rates?base=USD" \
+  -H "Origin: https://adawaty.tools"
+```
+المفروض يرجّعلك رد فيه قائمة أسعار صرف (JSON).
 
 ## لو حصلت مشكلة
 

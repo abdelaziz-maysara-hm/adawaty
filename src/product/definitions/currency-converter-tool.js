@@ -33,20 +33,32 @@ const currencyOptions = Object.freeze(
     })),
 );
 
-const RATES_URL = 'https://open.er-api.com/v6/latest/USD';
+const CLOUD_WORKER_URL = 'https://adawaty-cloud-worker.abdelazizmaysara4.workers.dev/api/currency-rates';
 
 async function fetchUsdRates() {
-    const response = await fetch(RATES_URL, { cache: 'no-store' });
+    // Proxied through the Adawaty Cloud Worker rather than calling
+    // open.er-api.com directly from the browser: independent sources
+    // disagreed on whether that upstream sends CORS headers at all
+    // (one live-monitoring source specifically reported "CORS:
+    // Disabled"), and this couldn't be verified directly in this
+    // environment (no real browser available, and the sandbox's own
+    // network egress allowlist blocks the domain outright). A
+    // server-to-server fetch inside the Worker has no CORS
+    // restriction, removing the ambiguity entirely rather than
+    // gambling on it. See cloudflare-worker/src/index.js's
+    // handleCurrencyRates() for the actual upstream call and its
+    // 1-hour edge cache.
+    const response = await fetch(`${CLOUD_WORKER_URL}?base=USD`, { cache: 'no-store' });
     if (!response.ok) {
         throw new Error(`HTTP ${response.status}`);
     }
     const data = await response.json();
-    if (data.result !== 'success' || !data.rates) {
+    if (!data.rates) {
         throw new Error('Unexpected rates response');
     }
     return Object.freeze({
         rates: data.rates,
-        updatedAt: data.time_last_update_utc ?? data.time_last_update_unix ?? null,
+        updatedAt: data.updatedAt ?? null,
     });
 }
 

@@ -1,5 +1,47 @@
 # Changelog
 
+# 0.5.138
+
+- Completed and shipped `currency-converter`: found already partially built in the repo (a
+  registered tool file existed, but wasn't wired into `tool-definitions.js` and had no generated
+  page -- likely left mid-work from an earlier session). Added after researching genuinely
+  high-search-volume tool categories missing from this site (alongside XE, OANDA, and dozens of
+  competitor "currency converter" tools).
+  - **A real, unresolved data-source question investigated before shipping**: the existing draft
+    called `open.er-api.com` (ExchangeRate-API's free, no-key, running-since-2010 public endpoint)
+    directly from the browser. Independent sources disagreed on whether that endpoint sends CORS
+    headers at all -- most described it as browser-friendly, but one source that actively
+    monitors it live specifically reported "CORS: Disabled". This couldn't be resolved directly in
+    this environment (no real browser to test in, and the sandbox's own network egress allowlist
+    blocks the domain outright), so rather than gambling on which source was right -- the same
+    kind of untested assumption that caused three separate real bugs with the AI background-
+    removal pipeline earlier in this project -- the fetch was moved server-to-server, where CORS
+    doesn't apply at all.
+  - **Fix**: added a `GET /api/currency-rates` endpoint to the existing Adawaty Cloud Worker
+    (renamed from `adawaty-ai-worker` to `adawaty-cloud-worker`, since it's no longer AI-only),
+    which proxies `open.er-api.com` server-to-server and caches the result at Cloudflare's edge
+    for 1 hour (matching the upstream's own roughly-daily update cadence). The Worker whitelists
+    the exact same 16 currency codes the tool itself offers -- not an open proxy for arbitrary
+    upstream requests. `currency-converter-tool.js` now calls this same-origin Worker endpoint
+    instead of the upstream directly.
+  - Verified the pure conversion math (`convertAmount()`) directly with realistic exchange rates:
+    same-to-same currency, direct-to-USD, USD-to-direct, and a non-USD-to-non-USD conversion
+    correctly routed through USD as the intermediate, plus an unsupported-code case returning
+    `null` rather than a silently wrong number.
+  - Added `tests/product/currency-converter.integration.mjs`: product registration, the conversion
+    math (verified via a data-URL re-import of the source, since `convertAmount` isn't part of the
+    file's normal exports), and a consistency check that the Worker's currency whitelist exactly
+    matches the tool's own currency list, so the two can't silently drift apart. Confirmed the
+    whitelist-consistency check genuinely catches drift by deliberately removing one currency code
+    from the Worker's whitelist, watching the test fail with the exact missing code in the diff,
+    then restoring it and confirming it passes again.
+  - **Honest disclosure**: like the AI-Worker-dependent parts of `text-summarizer`, this tool's
+    live network path (the actual Worker call, not the pure math) has not been exercised
+    end-to-end against a real deployed Worker, since the Worker isn't deployed in this environment.
+    Deploying `cloudflare-worker/` (see its own `README.md`) is required before this tool works on
+    the live site.
+  - `npm run validate` passes all 21 suites (627 tools).
+
 # 0.5.137
 
 - Site-wide sort ordering: researched real competitor priority ordering rather than relying on
