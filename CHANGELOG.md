@@ -1,5 +1,43 @@
 # Changelog
 
+# 0.5.141
+
+- **Fixed the actual root cause behind the live currency-converter bug report**, and a
+  significantly wider-reaching issue than that one tool: found via the browser console showing
+  the tool's JavaScript still calling the deleted `adawaty-workers.*.workers.dev` domain, days
+  after that code was fixed and deployed.
+  - **Root cause**: this site's cache-busting scheme (`?v=...` query strings on `tool-page.js`,
+    `catalogue-page.js`, `roundup-page.js`, and `home.js`) used hand-maintained constants (e.g.
+    `const assetVersion = 's7b46'`) that had to be manually bumped after *any* change to
+    `tool-definitions.js` or anything it pulls in (all 121+ files under `src/product/definitions/`)
+    for that change to actually reach visitors. Confirmed directly via `git log` that this exact
+    string was unchanged across many prior commits that DID touch tool logic -- meaning this
+    project has very likely been shipping code fixes that silently failed to reach the live site
+    for some time, not just the one currency-converter fix that happened to get caught.
+  - **Fix**: replaced every hand-maintained version constant with a real SHA-256 content hash of
+    the actual files that affect each page type -- any genuine change to any of those files now
+    changes the hash automatically; an unrelated change changes nothing (avoiding needless cache
+    invalidation for pages that didn't actually change). Applied to `tool-page.js`'s,
+    `catalogue-page.js`'s, and `roundup-page.js`'s versions (computed in
+    `scripts/generate-product-pages.mjs`) and to `index.html`'s hand-authored `home.js` reference
+    (a separate, non-generated file with the exact same problem, caught while investigating this).
+  - **A real ordering bug found and fixed during development, not shipped**: the first
+    implementation hashed `home.js`'s content *before* substituting its own `usage-tracking.js`
+    version reference into it, rather than after -- producing a different, unstable hash on every
+    single run even with zero real changes, since each run's hash depended on the *previous* run's
+    already-substituted string. Caught this directly by running the generator twice back-to-back
+    and comparing output before considering the fix done, not by inspecting the code alone.
+  - Updated the 4 stale `?v=s7b\d+` pattern assertions in
+    `tests/pages/github-pages.integration.mjs` (which were checking for the *literal old scheme*,
+    not the general presence of a version string) to match the new hash format.
+  - Added `tests/product/hash-based-cache-busting.integration.mjs`: runs the actual generator
+    script twice consecutively and confirms identical output (determinism -- a regression here
+    would needlessly invalidate every visitor's cache on every deploy), then makes a real,
+    temporary content change to a tool definition file and confirms the hash changes in response
+    (content-sensitivity -- a regression here would silently resurrect the exact bug this
+    mechanism was built to prevent), restoring the original file afterward regardless of pass/fail.
+  - `npm run validate` passes all 23 suites (627 tools).
+
 # 0.5.140
 
 - **Major architectural change, the highest-stakes change in this project's history**: merged the

@@ -1,4 +1,4 @@
-import { getRecentToolIds } from '../product/usage-tracking.js?v=s7b41';
+import { getRecentToolIds } from '../product/usage-tracking.js?v=189ac522ef';
 
 async function renderRecentTools() {
     const section = document.querySelector('#recent-tools');
