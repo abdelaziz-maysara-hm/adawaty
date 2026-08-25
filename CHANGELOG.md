@@ -1,5 +1,58 @@
 # Changelog
 
+# 0.5.140
+
+- **Major architectural change, the highest-stakes change in this project's history**: merged the
+  separate `adawaty-workers` Cloudflare project (the currency-rates/summarization API backend)
+  into the main site's own Cloudflare project. Previously two separate Cloudflare projects with
+  two separate deploy pipelines; now one project, one deploy pipeline, one URL family
+  (`adawaty.tools`). Prompted by the user deleting the separate `adawaty-workers` project after
+  confusion between it and the main site's own `*.workers.dev` fallback domain, and asking for the
+  API logic to live inside the main site's project instead.
+  - **Why this is the highest-stakes change so far**: every previous change in this project could,
+    at worst, break one tool. This change edits the Worker script for the *same Cloudflare
+    project that serves the entire live site* -- a mistake here could in principle break every
+    page on adawaty.tools, not just one feature.
+  - **The safety design, verified rather than just asserted**: added `wrangler.jsonc` at the repo
+    root with `assets.run_worker_first: ["/api/*"]`, which restricts the new `worker-entry.js`
+    Worker script to only run at all for `/api/*` requests -- every other request (every tool,
+    every page, every asset) is served directly from static assets and never executes this file's
+    code, by construction. A second, independent guard inside the code itself
+    (`if (!pathname.startsWith('/api/')) return env.ASSETS.fetch(request)`) backs this up in case
+    the config is ever changed by mistake. All `/api/*` logic is wrapped in one top-level
+    try/catch, so an unexpected error can only ever produce a JSON error response, never an
+    unhandled exception.
+  - **A real bug found and fixed before shipping**: the original standalone Worker's origin check
+    rejected any request with a missing `Origin` header as `origin_not_allowed`. That check made
+    sense when the API was genuinely cross-origin (a separate `*.workers.dev` domain called from
+    `adawaty.tools`), but now that the logic is same-origin, browsers don't always send an
+    `Origin` header for a plain same-origin GET request -- the old check would have rejected
+    completely legitimate same-origin requests with a 403. Fixed: a *missing* Origin is now
+    treated as the expected same-origin case; only a *present* Origin that isn't in the allowlist
+    is rejected (verified this distinction directly with mocked requests, not just reasoned about).
+  - `currency-converter-tool.js` now calls a same-origin relative path (`/api/currency-rates`)
+    instead of a cross-origin `*.workers.dev` URL -- eliminating the CORS question this project
+    had been navigating around entirely, rather than routing around it with a proxy.
+  - Deleted the now-unused `cloudflare-worker/` directory (the standalone project's source, no
+    longer deployed anywhere) to remove the exact kind of two-similar-things confusion that led to
+    this change in the first place.
+  - Added `tests/product/worker-entry.integration.mjs`: verifies `wrangler.jsonc`'s
+    `run_worker_first` scoping directly, and exercises the actual runtime routing/error-handling
+    logic via mocked `env.ASSETS`/`env.AI` objects (a normal page request never touches the API
+    logic; an internal API error produces clean JSON and never falls through to serving an asset;
+    the origin-check fix; a genuine cross-origin request is still correctly rejected; an unknown
+    `/api/*` path returns a clean 404; a thrown AI error is caught gracefully). Confirmed the
+    single most critical assertion (`run_worker_first` scoping) genuinely catches a regression by
+    deliberately weakening it to `true`, watching the test fail, then restoring it and confirming
+    it passes again.
+  - **Honest disclosure**: like every other Cloudflare-Worker-dependent piece of this project,
+    this has been verified as thoroughly as this environment allows (real request/response
+    objects, real routing logic, mocked Cloudflare-specific bindings) but has NOT been exercised
+    against a real Cloudflare deployment, since no real Cloudflare environment is available here.
+    This specific change needs careful, staged verification after deploying: confirm the site's
+    normal pages still load correctly first, before testing `/api/currency-rates`.
+  - `npm run validate` passes all 22 suites (627 tools).
+
 # 0.5.139
 
 - Fixed a real, live-blocking mismatch: the currency-converter tool called

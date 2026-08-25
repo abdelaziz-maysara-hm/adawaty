@@ -102,7 +102,8 @@ const browserOnlyTools = new Set([
     // above: it's a normal form-based tool (no interactive workspace,
     // no DOM/canvas dependency) that genuinely needs a live network
     // call to work at all -- it fetches current rates through the
-    // Adawaty Cloud Worker (see cloudflare-worker/src/index.js), which
+    // Adawaty Cloud Worker (see worker-entry.js, the site's own Worker
+    // script, which now also handles /api/* routes), which
     // isn't reachable from this Node test harness (no real network
     // egress to an as-yet-undeployed Worker URL). The pure conversion
     // math (convertAmount()) was verified directly and separately with

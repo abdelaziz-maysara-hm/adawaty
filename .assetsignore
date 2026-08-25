@@ -17,7 +17,8 @@ node_modules/
 .git/
 .github/
 .wrangler/
-cloudflare-worker/
 scripts/
 tests/
 docs/
+worker-entry.js
+wrangler.jsonc

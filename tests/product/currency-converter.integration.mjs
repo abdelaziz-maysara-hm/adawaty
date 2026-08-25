@@ -69,21 +69,35 @@ const { getToolDefinition } = await import('../../src/product/tool-definitions.j
 }
 
 // ---------------------------------------------------------------------------
-// The Cloudflare Worker proxy this tool depends on
+// The unified Worker (worker-entry.js) this tool depends on -- merged
+// into the main site's own Cloudflare project after the separate
+// `adawaty-workers` project was deleted (see wrangler.jsonc at the repo
+// root, with assets.run_worker_first restricting this Worker script to
+// /api/* only, so a bug in this code can never break normal page
+// serving -- verified below, not just asserted in a comment).
 // ---------------------------------------------------------------------------
 
 {
-    const workerSource = await readFile(path.join(projectRoot, 'cloudflare-worker/src/index.js'), 'utf8');
+    const workerSource = await readFile(path.join(projectRoot, 'worker-entry.js'), 'utf8');
     assert.match(workerSource, /\/api\/currency-rates/, 'the Worker must expose a /api/currency-rates route');
     assert.match(workerSource, /open\.er-api\.com/, 'the Worker must proxy to open.er-api.com server-to-server');
     assert.match(workerSource, /SUPPORTED_CURRENCY_CODES/, 'the Worker must whitelist currency codes rather than proxying arbitrary upstream requests');
     assert.match(workerSource, /caches\.default/, 'the Worker must use edge caching, since this data updates roughly daily upstream');
+    assert.match(workerSource, /env\.ASSETS\.fetch/, 'the Worker must fall through to serving static assets for non-API requests -- this is the merged site+API Worker, not a standalone API-only one');
+    assert.equal(currencyConverterToolDefinitions['currency-converter'].id, 'currency-converter');
+
+    // The tool must call the same-origin relative path, not a
+    // cross-origin *.workers.dev URL -- the whole point of merging
+    // this logic into the site's own Worker was to make this
+    // same-origin, eliminating the CORS question entirely rather than
+    // routing around it.
+    const toolSource = await readFile(path.join(projectRoot, 'src/product/definitions/currency-converter-tool.js'), 'utf8');
+    assert.match(toolSource, /CLOUD_WORKER_URL\s*=\s*'\/api\/currency-rates'/, 'the tool must call a same-origin relative path, not a separate cross-origin Worker URL');
 
     // The Worker's currency whitelist must exactly match the tool's own
     // currency list -- a real bug class if they ever drift apart: the
     // tool would offer a currency in its dropdown that the Worker then
     // rejects with a 400, or vice versa.
-    const toolSource = await readFile(path.join(projectRoot, 'src/product/definitions/currency-converter-tool.js'), 'utf8');
     const workerCodesMatch = workerSource.match(/SUPPORTED_CURRENCY_CODES = new Set\(\[([\s\S]*?)\]\)/);
     const toolCodesMatches = [...toolSource.matchAll(/code: '([A-Z]{3})'/g)];
     assert.ok(workerCodesMatch, 'could not locate SUPPORTED_CURRENCY_CODES in the Worker source');

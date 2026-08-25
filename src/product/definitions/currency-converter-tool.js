@@ -33,21 +33,14 @@ const currencyOptions = Object.freeze(
     })),
 );
 
-const CLOUD_WORKER_URL = 'https://adawaty-workers.abdelazizmaysara4.workers.dev/api/currency-rates';
+const CLOUD_WORKER_URL = '/api/currency-rates';
 
 async function fetchUsdRates() {
-    // Proxied through the Adawaty Cloud Worker rather than calling
-    // open.er-api.com directly from the browser: independent sources
-    // disagreed on whether that upstream sends CORS headers at all
-    // (one live-monitoring source specifically reported "CORS:
-    // Disabled"), and this couldn't be verified directly in this
-    // environment (no real browser available, and the sandbox's own
-    // network egress allowlist blocks the domain outright). A
-    // server-to-server fetch inside the Worker has no CORS
-    // restriction, removing the ambiguity entirely rather than
-    // gambling on it. See cloudflare-worker/src/index.js's
-    // handleCurrencyRates() for the actual upstream call and its
-    // 1-hour edge cache.
+    // Same-origin now that the API logic was merged into the main
+    // site's own Worker (see /worker-entry.js) rather than living in a
+    // separate Cloudflare project -- no cross-origin question at all
+    // anymore, unlike the earlier standalone-Worker design this
+    // replaced.
     const response = await fetch(`${CLOUD_WORKER_URL}?base=USD`, { cache: 'no-store' });
     if (!response.ok) {
         throw new Error(`HTTP ${response.status}`);
