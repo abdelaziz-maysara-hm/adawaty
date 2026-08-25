@@ -1,5 +1,43 @@
 # Changelog
 
+# 0.5.145
+
+- Wired up `text-summarizer`'s opt-in "advanced (cloud)" mode: the Adawaty Cloud Worker's
+  `/api/summarize` endpoint has existed for a while (it was built alongside `/api/currency-rates`
+  when the two backends were merged), but no UI ever called it. This completes that, and gives the
+  ~15-18% of visitors without WebGPU support -- who previously hit a dead end with no path forward
+  at all -- a real, explicitly-chosen fallback instead.
+  - Added `text-summarizer/cloud-engine.js`: calls the same-origin `/api/summarize` route (no
+    cross-origin question at all, same as `currency-converter`'s design).
+  - **Never a silent default, by design and verified, not just documented**: "Local" stays
+    pre-selected in the mode picker; switching to "Cloud" triggers an explicit confirmation dialog
+    naming Cloudflare Workers AI by name and stating plainly that the typed text will be sent
+    there, before the first cloud request is ever made. The "your browser doesn't support this"
+    dead-end notice was replaced with a real fallback: its own button leads to cloud mode, with
+    the disclosure already present in that button's own surrounding copy (so it isn't re-prompted
+    redundantly on top of that).
+  - **A real coverage gap in an existing test caught and fixed while doing this**: extended
+    `tests/product/internal-import-cache-busting.integration.mjs` (which only covered the
+    background-removal AI chain) to also cover the WebLLM chain
+    (text-summarizer/grammar-checker/webllm-shared.js) -- and it immediately caught two real,
+    unversioned internal imports (`webllm-shared.js` from both tools' engines, and the new
+    `cloud-engine.js` import) that would have silently reintroduced the exact "fix committed but
+    never actually served" class of bug already hit once with currency-converter.
+  - Updated an existing test's regex (`tests/product/grammar-checker.integration.mjs`) to accept
+    an optional cache-busting query string on the shared-engine import, rather than requiring the
+    exact unversioned form that was the bug being fixed.
+  - Updated the FAQ (both the visible HTML and its JSON-LD counterpart) to accurately describe the
+    new two-mode reality, rather than leaving a now-inaccurate "no, never sent to a server" claim
+    in place.
+  - Added `tests/product/text-summarizer-cloud-mode.integration.mjs`: verifies
+    `summarizeViaCloud()`'s error handling via mocked `fetch` (success, server error, malformed
+    200 response, network failure), confirms it calls the same-origin route, and -- the most
+    important check -- confirms Local is the pre-selected default and switching to Cloud requires
+    the confirmation dialog. Confirmed this last check genuinely catches a regression by
+    deliberately making Cloud the default, watching the test fail, then restoring it and
+    confirming it passes again.
+  - `npm run validate` passes all 26 suites (629 tools).
+
 # 0.5.144
 
 - Added `aes-encryption` (form-based tool, `security-network` category): AES-256-GCM encrypt/decrypt

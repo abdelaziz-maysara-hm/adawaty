@@ -11,6 +11,18 @@
     border: 1px solid rgba(239, 68, 68, .3); border-radius: 18px; background: rgba(239, 68, 68, .06);
 }
 .ts-unsupported p { color: var(--muted); margin-top: 8px; }
+.ts-unsupported #ts-use-cloud-fallback { margin-top: 16px; }
+
+.ts-mode-picker { display: flex; gap: 10px; max-width: 720px; margin: 0 auto 16px; }
+.ts-mode-option {
+    flex: 1; display: flex; align-items: flex-start; gap: 8px; padding: 12px 14px;
+    border: 1px solid var(--border); border-radius: 14px; background: rgba(10, 25, 42, .5);
+    cursor: pointer; transition: border-color .15s ease, background .15s ease;
+}
+.ts-mode-option:has(input:checked) { border-color: var(--brand); background: rgba(85, 216, 193, .08); }
+.ts-mode-option input[type="radio"] { margin-top: 3px; accent-color: var(--brand); flex-shrink: 0; }
+.ts-mode-option strong { display: block; font-size: .92rem; }
+.ts-mode-option small { display: block; color: var(--muted); font-size: .76rem; line-height: 1.5; margin-top: 2px; }
 
 .ts-workspace { max-width: 720px; margin: 0 auto; display: grid; gap: 14px; }
 .ts-input {

@@ -5,7 +5,7 @@
  * loaded model rather than each downloading/compiling it separately).
  */
 
-import { getSharedEngine, isWebGPUSupported } from '../webllm-shared.js';
+import { getSharedEngine, isWebGPUSupported } from '../webllm-shared.js?v=ts2';
 
 /**
  * Summarizes `text` using a fixed, non-editable system prompt (so this

@@ -32,6 +32,16 @@ const filesToCheck = [
     'src/product/replace-background-app.js',
     'src/product/replace-background/engine.js',
     'src/product/background-compositing.js',
+    // WebLLM chain (text-summarizer, grammar-checker): added after
+    // discovering this exact same class of gap while wiring up
+    // text-summarizer's opt-in cloud mode -- webllm-shared.js was
+    // imported with no version marker at all from either tool's
+    // engine.js, unnoticed until then because no prior edit had
+    // touched that specific import line.
+    'src/product/text-summarizer-app.js',
+    'src/product/text-summarizer/engine.js',
+    'src/product/grammar-checker-app.js',
+    'src/product/grammar-checker/engine.js',
 ];
 
 for (const relativeFilePath of filesToCheck) {

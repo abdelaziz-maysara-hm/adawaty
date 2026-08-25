@@ -6,7 +6,7 @@
  * separately).
  */
 
-import { getSharedEngine, isWebGPUSupported } from '../webllm-shared.js';
+import { getSharedEngine, isWebGPUSupported } from '../webllm-shared.js?v=ts2';
 
 /**
  * Corrects grammar and spelling in `text` using a fixed, non-editable

@@ -1,5 +1,5 @@
-import './site-navigation.js?v=gc1';
-import { correctGrammar, isWebGPUSupported } from './grammar-checker/engine.js';
+import './site-navigation.js?v=gc2';
+import { correctGrammar, isWebGPUSupported } from './grammar-checker/engine.js?v=gc2';
 
 const copy = Object.freeze({
     ar: Object.freeze({

@@ -47,11 +47,11 @@ const projectRoot = path.resolve(currentDir, '../..');
     // both AI text tools) -- verified directly from source, not just
     // that the tool happens to work.
     const engineSource = await readFile(path.join(projectRoot, 'src/product/grammar-checker/engine.js'), 'utf8');
-    assert.match(engineSource, /from ['"]\.\.\/webllm-shared\.js['"]/, 'grammar-checker must reuse the shared WebLLM engine loader, not duplicate its own copy of the loading logic');
+    assert.match(engineSource, /from ['"]\.\.\/webllm-shared\.js(\?v=[a-z0-9]+)?['"]/, 'grammar-checker must reuse the shared WebLLM engine loader, not duplicate its own copy of the loading logic');
     assert.match(engineSource, /getSharedEngine/, 'must call the shared engine getter');
 
     const summarizerEngineSource = await readFile(path.join(projectRoot, 'src/product/text-summarizer/engine.js'), 'utf8');
-    assert.match(summarizerEngineSource, /from ['"]\.\.\/webllm-shared\.js['"]/, 'text-summarizer must also have been refactored onto the shared loader (both tools sharing one engine instance is the point)');
+    assert.match(summarizerEngineSource, /from ['"]\.\.\/webllm-shared\.js(\?v=[a-z0-9]+)?['"]/, 'text-summarizer must also have been refactored onto the shared loader (both tools sharing one engine instance is the point)');
 
     const sharedSource = await readFile(path.join(projectRoot, 'src/product/webllm-shared.js'), 'utf8');
     assert.match(sharedSource, /let enginePromise = null/, 'the shared module must cache a single engine promise, not create a fresh one per call');
