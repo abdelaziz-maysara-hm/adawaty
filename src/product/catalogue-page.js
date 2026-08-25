@@ -86,6 +86,13 @@ const priorityGroups = Object.freeze([
     ['age-calculator', 'date-difference-calculator', 'business-days-calculator', 'timezone-converter', 'work-hours-calculator', 'age-at-date-calculator', 'date-add-subtract-calculator'],
     ['hex-to-rgb-converter', 'rgb-to-hex-converter', 'css-box-shadow-generator', 'wcag-contrast-checker', 'css-linear-gradient-generator', 'css-border-radius-generator'],
     ['json-formatter', 'uuid-generator', 'base64-encoder-decoder', 'regex-tester', 'url-encoder-decoder', 'jwt-decoder', 'html-to-markdown-converter', 'json-validator'],
+    // security-network's own priority group, added after the same
+    // competitor research pattern used elsewhere in this list: hash
+    // generators (unified MD5/SHA tool) and password generators appear
+    // consistently as the most-featured tools across independent
+    // competitor sites, with AES encryption a close second (added the
+    // same session this group was created).
+    ['hash-generator', 'password-generator', 'aes-encryption', 'jwt-inspector', 'pbkdf2-generator'],
 ]);
 const priorityOrder = new Map(priorityGroups.flat().map((id, index) => [id, index]));
 let activeCategory = fixedCategory;

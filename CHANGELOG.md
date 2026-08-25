@@ -1,5 +1,48 @@
 # Changelog
 
+# 0.5.144
+
+- Added `aes-encryption` (form-based tool, `security-network` category): AES-256-GCM encrypt/decrypt
+  with a password, entirely client-side via the Web Crypto API. Added after competitor research
+  (kordu.tools, geekformat.com, anycript.com, devglan.com, and others) confirmed genuine demand for
+  an AES tool specifically, following up on the same research that identified `hash-generator`
+  (already existing and verified this session -- see below) as high-demand.
+  - **Verified the already-existing `hash-generator` tool while researching this**, rather than
+    assuming a gap that wasn't real: it was already built, registered, and follows the exact
+    unified "one tool, algorithm dropdown" pattern the competitor research recommended (MD5/SHA-1/
+    SHA-256/SHA-384/SHA-512 in one tool, not five separate ones). Verified its from-scratch MD5
+    implementation (Web Crypto has no native MD5 support) directly against all 7 official RFC 1321
+    test vectors -- 6 passed immediately; the 7th ("abc") initially looked like a failure, but
+    turned out to be a typo in the test's own expected value, confirmed by cross-checking against
+    Python's hashlib as independent ground truth, not a bug in the tool.
+  - **Design choices for the new tool, each deliberate and matching every competitor researched**:
+    AES-256-GCM (authenticated encryption, detects tampering) rather than AES-ECB (leaks plaintext
+    patterns) or plain CBC (no integrity check); PBKDF2 with 200,000 iterations (OWASP's current
+    minimum for PBKDF2-HMAC-SHA256) rather than using the password directly as a key; a
+    self-contained "random salt + random IV + ciphertext, all Base64-encoded together" output
+    format (matching kordu.tools/geekformat.com specifically), so a user only needs to remember
+    their password, not separately track a salt/IV between encrypting and decrypting.
+  - **Verified real cryptographic correctness, not just that functions run without throwing**:
+    round-trip encrypt→decrypt returns the exact original text including Arabic script and emoji
+    (UTF-8 correctness); decrypting with the wrong password fails cleanly via GCM's built-in
+    authentication tag rather than silently returning garbled plaintext; encrypting the identical
+    text with the identical password twice produces *different* ciphertext each time (confirms
+    salt/IV are genuinely randomized per call -- a reused IV under GCM would be a severe, silent
+    security flaw, not a cosmetic one); malformed/non-Base64 decrypt input fails with a specific,
+    identifiable error; an empty string round-trips correctly; key derivation is deterministic for
+    a given password+salt (verified indirectly via a fixed-IV encryption comparison, since the
+    derived key is intentionally created non-extractable -- a correct security choice in the tool
+    itself that the test respects rather than works around).
+  - Added `tests/product/aes-encryption.integration.mjs` covering all of the above. Confirmed the
+    wrong-password-rejection test genuinely catches a regression by deliberately breaking it
+    (silently returning a placeholder string instead of throwing), watching the test fail, then
+    restoring the fix and confirming it passes again.
+  - Added a new `security-network` priority group (`hash-generator`, `password-generator`,
+    `aes-encryption`, `jwt-inspector`, `pbkdf2-generator`) to the catalogue's sort ordering --
+    this category had no priority group at all before this, so its tools were falling back to
+    alphabetical ordering entirely.
+  - `npm run validate` passes all 25 suites (629 tools).
+
 # 0.5.143
 
 - **Critical, urgent fix**: `wrangler.jsonc`'s `account_id` was wrong, and had been silently

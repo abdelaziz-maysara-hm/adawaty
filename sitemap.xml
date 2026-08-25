@@ -3246,6 +3246,11 @@
         <priority>0.9</priority>
     </url>
     <url>
+        <loc>https://adawaty.tools/tools/aes-encryption/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
         <loc>https://adawaty.tools/best/best-free-pdf-tools/</loc>
         <changefreq>monthly</changefreq>
         <priority>0.85</priority>
