@@ -1,5 +1,32 @@
 # Changelog
 
+# 0.5.142
+
+- Added `grammar-checker` (interactive workspace tool, `text` category): AI-powered grammar and
+  spelling correction, running entirely client-side via WebLLM -- the second high-search-volume
+  tool from the earlier competitor research alongside `currency-converter` (Grammarly,
+  LanguageTool, QuillBot-class demand).
+  - **Refactored the shared engine loader out of text-summarizer** into a new
+    `src/product/webllm-shared.js`, rather than duplicating the ~30 lines of model-loading logic a
+    second time: both tools now call the same `getSharedEngine()`, so a visitor who uses both AI
+    text tools in one visit downloads and GPU-compiles the ~944 MB Qwen2.5-0.5B-Instruct model only
+    once, not twice. Verified the refactor didn't change `text-summarizer`'s behavior by re-running
+    the full validation suite immediately after, before adding anything new on top of it.
+  - Deliberately scoped as *corrected-text-only output* (no explanation of what changed, no diff)
+    -- asking a 0.5B model to reliably produce both a correction and a structured explanation of
+    its own reasoning is a second thing it could get wrong for marginal benefit over the user
+    visually comparing the corrected text against what they typed, the same "stay a genuine
+    single-purpose tool" reasoning already applied to `text-summarizer`'s fixed system prompt.
+  - Added `tests/product/grammar-checker.integration.mjs`: product registration, page structure
+    (including FAQ/schema), and -- the most important check here -- confirms directly from source
+    that both `grammar-checker` and the refactored `text-summarizer` actually import and call the
+    shared engine loader, so the "avoid downloading the model twice" architecture can't silently
+    regress into two independent copies again.
+  - Added to the `text` category's priority ordering (front of the list, alongside
+    `text-summarizer`), matching the same competitor research that identified it as high-demand in
+    the first place.
+  - `npm run validate` passes all 24 suites (628 tools).
+
 # 0.5.141
 
 - **Fixed the actual root cause behind the live currency-converter bug report**, and a

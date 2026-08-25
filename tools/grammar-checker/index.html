@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-language="ar">
+<head>
+<meta charset="UTF-8"><meta name="referrer" content="strict-origin-when-cross-origin"><meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=()"><meta http-equiv="Cache-Control" content="no-cache"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#07111f">
+<meta name="description" content="Automatically correct grammar and spelling errors in any text with AI, running entirely in your browser with no server."><title>AI Grammar Checker | Adawaty</title>
+<link rel="canonical" href="https://www.adawaty.tools/tools/grammar-checker/"><meta property="og:type" content="website"><meta property="og:title" content="AI Grammar Checker"><meta property="og:description" content="Automatically correct grammar and spelling errors in any text with AI, entirely in your browser.">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"AI Grammar Checker","alternateName":"تصحيح نحوي وإملائي بالذكاء الاصطناعي","url":"https://www.adawaty.tools/tools/grammar-checker/","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","isAccessibleForFree":true,"inLanguage":["ar","en"]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is the AI Grammar Checker completely free?","acceptedAnswer":{"@type":"Answer","text":"Yes, with no hidden fees, no account required, and nothing to install."}},{"@type":"Question","name":"Is my text sent to an external server?","acceptedAnswer":{"@type":"Answer","text":"No, the AI model runs entirely inside your browser on your own device; your text is never sent to any server."}},{"@type":"Question","name":"Why does the first use download something?","acceptedAnswer":{"@type":"Answer","text":"The first use downloads an AI model (about 950 MB) that your browser then caches, so every use after that starts instantly. This requires a browser that supports WebGPU."}}]}</script>
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml"><link rel="shortcut icon" href="../../favicon.ico"><link rel="stylesheet" href="../../src/css/main.css"><link rel="stylesheet" href="../../src/css/product.css"><link rel="stylesheet" href="../../src/css/text-summarizer.css?v=ts1"><script type="module" src="../../src/product/grammar-checker-app.js?v=gc1"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9572691438076734" crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="site-header"><nav class="navigation shell" aria-label="Main navigation"><a class="brand" href="../../"><span class="brand-mark">A</span><span class="brand-copy"><strong>Adawaty</strong><span>Private browser tools</span></span></a><div class="nav-actions"><button class="button" id="tool-language-toggle" type="button">English</button></div></nav></header>
+<main class="ts-page shell" data-tool-page="grammar-checker">
+<div class="ts-heading">
+  <a class="product-back" href="../../all-tools/"><span aria-hidden="true">←</span><span data-copy="ar">كل الأدوات</span><span data-copy="en">All tools</span></a>
+  <span class="ts-privacy"><span data-copy="ar">معالجة خاصة داخل متصفحك</span><span data-copy="en">Private, in-browser processing</span></span>
+  <h1><span data-copy="ar">تصحيح نحوي وإملائي بالذكاء الاصطناعي</span><span data-copy="en">AI Grammar Checker</span></h1>
+  <p><span data-copy="ar">صحّح الأخطاء النحوية والإملائية في أي نص تلقائيًا بالذكاء الاصطناعي، يعمل بالكامل داخل متصفحك بدون سيرفر.</span><span data-copy="en">Automatically correct grammar and spelling errors in any text with AI, running entirely in your browser with no server.</span></p>
+</div>
+
+<section class="ts-unsupported" id="gc-unsupported" hidden>
+  <strong><span data-copy="ar">متصفحك لا يدعم هذه الأداة</span><span data-copy="en">Your browser does not support this tool</span></strong>
+  <p><span data-copy="ar">أداة التصحيح تحتاج متصفحًا يدعم WebGPU (مثل أحدث إصدارات Chrome أو Edge). جرّب تحديث متصفحك أو استخدام متصفح آخر.</span><span data-copy="en">The Grammar Checker needs a browser that supports WebGPU (such as a recent version of Chrome or Edge). Try updating your browser or using a different one.</span></p>
+</section>
+
+<section class="ts-workspace" id="gc-workspace" hidden>
+  <textarea id="gc-input" class="ts-input" rows="10"></textarea>
+  <p class="ts-status" id="gc-status" role="status" aria-live="polite"></p>
+
+  <div class="ts-progress-wrap" id="gc-progress-wrap" hidden>
+    <div class="ts-spinner" aria-hidden="true"></div>
+    <p id="gc-progress-message"></p>
+  </div>
+
+  <button class="button button-primary" type="button" id="gc-correct"><span data-copy="ar">صحّح</span><span data-copy="en">Correct</span></button>
+
+  <div class="ts-result-wrap" id="gc-result-wrap" hidden>
+    <div class="ts-result-header">
+      <strong><span data-copy="ar">النص المُصحح</span><span data-copy="en">Corrected text</span></strong>
+      <button class="button button-quiet" type="button" id="gc-copy"><span data-copy="ar">نسخ</span><span data-copy="en">Copy</span></button>
+    </div>
+    <p class="ts-result-text" id="gc-result-text"></p>
+  </div>
+</section>
+
+<section class="product-faq">
+  <h2><span data-copy="ar">الأسئلة الشائعة</span><span data-copy="en">Frequently Asked Questions</span></h2>
+  <details class="faq-item">
+    <summary><span data-copy="ar">هل استخدام أداة التصحيح مجاني بالكامل؟</span><span data-copy="en">Is the AI Grammar Checker completely free?</span></summary>
+    <p><span data-copy="ar">نعم، بدون أي رسوم مخفية أو حاجة لإنشاء حساب أو تثبيت أي برنامج.</span><span data-copy="en">Yes, with no hidden fees, no account required, and nothing to install.</span></p>
+  </details>
+  <details class="faq-item">
+    <summary><span data-copy="ar">هل يتم إرسال نصي إلى خادم خارجي؟</span><span data-copy="en">Is my text sent to an external server?</span></summary>
+    <p><span data-copy="ar">لا، يعمل نموذج الذكاء الاصطناعي بالكامل داخل متصفحك على جهازك؛ نصك لا يُرسل لأي خادم أبدًا.</span><span data-copy="en">No, the AI model runs entirely inside your browser on your own device; your text is never sent to any server.</span></p>
+  </details>
+  <details class="faq-item">
+    <summary><span data-copy="ar">ليه أول استخدام بيحمّل حاجة؟</span><span data-copy="en">Why does the first use download something?</span></summary>
+    <p><span data-copy="ar">أول استخدام بيحمّل نموذج ذكاء اصطناعي (حوالي 950 ميجابايت) بيتخزن بعدها في متصفحك، فكل استخدام بعد كده بيبدأ فورًا. ده محتاج متصفحًا يدعم WebGPU.</span><span data-copy="en">The first use downloads an AI model (about 950 MB) that your browser then caches, so every use after that starts instantly. This requires a browser that supports WebGPU.</span></p>
+  </details>
+</section>
+</main>
+<footer class="site-footer"><div class="footer-row shell"><p>Adawaty</p><p>© <span id="current-year"></span></p></div></footer>
+</body></html>

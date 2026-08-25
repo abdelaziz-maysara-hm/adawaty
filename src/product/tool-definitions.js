@@ -96,6 +96,7 @@ import { backgroundRemoverToolDefinitions } from './definitions/background-remov
 import { textSummarizerToolDefinitions } from './definitions/text-summarizer-tool.js';
 import { replaceBackgroundToolDefinitions } from './definitions/replace-background-tool.js';
 import { currencyConverterToolDefinitions } from './definitions/currency-converter-tool.js';
+import { grammarCheckerToolDefinitions } from './definitions/grammar-checker-tool.js';
 import { addBackgroundToolDefinitions } from './definitions/add-background-tools.js';
 import { ocrToolDefinitions } from './definitions/ocr-tools.js';
 import { videoFileToolDefinitions } from './definitions/video-file-tools.js';
@@ -1200,6 +1201,7 @@ const allToolDefinitions = Object.freeze({
     ...textSummarizerToolDefinitions,
     ...replaceBackgroundToolDefinitions,
     ...currencyConverterToolDefinitions,
+    ...grammarCheckerToolDefinitions,
 });
 
 const retiredToolIdSet = new Set(retiredToolIds);

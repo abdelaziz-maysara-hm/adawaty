@@ -69,7 +69,11 @@ const priorityGroups = Object.freeze([
     // this project's history) -- added back to the front of this list.
     // grammar-checker still doesn't exist as a registered tool id, so
     // it's deliberately left out rather than re-added as a dead entry.
-    ['text-summarizer', 'word-counter', 'character-counter', 'text-case-converter', 'duplicate-line-remover', 'text-diff-checker', 'lorem-ipsum-generator', 'find-and-replace-tool'],
+    // grammar-checker added after the same competitor research that
+    // originally added it to the roadmap: Grammarly/LanguageTool-class
+    // demand, now that the tool actually exists (see 0.5.141 for when
+    // it shipped).
+    ['text-summarizer', 'grammar-checker', 'word-counter', 'character-counter', 'text-case-converter', 'duplicate-line-remover', 'text-diff-checker', 'lorem-ipsum-generator', 'find-and-replace-tool'],
     ['seo-checker', 'keyword-density-checker', 'serp-snippet-preview', 'meta-tag-generator', 'open-graph-generator', 'robots-txt-generator', 'sitemap-entry-generator', 'utm-link-builder', 'click-through-rate-calculator'],
     ['password-generator', 'password-strength-checker', 'password-breach-checker', 'hash-generator', 'sri-hash-generator', 'csp-header-generator', 'ipv4-subnet-calculator', 'mac-address-formatter'],
     // Everyday-life calculators: these categories had no explicit

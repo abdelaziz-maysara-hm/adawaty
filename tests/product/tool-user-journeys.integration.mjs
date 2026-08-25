@@ -110,6 +110,11 @@ const browserOnlyTools = new Set([
     // realistic exchange rates before this exclusion was added; only
     // the live network fetch itself is untestable here.
     'currency-converter',
+    // grammar-checker is the same class of interactive workspace tool
+    // as text-summarizer (its sibling, sharing the same WebLLM engine
+    // loader): no process/calculate handler by design, and no file
+    // input (the text is typed directly into its own UI).
+    'grammar-checker',
 ]);
 
 const inputOverrides = Object.freeze({
@@ -243,8 +248,8 @@ assert.deepEqual(
         .join('\n')}`,
 );
 
-assert.equal(nonFileTools.length, 421);
-assert.equal(browserOnlyTools.size, 32);
+assert.equal(nonFileTools.length, 422);
+assert.equal(browserOnlyTools.size, 33);
 assert.equal(executableWithoutBrowser.length, 389);
 
 const journeys = [
