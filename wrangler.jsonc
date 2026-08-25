@@ -3,7 +3,19 @@
   "name": "adawaty",
   "main": "worker-entry.js",
   "compatibility_date": "2026-08-20",
-  "account_id": "fc087f41c40d7f5084b60bde4f27f14e",
+  // This exact value was confirmed directly from a Cloudflare deploy
+  // error message ("The account_id in your wrangler.jsonc file must
+  // match the account_id for this account... Please update your
+  // wrangler.jsonc file with {"account_id":"..."}"") after an earlier,
+  // wrong value here caused EVERY deploy to silently fail for an
+  // extended period -- the site kept serving its last successfully-
+  // deployed version throughout (by the safety design described
+  // above), but no code change during that window, including real bug
+  // fixes, ever actually reached the live site. Do not change this
+  // value without re-confirming it from the Cloudflare dashboard's own
+  // Account ID field (Account Home -> Account details) or a deploy
+  // error message like the one that caught this the first time.
+  "account_id": "e60f0d7dacaef8f0d2bbb2d3a0a91ca7",
   "assets": {
     "directory": ".",
     "binding": "ASSETS",

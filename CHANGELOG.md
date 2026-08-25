@@ -1,5 +1,30 @@
 # Changelog
 
+# 0.5.143
+
+- **Critical, urgent fix**: `wrangler.jsonc`'s `account_id` was wrong, and had been silently
+  failing every single deploy since it was added (0.5.140) -- confirmed directly from Cloudflare's
+  own build log, shared by the user, showing `[ERROR] The account_id in your wrangler.jsonc file
+  must match the account_id for this account`. The site kept serving its last successfully-
+  deployed version throughout this window (Cloudflare Workers Builds does not take a live site
+  down when a new deploy fails), but no code change during that entire window -- including the
+  currency-converter same-origin fix, the systemic cache-busting fix, and the new grammar-checker
+  tool -- ever actually reached the live site. Confirmed the failure was specifically caused by
+  this wrong value, not a transient issue, by checking the exact account ID Cloudflare's error
+  message itself provided.
+  - Fixed `account_id` to the value confirmed directly from Cloudflare's own error message, and
+    documented the failure mode directly in `wrangler.jsonc` itself (not just in this changelog)
+    so this exact mistake is harder to silently repeat.
+  - **A real test regression found and fixed while verifying this**: the documentation comment
+    added to `wrangler.jsonc` uses genuine JSONC comments (`//`), which broke
+    `worker-entry.integration.mjs`'s existing `JSON.parse()` call outright (plain `JSON.parse`
+    doesn't accept comments at all). Rather than stripping the comment to keep using the wrong
+    tool, added `jsonc-parser` (Cloudflare's own Wrangler uses genuine JSONC parsing for this
+    exact file) as a real project dependency and switched the test to use it -- the test should
+    parse this file the same way Wrangler actually does, not a stricter subset that happens to
+    reject legitimate content.
+  - `npm run validate` passes all 24 suites (628 tools).
+
 # 0.5.142
 
 - Added `grammar-checker` (interactive workspace tool, `text` category): AI-powered grammar and

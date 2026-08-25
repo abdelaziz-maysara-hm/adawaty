@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { parse as parseJsonc } from 'jsonc-parser';
 
 const currentDir = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(currentDir, '../..');
@@ -39,7 +40,10 @@ const projectRoot = path.resolve(currentDir, '../..');
 // ---------------------------------------------------------------------------
 
 {
-    const wranglerConfig = JSON.parse(await readFile(path.join(projectRoot, 'wrangler.jsonc'), 'utf8'));
+    const wranglerConfigSource = await readFile(path.join(projectRoot, 'wrangler.jsonc'), 'utf8');
+    const parseErrors = [];
+    const wranglerConfig = parseJsonc(wranglerConfigSource, parseErrors, { allowTrailingComma: true });
+    assert.equal(parseErrors.length, 0, `wrangler.jsonc must be valid JSONC (comments allowed, since this file genuinely contains them -- both here and as read by Wrangler itself): ${JSON.stringify(parseErrors)}`);
     assert.equal(wranglerConfig.main, 'worker-entry.js');
     assert.equal(wranglerConfig.assets?.directory, '.');
     assert.deepEqual(
