@@ -92,7 +92,7 @@ const priorityGroups = Object.freeze([
     // consistently as the most-featured tools across independent
     // competitor sites, with AES encryption a close second (added the
     // same session this group was created).
-    ['hash-generator', 'password-generator', 'aes-encryption', 'jwt-inspector', 'pbkdf2-generator'],
+    ['hash-generator', 'password-generator', 'aes-encryption-tool', 'jwt-inspector', 'pbkdf2-generator'],
 ]);
 const priorityOrder = new Map(priorityGroups.flat().map((id, index) => [id, index]));
 let activeCategory = fixedCategory;

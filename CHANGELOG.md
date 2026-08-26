@@ -1,5 +1,56 @@
 # Changelog
 
+# 0.5.146
+
+- **Major SEO fix, found via a Google Search Console screenshot showing 342 pages "Discovered -
+  currently not indexed" (a rising trend)**: investigated and found that every browse/category
+  page on this entire site rendered its tool list purely client-side via `catalogue-page.js`,
+  meaning the raw HTML search engines see (before any JavaScript execution) contained zero real
+  links to any tool page -- discovery relied entirely on `sitemap.xml` with no internal-linking
+  "vote" behind it, a documented common cause of this exact indexing status.
+  - Added a real, genuinely visible (not hidden via CSS) list of every tool in scope to each
+    category page and the all-tools page, generated statically at build time. Deliberately kept
+    visible rather than hidden, both because it has real standalone value to a visitor wanting a
+    scannable full list, and because hidden links that differ from what users see risk being read
+    as manipulative by search engines -- the safe, legitimate version of this fix is a real,
+    visible link list, not a hidden one.
+  - Added `tests/product/seo-static-tool-links.integration.mjs`: verifies every tool has a static
+    link on both its own category page and the all-tools page, and directly checks the CSS rule to
+    confirm the section is never hidden via `display:none`/`visibility:hidden`. Confirmed this
+    catches the single most damaging possible mistake (silently hiding the fix) by deliberately
+    adding `display:none`, watching the test fail, then restoring and confirming it passes again.
+- **A second, wide-reaching cache-busting gap found while investigating the same issue**:
+  `main.css` and `product.css` were loaded on literally every page on the site (all tool pages,
+  category pages, roundup pages, the homepage, and all 8 hand-authored interactive tool pages)
+  with no version string at all -- the exact same "fix committed but never actually served" bug
+  class already hit and fixed once for JS files (0.5.141), now found affecting CSS site-wide.
+  Fixed with a real SHA-256 content hash (`cssVersion`) applied consistently everywhere. Added
+  `tests/product/css-hash-based-cache-busting.integration.mjs` verifying determinism,
+  content-sensitivity, and presence across every page type.
+- **A real duplicate tool caught and resolved while updating the priority-ordering list**: found
+  that a new `aes-encryption` tool built earlier in this session duplicated an already-existing,
+  already-registered `aes-encryption-tool` (from `security-encoding-extra-tools.js`, a 10-tool
+  security file apparently built in an earlier, since-compacted part of this session and not
+  previously known about). Compared both implementations directly: the pre-existing one is more
+  thoroughly verified (its own code comments describe cross-checking the raw AES-256-GCM primitive
+  against Python's independent `cryptography` library byte-for-byte, beyond just a round-trip
+  check), so deleted the newer duplicate (`aes-encryption`, its tests, and its generated page)
+  and kept the pre-existing one, fixing the dangling priority-group reference to match.
+  - This file's other 9 tools (`hmac-generator`, `base32-encoder-decoder`, `crc32-calculator`,
+    `otp-generator`, `pin-generator`, `bcrypt-generator`, `pbkdf2-generator`, `rsa-key-generator`,
+    `aes-key-generator`) were confirmed already registered and working -- meaning a meaningful
+    chunk of the "missing Security & Encoding tools" gap analyzed earlier this session was already
+    closed by prior work.
+  - This file had zero dedicated test coverage before now despite containing real cryptographic
+    logic. Added `tests/product/security-encoding-extra-tools.integration.mjs`: product
+    registration for all 10 tools, Base32 verified against the official RFC 4648 test vectors,
+    AES-256-GCM round-trip/wrong-password-rejection/per-call-randomization, and HMAC-SHA256
+    verified against the official RFC 4231 test case 1 vector. Found and fixed a typo in the
+    test's own expected HMAC value during this work (missing a trailing character), confirmed via
+    independent cross-check against Python's `hmac`/`hashlib` -- the same "my own test data had the
+    typo, not the code" pattern already seen once this session with an MD5 test vector.
+  - `npm run validate` passes all 28 suites (628 tools).
+
 # 0.5.145
 
 - Wired up `text-summarizer`'s opt-in "advanced (cloud)" mode: the Adawaty Cloud Worker's

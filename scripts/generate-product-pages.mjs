@@ -72,6 +72,17 @@ const roundupAssetVersion = await hashFiles([
     path.join(projectRoot, 'src/product/definitions/roundup-content.js'),
     path.join(projectRoot, 'src/product/site-navigation.js'),
 ]);
+// main.css and product.css are loaded on every page type (tool,
+// category, roundup) with no version string at all before this fix --
+// a real, wide-reaching gap found while investigating why a CSS change
+// for the new static-links section (added the same session) might not
+// have reached visitors: Cloudflare's edge cache could keep serving a
+// stale copy of either file under its never-changing URL indefinitely,
+// the exact same class of bug already hit and fixed once for JS files.
+const cssVersion = await hashFiles([
+    path.join(projectRoot, 'src/css/main.css'),
+    path.join(projectRoot, 'src/css/product.css'),
+]);
 
 const tools = listToolDefinitions();
 const categories = Object.freeze({
@@ -276,8 +287,8 @@ function createToolPage(tool) {
     <script type="application/ld+json">${breadcrumbData}</script>
     ${relatedData ? `<script type="application/ld+json">${relatedData}</script>` : ''}
     <script type="application/ld+json">${faqData}</script>
-    <link rel="stylesheet" href="../../src/css/main.css">
-    <link rel="stylesheet" href="../../src/css/product.css">
+    <link rel="stylesheet" href="../../src/css/main.css?v=${cssVersion}">
+    <link rel="stylesheet" href="../../src/css/product.css?v=${cssVersion}">
     <script type="module" src="../../src/product/tool-page.js?v=${assetVersion}"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9572691438076734" crossorigin="anonymous"></script>
 </head>
@@ -398,6 +409,29 @@ function createCataloguePage({
             ${categoryRoundups.map((entry) => `<a href="${basePath}best/${entry.slug}/"><span data-copy="ar">${escapeHtml(entry.titleAr)}</span><span data-copy="en">${escapeHtml(entry.titleEn)}</span></a>`).join('\n            ')}
         </div>` : '';
 
+    // A real, visible, statically-generated list of every tool in this
+    // page's scope (this category, or every tool for all-tools/) --
+    // added after a real SEO gap was found: the JS-rendered
+    // catalogue-grid above is the only source of tool links on every
+    // browse/category page across this entire site, meaning search
+    // engines had zero real internal links to any tool page in the raw
+    // HTML, relying entirely on sitemap.xml for discovery with no
+    // internal-linking "vote" backing it up -- a documented, common
+    // cause of Google Search Console's "Discovered - currently not
+    // indexed" status. Deliberately made genuinely visible (not hidden
+    // via CSS), both because it has real standalone value to a visitor
+    // wanting a quick, scannable full list, and because hidden links
+    // that differ from what users see risk being read as manipulative
+    // by search engines -- the safe, legitimate version of this fix is
+    // a real, visible link list, not a hidden one.
+    const scopedTools = category ? tools.filter((tool) => tool.category === category) : tools;
+    const staticToolLinksHtml = scopedTools.length ? `<section class="catalogue-static-links" aria-label="كل الأدوات">
+            <h2><span data-copy="ar">كل الأدوات${category ? ` في ${escapeHtml(categories[category]?.ar ?? category)}` : ''}</span><span data-copy="en">All tools${category ? ` in ${escapeHtml(categories[category]?.en ?? category)}` : ''}</span></h2>
+            <ul>
+                ${scopedTools.map((tool) => `<li><a href="${basePath}tools/${tool.id}/"><span data-copy="ar">${escapeHtml(tool.title.ar)}</span><span data-copy="en">${escapeHtml(tool.title.en)}</span></a></li>`).join('\n                ')}
+            </ul>
+        </section>` : '';
+
     return `<!doctype html>
 <html lang="ar" dir="rtl" data-language="ar">
 <head>
@@ -433,8 +467,8 @@ function createCataloguePage({
     <meta name="twitter:image" content="${baseUrl}/og-image.svg">
     <script type="application/ld+json">${structuredData}</script>
     <script type="application/ld+json">${breadcrumbData}</script>
-    <link rel="stylesheet" href="${basePath}src/css/main.css">
-    <link rel="stylesheet" href="${basePath}src/css/product.css">
+    <link rel="stylesheet" href="${basePath}src/css/main.css?v=${cssVersion}">
+    <link rel="stylesheet" href="${basePath}src/css/product.css?v=${cssVersion}">
     <script type="module" src="${basePath}src/product/catalogue-page.js?v=${catalogueAssetVersion}"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9572691438076734" crossorigin="anonymous"></script>
 </head>
@@ -464,6 +498,7 @@ function createCataloguePage({
         <div class="catalogue-grid" id="catalogue-grid"></div>
         <p class="catalogue-empty" id="catalogue-empty" hidden></p>
         <button class="catalogue-load-more" id="catalogue-load-more" type="button" hidden></button>
+        ${staticToolLinksHtml}
     </main>
     <footer class="site-footer"><div class="footer-row shell"><p>Adawaty</p><p>© <span id="current-year"></span></p></div></footer>
 </body>
@@ -537,8 +572,8 @@ function createRoundupPage(entry) {
     <meta name="twitter:image" content="${baseUrl}/og-image.svg">
     <script type="application/ld+json">${structuredData}</script>
     <script type="application/ld+json">${breadcrumbData}</script>
-    <link rel="stylesheet" href="../../src/css/main.css">
-    <link rel="stylesheet" href="../../src/css/product.css">
+    <link rel="stylesheet" href="../../src/css/main.css?v=${cssVersion}">
+    <link rel="stylesheet" href="../../src/css/product.css?v=${cssVersion}">
     <script type="module" src="../../src/product/roundup-page.js?v=${roundupAssetVersion}"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9572691438076734" crossorigin="anonymous"></script>
 </head>
@@ -683,6 +718,35 @@ await writeFile(
         `home.js?v=${homeAssetVersion}`,
     );
     await writeFile(path.join(projectRoot, 'index.html'), indexHtmlContent, 'utf8');
+}
+
+// main.css/product.css version markers on the homepage and every
+// hand-authored interactive tool page -- these pages aren't produced
+// by the templates above, so they need the same fix applied
+// separately. Found via the same investigation as the css-hash-based
+// versioning fix above: every one of these pages was loading both
+// files with no version string at all.
+{
+    const interactiveToolPages = [
+        'index.html',
+        'tools/background-remover/index.html',
+        'tools/text-summarizer/index.html',
+        'tools/photo-editor/index.html',
+        'tools/website-builder/index.html',
+        'tools/mic-test/index.html',
+        'tools/grammar-checker/index.html',
+        'tools/replace-background/index.html',
+    ];
+    for (const relativePath of interactiveToolPages) {
+        const fullPath = path.join(projectRoot, relativePath);
+        // eslint-disable-next-line no-await-in-loop -- a handful of small file rewrites, sequential keeps failures attributable to one exact file
+        let pageContent = await readFile(fullPath, 'utf8');
+        pageContent = pageContent
+            .replace(/src\/css\/main\.css(\?v=[a-z0-9]+)?"/g, `src/css/main.css?v=${cssVersion}"`)
+            .replace(/src\/css\/product\.css(\?v=[a-z0-9]+)?"/g, `src/css/product.css?v=${cssVersion}"`);
+        // eslint-disable-next-line no-await-in-loop
+        await writeFile(fullPath, pageContent, 'utf8');
+    }
 }
 
 process.stdout.write(
