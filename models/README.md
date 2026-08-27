@@ -67,14 +67,37 @@
   is far too large to commit to this git repository (GitHub rejects files
   over 100 MB outright) or to deploy as a Cloudflare Workers static asset
   (25 MB per-file limit -- see the `.assetsignore`/`workerd` deployment
-  notes elsewhere in this repo's history). Loaded from the GitHub Release
-  URL above at runtime instead, via `rembg-web`'s `u2net_custom` session
-  type (which accepts an arbitrary `modelPath`) -- the same "public,
-  non-personal model weights fetched from a CDN once and cached
-  client-side, same as loading any CDN-hosted JS library" reasoning
-  already used for `text-summarizer`'s much larger Qwen2.5 model. The
-  actual image being processed still never leaves the browser; only the
-  model weights themselves are fetched externally.
+  notes elsewhere in this repo's history). Loaded from a CDN at runtime
+  instead, via `rembg-web`'s `u2net_custom` session type (which accepts
+  an arbitrary `modelPath`) -- the same "public, non-personal model
+  weights fetched from a CDN once and cached client-side, same as
+  loading any CDN-hosted JS library" reasoning already used for
+  `text-summarizer`'s much larger Qwen2.5 model. The actual image being
+  processed still never leaves the browser; only the model weights
+  themselves are fetched externally.
+- **A real bug, found via a live browser error report, in the original
+  choice of CDN**: this file was first sourced directly from GitHub's
+  own Release URL (`github.com/danielgatis/rembg/releases/...`).
+  That file was verified thoroughly at the time (SHA256, ONNX
+  structural validity via `onnx.checker`, a real inference run) using
+  curl and Python -- none of which enforce CORS, since it's a
+  browser-only restriction. That verification never actually caught
+  that GitHub's release-assets CDN sends no
+  `Access-Control-Allow-Origin` header at all, so a real browser
+  blocked the cross-origin `fetch()` outright and "People" mode never
+  worked in any real browser, despite passing every check available in
+  a non-browser environment. **Fixed** by switching to the identical
+  file -- confirmed via the exact same SHA256 hash,
+  `01eb6a29a5c4d8edb30b56adad9bb3a2a0535338e480724a213e0acfd2d1c73c`,
+  appearing on the new host's own page -- re-hosted on Hugging Face at
+  `huggingface.co/tomjackson2023/rembg`, whose CDN is already proven to
+  support direct cross-origin browser fetches in production on this
+  very site (`text-summarizer`'s much larger Qwen2.5 model is fetched
+  the same way, successfully, in real browser use). This project's own
+  sandbox has no network access to huggingface.co to re-verify the
+  CORS response header directly the way GitHub's failure was
+  confirmed, so this fix still needs a real-browser smoke test after
+  deploying.
 
 ## Why u2netp is the default ("General") option
 

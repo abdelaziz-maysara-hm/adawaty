@@ -1,5 +1,33 @@
 # Changelog
 
+# 0.5.147
+
+- Fixed a real, live bug found via a browser console error report: the "People" detection mode of
+  Background Remover/Replace Background never actually worked in any real browser, despite passing
+  every verification done when it was built (SHA256 hash, ONNX structural validity, a real
+  inference run).
+  - **Root cause**: the ~176 MB `u2net_human_seg.onnx` model was sourced directly from GitHub's own
+    Release URL (`github.com/danielgatis/rembg/releases/...`). That file was verified thoroughly at
+    the time using curl and Python -- neither of which enforce CORS at all, since it's a
+    browser-only restriction. That verification never actually caught that GitHub's release-assets
+    CDN sends no `Access-Control-Allow-Origin` header, so a real browser blocked the cross-origin
+    `fetch()` outright: `Access to fetch at 'https://github.com/...' from origin
+    'https://adawaty.tools' has been blocked by CORS policy`.
+  - **Fix**: switched to the identical file -- confirmed via the exact same SHA256 hash
+    (`01eb6a29a5c4d8edb30b56adad9bb3a2a0535338e480724a213e0acfd2d1c73c`) appearing on the new host's
+    own page -- re-hosted on Hugging Face at `huggingface.co/tomjackson2023/rembg`, whose CDN is
+    already proven to support direct cross-origin browser fetches in production on this very site
+    (`text-summarizer`'s much larger Qwen2.5 model is fetched the same way, successfully, in real
+    browser use).
+  - Updated `models/README.md` and `tests/product/background-removal-model-modes.integration.mjs`
+    to document the bug and check the new URL.
+  - **Honest disclosure**: this sandbox has no network access to `huggingface.co` to re-verify the
+    CORS response header directly the way GitHub's failure was confirmed (via a live user-reported
+    browser error, not a tool available here) -- this fix is well-evidenced (identical file hash,
+    a CDN already proven to work for a much larger file on this same site) but still needs a real
+    browser smoke test of "People" mode after deploying before being fully trusted.
+  - `npm run validate` passes all 28 suites (628 tools).
+
 # 0.5.146
 
 - **Major SEO fix, found via a Google Search Console screenshot showing 342 pages "Discovered -

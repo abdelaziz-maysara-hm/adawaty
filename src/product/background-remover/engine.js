@@ -5,14 +5,34 @@
  *
  * - 'general' (default): u2netp.onnx, ~4.6 MB, vendored same-origin in
  *   this repo. Fast, works reasonably for most subjects.
- * - 'person': u2net_human_seg.onnx, ~176 MB, loaded from a GitHub
- *   Release URL at runtime (too large to vendor same-origin -- GitHub
- *   rejects repo files over 100 MB, and Cloudflare Workers' static
- *   asset limit is 25 MB per file). Added after real user feedback:
- *   the general model struggled to fully separate a person from a
- *   visually busy, multi-colored background (a painted wall mural) --
- *   verified with a real inference run on a synthetic multi-colored-
- *   background test image before shipping this option, not assumed.
+ * - 'person': u2net_human_seg.onnx, ~176 MB, loaded at runtime from a
+ *   CDN (too large to vendor same-origin -- GitHub rejects repo files
+ *   over 100 MB, and Cloudflare Workers' static asset limit is 25 MB
+ *   per file). Added after real user feedback: the general model
+ *   struggled to fully separate a person from a visually busy,
+ *   multi-colored background (a painted wall mural) -- verified with a
+ *   real inference run on a synthetic multi-colored-background test
+ *   image before shipping this option, not assumed.
+ *   A real bug found via a live browser console error report: the
+ *   file was first sourced from a GitHub Release URL
+ *   (github.com/danielgatis/rembg/releases/...), which was verified
+ *   thoroughly (SHA256, ONNX structural validity, a real inference
+ *   run) using curl/Python -- tools that don't enforce CORS at all,
+ *   since it's a browser-only security mechanism. That verification
+ *   never actually caught that GitHub's release-assets CDN sends no
+ *   `Access-Control-Allow-Origin` header, so a real browser blocked
+ *   the cross-origin fetch outright ("People" mode never worked in
+ *   any real browser despite passing every non-browser check). Fixed
+ *   by switching to the identical file (confirmed via the exact same
+ *   SHA256 hash) re-hosted on Hugging Face
+ *   (huggingface.co/tomjackson2023/rembg), whose CDN is already
+ *   proven to support direct cross-origin browser fetches in
+ *   production on this very site -- text-summarizer's much larger
+ *   Qwen2.5 model is fetched the same way. This project's own sandbox
+ *   has no network access to huggingface.co to re-verify the CORS
+ *   header directly the way GitHub's failure was confirmed, so this
+ *   fix still needs a real-browser smoke test after deploying, the
+ *   same disclosure pattern already used elsewhere in this project.
  *   Slower (~2.5x the processing time of 'general', per rembg-web's
  *   own published benchmarks) and a much larger one-time download, so
  *   this is an explicit, user-chosen option in the UI, never the
@@ -66,7 +86,7 @@
  *   with.
  */
 
-const HUMAN_SEG_MODEL_URL = 'https://github.com/danielgatis/rembg/releases/download/v0.0.0/u2net_human_seg.onnx';
+const HUMAN_SEG_MODEL_URL = 'https://huggingface.co/tomjackson2023/rembg/resolve/main/u2net_human_seg.onnx';
 
 let configured = false;
 

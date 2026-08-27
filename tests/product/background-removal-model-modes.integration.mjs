@@ -26,7 +26,7 @@ const projectRoot = path.resolve(currentDir, '../..');
 
 {
     const engineSource = await readFile(path.join(projectRoot, 'src/product/background-remover/engine.js'), 'utf8');
-    assert.match(engineSource, /HUMAN_SEG_MODEL_URL\s*=\s*'https:\/\/github\.com\/danielgatis\/rembg\/releases\/download\/v0\.0\.0\/u2net_human_seg\.onnx'/, 'the human-segmentation model URL must be the same verified GitHub Release source used for u2netp');
+    assert.match(engineSource, /HUMAN_SEG_MODEL_URL\s*=\s*'https:\/\/huggingface\.co\/tomjackson2023\/rembg\/resolve\/main\/u2net_human_seg\.onnx'/, 'the human-segmentation model URL must be the Hugging Face-hosted copy -- the original GitHub Release URL was found, via a live browser error report, to send no CORS header at all, silently blocking every real-browser fetch despite passing SHA256/ONNX/inference verification done with non-browser tools');
     assert.match(engineSource, /modelMode\s*===\s*'person'/, 'getSession must branch on modelMode to choose between the general and person-specific model');
     assert.match(engineSource, /u2net_custom/, 'the person model must be loaded via u2net_custom (the only session type that accepts an arbitrary external modelPath)');
     assert.match(engineSource, /sessionPromises\.set\(modelMode/, 'sessions must be cached per model mode, not a single shared cache -- switching modes mid-visit must not discard the other mode\'s already-loaded session');
