@@ -1,5 +1,40 @@
 # Changelog
 
+# 0.5.148
+
+- Repository housekeeping, requested directly: deleted all 95 non-`main` branches after confirming
+  93 were already fully merged (deleting them is a no-op for the actual code, purely removes
+  clutter) and reviewing the 2 that weren't (`agent/public-homepage-redesign`, a single obsolete
+  homepage redesign commit; `improvements/vercel-backend`, 8 commits building a Vercel-specific
+  serverless backend that directly conflicts with the site's current, deliberate Cloudflare/
+  client-side-first architecture) -- both confirmed to represent abandoned architectural
+  directions, not pending work, before deleting them too.
+  - Rebuilt `docs/ROADMAP.md` from scratch as this project's single source of truth. The previous
+    version was still marked as last-updated at version `0.5.40`, over 100 releases behind the
+    actual codebase, and described an active-development plan that no longer matched reality in
+    several places (e.g. still listing large chunks of "missing" tools that had since been built
+    under different IDs than the old plan assumed).
+  - Archived (not deleted) `docs/adr/`, `docs/AI_DEVELOPMENT_STANDARD.md`, and the `CORE-RUNTIME-*`
+    docs to `docs/archive/` -- spot-checked one ADR (`ADR-017-plugin-runtime-capabilities.md`,
+    describing a "capability registry," "revocable permission tokens," and a plugin negotiation
+    system) and confirmed none of it exists anywhere in the actual codebase; this described a
+    speculative extensibility architecture for a multi-contributor project that was never built and
+    isn't wanted (this is explicitly a solo project, confirmed directly).
+  - The new `ROADMAP.md` states verified-accurate current numbers (628 tools across 19 categories,
+    7 interactive tools, 28 test suites -- each cross-checked directly against
+    `listToolDefinitions()` and the actual test directory, not carried over from memory), documents
+    the current Cloudflare/Worker infrastructure as it actually exists post-0.5.140's merge, and
+    states 8 binding principles each tied to a specific real bug or decision already in
+    `CHANGELOG.md` (client-side-first, no silent server calls, verify claims with real tests, every
+    tool needs a self-catching regression test, cache-busting discipline, check the actual registry
+    before assuming something's missing, sandbox verification isn't browser verification, and the
+    solo-project constraint that makes the archived ADRs irrelevant).
+  - Updated `docs/TOOL_CREATION_STANDARD.md`'s single stale reference to the now-archived
+    `AI_DEVELOPMENT_STANDARD.md`, pointing it at the new `ROADMAP.md` instead.
+  - `npm run validate` passes all 28 suites (628 tools) -- confirmed the docs reorganization
+    doesn't affect anything test/build-related, since nothing in `tests/`/`scripts/` referenced any
+    of the moved or deleted files.
+
 # 0.5.147
 
 - Fixed a real, live bug found via a browser console error report: the "People" detection mode of

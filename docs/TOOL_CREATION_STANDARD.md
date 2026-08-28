@@ -4,7 +4,7 @@
 
 Use this checklist whenever an Adawaty tool is added, replaced, retired, or materially changed. It applies to calculators, generators, file processors, converters, and approved interactive tools.
 
-Read `docs/AI_DEVELOPMENT_STANDARD.md` first. The existing repository is the source of truth; this guide does not authorize a new architecture.
+Read `docs/ROADMAP.md` first -- it is the single source of truth for this project's current state, principles, and rules. This guide does not authorize a new architecture.
 
 ## 1. Confirm Product Fit
 
