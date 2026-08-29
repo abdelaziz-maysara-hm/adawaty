@@ -1,5 +1,55 @@
 # Changelog
 
+# 0.5.149
+
+- **Major performance fix, found via a live PageSpeed Insights report**: every tool page loaded
+  ~1.7 MB of combined JavaScript (all 628 tools' code across 123 definition files) just to render
+  one tool. Confirmed as the direct cause of a 42/100 mobile performance score (vs. 98/100 desktop
+  on the same page), with "Reduce unused JavaScript -- Est savings of 255 KiB" as a specific
+  Lighthouse finding.
+  - **Root cause**: `tool-page.js` statically imported `getToolDefinition` from the aggregated
+    `tool-definitions.js`, which itself statically imports all 123 definition files regardless of
+    which single tool the current page actually needs.
+  - **Fix**: `generate-product-pages.mjs` now builds a tool-id -> single-definitions-file-path
+    manifest at build time (by inspecting each file's real exports, not guessed from naming
+    conventions -- export names vary across files with no consistent pattern). Each generated tool
+    page embeds its own single resolved path as a `data-tool-definition-file` attribute.
+    `tool-page.js` was restructured to dynamically `import()` only that one file at runtime,
+    searching its exports for the matching tool id (rather than assuming a specific export name),
+    instead of the static aggregated import -- moving `tool`'s lookup, and everything that depends
+    on it, into an `async init()` since dynamic `import()` is always a Promise. Confirmed directly:
+    `pdf-merge`'s own definitions file is 12 KB, versus the previous ~1.7 MB combined load.
+  - **A real, previously-hidden bug found while doing this**: 20 tools (BMI, age, percentage, VAT,
+    loan, compound interest, date difference, BMR/TDEE/ideal-weight/water-intake/body-surface-area,
+    grade/GPA/average/weighted-average/attendance, percentage-change, ratio calculators) were
+    defined *inline* directly inside `tool-definitions.js` itself, unreachable by this new
+    per-file scheme. Extracted them into a new `src/product/definitions/basic-calculators.js` --
+    and in doing so, exposed 4 real duplicate tool ids that
+    `tests/product/tool-id-uniqueness.integration.mjs` could never have caught before (one side of
+    each duplicate was inline in `tool-definitions.js`, not a real file the test scans):
+    `percentage-calculator`, `discount-calculator`, `age-calculator`, and `bmi-calculator` each
+    existed twice, once inline and once in a proper definitions file. Compared both
+    implementations for each and kept the more complete one (the standalone files' versions each
+    had a genuinely richer feature set -- e.g. `percentage-calculator`'s 3-mode calculator vs. a
+    single-mode inline version, `age-calculator`'s optional reference-date and leap-year handling
+    vs. today-only) -- removed the inline duplicates and their now-unused helper functions.
+  - Added `tests/product/dynamic-tool-definition-loading.integration.mjs`: verifies every
+    non-interactive tool page has a valid `data-tool-definition-file` pointing to a real file,
+    that the dynamic-loading logic actually resolves the *correct* tool for all 621 non-interactive
+    tools (not just that a path exists), that a typical page's definitions file is under 10% of
+    the old combined size, and directly checks `tool-page.js`'s source no longer statically
+    imports the aggregator. Confirmed this last check genuinely catches the exact original bug by
+    deliberately reintroducing the static import, watching the test fail, then restoring and
+    confirming it passes again.
+  - Verified the dynamic-loading logic against real DOM/module execution as thoroughly as this
+    environment allows: `jsdom` (temporarily installed, then removed) turned out to have
+    insufficient ES module support to run a real generated page end-to-end, so verification
+    instead directly exercised the actual loading logic against all 621 non-interactive tools'
+    real generated HTML and real definitions files, confirming each resolves to the exact correct
+    tool. The 7 interactive tools (their own hand-authored pages, using separate `*-app.js`
+    scripts rather than `tool-page.js`) are unaffected by this change entirely, by construction.
+  - `npm run validate` passes all 29 suites (628 tools).
+
 # 0.5.148
 
 - Repository housekeeping, requested directly: deleted all 95 non-`main` branches after confirming

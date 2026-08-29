@@ -85,6 +85,44 @@ const cssVersion = await hashFiles([
 ]);
 
 const tools = listToolDefinitions();
+
+/**
+ * Maps each tool id to the relative path (from src/product/) of the
+ * single definitions file that actually exports it -- built by
+ * inspecting each file's real exports directly, not guessed from
+ * naming conventions, since export names vary across files
+ * (converterDefinitions, dateTimeDefinitions, etc. -- no consistent
+ * pattern to infer from a filename alone).
+ *
+ * This exists to fix a real, measured performance problem: every tool
+ * page previously imported tool-definitions.js, which statically
+ * imports all 123 definition files (~1.7 MB combined) just to look up
+ * one tool's definition -- confirmed via a live PageSpeed Insights
+ * report showing a 42/100 mobile performance score (vs. 98/100 on
+ * desktop) with "Reduce unused JavaScript -- Est savings of 255 KiB"
+ * as a specific finding. Each generated tool page now gets told,
+ * at build time, exactly which single definitions file contains its
+ * own tool -- see TOOL_DEFINITION_FILE_MANIFEST below and how it's
+ * embedded per-page, and tool-page.js's use of a scoped dynamic
+ * import() instead of the aggregated static import.
+ */
+async function buildToolDefinitionFileManifest() {
+    const manifest = {};
+    for (const fileName of definitionFiles.map((filePath) => path.relative(path.join(projectRoot, 'src/product/definitions'), filePath))) {
+        // eslint-disable-next-line no-await-in-loop -- must run sequentially; each import needs the previous one's module cache warm, and this only runs once at build time (123 fast local imports)
+        const moduleExports = await import(path.join(projectRoot, 'src/product/definitions', fileName));
+        for (const exportedValue of Object.values(moduleExports)) {
+            if (exportedValue && typeof exportedValue === 'object' && !Array.isArray(exportedValue)) {
+                for (const toolId of Object.keys(exportedValue)) {
+                    manifest[toolId] = `./definitions/${fileName}`;
+                }
+            }
+        }
+    }
+    return manifest;
+}
+
+const toolDefinitionFileManifest = await buildToolDefinitionFileManifest();
 const categories = Object.freeze({
     health: Object.freeze({ ar: 'أدوات الصحة', en: 'Health Tools' }),
     finance: Object.freeze({ ar: 'الأدوات المالية', en: 'Finance Tools' }),
@@ -302,7 +340,7 @@ function createToolPage(tool) {
             <button class="button" id="tool-language-toggle" type="button">English</button>
         </nav>
     </header>
-    <main class="product-page shell" data-tool-page="${escapeHtml(tool.id)}">
+    <main class="product-page shell" data-tool-page="${escapeHtml(tool.id)}" data-tool-definition-file="${escapeHtml(toolDefinitionFileManifest[tool.id] ?? '')}">
         <a class="product-back" href="../../all-tools/"><span aria-hidden="true">←</span><span id="back-label">كل الأدوات</span></a>
         <div class="product-grid">
             <section class="product-intro">

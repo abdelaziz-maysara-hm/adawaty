@@ -159,6 +159,22 @@ Ordered by how directly each is tied to something already in motion, not by arbi
   any of these -- several early guesses in this category turned out to already exist or not be
   worth building as separate tools.
 
+### Performance (mobile Core Web Vitals -- fixed, 0.5.149)
+- A live PageSpeed Insights report found a 42/100 mobile performance score (98/100 desktop) with
+  the root cause being ~1.7 MB of combined JS loaded per tool page (all 628 tools' code) to render
+  one tool. Fixed via a build-time per-tool manifest + scoped dynamic `import()` in
+  `tool-page.js` -- a typical page now loads its own tool's definitions file only (e.g. `pdf-merge`
+  went from ~1.7 MB to 12 KB). See `tests/product/dynamic-tool-definition-loading.integration.mjs`.
+- **Not yet re-measured**: re-run PageSpeed Insights on the same URL post-deploy to confirm the
+  mobile score actually improved as expected, and check whether `main.css`/`product.css`'s
+  render-blocking-request and unused-CSS findings (smaller, secondary findings from the same
+  report) are worth a follow-up pass.
+- While fixing this, 4 previously-hidden duplicate tool ids were found and resolved
+  (`percentage-calculator`, `discount-calculator`, `age-calculator`, `bmi-calculator`) -- worth
+  keeping in mind that `tool-definitions.js` may still be worth a periodic audit for other
+  inline-vs-file duplication, though the known inline-definition escape hatch that caused this is
+  now closed (all tools live in real files under `definitions/`).
+
 ### Interactive-tool quality
 - `replace-background`/`background-remover`'s "People" mode was just fixed for a real CORS bug
   (0.5.147) but has **not yet been confirmed working in a real browser** -- needs a live smoke
