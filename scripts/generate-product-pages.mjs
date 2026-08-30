@@ -84,6 +84,27 @@ const cssVersion = await hashFiles([
     path.join(projectRoot, 'src/css/product.css'),
 ]);
 
+// Merged into a single generated site.css at build time -- source
+// files stay separate (main.css for site-wide base styles, product.css
+// for tool-page-specific styles) for maintainability, but every page
+// loads one combined file instead of two separate <link> tags. Found
+// via a live PageSpeed Insights report, taken after the JS bundle-size
+// fix (0.5.149, which brought mobile performance from 42 to 78):
+// "Render-blocking requests -- Est savings of 320ms" was the largest
+// remaining finding, specifically these two separate stylesheet
+// requests. The tradeoff was deliberately weighed, not assumed free:
+// homepage/category pages (which don't need product.css's styles) now
+// download ~2.3 KiB more gzipped than before; the ~628 tool pages
+// (the large majority of the site) save a full extra network
+// round-trip, which matters more than a few KiB on a slow connection.
+const mainCssContent = await readFile(path.join(projectRoot, 'src/css/main.css'), 'utf8');
+const productCssContent = await readFile(path.join(projectRoot, 'src/css/product.css'), 'utf8');
+await writeFile(
+    path.join(projectRoot, 'src/css/site.css'),
+    `${mainCssContent}\n\n${productCssContent}\n`,
+    'utf8',
+);
+
 const tools = listToolDefinitions();
 
 /**
@@ -325,8 +346,7 @@ function createToolPage(tool) {
     <script type="application/ld+json">${breadcrumbData}</script>
     ${relatedData ? `<script type="application/ld+json">${relatedData}</script>` : ''}
     <script type="application/ld+json">${faqData}</script>
-    <link rel="stylesheet" href="../../src/css/main.css?v=${cssVersion}">
-    <link rel="stylesheet" href="../../src/css/product.css?v=${cssVersion}">
+    <link rel="stylesheet" href="../../src/css/site.css?v=${cssVersion}">
     <script type="module" src="../../src/product/tool-page.js?v=${assetVersion}"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9572691438076734" crossorigin="anonymous"></script>
 </head>
@@ -505,8 +525,7 @@ function createCataloguePage({
     <meta name="twitter:image" content="${baseUrl}/og-image.svg">
     <script type="application/ld+json">${structuredData}</script>
     <script type="application/ld+json">${breadcrumbData}</script>
-    <link rel="stylesheet" href="${basePath}src/css/main.css?v=${cssVersion}">
-    <link rel="stylesheet" href="${basePath}src/css/product.css?v=${cssVersion}">
+    <link rel="stylesheet" href="${basePath}src/css/site.css?v=${cssVersion}">
     <script type="module" src="${basePath}src/product/catalogue-page.js?v=${catalogueAssetVersion}"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9572691438076734" crossorigin="anonymous"></script>
 </head>
@@ -610,8 +629,7 @@ function createRoundupPage(entry) {
     <meta name="twitter:image" content="${baseUrl}/og-image.svg">
     <script type="application/ld+json">${structuredData}</script>
     <script type="application/ld+json">${breadcrumbData}</script>
-    <link rel="stylesheet" href="../../src/css/main.css?v=${cssVersion}">
-    <link rel="stylesheet" href="../../src/css/product.css?v=${cssVersion}">
+    <link rel="stylesheet" href="../../src/css/site.css?v=${cssVersion}">
     <script type="module" src="../../src/product/roundup-page.js?v=${roundupAssetVersion}"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9572691438076734" crossorigin="anonymous"></script>
 </head>
@@ -758,12 +776,13 @@ await writeFile(
     await writeFile(path.join(projectRoot, 'index.html'), indexHtmlContent, 'utf8');
 }
 
-// main.css/product.css version markers on the homepage and every
-// hand-authored interactive tool page -- these pages aren't produced
-// by the templates above, so they need the same fix applied
-// separately. Found via the same investigation as the css-hash-based
-// versioning fix above: every one of these pages was loading both
-// files with no version string at all.
+// site.css version marker on the homepage and every hand-authored
+// interactive tool page -- these pages aren't produced by the
+// templates above, so they need the same fix applied separately.
+// Also collapses each page's separate main.css + product.css <link>
+// tags into the single merged site.css reference (all of these pages
+// were already loading both files together, so this is a pure win: no
+// tradeoff like the general category/tool template pages have).
 {
     const interactiveToolPages = [
         'index.html',
@@ -779,9 +798,10 @@ await writeFile(
         const fullPath = path.join(projectRoot, relativePath);
         // eslint-disable-next-line no-await-in-loop -- a handful of small file rewrites, sequential keeps failures attributable to one exact file
         let pageContent = await readFile(fullPath, 'utf8');
-        pageContent = pageContent
-            .replace(/src\/css\/main\.css(\?v=[a-z0-9]+)?"/g, `src/css/main.css?v=${cssVersion}"`)
-            .replace(/src\/css\/product\.css(\?v=[a-z0-9]+)?"/g, `src/css/product.css?v=${cssVersion}"`);
+        pageContent = pageContent.replace(
+            /<link rel="stylesheet" href="([^"]*)main\.css(?:\?v=[a-z0-9]+)?">\s*<link rel="stylesheet" href="[^"]*product\.css(?:\?v=[a-z0-9]+)?">/,
+            `<link rel="stylesheet" href="$1site.css?v=${cssVersion}">`,
+        );
         // eslint-disable-next-line no-await-in-loop
         await writeFile(fullPath, pageContent, 'utf8');
     }

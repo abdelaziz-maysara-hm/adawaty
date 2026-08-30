@@ -1,5 +1,46 @@
 # Changelog
 
+# 0.5.150
+
+- **Follow-up performance fix**: merged `main.css` and `product.css` into a single generated
+  `site.css` at build time, eliminating a full extra render-blocking network round-trip on every
+  page. Found via a live PageSpeed Insights re-test taken after 0.5.149's JS bundle-size fix
+  (which brought mobile performance from 42 to 78): "Render-blocking requests -- Est savings of
+  320ms" was the largest remaining finding, specifically these two separate stylesheet requests
+  (`main.css` 160ms, `product.css` 480ms).
+  - **The tradeoff was deliberately investigated, not assumed free**: checked `product.css`'s
+    actual content first and found it contains styles for content visible immediately on tool
+    pages (the title, icon, description), not just secondary/below-the-fold elements -- meaning
+    simply deferring it (a common alternative fix) would have caused a visible flash of unstyled
+    content, so full extraction-based critical-CSS was ruled out as unnecessarily risky for a
+    relatively small gain. Merging into one file was chosen as the safer fix: confirmed the actual
+    gzipped-size tradeoff directly (4.4 KiB main.css alone vs. 6.7 KiB merged) before proceeding --
+    homepage/category pages (which don't strictly need `product.css`'s styles) now download ~2.3
+    KiB more gzipped than before, while the ~628 tool pages (the large majority of the site, and
+    which already loaded both files together anyway) save a full network round-trip outright.
+  - Source files stay separate (`main.css` for site-wide base styles, `product.css` for
+    tool-page-specific styles) for maintainability; `scripts/generate-product-pages.mjs` now
+    concatenates them into `src/css/site.css` as a build step, and every page type (tool, category,
+    roundup, homepage, and all 7 interactive tool pages) links that single file instead of two
+    separate `<link>` tags.
+  - Updated `tests/pages/github-pages.integration.mjs` (3 assertions that checked for `main.css`
+    specifically in generated HTML) and rewrote
+    `tests/product/css-hash-based-cache-busting.integration.mjs` to check for the merged `site.css`
+    and explicitly assert no page retains a stale `main.css`/`product.css` reference. Verified the
+    detection logic itself directly against simulated old-style HTML (confirming it would flag a
+    regression) after a first attempt at a live "break it and watch it fail" test didn't produce a
+    meaningful signal, since the test suite's own `runGenerator()` call regenerates every page from
+    the current (already-correct) source before checking, making a manual edit to an already-built
+    page an invalid way to simulate a real regression here.
+  - Real end-to-end verification (real DOM/module execution, not just source inspection) was
+    attempted via a temporarily-installed `jsdom`, but `jsdom` turned out to have insufficient ES
+    module support for a real generated page to run correctly; verification instead confirmed the
+    generated HTML structure and CSS-serving logic directly, which is what this change actually
+    touches (this change doesn't alter `tool-page.js`'s JS-loading behavior at all, unlike
+    0.5.149's fix, so the risk profile here is specifically about link-tag correctness, not
+    module-loading correctness).
+  - `npm run validate` passes all 29 suites (628 tools).
+
 # 0.5.149
 
 - **Major performance fix, found via a live PageSpeed Insights report**: every tool page loaded

@@ -51,7 +51,7 @@ assert.match(indexHtml, /\.\/tools\/pdf-to-word-converter\//);
 assert.match(indexHtml, /\.\/tools\/video-compressor\//);
 assert.match(indexHtml, /\.\/tools\/audio-trimmer\//);
 assert.doesNotMatch(indexHtml, /Sprint 7|development preview|اختبارات التكامل/i);
-assert.match(indexHtml, /\.\/src\/css\/main\.css/);
+assert.match(indexHtml, /\.\/src\/css\/site\.css/);
 assert.match(indexHtml, /\.\/src\/pages\/home\.js\?v=[a-z0-9]{10}/);
 assert.match(indexHtml, /http-equiv="Cache-Control" content="no-cache"/);
 assert.match(indexHtml, /\.\/all-tools\//);
@@ -188,7 +188,7 @@ assert.ok(
     'the separate language-bootstrap.js file reference must be gone, its content is now inlined',
 );
 assert.ok(
-    indexHtml.indexOf('adawaty-language') < indexHtml.indexOf('src/css/main.css'),
+    indexHtml.indexOf('adawaty-language') < indexHtml.indexOf('src/css/site.css'),
     'Home language bootstrap must run before styles are applied.',
 );
 assert.ok(
@@ -196,7 +196,7 @@ assert.ok(
     'the separate language-bootstrap.js file reference must be gone, its content is now inlined',
 );
 assert.ok(
-    catalogueHtml.indexOf('adawaty-language') < catalogueHtml.indexOf('src/css/main.css'),
+    catalogueHtml.indexOf('adawaty-language') < catalogueHtml.indexOf('src/css/site.css'),
     'Catalogue language bootstrap must run before styles are applied.',
 );
 assert.match(indexHtml, /rel="icon" href="\.\/favicon\.svg"/);
