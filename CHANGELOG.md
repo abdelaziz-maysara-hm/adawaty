@@ -1,5 +1,33 @@
 # Changelog
 
+# 0.5.151
+
+- Content-quality fix, found while auditing tool pages for "thin/near-duplicate content" (a
+  documented contributing cause of Google Search Console's "Discovered/Crawled -- currently not
+  indexed" status, alongside the missing-internal-links issue already fixed in 0.5.146): all 628
+  tool pages shared the exact same 3 FAQ questions, with only the tool's own name substituted in.
+  Confirmed directly, not assumed: compared two entirely unrelated tools (`xml-formatter`,
+  `binary-to-ip-address`) and found the second question's *answer* was word-for-word identical
+  between them.
+  - **Fix**: added a 4th, category-specific FAQ question -- one thoughtfully written question per
+    category, covering all 19 categories on the site (PDF tools ask about format/quality
+    preservation, health calculators clarify results aren't medical advice, security tools address
+    data safety, and so on). Not an attempt at genuinely unique per-tool questions for all 628
+    tools (unrealistic to write with real care in one pass), but a meaningful step toward pages in
+    different categories no longer reading as interchangeable boilerplate to a search engine (or a
+    visitor navigating between tools).
+  - Confirmed the JSON-LD `FAQPage` structured data picks up the new question automatically (4
+    entries instead of 3), since it's built from the same `buildFaqItems()` function the visible
+    HTML uses.
+  - Added `tests/product/category-faq-diversity.integration.mjs`: verifies every one of the 19
+    categories has its 4th question present (checked via one representative tool per category),
+    confirms the question genuinely *differs* between two different categories (not just "a 4th
+    question exists somewhere," which could pass even if the mechanism silently fell back to
+    identical content again), and checks the JSON-LD reflects all 4 questions. Confirmed the test
+    catches a real regression by deliberately breaking the category lookup, watching the test fail
+    with the exact category and tool affected, then restoring and confirming it passes again.
+  - `npm run validate` passes all 30 suites (628 tools).
+
 # 0.5.150
 
 - **Follow-up performance fix**: merged `main.css` and `product.css` into a single generated

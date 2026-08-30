@@ -130,6 +130,13 @@ Ordered by how directly each is tied to something already in motion, not by arbi
   category/all-tools browsing was JS-rendered only -- is fixed. **Not yet confirmed**: whether
   Search Console's indexed-page count actually improves over the following weeks; this needs
   periodic re-checking, not a one-time fix-and-forget.
+- A second contributing cause, "thin/near-duplicate content," was found and partially addressed in
+  0.5.151: all 628 tool pages shared identical FAQ boilerplate (confirmed word-for-word identical
+  between unrelated tools). Added a 4th, category-specific question (19 categories, one each) --
+  a real improvement, but pages within the *same* category still share 3 of their 4 questions
+  verbatim. Worth revisiting if the indexing metrics don't improve enough from the internal-links
+  fix alone: genuinely per-tool FAQ content, or a longer per-tool description, would go further but
+  needs real writing effort across up to 628 tools, not a mechanical template change.
 - Site traffic is currently very low (roughly a dozen to a few dozen active users/week per GA4,
   and declining week-over-week as of the last check) -- worth a dedicated investigation into
   *why*, separate from the indexing fix, once there's been enough time post-fix to distinguish a

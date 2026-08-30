@@ -193,6 +193,134 @@ function safeJson(value) {
  * content understanding (including AI-search summarization), even
  * without a visible SERP feature.
  */
+// A 4th, category-specific question added to break a real content-
+// depth problem: the previous 3 questions were the exact same
+// boilerplate on every single one of the 628 tool pages (confirmed
+// directly -- even the second question's answer was word-for-word
+// identical between two entirely unrelated tools, xml-formatter and
+// binary-to-ip-address), which is documented as a contributing cause
+// of Google Search Console's "thin/near-duplicate content" indexing
+// signal. Written per-category rather than per-tool (628 genuinely
+// unique questions isn't realistic to write with real care), so pages
+// within the same category still share this question, but the site
+// now has 19 genuinely different questions instead of 1.
+const CATEGORY_FAQ_QUESTION = Object.freeze({
+    pdf: {
+        questionAr: 'هل يتغيّر تنسيق أو جودة ملف PDF الأصلي؟',
+        questionEn: 'Does the original PDF\'s formatting or quality change?',
+        answerAr: 'لا، المعالجة تحافظ على تنسيق النص والصور والخطوط كما هي في الملف الأصلي قدر الإمكان.',
+        answerEn: 'No, processing preserves the original text formatting, images, and fonts as closely as possible.',
+    },
+    image: {
+        questionAr: 'هل تقل جودة الصورة بعد المعالجة؟',
+        questionEn: 'Does image quality decrease after processing?',
+        answerAr: 'يعتمد على الأداة والإعدادات؛ أدوات الضغط تقلل الحجم بأقل تأثير ملحوظ على الجودة، وأدوات القص أو التحويل تحافظ على الجودة الأصلية.',
+        answerEn: 'It depends on the tool and settings; compression tools minimize size with the least noticeable quality impact, while crop or convert tools preserve the original quality.',
+    },
+    video: {
+        questionAr: 'هل يوجد حد أقصى لحجم أو مدة الفيديو؟',
+        questionEn: 'Is there a maximum video size or duration?',
+        answerAr: 'الحد العملي يعتمد على ذاكرة جهازك وقوة معالجه، بما أن المعالجة تتم بالكامل على جهازك دون رفعه لأي خادم.',
+        answerEn: 'The practical limit depends on your device\'s memory and processing power, since processing happens entirely on your device without uploading anything.',
+    },
+    audio: {
+        questionAr: 'هل تدعم الأداة كل صيغ الصوت الشائعة؟',
+        questionEn: 'Does the tool support all common audio formats?',
+        answerAr: 'تدعم أغلب الصيغ الشائعة مثل MP3 وWAV وOGG وM4A، ويمكنك مراجعة الصيغ المدعومة تحديدًا عند رفع ملفك.',
+        answerEn: 'It supports most common formats such as MP3, WAV, OGG, and M4A; you can check exactly which formats are accepted when you upload your file.',
+    },
+    developer: {
+        questionAr: 'هل الأداة تدعم النصوص أو الملفات الطويلة؟',
+        questionEn: 'Does the tool handle long text or large files?',
+        answerAr: 'نعم، لا يوجد حد مفروض من الأداة نفسها؛ الحد الوحيد هو أداء متصفحك مع كميات البيانات الضخمة جدًا.',
+        answerEn: 'Yes, there\'s no limit imposed by the tool itself; the only constraint is your browser\'s performance with extremely large amounts of data.',
+    },
+    text: {
+        questionAr: 'هل الأداة تدعم النصوص باللغة العربية؟',
+        questionEn: 'Does the tool support Arabic-language text?',
+        answerAr: 'نعم، تدعم الأداة النصوص بالعربية والإنجليزية وأي لغة تستخدم ترميز Unicode القياسي.',
+        answerEn: 'Yes, the tool supports Arabic, English, and any language using standard Unicode encoding.',
+    },
+    math: {
+        questionAr: 'هل نتائج الحاسبة دقيقة تمامًا؟',
+        questionEn: 'Are the calculator\'s results perfectly accurate?',
+        answerAr: 'نعم، الحسابات تتم بمعادلات رياضية دقيقة؛ راجع دائمًا مصدرًا موثوقًا للقرارات المهمة أو الرسمية.',
+        answerEn: 'Yes, calculations use precise mathematical formulas; always double-check with a trusted source for important or official decisions.',
+    },
+    finance: {
+        questionAr: 'هل تُعتبر النتائج استشارة مالية رسمية؟',
+        questionEn: 'Are the results official financial advice?',
+        answerAr: 'لا، النتائج تقديرية لأغراض التخطيط الشخصي فقط وليست بديلًا عن استشارة مالية أو محاسبية متخصصة.',
+        answerEn: 'No, the results are estimates for personal planning purposes only, not a substitute for professional financial or accounting advice.',
+    },
+    converter: {
+        questionAr: 'هل التحويل يحافظ على دقة البيانات الأصلية؟',
+        questionEn: 'Does the conversion preserve the original data\'s accuracy?',
+        answerAr: 'نعم، التحويل يعتمد على معادلات ومعايير دقيقة معتمدة، دون أي فقد أو تقريب غير ضروري في البيانات.',
+        answerEn: 'Yes, the conversion uses precise, standard formulas and definitions, without any unnecessary data loss or rounding.',
+    },
+    'date-time': {
+        questionAr: 'هل الأداة تأخذ فروق التوقيت الصيفي أو المناطق الزمنية في الاعتبار؟',
+        questionEn: 'Does the tool account for daylight saving time or time zones?',
+        answerAr: 'نعم، الحسابات المرتبطة بالمناطق الزمنية تأخذ التوقيت المحلي والتوقيت الصيفي في الاعتبار عند الحاجة.',
+        answerEn: 'Yes, time-zone-related calculations account for local time and daylight saving time where relevant.',
+    },
+    'color-css': {
+        questionAr: 'هل الأداة تدعم كل صيغ الألوان الشائعة؟',
+        questionEn: 'Does the tool support all common color formats?',
+        answerAr: 'نعم، تدعم الأداة الصيغ الشائعة مثل HEX وRGB وHSL، مع إمكانية النسخ المباشر للكود الناتج.',
+        answerEn: 'Yes, the tool supports common formats like HEX, RGB, and HSL, with the resulting code ready to copy directly.',
+    },
+    seo: {
+        questionAr: 'هل الأداة تحلل موقعي مباشرة أم أدخل البيانات يدويًا؟',
+        questionEn: 'Does the tool analyze my site directly, or do I enter data manually?',
+        answerAr: 'يعتمد على الأداة؛ بعض الأدوات تحلل رابطًا تدخله مباشرة، وأخرى تعمل على نص أو بيانات تُدخلها يدويًا.',
+        answerEn: 'It depends on the specific tool; some analyze a URL you enter directly, while others work on text or data you enter manually.',
+    },
+    health: {
+        questionAr: 'هل نتائج الأداة تُعتبر استشارة طبية؟',
+        questionEn: 'Are the tool\'s results medical advice?',
+        answerAr: 'لا، النتائج تقديرية لأغراض معلوماتية عامة فقط، ولا تغني عن استشارة طبيب أو أخصائي مختص.',
+        answerEn: 'No, the results are estimates for general informational purposes only, and don\'t replace consulting a doctor or qualified specialist.',
+    },
+    student: {
+        questionAr: 'هل الأداة مناسبة لكل المراحل الدراسية؟',
+        questionEn: 'Is the tool suitable for all education levels?',
+        answerAr: 'نعم، الأداة عامة الاستخدام ومناسبة للطلاب في مختلف المراحل الدراسية والجامعية.',
+        answerEn: 'Yes, the tool is general-purpose and suitable for students at various school and university levels.',
+    },
+    'student-study': {
+        questionAr: 'هل الأداة مناسبة لكل المراحل الدراسية؟',
+        questionEn: 'Is the tool suitable for all education levels?',
+        answerAr: 'نعم، الأداة عامة الاستخدام ومناسبة للطلاب في مختلف المراحل الدراسية والجامعية.',
+        answerEn: 'Yes, the tool is general-purpose and suitable for students at various school and university levels.',
+    },
+    'home-lifestyle': {
+        questionAr: 'هل الأداة مناسبة للاستخدام اليومي غير المتخصص؟',
+        questionEn: 'Is the tool suitable for everyday, non-specialist use?',
+        answerAr: 'نعم، صُممت الأداة لتكون بسيطة وسهلة الاستخدام لأي شخص دون الحاجة لخبرة تقنية.',
+        answerEn: 'Yes, the tool is designed to be simple and easy for anyone to use without needing technical expertise.',
+    },
+    islamic: {
+        questionAr: 'ما مصدر البيانات والحسابات الدينية في الأداة؟',
+        questionEn: 'What is the source of the tool\'s religious data and calculations?',
+        answerAr: 'تعتمد الأداة على مصادر ومعايير فقهية وفلكية معتمدة، وننصح دائمًا بمراجعة عالم دين موثوق في المسائل الدقيقة.',
+        answerEn: 'The tool relies on established religious and astronomical references, and we always recommend consulting a trusted religious scholar for precise matters.',
+    },
+    'security-network': {
+        questionAr: 'هل البيانات أو المفاتيح التي أدخلها آمنة؟',
+        questionEn: 'Is the data or keys I enter kept secure?',
+        answerAr: 'نعم، كل المعالجة تتم داخل متصفحك؛ لا تُرسل أي بيانات أو مفاتيح حساسة إلى أي خادم خارجي.',
+        answerEn: 'Yes, all processing happens inside your browser; no sensitive data or keys are ever sent to any external server.',
+    },
+    engineering: {
+        questionAr: 'هل الحسابات الهندسية معتمدة على معايير موثقة؟',
+        questionEn: 'Are the engineering calculations based on documented standards?',
+        answerAr: 'نعم، تعتمد الحسابات على معادلات ومعايير هندسية قياسية؛ راجع دائمًا مهندسًا مختصًا للاستخدامات الرسمية أو الإنشائية.',
+        answerEn: 'Yes, calculations use standard engineering formulas and references; always consult a qualified engineer for official or structural applications.',
+    },
+});
+
 function buildFaqItems(tool) {
     const isFileTool = tool.inputs.some((input) => input.type === 'file');
     const nameAr = tool.title.ar;
@@ -225,6 +353,11 @@ function buildFaqItems(tool) {
             answerEn: 'No, it runs directly in your browser on desktop or mobile, with nothing to install.',
         },
     ];
+
+    const categoryQuestion = CATEGORY_FAQ_QUESTION[tool.category];
+    if (categoryQuestion) {
+        items.push(categoryQuestion);
+    }
 
     return items;
 }
