@@ -103,6 +103,7 @@ import { videoFileToolDefinitions } from './definitions/video-file-tools.js';
 import { videoProcessingToolDefinitions } from './definitions/video-processing-tools.js';
 import { popularVideoConverterDefinitions } from './definitions/popular-video-converters.js';
 import { videoExtraToolDefinitions } from './definitions/video-extra-tools.js';
+import { imagesToVideoToolDefinitions } from './definitions/images-to-video-tool.js';
 import { listDataToolDefinitions } from './definitions/list-data-tools.js';
 import { dataFormatToolDefinitions } from './definitions/data-format-tools.js';
 import { fileUtilityToolDefinitions } from './definitions/file-utility-tools.js';
@@ -230,6 +231,7 @@ const allToolDefinitions = Object.freeze({
     ...videoProcessingToolDefinitions,
     ...popularVideoConverterDefinitions,
     ...videoExtraToolDefinitions,
+    ...imagesToVideoToolDefinitions,
     ...listDataToolDefinitions,
     ...dataFormatToolDefinitions,
     ...fileUtilityToolDefinitions,

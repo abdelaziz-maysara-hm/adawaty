@@ -114,7 +114,14 @@ These aren't aspirational -- they were each earned by a real bug or a real decis
    saga, 0.5.147's CORS bug). Disclose this limitation explicitly whenever a fix can't be
    confirmed with a real browser, and treat "needs a live smoke test" as a real, tracked next step,
    not a formality.
-8. **This is a solo project by design.** No contribution workflow, no plugin/capability runtime,
+8. **A permanent test suite can catch what manual testing missed, even on the same feature.**
+   `images-to-video`'s manual ffmpeg-CLI testing (0.5.152) confirmed the tool worked for the
+   cases exercised, but writing the *permanent* test afterward exposed a case manual testing
+   never happened to combine (long audio + the exact flag ordering that silently produced the
+   wrong duration, exit code 0, no warning). Write the permanent test as real, independent
+   verification, not a formality performed after "it already works" -- it found a bug the initial
+   verification missed.
+9. **This is a solo project by design.** No contribution workflow, no plugin/capability runtime,
    no speculative extensibility layer -- the previous `docs/adr/` folder describing exactly that
    kind of architecture was archived (`docs/archive/adr/`) because none of it was ever actually
    built or needed. If a future session is tempted to build "infrastructure for other

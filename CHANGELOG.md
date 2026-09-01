@@ -1,5 +1,47 @@
 # Changelog
 
+# 0.5.152
+
+- Added `images-to-video` (category: `video`): builds a slideshow-style
+  video from a set of images (any order, mixed formats, mixed dimensions), with an optional
+  audio track mixed in. Added after confirming no existing tool covered this -- the closest,
+  `add-audio-to-video`, assumes a video already exists.
+  - **Two real bugs found and fixed by testing with a real `ffmpeg` CLI before writing any
+    production code**, not assumed to work:
+    1. Mixed image formats (JPG + PNG) in the same concat-demuxer list fail outright ("No JPEG
+       data found in image") -- fixed by normalizing every image to a uniform PNG in a separate
+       pass before building the concat list.
+    2. Naively combining `-t <duration>` (to cap output at the images' total time) with `apad`
+       (to pad short audio with silence) either hung indefinitely on long audio (plain `apad`
+       has no natural stopping point) or silently produced the wrong duration depending on
+       exactly how the flags were combined.
+  - **A third, more severe bug was found by this tool's own permanent test suite** (not manual
+    testing, which happened not to exercise the exact failing combination): applying `-t` as an
+    *output* option after all inputs -- syntactically valid, and the pattern used successfully
+    elsewhere in this codebase -- silently produced the *wrong* duration (2.04s instead of the
+    correct 4.04s for a 2-image, 2-second-each sequence) when combined with the concat
+    demuxer's variable-framerate output. Exit code 0, no warning, just a wrong result. **Fixed**
+    by applying `-t` as an *input* option on each source (the image sequence and, if present,
+    the audio track) instead, combined with `apad=whole_dur=N` (an exact target duration
+    specified directly in the filter, rather than indefinite padding relying on an external
+    cut). Verified this holds in both directions (audio shorter than images, audio longer)
+    with a real ffmpeg CLI, not assumed from the one case that happened to work before.
+  - Extracted the concat-list-building logic into its own small function (`buildConcatList`,
+    exported from `ffmpeg-processing.js`) specifically so it could be tested directly and its
+    exact output run through a real `ffmpeg` CLI end-to-end, separate from the ffmpeg.wasm
+    execution around it (which requires a real browser and can't run in this sandbox).
+  - Added `tests/product/images-to-video.integration.mjs`: product registration, input
+    validation, `buildConcatList()`'s exact output structure verified against a real ffmpeg CLI,
+    and (where the CLI is available) a full end-to-end render including the dedicated
+    short-audio/long-audio regression test for the bug this suite itself found.
+  - **Honest disclosure**: this sandbox has no real browser, so `ffmpeg.wasm` itself (as opposed
+    to the native `ffmpeg` CLI, which shares the same underlying engine and command syntax) was
+    never executed directly here. The verification is strong (the exact production code's
+    output ran through a real media engine end-to-end, not just inspected), but a live
+    smoke test after deploying is still the final confirmation step, per this project's own
+    stated principle that sandbox verification isn't the same as browser verification.
+  - `npm run validate` passes all 31 suites (629 tools).
+
 # 0.5.151
 
 - Content-quality fix, found while auditing tool pages for "thin/near-duplicate content" (a
