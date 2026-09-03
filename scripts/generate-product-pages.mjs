@@ -494,7 +494,7 @@ function createToolPage(tool) {
         </nav>
     </header>
     <main class="product-page shell" data-tool-page="${escapeHtml(tool.id)}" data-tool-definition-file="${escapeHtml(toolDefinitionFileManifest[tool.id] ?? '')}">
-        <a class="product-back" href="../../all-tools/"><span aria-hidden="true">←</span><span id="back-label">كل الأدوات</span></a>
+        <a class="product-back" href="../../all-tools/"><span aria-hidden="true">←</span><span data-copy="ar">كل الأدوات</span><span data-copy="en">All tools</span></a>
         <div class="product-grid">
             <section class="product-intro">
                 <span class="product-icon" id="tool-icon" aria-hidden="true"></span>

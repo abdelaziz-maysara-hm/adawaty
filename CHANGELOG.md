@@ -1,5 +1,29 @@
 # Changelog
 
+# 0.5.153
+
+- **Critical, user-reported bug**: the "back to all tools" link at the top of every one of the 629
+  tool pages was permanently stuck in Arabic ("كل الأدوات"), even when the page was actively being
+  viewed in English -- confirmed directly from a screenshot showing "← كل الأدوات" above fully
+  English content (title, form labels, button text).
+  - **Root cause**: the back-link span used `id="back-label"` with a single hardcoded Arabic
+    string, while `tool-page.js`'s `updateCopy()` function only toggles elements carrying a
+    `data-copy` attribute. Confirmed directly that `tool-page.js` has zero code referencing
+    `back-label` at all, so nothing ever updated it on language switch. Notably, the generator
+    script's own comment ("Title / description / note / back use data-copy spans in HTML --
+    toggle only") already documented the intended design; the template simply never implemented
+    it for this one element.
+  - **Fix**: switched the back-link to the same `data-copy="ar"`/`data-copy="en"` bilingual-span
+    pattern already used correctly everywhere else on the site, including this exact same file's
+    other catalogue-page template and the site-wide header/brand markup.
+  - Added `tests/product/bilingual-back-link.integration.mjs`: verifies every one of the 629
+    non-interactive tool pages has the correct bilingual back-link markup and that no page
+    retains the old, never-translated `id="back-label"` pattern. Confirmed the test genuinely
+    catches this exact regression by deliberately reintroducing the old broken pattern in the
+    generator, watching the test fail (flagging 522+ affected pages immediately), then restoring
+    the fix and confirming it passes again.
+  - `npm run validate` passes all 32 suites (629 tools).
+
 # 0.5.152
 
 - Added `images-to-video` (category: `video`): builds a slideshow-style
