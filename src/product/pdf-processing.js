@@ -64,7 +64,15 @@ async function inspectPdfFile(file) {
     return Object.freeze({ size: file.size, version: decode(header).match(/%PDF-(\d\.\d)/)?.[1] ?? null });
 }
 function parsePageSelection(value, pageCount) {
-    const selection = String(value ?? '').trim().toLowerCase();
+    // Accept Arabic-Indic (٠-٩) and Persian (۰-۹) digits, the Arabic comma (،)
+    // and en/em dashes, which users on Arabic keyboards type naturally.
+    const selection = String(value ?? '')
+        .replace(/[\u0660-\u0669]/g, (d) => String(d.charCodeAt(0) - 0x0660))
+        .replace(/[\u06F0-\u06F9]/g, (d) => String(d.charCodeAt(0) - 0x06F0))
+        .replace(/[\u060C\uFF0C]/g, ',')
+        .replace(/[\u2010-\u2015\u2212]/g, '-')
+        .replace(/\s*-\s*/g, '-')
+        .trim().toLowerCase();
     if (!selection || selection === 'all') {
         return Array.from({ length: pageCount }, (_, index) => index);
     }
