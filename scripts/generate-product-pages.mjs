@@ -208,8 +208,8 @@ const CATEGORY_FAQ_QUESTION = Object.freeze({
     pdf: {
         questionAr: 'هل يتغيّر تنسيق أو جودة ملف PDF الأصلي؟',
         questionEn: 'Does the original PDF\'s formatting or quality change?',
-        answerAr: 'لا، المعالجة تحافظ على تنسيق النص والصور والخطوط كما هي في الملف الأصلي قدر الإمكان.',
-        answerEn: 'No, processing preserves the original text formatting, images, and fonts as closely as possible.',
+        answerAr: 'يعتمد على الأداة. أدوات الدمج والتقسيم وإعادة الترتيب والتدوير وحذف الصفحات تحافظ على محتوى الصفحات كما هو. أما أدوات الضغط ومظهر المسح الضوئي والتحويل إلى صور أو شرائح فتعيد رسم الصفحات كصور، فلا يمكن تحديد النص أو البحث فيه بعدها. وأدوات التحويل التي تنشئ PDF جديدًا (من Word أو Excel مثلًا) تعيد بناء التنسيق، فقد لا يطابق الأصل تمامًا. راجع الناتج قبل مشاركته.',
+        answerEn: 'It depends on the tool. Merging, splitting, reordering, rotating and removing pages keep the page content as it is. Compression, the scanned look and converting pages to images or slides re-render pages as images, so the text can no longer be selected or searched. Converters that create a new PDF (for example from Word or Excel) rebuild the layout, so it may not match the original exactly. Check the result before sharing it.',
     },
     image: {
         questionAr: 'هل تقل جودة الصورة بعد المعالجة؟',
