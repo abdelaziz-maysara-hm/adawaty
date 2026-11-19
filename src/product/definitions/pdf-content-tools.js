@@ -266,15 +266,15 @@ const pdfToWord = Object.freeze({
         en: 'Convert a PDF into an editable Word document that keeps headings, font sizes, bold/italic, colours, lists, bordered tables and images, with right-to-left Arabic support.',
     }),
     note: Object.freeze({
-        ar: 'يتم التحويل بالكامل داخل متصفحك. الجداول بدون حدود تظهر كفقرات، والتخطيطات متعددة الأعمدة والنصوص فوق الصور قد تحتاج إلى مراجعة. الصفحات الممسوحة ضوئيًا أو التي لا يمكن قراءة نصها تُضاف كصورة (استخدم أداة OCR لاستخراج نصها). قد تظهر أخطاء بسيطة في التشكيل أو علامات الترقيم العربية في بعض الملفات؛ راجع الناتج.',
-        en: 'Conversion runs entirely in your browser. Tables without borders come out as paragraphs, and multi-column layouts or text over images may need review. Scanned pages, or pages whose text cannot be decoded, are added as a picture (use the OCR tool to get their text). Some files may show small errors in Arabic diacritics or punctuation, so check the result.',
+        ar: 'يتم التحويل بالكامل داخل متصفحك. الجداول بدون حدود تظهر كفقرات، والتخطيطات متعددة الأعمدة والنصوص فوق الصور قد تحتاج إلى مراجعة. الصفحات الممسوحة ضوئيًا أو التي لا يمكن قراءة نصها تُضاف كصورة (استخدم أداة OCR لاستخراج نصها). في بعض ملفات PDF يكون النص العربي المخزّن داخل الملف نفسه تالفًا، فيظهر بحروف خاطئة؛ راجع الناتج.',
+        en: 'Conversion runs entirely in your browser. Tables without borders come out as paragraphs, and multi-column layouts or text over images may need review. Scanned pages, or pages whose text cannot be decoded, are added as a picture (use the OCR tool to get their text). In some PDFs the Arabic text stored inside the file is itself damaged and comes out with wrong letters, so check the result.',
     }),
     faq: Object.freeze([
         Object.freeze({
             questionAr: 'ما الذي يُحفظ في ملف Word الناتج، وما حدوده؟',
             questionEn: 'What is kept in the Word file, and what are the limits?',
-            answerAr: 'تُحفظ الفقرات والعناوين وأحجام الخطوط والعريض والمائل والتسطير والألوان والقوائم النقطية والمرقّمة والجداول ذات الحدود والصور وفواصل الصفحات واتجاه النص العربي. لا يُعاد بناء الجداول بدون حدود والأعمدة المتعددة والرؤوس والتذييلات بدقة، والصفحات الممسوحة ضوئيًا أو التي لا يمكن قراءة نصها تُضاف كصورة. قد تختلف المسافات وفواصل الأسطر قليلًا عن الأصل.',
-            answerEn: 'Paragraphs, headings, font sizes, bold, italic, underline, colours, bulleted and numbered lists, bordered tables, images, page breaks and Arabic right-to-left text are kept. Tables without borders, multiple columns and headers/footers are not rebuilt exactly, and scanned pages or pages whose text cannot be decoded are added as a picture. Spacing and line breaks may differ slightly from the original.',
+            answerAr: 'تُحفظ الفقرات والعناوين وأحجام الخطوط والعريض والمائل والتسطير والألوان والقوائم النقطية والمرقّمة والجداول ذات الحدود والصور وفواصل الصفحات واتجاه النص العربي. الرأس والتذييل المتكرران يوضعان في رأس وتذييل Word. لا يُعاد بناء الجداول بدون حدود والأعمدة المتعددة بدقة، والصفحات الممسوحة ضوئيًا أو التي لا يمكن قراءة نصها تُضاف كصورة. قد تختلف المسافات وفواصل الأسطر قليلًا عن الأصل.',
+            answerEn: 'Paragraphs, headings, font sizes, bold, italic, underline, colours, bulleted and numbered lists, bordered tables, images, page breaks and Arabic right-to-left text are kept. Repeated headers/footers are placed in the Word header/footer. Tables without borders and multiple columns are not rebuilt exactly, and scanned pages or pages whose text cannot be decoded are added as a picture. Spacing and line breaks may differ slightly from the original.',
         }),
     ]),
     inputs: Object.freeze([pdfInput()]),

@@ -202,36 +202,46 @@ function boxesFor(section) {
     return boxes;
 }
 
+function hasContent(el) {
+    return Boolean(el && (el.textContent.trim() || el.querySelector('img, svg, canvas')));
+}
+
 function computeSlices(section) {
+    // Pages are cut from the body (article) only; the header and footer are drawn again on every page.
     const cs = getComputedStyle(section);
     const padTop = parseFloat(cs.paddingTop) || 0;
     const padBottom = parseFloat(cs.paddingBottom) || 0;
     const pageH = parseFloat(cs.minHeight) || section.offsetHeight;
-    const total = section.scrollHeight;
-    if (total <= pageH + 1) return { pageH, padTop, padBottom, slices: [[0, total]] };
+    const base = section.getBoundingClientRect().top;
+    const rel = (el) => { const r = el.getBoundingClientRect(); return { top: r.top - base, h: r.height }; };
+    const article = section.querySelector(':scope > article');
+    const header = section.querySelector(':scope > header');
+    const footer = section.querySelector(':scope > footer');
+    const contentStart = article ? rel(article).top : padTop;
+    const contentEnd = article ? contentStart + rel(article).h : section.scrollHeight - padBottom;
+    const usable = Math.max(100, pageH - padTop - padBottom);
     const boxes = boxesFor(section);
-    const usable = pageH - padTop - padBottom;
     const slices = [];
-    let start = 0;
-    let first = true;
-    // the content of the section ends at total - padBottom
-    const contentEnd = total - padBottom;
-    while (start < contentEnd - 1) {
-        const limit = first ? pageH - padBottom : start + usable;
-        if (limit >= contentEnd) { slices.push([start, contentEnd]); break; }
+    let start = contentStart;
+    while (start < contentEnd - 1 || !slices.length) {
+        const limit = start + usable;
+        if (limit >= contentEnd) { slices.push([start, Math.max(contentEnd, start + 1)]); break; }
         let cut = limit;
         // move the cut up until no box straddles it
         for (let guard = 0; guard < 500; guard += 1) {
-            const hit = boxes.find(([t, b]) => t < cut - 0.5 && b > cut + 0.5);
+            const hit = boxes.find(([t, bt]) => t < cut - 0.5 && bt > cut + 0.5);
             if (!hit) break;
             cut = hit[0];
         }
         if (cut <= start + 20) cut = limit; // a single box taller than a page: hard cut
         slices.push([start, cut]);
         start = cut;
-        first = false;
     }
-    return { pageH, padTop, padBottom, slices };
+    return {
+        pageH, padTop, padBottom, slices,
+        header: hasContent(header) ? { top: 0, h: Math.max(padTop, rel(header).top + rel(header).h) } : null,
+        footer: hasContent(footer) ? rel(footer) : null,
+    };
 }
 
 function visualOrder(word) {
@@ -330,27 +340,34 @@ export async function wordToPdf(arrayBuffer, { onProgress } = {}) {
         const plan = sections.map((s) => ({ s, ...computeSlices(s) }));
         const pageCount = plan.reduce((n, p) => n + p.slices.length, 0);
         let done = 0;
-        for (const { s, pageH, padTop, slices } of plan) {
+        for (const { s, pageH, padTop, padBottom, slices, header, footer } of plan) {
             const pageW = s.offsetWidth;
             for (let i = 0; i < slices.length; i += 1) {
                 const [a, b] = slices[i];
-                const offsetY = i === 0 ? 0 : padTop;
-                // Build an isolated page: white sheet, the slice of the section shown at offsetY.
+                // Windows onto the rendered section: body slice, plus header and footer on every page.
+                const windows = [{ src: a, end: b, dst: padTop }];
+                if (header) windows.push({ src: 0, end: Math.min(header.h, padTop + 2), dst: 0 });
+                if (footer) windows.push({ src: footer.top, end: footer.top + footer.h, dst: Math.max(pageH - padBottom, pageH - padBottom / 2 - footer.h / 2) });
                 const sheet = document.createElement('div');
                 sheet.style.cssText = `position:relative;width:${pageW}px;height:${pageH}px;overflow:hidden;background:#fff;`;
-                const win = document.createElement('div');
-                win.style.cssText = `position:absolute;left:0;top:${offsetY}px;width:${pageW}px;height:${b - a}px;overflow:hidden;`;
-                const clone = s.cloneNode(true);
-                clone.style.margin = '0';
-                clone.style.position = 'absolute';
-                clone.style.left = '0';
-                clone.style.top = `${-a}px`;
-                clone.style.boxShadow = 'none';
-                win.appendChild(clone);
-                sheet.appendChild(win);
+                const clones = [];
+                for (const w of windows) {
+                    const win = document.createElement('div');
+                    win.style.cssText = `position:absolute;left:0;top:${w.dst}px;width:${pageW}px;height:${Math.max(1, w.end - w.src)}px;overflow:hidden;`;
+                    const clone = s.cloneNode(true);
+                    clone.style.margin = '0';
+                    clone.style.position = 'absolute';
+                    clone.style.left = '0';
+                    clone.style.top = `${-w.src}px`;
+                    clone.style.boxShadow = 'none';
+                    win.appendChild(clone);
+                    sheet.appendChild(win);
+                    clones.push({ clone, w });
+                }
                 body.appendChild(sheet);
                 const canvas = await htmlToImage.toCanvas(sheet, { pixelRatio: 2, backgroundColor: '#ffffff', cacheBust: false, skipFonts: true });
-                const words = fonts ? wordsWithRects(clone, a, b, clone.getBoundingClientRect().top, offsetY) : [];
+                const words = [];
+                if (fonts) for (const { clone, w } of clones) words.push(...wordsWithRects(clone, w.src, w.end, clone.getBoundingClientRect().top, w.dst));
                 sheet.remove();
                 const jpg = await new Promise((r) => canvas.toBlob(r, 'image/jpeg', 0.9));
                 const img = await pdf.embedJpg(await jpg.arrayBuffer());

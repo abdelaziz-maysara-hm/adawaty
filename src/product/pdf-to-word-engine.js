@@ -35,7 +35,7 @@ async function loadWorker(pdfjs) {
             const source = await (await fetch(PDF_JS_WORKER_URL)).text();
             const target = /let text = textChunk\.str\.join\(""\);\s*if \(!disableNormalization\) \{\s*text = normalizeUnicode\(text\);\s*\}/;
             if (!target.test(source)) return null;
-            const patched = source.replace(target, 'let text = textChunk.str.map((g) => { let s = disableNormalization ? g : normalizeUnicode(g); if (s.length > 1 && /[\\u0600-\\u06FF\\u0750-\\u077F\\u08A0-\\u08FF]/.test(s) && !/[A-Za-z0-9]/.test(s)) s = Array.from(s).reverse().join(""); return s; }).join("");');
+            const patched = source.replace(target, 'let text = textChunk.str.map((g) => { let s = disableNormalization || /[\\uFDFA\\uFDFB\\uFDFD]/.test(g) ? g : normalizeUnicode(g); if (s.length > 1 && /[\\u0600-\\u06FF\\u0750-\\u077F\\u08A0-\\u08FF]/.test(s) && !/[A-Za-z0-9]/.test(s)) s = Array.from(s).reverse().join(""); return s; }).join("");');
             const url = URL.createObjectURL(new Blob([patched], { type: 'text/javascript' }));
             return new pdfjs.PDFWorker({ port: new Worker(url, { type: 'module' }) });
         } catch {
@@ -222,6 +222,10 @@ function orderRuns(input, rtl) {
         if (rtl && /^\s*\d[\d.,]*\s*$/.test(cleaned[i].text)) return 'ltr';
         return base;
     });
+    // neutral runs read right-to-left inside RTL text (e.g. ".»" drawn left-to-right is "»." logically)
+    cleaned.forEach((r, i) => {
+        if (dirs[i] === 'neutral' && resolved[i] === 'rtl' && r.text.trim().length > 1 && !/\d/.test(r.text)) r.text = Array.from(r.text).reverse().join('');
+    });
     // inside an RTL line, consecutive LTR runs keep their left-to-right order (and vice versa)
     const out = [];
     let group = [];
@@ -328,6 +332,18 @@ function runProps(run, para) {
     return `<w:rPr>${parts.join('')}</w:rPr>`;
 }
 
+// Tanween is always word-final: a tanween followed by another letter of the same word
+// comes from a PDF glyph that maps to "letter + tanween" and is dropped.
+function fixTanween(runs) {
+    for (let i = 0; i < runs.length; i += 1) {
+        if (runs[i].picture) continue;
+        const next = runs[i + 1] && !runs[i + 1].picture ? runs[i + 1].text.charAt(0) : '';
+        const t = runs[i].text + next;
+        const fixed = t.replace(/[\u064C\u064D](?=[\u0621-\u064A])/g, '').replace(/\u064B(?=[\u0621-\u0626\u0628-\u0648\u064A])/g, '');
+        runs[i].text = next ? fixed.slice(0, fixed.length - 1) : fixed;
+    }
+}
+
 function paragraphXml(para, ctx, inCell = false) {
     // merge lines into runs with the same formatting
     const runs = [];
@@ -348,13 +364,15 @@ function paragraphXml(para, ctx, inCell = false) {
         if (i > 0 && ordered.length) ordered[0].text = ` ${ordered[0].text.replace(/^\s+/, '')}`;
         for (const r of ordered) {
             const last = runs[runs.length - 1];
-            if (last && last.bold === r.bold && last.italic === r.italic && Math.abs(last.size - r.size) < 0.3 && last.family === r.family && last.color === r.color && last.underline === r.underline) last.text += r.text;
+            if (last && !last.picture && !r.picture && last.bold === r.bold && last.italic === r.italic && Math.abs(last.size - r.size) < 0.3 && last.family === r.family && last.color === r.color && last.underline === r.underline) last.text += r.text;
             else runs.push({ ...r });
         }
     });
+    fixTanween(runs);
     if (runs.length) runs[0].text = runs[0].text.replace(/^\s+/, '');
     if (runs.length) runs[runs.length - 1].text = runs[runs.length - 1].text.replace(/\s+$/, '');
-    const size = para.lines[0].bodySize;
+    const textSizes = runs.filter((r) => !r.picture && r.text.trim()).map((r) => r.size);
+    const size = textSizes.length ? Math.min(...textSizes) : para.lines[0].bodySize;
     const allBold = runs.length && runs.every((r) => r.bold || !r.text.trim());
     const ppr = [];
     let level = 0;
@@ -379,7 +397,9 @@ function paragraphXml(para, ctx, inCell = false) {
     }
     ppr.push(`<w:spacing w:before="0" w:after="${inCell ? 0 : para.marker ? 40 : 120}"/>`);
     const rpr = runs[0] ? runProps(runs[0], para).replace('<w:rPr>', '<w:rPr>') : '';
-    const body = runs.map((r) => `<w:r>${runProps(r, para)}<w:t xml:space="preserve">${xml(r.text)}</w:t></w:r>`).join('');
+    const body = runs.map((r) => (r.picture && ctx.addPicture
+        ? ctx.addPicture(r.picture, r.w, r.picH)
+        : `<w:r>${runProps(r, para)}<w:t xml:space="preserve">${xml(r.text)}</w:t></w:r>`)).join('');
     return `<w:p><w:pPr>${ppr.join('')}${rpr}</w:pPr>${body}</w:p>`;
 }
 
@@ -438,7 +458,7 @@ async function renderArea(page, box) {
     return blobOf(c2);
 }
 
-async function analysePage(pdfjs, page) {
+async function analysePage(pdfjs, page, stats = {}) {
     const viewport = page.getViewport({ scale: 1 });
     const [view0, view1] = [page.view[0], page.view[1]];
     const opList = await page.getOperatorList();
@@ -457,7 +477,7 @@ async function analysePage(pdfjs, page) {
         const size = Math.abs(t[3]) || Math.hypot(t[2], t[3]) || Math.abs(t[0]) || 10;
         const fi = fontInfo(page, item.fontName);
         const skew = Math.abs(t[2]) > 0.1 * Math.abs(t[3]);
-        runs.push({ text, x: t[4] - view0, y: t[5] - view1, w: item.width, size: Math.round(size * 2) / 2, bold: fi.bold, italic: fi.italic || skew, family: fi.symbol ? '' : fi.family, symbol: fi.symbol });
+        runs.push({ text, x: t[4] - view0, y: t[5] - view1, w: item.width, size: Math.round(size * 2) / 2, bold: fi.bold, italic: fi.italic || skew, family: fi.symbol ? '' : fi.family, symbol: fi.symbol, fontName: item.fontName });
     }
     for (const s of segments) { s[0] = [s[0][0] - view0, s[0][1] - view1]; s[1] = [s[1][0] - view0, s[1][1] - view1]; }
     for (const im of images) { im.x1 -= view0; im.x2 -= view0; im.y1 -= view1; im.y2 -= view1; }
@@ -481,6 +501,7 @@ async function analysePage(pdfjs, page) {
         const c2d = canvas.getContext('2d', { willReadFrequently: true });
         await page.render({ canvasContext: c2d, viewport: vp }).promise;
         for (const r of runs) {
+            if (r.picture) continue;
             if (!r.text.trim() || r.w <= 0) continue;
             const x = Math.max(0, Math.floor(r.x * scale)); const y = Math.max(0, Math.floor((viewport.height - r.y - r.size * 0.75) * scale));
             const w = Math.max(1, Math.min(canvas.width - x, Math.ceil(r.w * scale))); const h = Math.max(1, Math.min(canvas.height - y, Math.ceil(r.size * 0.8 * scale)));
@@ -547,13 +568,16 @@ export async function pdfToDocx(arrayBuffer, { onProgress } = {}) {
     const lists = [];
     const bodyParts = [];
     let firstSize = null;
+    let headerInfo = null;
+    let footerInfo = null;
+    let edgeCtx = null;
     const stats = { pages: doc.numPages, tables: 0, images: 0, imagePages: 0, unreadablePages: 0, scannedPages: 0 };
     try {
         // body font size across the document (most common size, weighted by characters)
         const analyses = [];
         for (let n = 1; n <= doc.numPages; n += 1) {
             const page = await doc.getPage(n);
-            analyses.push({ page, a: await analysePage(pdfjs, page) });
+            analyses.push({ page, a: await analysePage(pdfjs, page, stats) });
         }
         const sizeWeight = new Map();
         for (const { a } of analyses) for (const r of a.runs) sizeWeight.set(r.size, (sizeWeight.get(r.size) || 0) + r.text.length);
@@ -561,7 +585,7 @@ export async function pdfToDocx(arrayBuffer, { onProgress } = {}) {
         for (const [s, w] of sizeWeight) if (w > best) { best = w; bodySize = s; }
 
         let listState = null;
-        const addImage = async (blob, wPt, hPt, maxW) => {
+        const addImage = (blob, wPt, hPt, maxW) => {
             if (!blob) return '';
             const idx = media.length + 1;
             const name = `image${idx}.png`;
@@ -571,6 +595,33 @@ export async function pdfToDocx(arrayBuffer, { onProgress } = {}) {
             const cx = Math.round(w * 12700); const cy = Math.round(h * 12700);
             return `<w:r><w:drawing><wp:inline distT="0" distB="0" distL="0" distR="0"><wp:extent cx="${cx}" cy="${cy}"/><wp:docPr id="${idx}" name="Picture ${idx}"/><a:graphic xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:pic xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:nvPicPr><pic:cNvPr id="${idx}" name="${name}"/><pic:cNvPicPr/></pic:nvPicPr><pic:blipFill><a:blip r:embed="rIdImg${idx}"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill><pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="${cx}" cy="${cy}"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></pic:spPr></pic:pic></a:graphicData></a:graphic></wp:inline></w:drawing></w:r>`;
         };
+
+        // Repeated header/footer lines (same text, ignoring digits, on most pages) go into a real Word header/footer.
+        const edgeLine = (a, top) => {
+            const band = a.runs.filter((r) => r.text.trim() && !r.picture && (top ? r.y > a.height * 0.9 : r.y < a.height * 0.09));
+            if (!band.length) return null;
+            const y = top ? Math.max(...band.map((r) => r.y)) : Math.min(...band.map((r) => r.y));
+            const members = band.filter((r) => Math.abs(r.y - y) < r.size * 0.5);
+            const lines = groupLines(members);
+            if (lines.length !== 1) return null;
+            return { members, line: lines[0], key: lines[0].text.replace(/[0-9\u0660-\u0669]+/g, '#') };
+        };
+        const findRepeated = (top) => {
+            if (analyses.length < 2) return null;
+            const found = analyses.map(({ a }) => edgeLine(a, top));
+            const counts = new Map();
+            for (const f of found) if (f) counts.set(f.key, (counts.get(f.key) || 0) + 1);
+            let key = null; let n = 0;
+            for (const [k, c] of counts) if (c > n) { n = c; key = k; }
+            if (!key || n < 2 || n < analyses.length * 0.5) return null;
+            const hits = found.filter((f) => f && f.key === key);
+            hits.forEach((f) => { for (const r of f.members) r.edge = true; });
+            const variesDigits = new Set(hits.map((f) => f.line.text)).size > 1 && /#/.test(key);
+            return { line: hits[0].line, pageField: variesDigits };
+        };
+        headerInfo = findRepeated(true);
+        footerInfo = findRepeated(false);
+        if (headerInfo || footerInfo) for (const { a } of analyses) a.runs = a.runs.filter((r) => !r.edge);
 
         for (let p = 0; p < analyses.length; p += 1) {
             const { page, a } = analyses[p];
@@ -596,34 +647,46 @@ export async function pdfToDocx(arrayBuffer, { onProgress } = {}) {
                 const free = [];
                 for (const r of a.runs) { const t = inTable(r); if (t) (t.runs ||= []).push(r); else free.push(r); }
                 const ctx = { bodySize, contentWidth, pageCenter: a.width / 2, lineWidthChars: contentWidth / (bodySize * 0.5), numIdFor: null };
+                const sameFmt = (x, m) => x && x.type === m.type && x.kind === m.kind;
                 const numIdFor = (para) => {
                     const m = para.marker;
                     const edge = para.markerEdge;
-                    const indentOf = (e) => (para.rtl ? -e : e);
-                    if (listState && listState.open && listState.rtl === para.rtl) {
-                        const levels = listState.levels;
-                        let ilvl = levels.findIndex((l) => Math.abs(l.edge - edge) < 5);
-                        if (ilvl >= 0) {
-                            const l = levels[ilvl];
-                            if (l.type === m.type && l.kind === m.kind) { levels.length = ilvl + 1; return { id: listState.id, ilvl }; }
-                            if (ilvl > 0) { levels[ilvl] = { edge, type: m.type, kind: m.kind, start: m.value || 1 }; levels.length = ilvl + 1; lists[listState.id - 1].levels[ilvl] ||= levels[ilvl]; return { id: listState.id, ilvl }; }
-                        } else if (indentOf(edge) > indentOf(levels[levels.length - 1].edge) && levels.length < 8) {
-                            levels.push({ edge, type: m.type, kind: m.kind, start: m.value || 1 });
-                            ilvl = levels.length - 1;
-                            const def = lists[listState.id - 1].levels;
-                            if (!def[ilvl]) def[ilvl] = levels[ilvl];
-                            return { id: listState.id, ilvl };
-                        } else if (levels.length > 1 && indentOf(edge) > indentOf(levels[0].edge)) {
-                            // back to an intermediate indent we have not seen: treat as level 1
-                            levels.length = 2; return { id: listState.id, ilvl: 1 };
-                        }
+                    const depth = (e) => (para.rtl ? -e : e);
+                    const level = { edge, type: m.type, kind: m.kind, start: m.value || 1 };
+                    const startList = () => {
+                        lists.push({ levels: [level] });
+                        listState = { id: lists.length, open: true, rtl: para.rtl, edges: [edge], cur: [lists.length] };
+                        return { id: listState.id, ilvl: 0 };
+                    };
+                    if (!listState || !listState.open || listState.rtl !== para.rtl) return startList();
+                    const { edges } = listState;
+                    let L = edges.findIndex((e) => Math.abs(e - edge) < 5);
+                    if (L < 0) {
+                        if (depth(edge) > depth(edges[edges.length - 1]) && edges.length < 8) { L = edges.length; edges.push(edge); }
+                        else if (depth(edge) < depth(edges[0])) return startList();
+                        else { L = 0; let best = Infinity; edges.forEach((e, i) => { if (Math.abs(e - edge) < best) { best = Math.abs(e - edge); L = i; } }); }
                     }
-                    const level0 = { edge, type: m.type, kind: m.kind, start: m.value || 1 };
-                    lists.push({ levels: [level0] });
-                    listState = { id: lists.length, open: true, rtl: para.rtl, levels: [level0] };
-                    return { id: listState.id, ilvl: 0 };
+                    edges.length = L + 1;
+                    listState.cur.length = Math.min(listState.cur.length, L + 1);
+                    const main = lists[listState.id - 1].levels;
+                    if (L === 0) {
+                        if (!sameFmt(main[0], m)) return startList();
+                        listState.cur[0] = listState.id;
+                        return { id: listState.id, ilvl: 0 };
+                    }
+                    const current = listState.cur[L];
+                    if (current && sameFmt(lists[current - 1].levels[L], m)) return { id: current, ilvl: L };
+                    if (!main[L]) { main[L] = level; listState.cur[L] = listState.id; return { id: listState.id, ilvl: L }; }
+                    if (sameFmt(main[L], m) && !current) { listState.cur[L] = listState.id; return { id: listState.id, ilvl: L }; }
+                    // a sub-list with another style (e.g. numbers under a bulleted level): its own numbering
+                    const levels = main.slice(0, L); levels[L] = level;
+                    lists.push({ levels });
+                    listState.cur[L] = lists.length;
+                    return { id: lists.length, ilvl: L };
                 };
                 ctx.numIdFor = numIdFor;
+                edgeCtx = ctx;
+                ctx.addPicture = (blob, w, h) => addImage(blob, w, h, 1e9);
                 // paragraphs outside tables
                 const lines = groupLines(free);
                 const paras = linesToParagraphs(lines, ctx);
@@ -671,18 +734,29 @@ export async function pdfToDocx(arrayBuffer, { onProgress } = {}) {
     const pageH = Math.round((firstSize?.height || 841.89) * 20);
     const body = bodyParts.map((part, i) => (part || '<w:p/>') + (i < bodyParts.length - 1 ? '<w:p><w:r><w:br w:type="page"/></w:r></w:p>' : '')).join('');
     const documentXml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture"><w:body>${body}<w:sectPr><w:pgSz w:w="${pageW}" w:h="${pageH}"/><w:pgMar w:top="1134" w:right="1134" w:bottom="1134" w:left="1134" w:header="567" w:footer="567" w:gutter="0"/></w:sectPr></w:body></w:document>`;
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture"><w:body>${body}<w:sectPr>${headerInfo ? '<w:headerReference w:type="default" r:id="rIdHeader1"/>' : ''}${footerInfo ? '<w:footerReference w:type="default" r:id="rIdFooter1"/>' : ''}<w:pgSz w:w="${pageW}" w:h="${pageH}"/><w:pgMar w:top="1134" w:right="1134" w:bottom="1134" w:left="1134" w:header="567" w:footer="567" w:gutter="0"/></w:sectPr></w:body></w:document>`;
     zip.file('[Content_Types].xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Default Extension="png" ContentType="image/png"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/><Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/><Override PartName="/word/numbering.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.numbering+xml"/></Types>`);
+<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Default Extension="png" ContentType="image/png"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/><Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/><Override PartName="/word/numbering.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.numbering+xml"/>${headerInfo ? '<Override PartName="/word/header1.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.header+xml"/>' : ''}${footerInfo ? '<Override PartName="/word/footer1.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml"/>' : ''}</Types>`);
     zip.file('_rels/.rels', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>`);
     const rels = [
         '<Relationship Id="rIdStyles" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>',
         '<Relationship Id="rIdNumbering" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/numbering" Target="numbering.xml"/>',
+        ...(headerInfo ? ['<Relationship Id="rIdHeader1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/header" Target="header1.xml"/>'] : []),
+        ...(footerInfo ? ['<Relationship Id="rIdFooter1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/footer" Target="footer1.xml"/>'] : []),
         ...media.map((m, i) => `<Relationship Id="rIdImg${i + 1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/${m.name}"/>`),
     ];
     zip.file('word/_rels/document.xml.rels', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">${rels.join('')}</Relationships>`);
+    const edgePart = (info, tag) => {
+        const para = { lines: [info.line], rtl: info.line.rtl, marker: null };
+        let p = paragraphXml(para, { ...(edgeCtx || {}), bodySize: 1e9, contentWidth: 0 }, true);
+        if (info.pageField) p = p.replace(/(<w:t xml:space="preserve">[^<]*?)([0-9\u0660-\u0669]+)([^<]*<\/w:t><\/w:r>)/, (all, before, digits, after) => `${before}</w:t></w:r><w:r><w:fldChar w:fldCharType="begin"/></w:r><w:r><w:instrText xml:space="preserve"> PAGE </w:instrText></w:r><w:r><w:fldChar w:fldCharType="separate"/></w:r><w:r><w:t>${digits}</w:t></w:r><w:r><w:fldChar w:fldCharType="end"/></w:r><w:r><w:t xml:space="preserve">${after.replace(/^/, '')}`);
+        return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:${tag} xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">${p}</w:${tag}>`;
+    };
+    if (headerInfo) zip.file('word/header1.xml', edgePart(headerInfo, 'hdr'));
+    if (footerInfo) zip.file('word/footer1.xml', edgePart(footerInfo, 'ftr'));
     zip.file('word/document.xml', documentXml);
     zip.file('word/styles.xml', STYLES_XML);
     zip.file('word/numbering.xml', buildNumbering(lists));
@@ -690,6 +764,10 @@ export async function pdfToDocx(arrayBuffer, { onProgress } = {}) {
     // Final safety net: the document must be well-formed XML.
     const check = new DOMParser().parseFromString(documentXml, 'application/xml');
     if (check.getElementsByTagName('parsererror').length) throw new Error('docx-xml');
+    for (const part of ['word/header1.xml', 'word/footer1.xml']) {
+        const f = zip.file(part);
+        if (f && new DOMParser().parseFromString(await f.async('string'), 'application/xml').getElementsByTagName('parsererror').length) throw new Error('docx-xml');
+    }
     const blob = await zip.generateAsync({ type: 'blob', mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', compression: 'DEFLATE', compressionOptions: { level: 6 } });
     return { blob, stats };
 }

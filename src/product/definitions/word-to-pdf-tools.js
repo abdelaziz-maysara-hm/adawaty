@@ -41,15 +41,15 @@ const wordToPdfConverter = Object.freeze({
         en: 'Convert a Word (.docx) document into a PDF that looks like the original: headings, fonts, sizes, bold/italic, bulleted and numbered lists, tables, images and multiple pages, in English and Arabic.',
     }),
     note: Object.freeze({
-        ar: 'يتم التحويل بالكامل داخل متصفحك. كل صفحة تُحفظ كصورة عالية الدقة مع طبقة نص مخفية، فيمكن البحث في النص ونسخه لكن لا يمكن تعديله كنص. الرأس والتذييل يظهران مرة واحدة لكل قسم ولا يتكرران في كل صفحة، وأرقام الصفحات التلقائية والتعليقات وتتبّع التغييرات ومربعات النص المعقدة غير مدعومة. ملفات ‎.doc القديمة غير مدعومة؛ احفظها كـ ‎.docx أولًا.',
-        en: 'Conversion runs entirely in your browser. Each page is saved as a high-resolution image with a hidden text layer, so the text can be searched and copied but not edited as text. Headers and footers appear once per section rather than on every page, and automatic page numbers, comments, tracked changes and complex text boxes are not supported. Old .doc files are not supported; save them as .docx first.',
+        ar: 'يتم التحويل بالكامل داخل متصفحك. كل صفحة تُحفظ كصورة عالية الدقة مع طبقة نص مخفية، فيمكن البحث في النص ونسخه لكن لا يمكن تعديله كنص. الرأس والتذييل يتكرران في كل صفحة، لكن أرقام الصفحات التلقائية والتعليقات وتتبّع التغييرات ومربعات النص المعقدة غير مدعومة. ملفات ‎.doc القديمة غير مدعومة؛ احفظها كـ ‎.docx أولًا.',
+        en: 'Conversion runs entirely in your browser. Each page is saved as a high-resolution image with a hidden text layer, so the text can be searched and copied but not edited as text. Headers and footers are repeated on every page, but automatic page numbers, comments, tracked changes and complex text boxes are not supported. Old .doc files are not supported; save them as .docx first.',
     }),
     faq: Object.freeze([
         Object.freeze({
             questionAr: 'ما الذي يُحفظ في ملف PDF الناتج، وما حدوده؟',
             questionEn: 'What is kept in the PDF, and what are the limits?',
-            answerAr: 'تُحفظ العناوين والخطوط والأحجام والعريض والمائل والتسطير والقوائم المرقّمة والنقطية والجداول والصور واتجاه النص العربي (من اليمين لليسار). كل صفحة تُحفظ كصورة مع طبقة نص مخفية للبحث والنسخ، لذلك لا يمكن تعديل النص داخل PDF. الرأس والتذييل لا يتكرران في كل صفحة، وأرقام الصفحات التلقائية والتعليقات وتتبّع التغييرات غير مدعومة، وقد تختلف نقاط فواصل الصفحات قليلًا عن Word.',
-            answerEn: 'Headings, fonts, sizes, bold, italic, underline, bulleted and numbered lists, tables, images and right-to-left Arabic text are kept. Each page is stored as an image with a hidden text layer for search and copy, so the text cannot be edited inside the PDF. Headers and footers are not repeated on every page, automatic page numbers, comments and tracked changes are not supported, and page breaks may fall slightly differently than in Word.',
+            answerAr: 'تُحفظ العناوين والخطوط والأحجام والعريض والمائل والتسطير والقوائم المرقّمة والنقطية والجداول والصور واتجاه النص العربي (من اليمين لليسار). كل صفحة تُحفظ كصورة مع طبقة نص مخفية للبحث والنسخ، لذلك لا يمكن تعديل النص داخل PDF. أرقام الصفحات التلقائية والتعليقات وتتبّع التغييرات غير مدعومة، وقد تختلف نقاط فواصل الصفحات قليلًا عن Word.',
+            answerEn: 'Headings, fonts, sizes, bold, italic, underline, bulleted and numbered lists, tables, images and right-to-left Arabic text are kept. Each page is stored as an image with a hidden text layer for search and copy, so the text cannot be edited inside the PDF. Automatic page numbers, comments and tracked changes are not supported, and page breaks may fall slightly differently than in Word.',
         }),
     ]),
     inputs: Object.freeze([
