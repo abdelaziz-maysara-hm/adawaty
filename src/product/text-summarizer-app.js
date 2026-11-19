@@ -10,8 +10,10 @@ const copy = Object.freeze({
         cloudSummarizing: 'جارٍ التلخيص عبر الخدمة السحابية...',
         result: 'الملخص', copy: 'نسخ', copied: 'تم النسخ!',
         emptyInput: 'الصق نصًا أولًا قبل التلخيص.',
-        summarizeFailed: 'تعذّر التلخيص. تأكد من اتصالك بالإنترنت (لتحميل النموذج أول مرة) وحاول مرة أخرى.',
-        cloudSummarizeFailed: 'تعذّر التلخيص عبر الخدمة السحابية. تأكد من اتصالك بالإنترنت وحاول مرة أخرى.',
+        summarizeFailed: 'تعذّر تشغيل نموذج الذكاء الاصطناعي على هذا الجهاز. الوضع المحلي يحتاج متصفحًا يدعم WebGPU فعليًا (Chrome أو Edge حديث على الكمبيوتر) وذاكرة كافية لنموذج حجمه حوالي 950 ميجابايت. جرّب مرة أخرى أو استخدم الوضع السحابي.',
+        webgpuFailed: 'متصفحك لا يوفّر معالج رسوميات WebGPU صالحًا، لذلك لا يمكن تشغيل النموذج المحلي هنا. استخدم الوضع السحابي، أو Chrome/Edge حديثًا على الكمبيوتر.',
+        networkFailed: 'تعذّر تحميل النموذج أو الوصول للخدمة. تأكد من اتصالك بالإنترنت وحاول مرة أخرى.',
+        cloudSummarizeFailed: 'خدمة التلخيص السحابية غير متاحة مؤقتًا. حاول مرة أخرى بعد قليل.',
         cloudConfirm: 'النسخة السحابية هتبعت النص اللي كتبته لخدمة ذكاء اصطناعي سحابية (Cloudflare Workers AI) عشان تتلخّص، بدل ما تتلخّص جوّه متصفحك. متابعة؟',
     }),
     en: Object.freeze({
@@ -21,8 +23,10 @@ const copy = Object.freeze({
         cloudSummarizing: 'Summarizing via the cloud service...',
         result: 'Summary', copy: 'Copy', copied: 'Copied!',
         emptyInput: 'Paste some text before summarizing.',
-        summarizeFailed: 'Could not summarize. Check your internet connection (needed to download the model the first time) and try again.',
-        cloudSummarizeFailed: 'Could not summarize via the cloud service. Check your internet connection and try again.',
+        summarizeFailed: 'Could not run the AI model on this device. Local mode needs a browser with working WebGPU (recent Chrome or Edge on a computer) and enough memory for a ~950 MB model. Try again, or switch to the cloud mode.',
+        webgpuFailed: 'Your browser does not provide a usable WebGPU graphics adapter, so the local AI model cannot run here. Switch to the cloud mode, or use a recent Chrome/Edge on a computer.',
+        networkFailed: 'Could not download the model or reach the service. Check your internet connection and try again.',
+        cloudSummarizeFailed: 'The cloud summarizer is temporarily unavailable. Please try again in a few minutes.',
         cloudConfirm: 'The cloud version sends the text you typed to a cloud AI service (Cloudflare Workers AI) to be summarized, instead of summarizing it inside your browser. Continue?',
     }),
 });
@@ -78,6 +82,15 @@ function setSelectedMode(mode) {
     }
 }
 
+// Pick an honest error message: only blame the network for real network errors,
+// and say so plainly when WebGPU (not the internet) is what is missing.
+function failureMessageKey(error, fallbackKey) {
+    const message = String(error?.message ?? error ?? '');
+    if (/failed to fetch|networkerror|network error|load failed/i.test(message)) return 'networkFailed';
+    if (fallbackKey !== 'cloudSummarizeFailed' && /webgpu|gpu adapter|adapter|requestAdapter|navigator\.gpu/i.test(message)) return 'webgpuFailed';
+    return fallbackKey;
+}
+
 async function handleSummarize() {
     const text = el.input.value.trim();
     if (!text) {
@@ -107,7 +120,7 @@ async function handleSummarize() {
         el.resultWrap.hidden = false;
     } catch (error) {
         console.error('Summarization failed:', error);
-        setStatus(mode === 'cloud' ? t('cloudSummarizeFailed') : t('summarizeFailed'));
+        setStatus(t(failureMessageKey(error, mode === 'cloud' ? 'cloudSummarizeFailed' : 'summarizeFailed')));
     } finally {
         el.progressWrap.hidden = true;
         setBusy(false);

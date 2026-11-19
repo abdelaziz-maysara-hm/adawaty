@@ -119,13 +119,13 @@ const AUDIO_FORMATS = Object.freeze({
     opus: {
         ext: 'opus',
         mime: 'audio/opus',
-        args: ['-c:a', 'libopus', '-b:a', '128k'],
+        args: ['-c:a', 'opus', '-strict', '-2', '-ar', '48000', '-ac', '2', '-b:a', '128k'],
         label: { ar: 'Opus', en: 'Opus' },
     },
     webm: {
         ext: 'webm',
         mime: 'audio/webm',
-        args: ['-c:a', 'libopus', '-b:a', '128k'],
+        args: ['-c:a', 'opus', '-strict', '-2', '-ar', '48000', '-ac', '2', '-b:a', '128k'],
         label: { ar: 'WebM (Opus)', en: 'WebM (Opus)' },
     },
 });

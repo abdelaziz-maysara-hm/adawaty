@@ -7,7 +7,7 @@
  * never automatically, and never silently.
  *
  * Calls the same-origin /api/summarize route (see /worker-entry.js),
- * which forwards to Cloudflare Workers AI (@cf/meta/llama-3.1-8b-instruct).
+ * which forwards to Cloudflare Workers AI (see SUMMARY_MODELS in worker-entry.js).
  */
 async function summarizeViaCloud(text, language) {
     const response = await fetch('/api/summarize', {

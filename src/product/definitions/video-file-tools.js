@@ -296,7 +296,7 @@ const videoAudioExtractor = videoBase({
             wav: { args: ['-vn', '-c:a', 'pcm_s16le'], mime: 'audio/wav' },
             mp3: { args: ['-vn', '-c:a', 'libmp3lame', '-q:a', '2'], mime: 'audio/mpeg' },
             aac: { args: ['-vn', '-c:a', 'aac', '-b:a', '192k'], mime: 'audio/aac' },
-            ogg: { args: ['-vn', '-c:a', 'libopus', '-b:a', '160k'], mime: 'audio/ogg' },
+            ogg: { args: ['-vn', '-c:a', 'libvorbis', '-q:a', '5'], mime: 'audio/ogg' },
         };
         const selected = values.format || 'wav';
         const format = formats[selected] ?? formats.wav;

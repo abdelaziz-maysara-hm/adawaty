@@ -274,7 +274,9 @@ assert.equal(videoConversionKey('mov', 'mp4'), 'mov-to-mp4-converter');
 assert.equal(videoConversionPairs.length, 6);
 assert.equal(new Set(videoConversionPairs.map(([source, target]) => videoConversionKey(source, target))).size, 6);
 assert.ok(videoOutputArgs('mp4').includes('libx264'));
-assert.ok(videoOutputArgs('webm').includes('libvpx-vp9'));
+// VP8 realtime: VP9 in ffmpeg.wasm crashed browser tabs on a 5 s clip.
+assert.ok(videoOutputArgs('webm').includes('libvpx'));
+assert.ok(videoOutputArgs('webm').includes('realtime'));
 
 for (const pageCount of [1, 3, 6]) {
     const rendered = [];

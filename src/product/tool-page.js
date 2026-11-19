@@ -51,6 +51,37 @@ function getLanguage() {
     return root.dataset.language === 'en' ? 'en' : 'ar';
 }
 
+/**
+ * Site-wide number-field safety net:
+ * 1. A required number field that only shows a placeholder looks filled in but
+ *    blocks the form, so a numeric placeholder becomes the real starting value.
+ * 2. A step whose grid is anchored on an odd `min` (e.g. min 0.000001, step 0.1)
+ *    makes the browser reject round numbers such as 5 or 10; in that case the
+ *    field accepts any value instead.
+ */
+function prepareNumberInput(element) {
+    const placeholder = element.placeholder.trim();
+    if (element.value === '' && placeholder !== '' && Number.isFinite(Number(placeholder))) {
+        const value = Number(placeholder);
+        const min = element.min === '' ? -Infinity : Number(element.min);
+        const max = element.max === '' ? Infinity : Number(element.max);
+        if (value >= min && value <= max) element.value = placeholder;
+    }
+    if (element.getAttribute('step') === 'any') return;
+    // Without a step attribute the browser uses step 1, anchored on min.
+    const step = element.hasAttribute('step') ? Number(element.getAttribute('step')) : 1;
+    if (!(step > 0)) return;
+    const base = element.min === '' ? 0 : Number(element.min);
+    // `onGrid(0)` asks whether the min-anchored grid also contains whole numbers.
+    const onGrid = (number) => {
+        const units = (number - base) / step;
+        return Math.abs(units - Math.round(units)) < 1e-7;
+    };
+    const minOffGrid = element.min !== '' && !onGrid(0);
+    const valueOffGrid = element.value !== '' && !onGrid(Number(element.value));
+    if (minOffGrid || valueOffGrid) element.setAttribute('step', 'any');
+}
+
 function createInput(input, language) {
     const group = document.createElement('label');
     group.className = 'product-field';
@@ -78,6 +109,11 @@ function createInput(input, language) {
             optionElement.textContent = translate(option.label, language);
             element.append(optionElement);
         }
+        // Optional per-language default (e.g. OCR picks English on English pages).
+        const preferred = input.defaultByLanguage?.[language];
+        if (preferred !== undefined && input.options.some((option) => option.value === preferred)) {
+            element.value = preferred;
+        }
     } else if (input.type === 'textarea') {
         element.rows = input.rows ?? 8;
         element.placeholder = resolvePlaceholder(input, language);
@@ -91,6 +127,7 @@ function createInput(input, language) {
             }
         }
         element.placeholder = resolvePlaceholder(input, language);
+        if (input.type === 'number') prepareNumberInput(element);
     }
 
     control.append(element);

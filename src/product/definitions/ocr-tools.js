@@ -11,6 +11,7 @@ function languageInput() {
         type: 'select',
         label: Object.freeze({ ar: 'لغة المستند', en: 'Document language' }),
         unit: Object.freeze({ ar: '', en: '' }),
+        defaultByLanguage: Object.freeze({ ar: 'ara', en: 'eng' }),
         options: Object.freeze([
             Object.freeze({ value: 'ara', label: Object.freeze({ ar: 'العربية', en: 'Arabic' }) }),
             Object.freeze({ value: 'eng', label: Object.freeze({ ar: 'الإنجليزية', en: 'English' }) }),

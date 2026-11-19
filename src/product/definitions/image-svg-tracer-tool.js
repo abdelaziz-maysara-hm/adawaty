@@ -1,6 +1,7 @@
 import { decodeImage } from '../image-processing.js';
 
-const IMAGE_TRACER_URL = 'https://cdn.jsdelivr.net/npm/imagetracerjs@1.2.6/+esm';
+const IMAGE_TRACER_URL = 'https://cdn.jsdelivr.net/npm/imagetracerjs@1.2.6/imagetracer_v1.2.6.min.js';
+let tracerPromise;
 
 function localized(language, ar, en) {
     return language === 'ar' ? ar : en;
@@ -49,13 +50,24 @@ async function imageToImageData(file) {
     return Object.freeze({ imageData: context.getImageData(0, 0, width, height), width, height });
 }
 
-async function loadImageTracer() {
-    const module = await import(IMAGE_TRACER_URL);
-    const tracer = module.default ?? module.ImageTracer ?? module;
-    if (typeof tracer.imagedataToSVG !== 'function') {
-        throw new Error('The SVG tracing engine is unavailable.');
-    }
-    return tracer;
+// imagetracerjs is a plain browser script (it sets self.ImageTracer). jsDelivr's "+esm"
+// wrapper takes its CommonJS branch and exports nothing usable, so load it as a <script>.
+function loadImageTracer() {
+    tracerPromise ??= new Promise((resolve, reject) => {
+        if (globalThis.ImageTracer?.imagedataToSVG) { resolve(globalThis.ImageTracer); return; }
+        const script = document.createElement('script');
+        script.src = IMAGE_TRACER_URL;
+        script.async = true;
+        script.crossOrigin = 'anonymous';
+        script.onload = () => {
+            const tracer = globalThis.ImageTracer;
+            if (tracer && typeof tracer.imagedataToSVG === 'function') resolve(tracer);
+            else reject(new Error('The SVG tracing engine is unavailable.'));
+        };
+        script.onerror = () => reject(new Error('The SVG tracing engine could not be downloaded.'));
+        document.head.appendChild(script);
+    }).catch((error) => { tracerPromise = undefined; throw error; });
+    return tracerPromise;
 }
 
 const imageSvgTracer = Object.freeze({
@@ -111,7 +123,9 @@ const imageSvgTracer = Object.freeze({
             ]);
             const svg = tracer.imagedataToSVG(
                 imageData,
-                buildTraceOptions(values.detail, values.colors),
+                // ImageTracer writes defaults into the options object, so it must be a
+                // plain mutable copy (the frozen preset threw "object is not extensible").
+                { ...buildTraceOptions(values.detail, values.colors) },
             );
             if (typeof svg !== 'string' || !svg.includes('<svg')) {
                 throw new Error('The tracing engine returned invalid SVG.');

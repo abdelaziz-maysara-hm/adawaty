@@ -139,7 +139,9 @@ const pdfBlankPageRemover = tool({
         assertPdfFile(values.pdf);
         const bytes = new Uint8Array(await values.pdf.arrayBuffer());
         const pdfjs = await loadPdfJs();
-        const sourceDoc = await pdfjs.getDocument({ data: bytes }).promise;
+        // pdf.js transfers (detaches) the buffer it is given, so hand it a copy and keep
+        // `bytes` intact for pdf-lib below ("No PDF header found" otherwise).
+        const sourceDoc = await pdfjs.getDocument({ data: bytes.slice() }).promise;
 
         const blankPageIndices = [];
         for (let pageNumber = 1; pageNumber <= sourceDoc.numPages; pageNumber += 1) {
@@ -210,7 +212,9 @@ const pdfScannedLook = tool({
         assertPdfFile(values.pdf);
         const bytes = new Uint8Array(await values.pdf.arrayBuffer());
         const pdfjs = await loadPdfJs();
-        const sourceDoc = await pdfjs.getDocument({ data: bytes }).promise;
+        // pdf.js transfers (detaches) the buffer it is given, so hand it a copy and keep
+        // `bytes` intact for pdf-lib below ("No PDF header found" otherwise).
+        const sourceDoc = await pdfjs.getDocument({ data: bytes.slice() }).promise;
         const { PDFDocument } = await loadPdfLib();
         const output2 = await PDFDocument.create();
 

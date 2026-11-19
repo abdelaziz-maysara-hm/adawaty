@@ -22,7 +22,7 @@ function videoInput(format) {
 
 function outputArgs(target) {
     return target === 'webm'
-        ? Object.freeze(['-c:v', 'libvpx-vp9', '-crf', '32', '-b:v', '0', '-c:a', 'libopus'])
+        ? Object.freeze(['-c:v', 'libvpx', '-deadline', 'realtime', '-cpu-used', '8', '-crf', '10', '-b:v', '1.5M', '-pix_fmt', 'yuv420p', '-c:a', 'libvorbis', '-q:a', '4'])
         : Object.freeze(['-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '24', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-movflags', '+faststart']);
 }
 

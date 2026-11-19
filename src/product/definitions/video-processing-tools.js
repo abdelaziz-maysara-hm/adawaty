@@ -88,7 +88,7 @@ const VIDEO_FORMATS = Object.freeze({
     webm: {
         ext: 'webm',
         mime: 'video/webm',
-        args: ['-c:v', 'libvpx-vp9', '-crf', '32', '-b:v', '0', '-c:a', 'libopus'],
+        args: ['-c:v', 'libvpx', '-deadline', 'realtime', '-cpu-used', '8', '-crf', '10', '-b:v', '1.5M', '-pix_fmt', 'yuv420p', '-c:a', 'libvorbis', '-q:a', '4'],
         label: { ar: 'WebM (VP9)', en: 'WebM (VP9)' },
     },
     mkv: {
@@ -147,7 +147,9 @@ const videoTrimmer = Object.freeze({
         const duration = end - start;
         const blob = await processVideo(
             values.video,
-            ['-ss', String(start), '-t', String(duration), '-c', 'copy'],
+            // Re-encode instead of stream copy: copying cut at keyframes and, for files whose
+            // first video packets have negative timestamps, dropped the whole video track.
+            ['-ss', String(start), '-t', String(duration), '-map', '0:v:0', '-map', '0:a:0?', '-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '23', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-movflags', '+faststart'],
             'trimmed.mp4',
         );
         return output(blob, 'adawaty-trimmed-video.mp4', language, 'الفيديو المقصوص جاهز', 'Trimmed video is ready');

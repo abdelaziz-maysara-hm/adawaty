@@ -10,7 +10,9 @@ const copy = Object.freeze({
         emptyInput: 'الصق نصًا أولًا قبل التصحيح.',
         notSupportedTitle: 'متصفحك لا يدعم هذه الأداة',
         notSupportedBody: 'أداة التصحيح تحتاج متصفحًا يدعم WebGPU (مثل أحدث إصدارات Chrome أو Edge). جرّب تحديث متصفحك أو استخدام متصفح آخر.',
-        correctFailed: 'تعذّر التصحيح. تأكد من اتصالك بالإنترنت (لتحميل النموذج أول مرة) وحاول مرة أخرى.',
+        correctFailed: 'تعذّر تشغيل نموذج الذكاء الاصطناعي على هذا الجهاز. يحتاج متصفحًا يدعم WebGPU فعليًا (Chrome أو Edge حديث على الكمبيوتر) وذاكرة كافية. جرّب مرة أخرى.',
+        webgpuFailed: 'متصفحك لا يوفّر معالج رسوميات WebGPU صالحًا، لذلك لا يمكن تشغيل النموذج هنا. استخدم Chrome أو Edge حديثًا على الكمبيوتر.',
+        networkFailed: 'تعذّر تحميل النموذج. تأكد من اتصالك بالإنترنت وحاول مرة أخرى.',
     }),
     en: Object.freeze({
         placeholder: 'Paste the text you want to correct here...',
@@ -20,7 +22,9 @@ const copy = Object.freeze({
         emptyInput: 'Paste some text before correcting.',
         notSupportedTitle: 'Your browser does not support this tool',
         notSupportedBody: 'The Grammar Checker needs a browser that supports WebGPU (such as a recent version of Chrome or Edge). Try updating your browser or using a different one.',
-        correctFailed: 'Could not correct the text. Check your internet connection (needed to download the model the first time) and try again.',
+        correctFailed: 'Could not run the AI model on this device. It needs a browser with working WebGPU (recent Chrome or Edge on a computer) and enough memory. Try again.',
+        webgpuFailed: 'Your browser does not provide a usable WebGPU graphics adapter, so the AI model cannot run here. Use a recent Chrome or Edge on a computer.',
+        networkFailed: 'Could not download the model. Check your internet connection and try again.',
     }),
 });
 
@@ -79,7 +83,9 @@ async function handleCorrect() {
         el.resultWrap.hidden = false;
     } catch (error) {
         console.error('Grammar correction failed:', error);
-        setStatus(t('correctFailed'));
+        const message = String(error?.message ?? error ?? '');
+        setStatus(t(/failed to fetch|networkerror|network error|load failed/i.test(message) ? 'networkFailed'
+            : /webgpu|adapter|navigator\.gpu/i.test(message) ? 'webgpuFailed' : 'correctFailed'));
     } finally {
         el.progressWrap.hidden = true;
         setBusy(false);

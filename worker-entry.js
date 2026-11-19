@@ -37,6 +37,11 @@ const ALLOWED_ORIGINS = new Set([
 ]);
 
 const MAX_INPUT_LENGTH = 20000; // characters; a generous cap against abuse/cost, not a normal-use limit
+const SUMMARY_MODELS = Object.freeze([
+    '@cf/meta/llama-3.1-8b-instruct-fp8',
+    '@cf/mistralai/mistral-small-3.1-24b-instruct',
+    '@cf/meta/llama-4-scout-17b-16e-instruct',
+]);
 
 function corsHeaders(origin) {
     const allowedOrigin = ALLOWED_ORIGINS.has(origin) ? origin : '';
@@ -133,24 +138,28 @@ async function handleSummarize(request, env, origin) {
         ? 'أنت مساعد يلخّص النصوص باختصار ودقة، وترد بنفس لغة النص المُدخل فقط، دون أي مقدمات أو تعليقات إضافية.'
         : 'You are an assistant that summarizes text concisely and accurately, responding only in the same language as the input text, with no preamble or extra commentary.';
 
-    try {
-        const result = await env.AI.run('@cf/meta/llama-3.1-8b-instruct', {
-            messages: [
-                { role: 'system', content: systemPrompt },
-                { role: 'user', content: text },
-            ],
-            max_tokens: 512,
-            temperature: 0.3,
-        });
-
-        const summary = typeof result?.response === 'string' ? result.response.trim() : '';
-        if (!summary) {
-            return jsonResponse({ error: 'empty_response' }, 502, origin);
+    // Workers AI retires models over time (llama-3.1-8b-instruct was deprecated on
+    // 2026-05-30 and broke this route), so try a short list of current models in order.
+    let lastError = 'no_model';
+    for (const model of SUMMARY_MODELS) {
+        try {
+            const result = await env.AI.run(model, {
+                messages: [
+                    { role: 'system', content: systemPrompt },
+                    { role: 'user', content: text },
+                ],
+                max_tokens: 512,
+                temperature: 0.3,
+            });
+            const raw = result?.response ?? result?.choices?.[0]?.message?.content;
+            const summary = typeof raw === 'string' ? raw.trim() : '';
+            if (summary) return jsonResponse({ summary }, 200, origin);
+            lastError = 'empty_response';
+        } catch (error) {
+            lastError = String(error?.message ?? error);
         }
-        return jsonResponse({ summary }, 200, origin);
-    } catch (error) {
-        return jsonResponse({ error: 'ai_request_failed', message: String(error?.message ?? error) }, 502, origin);
     }
+    return jsonResponse({ error: 'ai_request_failed', message: lastError }, 502, origin);
 }
 
 export default {

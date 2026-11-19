@@ -399,7 +399,7 @@ const aesEncryptionTool = securityTool({
     },
 });
 
-const BCRYPTJS_URL = 'https://cdn.jsdelivr.net/npm/bcryptjs@3.0.3/umd/index.js/+esm';
+const BCRYPTJS_URL = 'https://cdn.jsdelivr.net/npm/bcryptjs@3.0.3/umd/index.js';
 let bcryptPromise;
 
 /**
@@ -417,8 +417,23 @@ let bcryptPromise;
  * rejection both ways) using a real password with no ambiguous escape
  * characters.
  */
+// The UMD build is loaded as a classic <script>: jsDelivr's "+esm" wrapper of it
+// takes the CommonJS branch and calls require("crypto"), which fails in browsers.
+function loadClassicScript(src, globalName) {
+    if (globalThis[globalName]) return Promise.resolve(globalThis[globalName]);
+    return new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = src;
+        script.async = true;
+        script.crossOrigin = 'anonymous';
+        script.onload = () => (globalThis[globalName] ? resolve(globalThis[globalName]) : reject(new Error(`${globalName} did not load`)));
+        script.onerror = () => reject(new Error(`could not download ${src}`));
+        document.head.appendChild(script);
+    });
+}
+
 async function loadBcrypt() {
-    bcryptPromise ??= import(BCRYPTJS_URL).then((module) => {
+    bcryptPromise ??= loadClassicScript(BCRYPTJS_URL, 'bcrypt').then((module) => {
         const bcrypt = module.default ?? module;
         bcrypt.setRandomFallback((length) => {
             const bytes = new Uint8Array(length);
@@ -451,7 +466,8 @@ const bcryptHashGenerator = securityTool({
             ['verify', 'التحقق من تجزئة موجودة', 'Verify against an existing hash'],
         ]),
         textFieldInput('password', 'كلمة المرور', 'Password', ''),
-        textFieldInput('hash', 'التجزئة (للتحقق فقط)', 'Hash (for verify only)', '$2b$10$...'),
+        // Only needed for "verify"; being required blocked "generate" in the browser.
+        Object.freeze({ ...textFieldInput('hash', 'التجزئة (للتحقق فقط)', 'Hash (for verify only)', '$2b$10$...'), required: false }),
         numberInput('rounds', 'عدد جولات التعقيد (Cost Factor)', 'Cost factor (rounds)', 10, 4, 14, ''),
     ]),
     async calculate(values, language) {
