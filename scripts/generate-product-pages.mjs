@@ -358,6 +358,10 @@ function buildFaqItems(tool) {
     if (categoryQuestion) {
         items.push(categoryQuestion);
     }
+    // Optional tool-specific questions (e.g. what a converter keeps and its limits).
+    if (Array.isArray(tool.faq)) {
+        items.push(...tool.faq);
+    }
 
     return items;
 }

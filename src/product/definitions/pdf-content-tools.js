@@ -5,6 +5,7 @@ import {
     loadPdfLib,
     outputName,
 } from '../pdf-processing.js';
+import { pdfToDocx } from '../pdf-to-word-engine.js';
 
 const JSZIP_URL = 'https://cdn.jsdelivr.net/npm/jszip@3.10.1/+esm';
 let zipPromise;
@@ -221,51 +222,6 @@ async function createDocx(pages) {
     });
 }
 
-function structuredWordParagraph(block) {
-    const escaped = xmlEscape(block.text);
-    if (block.headingLevel === 1) {
-        return `<w:p><w:pPr><w:spacing w:before="240" w:after="120"/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val="32"/></w:rPr><w:t xml:space="preserve">${escaped}</w:t></w:r></w:p>`;
-    }
-    if (block.headingLevel === 2) {
-        return `<w:p><w:pPr><w:spacing w:before="200" w:after="100"/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val="26"/></w:rPr><w:t xml:space="preserve">${escaped}</w:t></w:r></w:p>`;
-    }
-    return `<w:p><w:pPr><w:spacing w:after="160"/></w:pPr><w:r><w:t xml:space="preserve">${escaped}</w:t></w:r></w:p>`;
-}
-
-async function createStructuredDocx(pages) {
-    const JSZip = await loadZip();
-    const zip = new JSZip();
-    zip.file('[Content_Types].xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
-  <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
-  <Default Extension="xml" ContentType="application/xml"/>
-  <Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>
-</Types>`);
-    zip.folder('_rels').file('.rels', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
-  <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/>
-</Relationships>`);
-    const body = pages.map((blocks, index) => {
-        const pageBreak = index === pages.length - 1
-            ? ''
-            : '<w:p><w:r><w:br w:type="page"/></w:r></w:p>';
-        const paragraphs = blocks.length > 0
-            ? blocks.map(structuredWordParagraph).join('')
-            : '<w:p><w:r><w:t></w:t></w:r></w:p>';
-        return `${paragraphs}${pageBreak}`;
-    }).join('');
-    zip.folder('word').file('document.xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
-  <w:body>${body}<w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="1440" w:right="1440" w:bottom="1440" w:left="1440"/></w:sectPr></w:body>
-</w:document>`);
-    return zip.generateAsync({
-        type: 'blob',
-        mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        compression: 'DEFLATE',
-        compressionOptions: { level: 6 },
-    });
-}
-
 const pdfTextExtractor = Object.freeze({
     id: 'pdf-text-extractor',
     category: 'pdf',
@@ -306,26 +262,49 @@ const pdfToWord = Object.freeze({
     action: Object.freeze({ ar: 'حوّل إلى Word', en: 'Convert to Word' }),
     title: Object.freeze({ ar: 'تحويل PDF إلى Word', en: 'PDF to Word Converter' }),
     description: Object.freeze({
-        ar: 'حوّل النص القابل للتحديد داخل PDF إلى مستند Word قابل للتحرير، مع تقسيم حقيقي للفقرات واكتشاف العناوين تلقائيًا حسب حجم الخط.',
-        en: 'Convert selectable PDF text into an editable Word document, with real paragraph breaks and automatic heading detection based on font size.',
+        ar: 'حوّل ملف PDF إلى مستند Word قابل للتعديل مع الحفاظ على العناوين وأحجام الخطوط والعريض والمائل والألوان والقوائم والجداول ذات الحدود والصور، ويدعم النص العربي من اليمين لليسار.',
+        en: 'Convert a PDF into an editable Word document that keeps headings, font sizes, bold/italic, colours, lists, bordered tables and images, with right-to-left Arabic support.',
     }),
     note: Object.freeze({
-        ar: 'يحافظ التحويل على الفقرات والعناوين بناءً على تحليل موضع وحجم النص، لكنه لا يستخرج الجداول أو الصور أو الأعمدة المتعددة حاليًا. الملفات المصورة تحتاج إلى OCR.',
-        en: 'Conversion preserves paragraphs and headings based on text position/size analysis, but does not currently extract tables, images, or multi-column layouts. Scanned images require OCR.',
+        ar: 'يتم التحويل بالكامل داخل متصفحك. الجداول بدون حدود تظهر كفقرات، والتخطيطات متعددة الأعمدة والنصوص فوق الصور قد تحتاج إلى مراجعة. الصفحات الممسوحة ضوئيًا أو التي لا يمكن قراءة نصها تُضاف كصورة (استخدم أداة OCR لاستخراج نصها). قد تظهر أخطاء بسيطة في التشكيل أو علامات الترقيم العربية في بعض الملفات؛ راجع الناتج.',
+        en: 'Conversion runs entirely in your browser. Tables without borders come out as paragraphs, and multi-column layouts or text over images may need review. Scanned pages, or pages whose text cannot be decoded, are added as a picture (use the OCR tool to get their text). Some files may show small errors in Arabic diacritics or punctuation, so check the result.',
     }),
+    faq: Object.freeze([
+        Object.freeze({
+            questionAr: 'ما الذي يُحفظ في ملف Word الناتج، وما حدوده؟',
+            questionEn: 'What is kept in the Word file, and what are the limits?',
+            answerAr: 'تُحفظ الفقرات والعناوين وأحجام الخطوط والعريض والمائل والتسطير والألوان والقوائم النقطية والمرقّمة والجداول ذات الحدود والصور وفواصل الصفحات واتجاه النص العربي. لا يُعاد بناء الجداول بدون حدود والأعمدة المتعددة والرؤوس والتذييلات بدقة، والصفحات الممسوحة ضوئيًا أو التي لا يمكن قراءة نصها تُضاف كصورة. قد تختلف المسافات وفواصل الأسطر قليلًا عن الأصل.',
+            answerEn: 'Paragraphs, headings, font sizes, bold, italic, underline, colours, bulleted and numbered lists, bordered tables, images, page breaks and Arabic right-to-left text are kept. Tables without borders, multiple columns and headers/footers are not rebuilt exactly, and scanned pages or pages whose text cannot be decoded are added as a picture. Spacing and line breaks may differ slightly from the original.',
+        }),
+    ]),
     inputs: Object.freeze([pdfInput()]),
     async process(values, language) {
-        const pages = await extractStructuredPages(values.pdf);
-        const blob = await createStructuredDocx(pages);
+        assertPdfFile(values.pdf);
+        let converted;
+        try {
+            converted = await pdfToDocx(await values.pdf.arrayBuffer());
+        } catch (error) {
+            console.error(error);
+            throw new Error(localized(language, 'تعذّر قراءة ملف PDF هذا. تأكد أنه سليم وغير محمي بكلمة مرور.', 'This PDF could not be read. Make sure it is valid and not password-protected.'));
+        }
+        const { blob, stats } = converted;
         const base = values.pdf.name.replace(/\.pdf$/i, '') || 'document';
-        return result(
+        const output = result(
             blob,
             `${base}.docx`,
-            localized(language, `${pages.length} صفحة`, `${pages.length} pages`),
+            localized(language, `${stats.pages} صفحة`, `${stats.pages} pages`),
             language,
             'مستند Word جاهز',
             'Word document is ready',
         );
+        if (stats.imagePages) {
+            output.details += localized(
+                language,
+                ` · ${stats.imagePages} صفحة أُضيفت كصورة لأنها ممسوحة ضوئيًا أو نصها غير قابل للقراءة`,
+                ` · ${stats.imagePages} page(s) added as a picture because they are scanned or their text cannot be decoded`,
+            );
+        }
+        return output;
     },
 });
 
