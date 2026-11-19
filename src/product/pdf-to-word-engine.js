@@ -35,7 +35,7 @@ async function loadWorker(pdfjs) {
             const source = await (await fetch(PDF_JS_WORKER_URL)).text();
             const target = /let text = textChunk\.str\.join\(""\);\s*if \(!disableNormalization\) \{\s*text = normalizeUnicode\(text\);\s*\}/;
             if (!target.test(source)) return null;
-            const patched = source.replace(target, 'let text = textChunk.str.map((g) => { let s = disableNormalization ? g : normalizeUnicode(g); if (s.length > 1 && /^[\\u0600-\\u06FF\\u0750-\\u077F\\u08A0-\\u08FF]+$/.test(s)) s = Array.from(s).reverse().join(""); return s; }).join("");');
+            const patched = source.replace(target, 'let text = textChunk.str.map((g) => { let s = disableNormalization ? g : normalizeUnicode(g); if (s.length > 1 && /[\\u0600-\\u06FF\\u0750-\\u077F\\u08A0-\\u08FF]/.test(s) && !/[A-Za-z0-9]/.test(s)) s = Array.from(s).reverse().join(""); return s; }).join("");');
             const url = URL.createObjectURL(new Blob([patched], { type: 'text/javascript' }));
             return new pdfjs.PDFWorker({ port: new Worker(url, { type: 'module' }) });
         } catch {
@@ -304,7 +304,7 @@ function linesToParagraphs(lines, ctx) {
             && (cur.marker ? (line.rtl ? Math.abs(line.x2 - cur.textEdge) < 6 : Math.abs(line.x1 - cur.textEdge) < 6) : true)
             && !(cur.lines.length === 1 && prev.text.length < 0.6 * ctx.lineWidthChars && !cur.marker);
         if (continues) { cur.lines.push(line); continue; }
-        cur = { lines: [line], marker, rtl: line.rtl };
+        cur = { lines: [line], marker, rtl: line.rtl, markerEdge: line.rtl ? line.x2 : line.x1 };
         if (marker) {
             const textRuns = line.ordered.filter((r) => r.text.trim());
             const textRun = textRuns[1] || textRuns[0];
@@ -366,8 +366,8 @@ function paragraphXml(para, ctx, inCell = false) {
     }
     if (level) ppr.push(`<w:pStyle w:val="Heading${level}"/>`);
     if (para.marker) {
-        const numId = ctx.numIdFor(para);
-        ppr.push(`<w:pStyle w:val="ListParagraph"/><w:numPr><w:ilvl w:val="0"/><w:numId w:val="${numId}"/></w:numPr>`);
+        const { id: numId, ilvl } = ctx.numIdFor(para);
+        ppr.push(`<w:pStyle w:val="ListParagraph"/><w:numPr><w:ilvl w:val="${ilvl}"/><w:numId w:val="${numId}"/></w:numPr>`);
         ppr.splice(0, ppr.length - 1);
     }
     if (para.rtl) ppr.push('<w:bidi/>');
@@ -509,9 +509,16 @@ function buildNumbering(lists) {
     const nums = [];
     lists.forEach((list, i) => {
         const id = i + 1;
-        const fmt = list.type === 'bullet' ? 'bullet' : list.kind;
-        const text = list.type === 'bullet' ? '•' : '%1.';
-        abs.push(`<w:abstractNum w:abstractNumId="${id}"><w:multiLevelType w:val="singleLevel"/><w:lvl w:ilvl="0"><w:start w:val="${list.start || 1}"/><w:numFmt w:val="${fmt}"/><w:lvlText w:val="${text}"/><w:lvlJc w:val="left"/><w:pPr><w:ind w:left="720" w:hanging="360"/></w:pPr>${list.type === 'bullet' ? '<w:rPr><w:rFonts w:ascii="Arial" w:hAnsi="Arial" w:cs="Arial"/></w:rPr>' : ''}</w:lvl></w:abstractNum>`);
+        const lvls = [];
+        for (let l = 0; l < 9; l += 1) {
+            const def = list.levels[l] || list.levels[list.levels.length - 1] || { type: 'bullet' };
+            const bullet = def.type === 'bullet';
+            const fmt = bullet ? 'bullet' : def.kind;
+            const text = bullet ? ['•', '◦', '▪'][l % 3] : `%${l + 1}.`;
+            const start = list.levels[l] ? (list.levels[l].start || 1) : 1;
+            lvls.push(`<w:lvl w:ilvl="${l}"><w:start w:val="${start}"/><w:numFmt w:val="${fmt}"/><w:lvlText w:val="${text}"/><w:lvlJc w:val="left"/><w:pPr><w:ind w:left="${720 * (l + 1)}" w:hanging="360"/></w:pPr>${bullet ? '<w:rPr><w:rFonts w:ascii="Arial" w:hAnsi="Arial" w:cs="Arial"/></w:rPr>' : ''}</w:lvl>`);
+        }
+        abs.push(`<w:abstractNum w:abstractNumId="${id}"><w:multiLevelType w:val="multilevel"/>${lvls.join('')}</w:abstractNum>`);
         nums.push(`<w:num w:numId="${id}"><w:abstractNumId w:val="${id}"/></w:num>`);
     });
     return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -588,12 +595,33 @@ export async function pdfToDocx(arrayBuffer, { onProgress } = {}) {
                 const inTable = (r) => tables.find((t) => r.x + r.w / 2 > t.x1 && r.x + r.w / 2 < t.x2 && r.y + r.size * 0.3 > t.y1 && r.y + r.size * 0.3 < t.y2);
                 const free = [];
                 for (const r of a.runs) { const t = inTable(r); if (t) (t.runs ||= []).push(r); else free.push(r); }
-                const ctx = { bodySize, contentWidth, pageCenter: (minX + maxX) / 2, lineWidthChars: contentWidth / (bodySize * 0.5), numIdFor: null };
+                const ctx = { bodySize, contentWidth, pageCenter: a.width / 2, lineWidthChars: contentWidth / (bodySize * 0.5), numIdFor: null };
                 const numIdFor = (para) => {
                     const m = para.marker;
-                    const continues = listState && listState.type === m.type && listState.kind === m.kind && listState.open;
-                    if (!continues) { lists.push({ type: m.type, kind: m.kind, start: m.value || 1 }); listState = { type: m.type, kind: m.kind, id: lists.length, open: true }; }
-                    return listState.id;
+                    const edge = para.markerEdge;
+                    const indentOf = (e) => (para.rtl ? -e : e);
+                    if (listState && listState.open && listState.rtl === para.rtl) {
+                        const levels = listState.levels;
+                        let ilvl = levels.findIndex((l) => Math.abs(l.edge - edge) < 5);
+                        if (ilvl >= 0) {
+                            const l = levels[ilvl];
+                            if (l.type === m.type && l.kind === m.kind) { levels.length = ilvl + 1; return { id: listState.id, ilvl }; }
+                            if (ilvl > 0) { levels[ilvl] = { edge, type: m.type, kind: m.kind, start: m.value || 1 }; levels.length = ilvl + 1; lists[listState.id - 1].levels[ilvl] ||= levels[ilvl]; return { id: listState.id, ilvl }; }
+                        } else if (indentOf(edge) > indentOf(levels[levels.length - 1].edge) && levels.length < 8) {
+                            levels.push({ edge, type: m.type, kind: m.kind, start: m.value || 1 });
+                            ilvl = levels.length - 1;
+                            const def = lists[listState.id - 1].levels;
+                            if (!def[ilvl]) def[ilvl] = levels[ilvl];
+                            return { id: listState.id, ilvl };
+                        } else if (levels.length > 1 && indentOf(edge) > indentOf(levels[0].edge)) {
+                            // back to an intermediate indent we have not seen: treat as level 1
+                            levels.length = 2; return { id: listState.id, ilvl: 1 };
+                        }
+                    }
+                    const level0 = { edge, type: m.type, kind: m.kind, start: m.value || 1 };
+                    lists.push({ levels: [level0] });
+                    listState = { id: lists.length, open: true, rtl: para.rtl, levels: [level0] };
+                    return { id: listState.id, ilvl: 0 };
                 };
                 ctx.numIdFor = numIdFor;
                 // paragraphs outside tables
