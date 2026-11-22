@@ -109,8 +109,8 @@ function createInput(input, language) {
             optionElement.textContent = translate(option.label, language);
             element.append(optionElement);
         }
-        // Optional per-language default (e.g. OCR picks English on English pages).
-        const preferred = input.defaultByLanguage?.[language];
+        // Optional default: per-language first (e.g. OCR), then defaultValue/value.
+        const preferred = input.defaultByLanguage?.[language] ?? input.defaultValue ?? input.value;
         if (preferred !== undefined && input.options.some((option) => option.value === preferred)) {
             element.value = preferred;
         }
@@ -130,6 +130,14 @@ function createInput(input, language) {
             }
         }
         element.placeholder = resolvePlaceholder(input, language);
+        // Honor value / defaultValue so required number fields are not empty
+        // (a missing placeholder used to block submit with "Please fill out this field").
+        if (input.type !== 'file') {
+            const starting = input.value ?? input.defaultValue;
+            if (element.value === '' && starting !== undefined && starting !== '') {
+                element.value = String(starting);
+            }
+        }
         if (input.type === 'number') prepareNumberInput(element);
     }
 

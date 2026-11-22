@@ -27,7 +27,7 @@ function fileInput(source) {
 
 function qualityInput() {
     return Object.freeze({
-        id: 'quality', type: 'number', min: 1, max: 100, step: 1, defaultValue: 90,
+        id: 'quality', type: 'number', min: 1, max: 100, step: 1, defaultValue: 90, placeholder: '90',
         label: Object.freeze({ ar: 'جودة JPG', en: 'JPG quality' }),
         unit: Object.freeze({ ar: '%', en: '%' }),
     });

@@ -23,7 +23,7 @@ function inputFor(format) {
 
 function qualityInput() {
     return Object.freeze({
-        id: 'quality', type: 'number', min: 1, max: 100, step: 1, defaultValue: 90,
+        id: 'quality', type: 'number', min: 1, max: 100, step: 1, defaultValue: 90, placeholder: '90',
         label: Object.freeze({ ar: 'جودة الإخراج', en: 'Output quality' }),
         unit: Object.freeze({ ar: '%', en: '%' }),
     });
