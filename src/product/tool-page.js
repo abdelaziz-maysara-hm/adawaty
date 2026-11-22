@@ -117,6 +117,9 @@ function createInput(input, language) {
     } else if (input.type === 'textarea') {
         element.rows = input.rows ?? 8;
         element.placeholder = resolvePlaceholder(input, language);
+        if (input.value !== undefined && input.value !== '') {
+            element.value = String(input.value);
+        }
     } else {
         element.type = input.type;
         element.inputMode = input.type === 'number' ? 'decimal' : '';

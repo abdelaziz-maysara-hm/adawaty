@@ -287,7 +287,10 @@ const numberBaseConverter = Object.freeze({
     description: Object.freeze({ ar: 'حوّل الأعداد الصحيحة بين الأنظمة الثنائي والثماني والعشري والسداسي عشري.', en: 'Convert integers between binary, octal, decimal and hexadecimal bases.' }),
     note: Object.freeze({ ar: 'يدعم الأعداد الصحيحة الكبيرة والسالبة دون فقد الدقة.', en: 'Supports large and negative integers without precision loss.' }),
     inputs: Object.freeze([
-        textInput('value', { ar: 'العدد', en: 'Number' }, '1010'),
+        Object.freeze({
+            ...textInput('value', { ar: 'العدد', en: 'Number' }, '1010'),
+            value: '1010',
+        }),
         selectInput('fromBase', { ar: 'من أساس', en: 'From base' }, baseOptions),
         selectInput('toBase', { ar: 'إلى أساس', en: 'To base' }, baseOptions),
     ]),
